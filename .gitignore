@@ -32,8 +32,6 @@ UserSettings/
 
 # LFS tracked files (fallback)
 *.zip
-<<<<<<< HEAD
 
 Assets/MyFolder/
-=======
->>>>>>> 1a5623e9bc5a122fa8c1dd083ca381a8379389fe
+
