@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\background\\testbackground.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\background\\testbackground.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\background\\backgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\background\\backgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,6 +35,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TestBackGround.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\BackGround\\TestBackGround.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\BackGround\\TestBackGround.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\BackGround\\TestBackGround.cs",
+              "RelativeToolTip": "Assets\\Scripts\\BackGround\\TestBackGround.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-17T15:30:48.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "BackGroundScript.cs",
               "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\BackGround\\BackGroundScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BackGround\\BackGroundScript.cs",
@@ -43,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BedsScripts.cs",
               "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\MyFolder\\BedsScripts.cs",
               "RelativeDocumentMoniker": "Assets\\MyFolder\\BedsScripts.cs",
@@ -55,7 +72,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "BedScript.cs",
               "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\MyFolder\\BedScript.cs",
               "RelativeDocumentMoniker": "Assets\\MyFolder\\BedScript.cs",
@@ -67,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CreateGrid.cs",
               "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\MyFolder\\CreateGrid.cs",
               "RelativeDocumentMoniker": "Assets\\MyFolder\\CreateGrid.cs",
