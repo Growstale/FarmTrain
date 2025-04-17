@@ -13,8 +13,8 @@ public class BackGroundScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, 0); // двигаем объект мен€€ его позицию каждый фрейм
-        if (transform.position.x < PositionDissapear)
+        transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, 0); // двигаем объект мен€€ его позицию каждый фрейм
+        if (transform.position.x > PositionDissapear)
         {
             Destroy(gameObject); // удал€ем объект
         }

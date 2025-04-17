@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f89a302a4b760ad479673963fff48b1b
+guid: 5a7e4b64f0c77e948b377d7da20b6e3e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 372296092868210189
-    second: train_loco_0
+      213: -7443756053782179069
+    second: background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: train_loco_0
+      name: background_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 14
-        width: 344
-        height: 192
+        x: 0
+        y: 0
+        width: 1280
+        height: 736
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d0eecaee259aa2500800000000000000
-      internalID: 372296092868210189
+      spriteID: 30356abce4772b890800000000000000
+      internalID: -7443756053782179069
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      train_loco_0: 372296092868210189
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
