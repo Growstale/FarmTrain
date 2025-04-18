@@ -21,6 +21,6 @@ public enum ItemType
     Seed,
     Pot,
     AnimalProduct,
-    Crop,
-    Fertilizer // Добавим на будущее
+    PlantProduct,
+    Fertilizer
 }
