@@ -13,7 +13,6 @@ public class ItemData : ScriptableObject
     public string description = "";
 }
 
-// Перечисление для типов предметов
 public enum ItemType
 {
     General,
