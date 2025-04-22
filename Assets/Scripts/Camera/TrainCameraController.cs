@@ -97,38 +97,129 @@ public class TrainCameraController : MonoBehaviour
         // --- Обработка Панорамирования (Правая Кнопка Мыши) ---
         HandlePanning();
     }
-     
-    void HandleLeftClick() // Обработка кликов мыши
+
+
+    void HandleLeftClick()
     {
-        // Выпускаем луч из камеры в точку экрана, где кликнула мышь
-        RaycastHit2D hit = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero); 
+        // Выпускаем луч из камеры
+        Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        // Находит все 2D-коллайдеры (Collider2D), которые пересекаются с лучом, выпущенным из точки worldPoint
+        RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
-        if (hit.collider != null) // Луч попал в какой-то коллайдер
+        if (hits.Length == 0)
         {
-            if (hit.collider.CompareTag("Wagon")) // Кликнули по вагону
-            {
-                int clickedWagonIndex = wagons.IndexOf(hit.transform);
+            return;
+        }
 
-                if (isOverview) // Режим обзора
+        // Для каждого попадания он пытается найти SpriteRenderer (у самого объекта или у его родителя), чтобы получить информацию о слое (Layer),
+        // сортировочном слое (SortLayerID) и порядке в слое (Order)
+        if (hits.Length > 0)
+        {
+            foreach (var h in hits)
+            {
+                SpriteRenderer r = h.collider.GetComponentInParent<SpriteRenderer>();
+            }
+        }
+
+
+        // Сортируем попадания
+        System.Array.Sort(hits, (hit1, hit2) =>
+        {
+            SpriteRenderer r1 = hit1.collider.GetComponentInParent<SpriteRenderer>();
+            SpriteRenderer r2 = hit2.collider.GetComponentInParent<SpriteRenderer>();
+            if (r1 == null && r2 == null) return 0;
+            if (r1 == null) return -1;
+            if (r2 == null) return 1;
+            if (r1.sortingLayerID != r2.sortingLayerID) return r2.sortingLayerID.CompareTo(r1.sortingLayerID);
+            if (r1.sortingOrder != r2.sortingOrder) return r2.sortingOrder.CompareTo(r1.sortingOrder);
+            return 0;
+        });
+
+        // Логируем верхнее попадание после сортировки
+        RaycastHit2D topHit = hits[0];
+        Transform topHitTransform = topHit.transform;
+        Collider2D topHitCollider = topHit.collider;
+        SpriteRenderer topRenderer = topHitCollider.GetComponentInParent<SpriteRenderer>();
+
+
+        if (!isOverview) // РЕЖИМ ФОКУСА
+        {
+            // Проверяем, кликнули ли мы на ПРЕДМЕТ
+            ItemPickup clickedItem = topHitCollider.GetComponent<ItemPickup>();
+            if (clickedItem != null)
+            {
+                // Ищем родительский вагон
+                Transform parentWagonTransform = FindParentWagon(clickedItem.transform);
+
+                if (parentWagonTransform != null)
                 {
-                    if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count) // Валидность индекса вагона
+                    int itemWagonIndex = wagons.IndexOf(parentWagonTransform);
+                    // Проверка: Предмет принадлежит ТЕКУЩЕМУ вагону?
+                    if (itemWagonIndex == currentWagonIndex)
                     {
-                        ExitOverviewMode(clickedWagonIndex); // Переход к режиму фокуса на выбранный вагон
+                        clickedItem.AttemptPickup();
+                        return;
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
-                else // Режим фокуса
+                else
                 {
-                    // Если кликнули на видимый соседний вагон
-                    if (clickedWagonIndex == currentWagonIndex + 1 || clickedWagonIndex == currentWagonIndex - 1)
+                    return;
+                }
+            }
+
+            // 2. Если не кликнули на интерактивный предмет в текущем вагоне, проверяем ВАГОН
+            Debug.Log($"  Checking if top hit object has 'Wagon' tag: {topHitCollider.CompareTag("Wagon")}");
+
+            if (topHitCollider.CompareTag("Wagon"))
+            {
+                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
+
+                // Если кликнули на видимый СОСЕДНИЙ вагон
+                if (clickedWagonIndex == currentWagonIndex + 1 || clickedWagonIndex == currentWagonIndex - 1)
+                {
+                    if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
                     {
-                        if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count) // Валидность индекса вагона
-                        {
-                            MoveToWagon(clickedWagonIndex); // Переход к выбранному вагону
-                        }
+                        MoveToWagon(clickedWagonIndex);
+                        return;
                     }
                 }
             }
         }
+        else // РЕЖИМ ОБЗОРА (isOverview == true)
+        {
+
+            if (topHitCollider.CompareTag("Wagon"))
+            {
+                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
+
+                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
+                {
+                    ExitOverviewMode(clickedWagonIndex);
+                    return;
+                }
+                
+            }
+
+        }
+    }
+
+    // --- Вспомогательная функция FindParentWagon без изменений ---
+    private Transform FindParentWagon(Transform child)
+    {
+        Transform current = child;
+        while (current != null)
+        {
+            if (wagons.Contains(current))
+            {
+                return current;
+            }
+            current = current.parent;
+        }
+        return null;
     }
 
     void HandlePanning() // Обрабатывает панорамирование камеры с помощью правой кнопки мыши
@@ -281,4 +372,68 @@ public class TrainCameraController : MonoBehaviour
         }
         return null;
     }
+    public Transform GetWagonOwnerOfPosition(float worldXPosition)
+    {
+        // Убедимся, что список вагонов инициализирован и отсортирован (Start должен был это сделать)
+        if (wagons == null || wagons.Count <= 1)
+        {
+            Debug.LogError("Список вагонов не инициализирован или содержит менее 2 элементов.");
+            return null;
+        }
+
+        // Итерируем по вагонам, начиная со второго (индекс 1), так как первому (локомотиву) предметы не принадлежат
+        for (int i = 1; i < wagons.Count; i++)
+        {
+            Transform currentWagon = wagons[i];
+            Transform previousWagon = wagons[i - 1]; // Вагон слева (может быть локомотив)
+
+            // Вычисляем левую границу текущего вагона = середина между previousWagon и currentWagon
+            float leftBoundary = previousWagon.position.x + (currentWagon.position.x - previousWagon.position.x) / 2.0f;
+
+            // Вычисляем правую границу
+            float rightBoundary;
+            if (i == wagons.Count - 1) // Если это последний вагон
+            {
+                // Правая граница - бесконечность (или можно ограничить размером вагона, но для определения принадлежности хватит и этого)
+                rightBoundary = float.PositiveInfinity;
+            }
+            else // Если есть следующий вагон
+            {
+                Transform nextWagon = wagons[i + 1];
+                // Правая граница = середина между currentWagon и nextWagon
+                rightBoundary = currentWagon.position.x + (nextWagon.position.x - currentWagon.position.x) / 2.0f;
+            }
+
+            // Проверяем, попадает ли позиция в границы этого вагона
+            // Используем >= для левой и < для правой, чтобы избежать двойного присвоения на границе
+            if (worldXPosition >= leftBoundary && worldXPosition < rightBoundary)
+            {
+                // Нашли подходящий вагон
+                return currentWagon;
+            }
+        }
+
+        // Если цикл завершился, значит позиция находится левее середины между локомотивом и первым вагоном,
+        // или возникла другая ошибка. Возвращаем null.
+        Debug.LogWarning($"Не удалось найти вагон для X-координаты: {worldXPosition}. Возможно, позиция слишком левее?");
+        return null;
+    }
+    public bool AssignParentWagonByPosition(Transform itemTransform, Vector3 spawnPosition)
+    {
+        Transform parentWagon = GetWagonOwnerOfPosition(spawnPosition.x);
+
+        if (parentWagon != null)
+        {
+            Debug.Log($"Назначен родительский вагон '{parentWagon.name}' для объекта '{itemTransform.name}' в позиции {spawnPosition}");
+            // Устанавливаем родителя. true - сохраняет мировую позицию объекта после установки родителя.
+            itemTransform.SetParent(parentWagon, true);
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning($"Не удалось назначить родительский вагон для объекта '{itemTransform.name}' в позиции {spawnPosition}. Объект останется без родителя.");
+            return false;
+        }
+    }
+
 }
