@@ -1218,6 +1218,7 @@ GameObject:
   - component: {fileID: 928485892}
   - component: {fileID: 928485891}
   - component: {fileID: 928485894}
+  - component: {fileID: 928485895}
   m_Layer: 5
   m_Name: SpawnWheatButton
   m_TagString: Untagged
@@ -1355,6 +1356,51 @@ MonoBehaviour:
   itemToSpawn: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
   spawnPosition: {x: 5, y: 0, z: 0}
   spawnScale: {x: 5, y: 5, z: 5}
+--- !u!114 &928485895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928485889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528405284}
+          m_TargetAssemblyTypeName: BedsManagerScript, Assembly-CSharp
+          m_MethodName: CheckFreeSlots
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1528405284}
+          m_TargetAssemblyTypeName: BedsManagerScript, Assembly-CSharp
+          m_MethodName: UnCheckFreeSlots
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1064586489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1714,51 @@ MonoBehaviour:
   slotPrefab: {fileID: 6215357470541549813, guid: ef50f5851b98fac489bc0ad7616a926b, type: 3}
   inventoryToggleButton: {fileID: 158030013}
   selectedSlotIndex: 0
+--- !u!1 &1528405283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1528405285}
+  - component: {fileID: 1528405284}
+  m_Layer: 0
+  m_Name: BedManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1528405284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528405283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91db3fda44cac34b8ceb60831869648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beds: []
+--- !u!4 &1528405285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528405283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.150104, y: -0.6554856, z: -0.12876652}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553529746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,6 +1893,99 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.382789, y: 1.8923252}
   m_EdgeRadius: 0
+--- !u!1001 &1748404873
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: PosX
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: PosY
+      value: -2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: slot
+      value: 
+      objectReference: {fileID: 5460362806136446420, guid: f67955e500510e8438495b377e0526d1, type: 3}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: spacingX
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: bedprefab
+      value: 
+      objectReference: {fileID: 2771188962019848165, guid: 067d053ee28d7904893efd99bbda53be, type: 3}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: gridSizeX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: gridSizeY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: BedManager
+      value: 
+      objectReference: {fileID: 1528405283}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: CountBedsX
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.253328
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.9332933
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.03841041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368279784987103935, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: m_Name
+      value: GridBeds
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
 --- !u!1 &1815720262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,3 +2479,5 @@ SceneRoots:
   - {fileID: 1879954842}
   - {fileID: 246473315107230214}
   - {fileID: 1064586491}
+  - {fileID: 1748404873}
+  - {fileID: 1528405285}
