@@ -1,36 +1,42 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class BedsScripts : MonoBehaviour
+public class BedsManagerScript : MonoBehaviour
 {
-    static List<GameObject> beds = new List<GameObject>();
-    
+    public List<GameObject> beds = new List<GameObject>();
     void Start()
     {
-       
+        GameObject sq = GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 
-    public static void AddBed(GameObject newbed)
+    public void AddBed(GameObject newbed)
     {
         Debug.Log(newbed.name);
 
         beds.Add(newbed);
 
     }
+    public void ViewList()
+    {
+        foreach (GameObject bed in beds)
+        {
+            Debug.Log("<<<" + bed.name);
+        }
+    }
 
     public void CheckFreeSlots()
     {
-        BedScript script;
-        foreach (var bed in beds) {
+        BedsScripts script;
+        foreach (var bed in beds)
+        {
 
 
-            if (bed != null) {
-                script = bed.GetComponent<BedScript>();
+            if (bed != null)
+            {
+                script = bed.GetComponent<BedsScripts>();
                 if (script && !script.isPlanted)
                 {
-                        script.ChangeColor();
+                    script.ChangeColor();
 
                 }
                 else
@@ -39,19 +45,19 @@ public class BedsScripts : MonoBehaviour
                 }
             }
 
-            
+
         }
     }
     public void UnCheckFreeSlots()
     {
-        BedScript script;
+        BedsScripts script;
         foreach (var bed in beds)
         {
 
 
             if (bed != null)
             {
-                script = bed.GetComponent<BedScript>();
+                script = bed.GetComponent<BedsScripts>();
                 if (script)
                 {
                     script.UnChangeColor();
@@ -64,14 +70,6 @@ public class BedsScripts : MonoBehaviour
             }
 
 
-        }
-    }
-    public void PlantSeed()
-    {
-        GameObject firstSeed = beds.FirstOrDefault(s=> s.GetComponent<BedScript>().isPlanted == false);
-        if (firstSeed != null)
-        {
-            firstSeed.GetComponent<BedScript>().PlantSeeds();
         }
     }
 }
