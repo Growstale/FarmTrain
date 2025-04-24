@@ -22,6 +22,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
+    public int SelectedSlotIndex => selectedSlotIndex; // Публичное свойство для чтения
 
     private List<InventorySlotUI> hotbarSlotsUI = new List<InventorySlotUI>();
     private List<InventorySlotUI> mainInventorySlotsUI = new List<InventorySlotUI>();
@@ -72,7 +73,7 @@ public class InventoryManager : MonoBehaviour
             InventorySlotUI slotUI = slotGO.GetComponent<InventorySlotUI>();
             if (slotUI != null)
             {
-                slotUI.Setup(i, OnSlotClicked);
+                slotUI.Setup(i, true, OnSlotClicked);
                 hotbarSlotsUI.Add(slotUI);
             }
             else
@@ -90,7 +91,7 @@ public class InventoryManager : MonoBehaviour
             InventorySlotUI slotUI = slotGO.GetComponent<InventorySlotUI>();
             if (slotUI != null)
             {
-                slotUI.Setup(mainInventoryStartIndex + i, OnSlotClicked); // Индексы продолжаются после хотбара
+                slotUI.Setup(mainInventoryStartIndex + i, false, OnSlotClicked);
                 mainInventorySlotsUI.Add(slotUI);
             }
             else
@@ -314,6 +315,12 @@ public class InventoryManager : MonoBehaviour
     #endregion
 
     #region Main Inventory Expansion
+
+    public bool IsMainInventoryPanelActive()
+    {
+        // Добавляем проверку на null на случай, если панель не назначена
+        return mainInventoryPanel != null && mainInventoryPanel.activeSelf;
+    }
 
     public void ToggleMainInventory()
     {

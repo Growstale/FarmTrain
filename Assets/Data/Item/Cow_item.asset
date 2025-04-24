@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
+  m_Name: Cow_item
+  m_EditorClassIdentifier: 
+  itemName: Cow
+  itemIcon: {fileID: 6168083732550661486, guid: f2ae7b565746eb7408cf003d86d7831b, type: 3}
+  itemType: 7
+  isStackable: 0
+  maxStackSize: 0
+  description: 
+  associatedPlantData: {fileID: 0}
+  associatedAnimalData: {fileID: 11400000, guid: 10642858300fb674a93eca7cabadbd22, type: 2}

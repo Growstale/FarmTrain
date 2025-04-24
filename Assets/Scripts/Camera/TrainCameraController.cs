@@ -171,6 +171,52 @@ public class TrainCameraController : MonoBehaviour
                 }
             }
 
+            AnimalController clickedAnimal = topHitCollider.GetComponent<AnimalController>();
+            if (clickedAnimal != null)
+            {
+                Debug.Log($"Кликнули на животное: {clickedAnimal.gameObject.name} с состоянием {clickedAnimal.GetCurrentStateName()}"); // Используем новый метод
+
+                // Ищем родительский вагон животного
+                Transform parentWagonTransform = FindParentWagon(clickedAnimal.transform);
+                if (parentWagonTransform != null)
+                {
+                    int animalWagonIndex = wagons.IndexOf(parentWagonTransform);
+
+                    // Проверяем: животное в ТЕКУЩЕМ вагоне (если не режим обзора)
+                    if (isOverview || animalWagonIndex == currentWagonIndex)
+                    {
+                        // Проверяем, нуждается ли животное во внимании (используем новый метод)
+                        if (clickedAnimal.GetCurrentStateName() == "NeedsAttention")
+                        {
+                            Debug.Log($"Животное {clickedAnimal.gameObject.name} нуждается во внимании. Вызываем AttemptInteraction.");
+                            clickedAnimal.AttemptInteraction(); // Вызываем ПУБЛИЧНЫЙ метод из AnimalController
+                            return; // Взаимодействие произошло, выходим из HandleLeftClick
+                        }
+                        else
+                        {
+                            Debug.Log($"Животное {clickedAnimal.gameObject.name} сейчас не нуждается во внимании.");
+                            // Можно добавить звук клика по животному или другую реакцию
+                            // ВАЖНО: Ставим return, чтобы не проверять вагон ПОД животным
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log($"Клик на животном {clickedAnimal.gameObject.name}, но оно не в текущем вагоне ({animalWagonIndex} vs {currentWagonIndex})");
+                        // Если животное в другом вагоне (в режиме фокуса), просто игнорируем клик
+                        // ВАЖНО: Ставим return, чтобы не проверять вагон ПОД животным
+                        return;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Не удалось определить вагон для животного {clickedAnimal.gameObject.name}");
+                    // Если не нашли вагон, тоже выходим, чтобы не проверять дальше
+                    return;
+                }
+            }
+
+
             // 2. Если не кликнули на интерактивный предмет в текущем вагоне, проверяем ВАГОН
             Debug.Log($"  Checking if top hit object has 'Wagon' tag: {topHitCollider.CompareTag("Wagon")}");
 

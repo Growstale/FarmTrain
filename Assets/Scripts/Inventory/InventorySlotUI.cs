@@ -12,6 +12,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
     [SerializeField] private GameObject highlightBorder;
 
     public int SlotIndex { get; private set; }
+    private bool isHotbarSlot;
 
     private InventoryItem currentItem = null;
     private System.Action<int> onClickCallback; // Для обычного клика
@@ -28,11 +29,11 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
     private InventoryManager InventoryManagerInstance => _inventoryManager ?? (_inventoryManager = InventoryManager.Instance);
 
 
-    public void Setup(int index, System.Action<int> clickCallback)
+    public void Setup(int index, bool isHotbar, System.Action<int> clickCallback)
     {
         SlotIndex = index;
+        this.isHotbarSlot = isHotbar; // Сохраняем флаг
         this.onClickCallback = clickCallback;
-        // Находим корневой Canvas один раз при настройке
         rootCanvas = GetComponentInParent<Canvas>();
         if (rootCanvas == null)
         {
@@ -121,6 +122,13 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
         {
             eventData.pointerDrag = null; // Отменяем перетаскивание
             return;
+        }
+
+        if (isHotbarSlot && !InventoryManagerInstance.IsMainInventoryPanelActive())
+        {
+            Debug.Log($"Drag blocked on Hotbar Slot {SlotIndex}: Inventory panel is closed.");
+            eventData.pointerDrag = null; // Отменяем перетаскивание
+            return; // Выходим из метода
         }
 
         Debug.Log($"Begin Drag on Slot: {SlotIndex}, Item: {currentItem.itemData.itemName}");

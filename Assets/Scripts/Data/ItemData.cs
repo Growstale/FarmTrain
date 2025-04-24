@@ -11,6 +11,13 @@ public class ItemData : ScriptableObject
 
     [TextArea(3, 5)]
     public string description = "";
+
+    [Header("Farming Links (Optional)")]
+    [Tooltip("Данные о растении, если этот предмет является семенем.")]
+    public PlantData associatedPlantData; // Ссылка на данные растения
+
+    [Tooltip("Данные о животном, если этот предмет используется для его размещения/создания.")]
+    public AnimalData associatedAnimalData; // Ссылка на данные животного
 }
 
 public enum ItemType
@@ -21,5 +28,6 @@ public enum ItemType
     Pot,
     AnimalProduct,
     PlantProduct,
-    Fertilizer
+    Fertilizer,
+    Animal
 }
