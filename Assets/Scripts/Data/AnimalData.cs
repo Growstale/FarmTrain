@@ -4,8 +4,7 @@ using UnityEngine;
 public class AnimalData : ScriptableObject
 {
     public string speciesName = "New Animal";
-    public Sprite icon;
-    // public GameObject prefab; // Префаб животного с его моделью/спрайтом и базовым скриптом
+    public GameObject animalPrefab; // Префаб животного с его моделью/спрайтом и базовым скриптом
 
     [Header("Needs")]
     public ItemData requiredFood; // Какой ItemData нужен для кормления
@@ -15,4 +14,10 @@ public class AnimalData : ScriptableObject
     public ItemData productProduced; // Какой ItemData производит
     public float productionInterval = 120.0f; // Как часто производит продукт
     public int productAmount = 1; // Сколько продукта за раз
+
+    [Header("Fertilizer")] // Удобрение
+    public ItemData fertilizerProduced;
+    public float fertilizerInterval = 180.0f;
+    public int fertilizerAmount = 1; 
+
 }
