@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private int hotbarSize = 7;
     [SerializeField] private int maxMainInventoryRows = 3;
     [SerializeField] private int columns = 7;
-    private int currentMainInventoryRows = 1; // Текущее количество строк склада
+    private int currentMainInventoryRows = 3; // Текущее количество строк склада
     private List<InventoryItem> inventoryItems; // Единый список для всех слотов
 
     [Header("UI References")]
@@ -19,7 +19,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject mainInventoryPanel; // Панель склада
     [SerializeField] private GameObject slotPrefab; // Префаб слота UI
     [SerializeField] private Button inventoryToggleButton; // Кнопка для открытия/закрытия склада
-
+    [SerializeField] private GameObject inventoryBackgroundPanel;
+    
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
     public int SelectedSlotIndex => selectedSlotIndex; // Публичное свойство для чтения
@@ -326,6 +327,15 @@ public class InventoryManager : MonoBehaviour
     {
         bool isActive = !mainInventoryPanel.activeSelf;
         mainInventoryPanel.SetActive(isActive);
+
+        if (inventoryBackgroundPanel != null) // Проверяем, назначена ли ссылка на фон
+        {
+            inventoryBackgroundPanel.SetActive(isActive); // Устанавливаем то же состояние активности
+        }
+        else
+        {
+            Debug.LogWarning("Inventory Background Panel is not assigned in the Inspector. Background visibility will not be toggled.");
+        }
 
         if (isActive)
         {

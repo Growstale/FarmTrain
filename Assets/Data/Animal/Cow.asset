@@ -16,9 +16,9 @@ MonoBehaviour:
   animalPrefab: {fileID: 6193734015065537699, guid: 71c49aea95914be46b6aed0376290386, type: 3}
   requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
   feedInterval: 5
-  productProduced: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+  productProduced: {fileID: 11400000, guid: 36e850dd4e298be4b9f46c69f51c7872, type: 2}
   productionInterval: 10
   productAmount: 1
-  fertilizerProduced: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+  fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
   fertilizerInterval: 15
   fertilizerAmount: 1
