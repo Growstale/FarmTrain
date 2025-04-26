@@ -8,40 +8,42 @@ public class BedsScripts : MonoBehaviour
     public bool isPlanted = false;
     Color currentColor;
     SpriteRenderer spriteRenderer;
-    Transform seed;
+    Transform slot;
+
     void Start()
     {
 
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+       
 
-        seed = transform.Find("Seed");
+        slot = transform.Find("Square");
+        spriteRenderer = slot.GetComponent<SpriteRenderer>();
         currentColor = spriteRenderer.color;
-
-        if (seed != null)
+        if (slot == null)
         {
-            Debug.Log("Found child object: " + seed.name);
+            Debug.Log("not find");
         }
         else
         {
-            Debug.Log("Child object not found");
+            Debug.Log("<< find");
         }
+      
     }
 
 
     public void PlantSeeds()
     {
         isPlanted = true;
-        seed.gameObject.SetActive(true);
+       // seed.gameObject.SetActive(true);
     }
     public void ChangeColor()
     {
 
-        GetComponent<SpriteRenderer>().color = new Color(0, 255f, 0, 0.1f);
+        slot.GetComponent<SpriteRenderer>().color = new Color(0, 255f, 0, 0.1f);
 
     }
     public void UnChangeColor()
     {
-        GetComponent<SpriteRenderer>().color = currentColor;
+        slot.GetComponent<SpriteRenderer>().color = currentColor;
     }
 }

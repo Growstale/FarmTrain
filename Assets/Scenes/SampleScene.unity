@@ -2324,8 +2324,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5460362806136446420, guid: f67955e500510e8438495b377e0526d1, type: 3}
     - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: GridPosX
+      value: 6.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: GridPosY
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
       propertyPath: spacingX
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: spacingY
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
       propertyPath: bedprefab
@@ -2346,6 +2358,18 @@ PrefabInstance:
     - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
       propertyPath: CountBedsX
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: CountBedsY
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: countBedsX
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908127706819243280, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
+      propertyPath: countBedsY
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5686284619545857948, guid: 763d9e17504720145b1f4f7ea0e9dc09, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2909,6 +2933,14 @@ PrefabInstance:
     - target: {fileID: 297381854242787943, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 297381854242787943, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 7.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 297381854242787943, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 7.2
       objectReference: {fileID: 0}
     - target: {fileID: 2340140844930027264, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_Name
