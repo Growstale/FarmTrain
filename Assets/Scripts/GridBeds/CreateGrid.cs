@@ -60,26 +60,26 @@ public class CreateGrid : MonoBehaviour
         GameObject smallSquare1 = Instantiate(smallSquarePrefab, largeSquare.transform.position + new Vector3(-lengthSlot/4,  widthSlot/4, 0), Quaternion.identity);
         smallSquare1.transform.localScale = sizeBed;
         smallSquare1.transform.parent = largeSquare.transform;
-        bedsManagerScript.AddBed(smallSquare1);
+        
 
         // Верхний правый угол
         GameObject smallSquare2 = Instantiate(smallSquarePrefab, largeSquare.transform.position + new Vector3(-lengthSlot / 4, -widthSlot / 4, 0), Quaternion.identity);
         smallSquare2.transform.localScale = sizeBed;
         smallSquare2.transform.parent = largeSquare.transform;
 
-        bedsManagerScript.AddBed(smallSquare2); 
+
         // Нижний левый угол
         GameObject smallSquare3 = Instantiate(smallSquarePrefab, largeSquare.transform.position + new Vector3(lengthSlot / 4, -widthSlot / 4, 0), Quaternion.identity);
         smallSquare3.transform.localScale = sizeBed;
         smallSquare3.transform.parent = largeSquare.transform;
 
-        bedsManagerScript.AddBed(smallSquare3);
+
         // Нижний правый угол
         GameObject smallSquare4 = Instantiate(smallSquarePrefab, largeSquare.transform.position + new Vector3(lengthSlot / 4, widthSlot / 4, 0), Quaternion.identity);
         smallSquare4.transform.localScale = sizeBed;
         smallSquare4.transform.parent = largeSquare.transform;
-       
-        bedsManagerScript.AddBed(smallSquare4);
+
+        bedsManagerScript.AddBed(largeSquare,new GameObject[] { smallSquare1 , smallSquare2, smallSquare3, smallSquare4});
 
     }
 

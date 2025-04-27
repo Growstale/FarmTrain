@@ -3,20 +3,40 @@
   "WorkspaceRootPath": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\inventory\\inventoryitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\inventoryitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\inventory\\inventorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\inventorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\camera\\traincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camera\\traincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\itemspawn\\itempickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\itemspawn\\itempickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\animal\\animalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\animal\\animalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\gridbeds\\bedsmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\bedsmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\assets\\scripts\\data\\itemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\data\\itemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\testscripts\\spawnbuttonhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\testscripts\\spawnbuttonhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CreateGrid.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAADwv0UAAABSAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "TrainCameraController.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Camera\\TrainCameraController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\TrainCameraController.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Camera\\TrainCameraController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Camera\\TrainCameraController.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAApwL8AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T15:38:06.157Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BedsManagerScript.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAYwBcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T15:30:54.639Z",
+              "WhenOpened": "2025-04-27T16:01:58.896Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "InventoryManager.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\InventoryManager.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\InventoryManager.cs",
+              "ViewState": "AgIAAK4BAAAAAAAAAAAAALQBAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T16:01:54.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "InventoryItem.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryItem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\InventoryItem.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryItem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Inventory\\InventoryItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T15:55:56.214Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CreateGrid.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwAQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T14:31:42.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BedsManagerScript.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAswHIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T13:58:15.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AnimalController.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Animal\\AnimalController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Animal\\AnimalController.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Animal\\AnimalController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Animal\\AnimalController.cs",
+              "ViewState": "AgIAAK0BAAAAAAAAAAAlwLkBAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T13:54:11.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ItemPickup.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\ItemSpawn\\ItemPickup.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ItemSpawn\\ItemPickup.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\ItemSpawn\\ItemPickup.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ItemSpawn\\ItemPickup.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwBwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T13:48:05.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "BedsScripts.cs",
               "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\BedsScripts.cs",
               "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAoAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwCIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-23T14:04:00.441Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ItemData.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\ItemData.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Data\\ItemData.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\ItemData.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Data\\ItemData.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "SpawnButtonHandler.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwB4AAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T13:43:00.802Z",
+              "WhenOpened": "2025-04-27T13:48:39.867Z",
               "EditorCaption": ""
             }
           ]
