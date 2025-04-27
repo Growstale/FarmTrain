@@ -2124,6 +2124,7 @@ MonoBehaviour:
   inventoryToggleButton: {fileID: 158030013}
   inventoryBackgroundPanel: {fileID: 633922427}
   selectedSlotIndex: 0
+  BedManager: {fileID: 0}
 --- !u!1 &1528405283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,7 +2154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91db3fda44cac34b8ceb60831869648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beds: []
 --- !u!4 &1528405285
 Transform:
   m_ObjectHideFlags: 0

@@ -3,72 +3,85 @@ using UnityEngine;
 
 public class BedsManagerScript : MonoBehaviour
 {
-    public List<GameObject> beds = new List<GameObject>();
-    void Start()
-    {
-        GameObject sq = GameObject.CreatePrimitive(PrimitiveType.Cube);
-    }
+    public Dictionary<GameObject, GameObject[]> bedsDictionary = new Dictionary<GameObject, GameObject[]>();
 
-    public void AddBed(GameObject newbed)
-    {
-        Debug.Log(newbed.name);
 
-        beds.Add(newbed);
+
+
+    public void AddBed(GameObject slot,GameObject[] newbed)
+    {
+
+        bedsDictionary.Add(slot,newbed);
 
     }
     public void ViewList()
     {
-        foreach (GameObject bed in beds)
+        var arrayObjects = bedsDictionary.Values;
+        foreach (var beds in arrayObjects)
         {
-            Debug.Log("<<<" + bed.name);
+            foreach (var item in beds) { 
+            
+                Debug.Log( ">> " + item.name);
+            }
         }
     }
 
     public void CheckFreeSlots()
     {
         BedsScripts script;
-        foreach (var bed in beds)
+
+        foreach (var beds in bedsDictionary.Values)
         {
 
 
-            if (bed != null)
+            if (beds != null)
             {
-                script = bed.GetComponent<BedsScripts>();
-                if (script && !script.isPlanted)
-                {
-                    script.ChangeColor();
+                foreach (var item in beds) {
+
+                    script = item.GetComponent<BedsScripts>();
+                    if (script && !script.isPlanted)
+                    {
+                        script.ChangeColor();
+
+                    }
+                    else
+                    {
+                        Debug.Log("No element");
+                    }
 
                 }
-                else
-                {
-                    Debug.Log("No element");
-                }
+                
             }
-
 
         }
     }
     public void UnCheckFreeSlots()
     {
         BedsScripts script;
-        foreach (var bed in beds)
+
+        foreach (var beds in bedsDictionary.Values)
         {
 
 
-            if (bed != null)
+            if (beds != null)
             {
-                script = bed.GetComponent<BedsScripts>();
-                if (script)
+                foreach (var item in beds)
                 {
-                    script.UnChangeColor();
+
+                    script = item.GetComponent<BedsScripts>();
+                    if (script && !script.isPlanted)
+                    {
+                        script.UnChangeColor();
+
+                    }
+                    else
+                    {
+                        Debug.Log("No element");
+                    }
 
                 }
-                else
-                {
-                    Debug.Log("No element");
-                }
+
             }
-
 
         }
     }

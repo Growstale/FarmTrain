@@ -23,6 +23,13 @@ public class InventoryManager : MonoBehaviour
     
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
+
+
+
+
+
+    [Header("BedManager")]
+    [SerializeField] GameObject BedManager; // дл€ управлени€ с подсвечиванием слотов
     public int SelectedSlotIndex => selectedSlotIndex; // ѕубличное свойство дл€ чтени€
 
     private List<InventorySlotUI> hotbarSlotsUI = new List<InventorySlotUI>();
@@ -311,6 +318,27 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log($"Selected hotbar slot: {selectedSlotIndex}");
         OnSelectedSlotChanged?.Invoke(selectedSlotIndex); 
+
+
+        // ¬ыделение свободных слотов дл€ посадки (тестовое не уверен что норм)
+
+        //InventoryItem selected = GetSelectedItem();
+        //if(selected.itemData.itemType == ItemType.Seed)
+        //{
+        //    BedsManagerScript bedsManagerScript = BedManager.GetComponent<BedsManagerScript>();
+        //    if (bedsManagerScript != null) { 
+        //        bedsManagerScript.CheckFreeSlots();
+        //    }
+        //}
+        //else
+        //{
+        //    BedsManagerScript bedsManagerScript = BedManager.GetComponent<BedsManagerScript>();
+        //    if (bedsManagerScript != null)
+        //    {
+        //        bedsManagerScript.UnCheckFreeSlots();
+        //    }
+        //}
+
     }
 
     #endregion

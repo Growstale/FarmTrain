@@ -217,6 +217,22 @@ public class TrainCameraController : MonoBehaviour
             }
 
 
+
+            // Обработка клика на слот с грядками
+
+
+            if (topHitCollider.CompareTag("Bed"))
+            {
+               BedsScripts bedsScripts = topHitCollider.GetComponent<BedsScripts>();
+                if (bedsScripts != null)
+                {
+                    bedsScripts.PlantSeeds();
+                }
+
+            }
+
+
+
             // 2. Если не кликнули на интерактивный предмет в текущем вагоне, проверяем ВАГОН
             Debug.Log($"  Checking if top hit object has 'Wagon' tag: {topHitCollider.CompareTag("Wagon")}");
 
