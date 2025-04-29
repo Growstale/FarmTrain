@@ -1,22 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\",
+  "WorkspaceRootPath": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\bedsscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\assets\\scripts\\gridbeds\\bedsmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\bedsmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\assets\\scripts\\data\\itemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\data\\itemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\sceneloader\\sceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sceneloader\\sceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,53 +19,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CreateGrid.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBgAAAAXAAAAAAAAAA==",
+              "Title": "SceneLoader.cs",
+              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
+              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T15:38:06.157Z",
+              "WhenOpened": "2025-04-29T15:01:44.576Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BedsManagerScript.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\BedsManagerScript.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAkwBcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T15:30:54.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BedsScripts.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBUAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T14:04:00.441Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ItemData.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\ItemData.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Data\\ItemData.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\ItemData.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Data\\ItemData.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T13:43:00.802Z"
             }
           ]
         }
