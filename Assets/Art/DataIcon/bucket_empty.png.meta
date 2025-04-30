@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f2ae7b565746eb7408cf003d86d7831b
+guid: 0bfe67e3cf42996408e1ba0656068c79
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6168083732550661486
-    second: cow_0
+      213: -4213263217045903187
+    second: bucket_empty_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cow_0
+      name: bucket_empty_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 62
-        height: 42
-      alignment: 9
-      pivot: {x: 0.5613486, y: 0.023563385}
+        x: 6
+        y: 5
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e653c8f897f699550800000000000000
-      internalID: 6168083732550661486
+      spriteID: da862ca4d6b7785c0800000000000000
+      internalID: -4213263217045903187
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ca7d2a80c26c81241ad041e964bf7a39
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      cow_0: 6168083732550661486
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

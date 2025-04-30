@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f2ae7b565746eb7408cf003d86d7831b
+guid: b85795733eaa79e498687e754079cebd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6168083732550661486
-    second: cow_0
+      213: -7169504175864966832
+    second: sheep_bald_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cow_0
+      name: sheep_bald_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 62
-        height: 42
+        x: 5
+        y: 0
+        width: 59
+        height: 32
       alignment: 9
-      pivot: {x: 0.5613486, y: 0.023563385}
+      pivot: {x: 0.5112117, y: 0.014211714}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e653c8f897f699550800000000000000
-      internalID: 6168083732550661486
+      spriteID: 05193ed00fdc08c90800000000000000
+      internalID: -7169504175864966832
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ca7d2a80c26c81241ad041e964bf7a39
+    spriteID: 81e18cd5126ede8459587d439bfeb9db
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cow_0: 6168083732550661486
+      sheep_bald_0: -7169504175864966832
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: f2ae7b565746eb7408cf003d86d7831b
+guid: c93247d695a4bc347a6fb41a4fb8a76d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6168083732550661486
-    second: cow_0
+      213: -8636221404721523813
+    second: sheep_0
+  - first:
+      213: 481110650328655083
+    second: sheep_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cow_0
+      name: sheep_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 62
-        height: 42
+        x: 1
+        y: 0
+        width: 63
+        height: 49
       alignment: 9
-      pivot: {x: 0.5613486, y: 0.023563385}
+      pivot: {x: 0.5288748, y: 0.027500834}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e653c8f897f699550800000000000000
-      internalID: 6168083732550661486
+      spriteID: b93d2f9936af52880800000000000000
+      internalID: -8636221404721523813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sheep_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 14
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be42f72669f3da600800000000000000
+      internalID: 481110650328655083
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ca7d2a80c26c81241ad041e964bf7a39
+    spriteID: d76895f912a0a6642b434d63c8482199
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cow_0: 6168083732550661486
+      sheep_0: -8636221404721523813
+      sheep_1: 481110650328655083
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Bed
+  m_Name: Egg
   m_EditorClassIdentifier: 
-  itemName: New Item
-  itemIcon: {fileID: 0}
-  itemType: 3
+  itemName: Egg
+  itemIcon: {fileID: -4072622106568590741, guid: 5f0c776520386c44b80c0e3f6f6e97b3, type: 3}
+  itemType: 4
   isStackable: 1
   maxStackSize: 16
   description: 

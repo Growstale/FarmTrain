@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb1a8bad57f051b46bb97a3135cbba49, type: 3}
-  m_Name: Cow
+  m_Name: Chicken
   m_EditorClassIdentifier: 
-  speciesName: Cow
-  animalPrefab: {fileID: 6193734015065537699, guid: 71c49aea95914be46b6aed0376290386, type: 3}
-  defaultSprite: {fileID: 6168083732550661486, guid: f2ae7b565746eb7408cf003d86d7831b, type: 3}
+  speciesName: Chicken
+  animalPrefab: {fileID: 6930296401797857906, guid: e99c9c08abf4d7542a33eb71a8ae3e9f, type: 3}
+  defaultSprite: {fileID: 8678448789981272047, guid: f29862a61cdf738419e40fe9a7fad4d2, type: 3}
   productReadySprite: {fileID: 0}
   requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
-  feedInterval: 5
-  productProduced: {fileID: 11400000, guid: 36e850dd4e298be4b9f46c69f51c7872, type: 2}
-  productionInterval: 10
+  feedInterval: 6
+  productProduced: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
+  productionInterval: 12
   productAmount: 1
   requiredToolForHarvest: {fileID: 0}
   fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
-  fertilizerInterval: 15
+  fertilizerInterval: 23
   fertilizerAmount: 1

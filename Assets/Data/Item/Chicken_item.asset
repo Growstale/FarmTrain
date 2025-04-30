@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Bed
+  m_Name: Chicken_item
   m_EditorClassIdentifier: 
-  itemName: New Item
-  itemIcon: {fileID: 0}
-  itemType: 3
-  isStackable: 1
+  itemName: Chicken
+  itemIcon: {fileID: 8678448789981272047, guid: f29862a61cdf738419e40fe9a7fad4d2, type: 3}
+  itemType: 7
+  isStackable: 0
   maxStackSize: 16
   description: 
   associatedPlantData: {fileID: 0}
-  associatedAnimalData: {fileID: 0}
+  associatedAnimalData: {fileID: 11400000, guid: 12c567d19caa4a945b452ae23cb53dda, type: 2}

@@ -127,7 +127,8 @@ public class ItemSpawner : MonoBehaviour
                 // Проверка parentWagon != null здесь важна, хотя она должна быть пройдена, если мы дошли сюда.
                 if (parentWagon != null)
                 {
-                    Transform placementAreaTransform = parentWagon.Find("AnimalPlacementArea");
+                    string placementAreaName = animalData.speciesName.Replace(" ", "") + "PlacementArea";
+                    Transform placementAreaTransform = parentWagon.Find(placementAreaName);
                     if (placementAreaTransform != null)
                     {
                         Collider2D boundsCollider = placementAreaTransform.GetComponent<Collider2D>();
