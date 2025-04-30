@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class ThoughtBubbleController : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer iconRenderer; // —юда назначь SpriteRenderer из п.2
+    [SerializeField] private SpriteRenderer iconRenderer;
 
     void Awake()
     {
-        if (iconRenderer == null)
-        {
-            // ѕопытка найти, если не назначено вручную
-            iconRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
         if (iconRenderer == null)
         {
             Debug.LogError("Icon Renderer не найден или не назначен в ThoughtBubbleController!", gameObject);

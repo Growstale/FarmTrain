@@ -14,7 +14,7 @@ public class AnimalController : MonoBehaviour
     [SerializeField] private float maxIdleTime = 5.0f; // Макс. время стояния на месте
     [SerializeField] private float minWalkTime = 3.0f; // Мин. время ходьбы
     [SerializeField] private float maxWalkTime = 6.0f; // Макс. время ходьбы
-    [SerializeField] private Vector3 thoughtBubbleOffset = new Vector3(0, 1.2f, 0); // Смещение облачка над животным
+    [SerializeField] private Vector3 thoughtBubbleOffset = new Vector3(1.4f, 0.9f, 0);
 
     // --- Состояние Животного ---
     private enum AnimalState { Idle, Walking, NeedsAttention }
@@ -36,7 +36,7 @@ public class AnimalController : MonoBehaviour
     private bool hasFertilizerReady = false;
     private ItemData currentNeedIcon = null; // Какой предмет показывать в облачке
 
-    // --- Ссылки --- ???????????????????????
+    // --- Ссылки --- 
     private Transform myTransform; // Кэшируем transform для производительности
     private ThoughtBubbleController activeThoughtBubble; // Ссылка на активное облачко
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
@@ -81,6 +81,7 @@ public class AnimalController : MonoBehaviour
 
         currentState = AnimalState.Idle;
         SetNewStateTimer(AnimalState.Idle);
+        UpdateAppearance();
     }
 
 
@@ -134,7 +135,13 @@ public class AnimalController : MonoBehaviour
         // Логика поворота спрайта
         if (isMoving && spriteRenderer != null)
         {
-            spriteRenderer.flipX = (currentTargetPosition.x < myTransform.position.x);
+            // Сравниваем текущую позицию с целевой
+            float horizontalDifference = currentTargetPosition.x - myTransform.position.x;
+
+            if (Mathf.Abs(horizontalDifference) > 0.01f) 
+            {
+                spriteRenderer.flipX = (horizontalDifference > 0);
+            }
         }
     }
 
@@ -208,7 +215,8 @@ public class AnimalController : MonoBehaviour
     private void CheckNeeds()
     {
         bool needsAttentionNow = false;
-        ItemData nextNeedIcon = null; 
+        ItemData nextNeedIcon = null;
+        bool didProductBecomeReady = false;
 
         if (!needsFeeding && feedTimer <= 0)
         {
@@ -222,6 +230,7 @@ public class AnimalController : MonoBehaviour
         {
             Debug.Log($"[CheckNeeds] Обнаружена потребность: Продукт ({animalData.productProduced.itemName})");
             hasProductReady = true;
+            didProductBecomeReady = true;
             nextNeedIcon = animalData.productProduced;
             needsAttentionNow = true;
         }
@@ -232,6 +241,11 @@ public class AnimalController : MonoBehaviour
             hasFertilizerReady = true;
             nextNeedIcon = animalData.fertilizerProduced;
             needsAttentionNow = true;
+        }
+
+        if (didProductBecomeReady)
+        {
+            UpdateAppearance(); // <--- ОБНОВЛЯЕМ ВИД ПРИ ГОТОВНОСТИ ПРОДУКТА
         }
 
         // Если что-то требуется, переходим в состояние NeedsAttention
@@ -267,6 +281,7 @@ public class AnimalController : MonoBehaviour
     {
         productionTimer = animalData.productionInterval;
         hasProductReady = false;
+        UpdateAppearance();
     }
 
     private void ResetFertilizerTimer()
@@ -286,6 +301,34 @@ public class AnimalController : MonoBehaviour
             stateChangeTimer = Random.Range(minWalkTime, maxWalkTime);
         }
     }
+
+    private void UpdateAppearance()
+    {
+        if (spriteRenderer == null || animalData == null) return; // Безопасность
+
+        // Если продукт готов И есть спрайт для этого состояния
+        if (hasProductReady && animalData.productReadySprite != null)
+        {
+            spriteRenderer.sprite = animalData.productReadySprite;
+            // Debug.Log($"{animalData.speciesName} показывает спрайт 'productReadySprite'");
+        }
+        // Иначе, если есть спрайт по умолчанию (используем его)
+        else if (animalData.defaultSprite != null)
+        {
+            spriteRenderer.sprite = animalData.defaultSprite;
+            // Debug.Log($"{animalData.speciesName} показывает спрайт 'defaultSprite'");
+        }
+        // Если нет ни того, ни другого (или продукт не готов, но нет спрайта по умолчанию)
+        else
+        {
+            // Оставляем текущий спрайт или логируем предупреждение, если спрайты не назначены в AnimalData
+            if (hasProductReady && animalData.productReadySprite == null && animalData.defaultSprite == null)
+                Debug.LogWarning($"У {animalData.speciesName} готов продукт, но не назначены 'productReadySprite' и 'defaultSprite' в AnimalData!", gameObject);
+            else if (!hasProductReady && animalData.defaultSprite == null)
+                Debug.LogWarning($"У {animalData.speciesName} нет продукта, но не назначен 'defaultSprite' в AnimalData!", gameObject);
+        }
+    }
+
 
     //=========================================================================
     // ЛОГИКА ПЕРЕДВИЖЕНИЯ
@@ -351,6 +394,15 @@ public class AnimalController : MonoBehaviour
                 Debug.LogError("Префаб облачка не содержит скрипт ThoughtBubbleController!");
                 Destroy(bubbleInstance);
                 return;
+            }
+            BubbleYSorter bubbleSorter = bubbleInstance.GetComponent<BubbleYSorter>();
+            if (bubbleSorter != null)
+            {
+                bubbleSorter.SetOwner(myTransform); // Передаем transform этого животного
+            }
+            else
+            {
+                Debug.LogError($"На префабе облачка {thoughtBubblePrefab.name} отсутствует скрипт BubbleYSorter!", bubbleInstance);
             }
         }
 
@@ -444,26 +496,58 @@ public class AnimalController : MonoBehaviour
                 }
             }
         }
-        // 2. Проверяем, готов ли продукт (если не кормили)
+        // 2. Проверка сбора продукта (ИЗМЕНЕНО!)
         else if (hasProductReady)
         {
-            Debug.Log($"Попытка собрать {animalData.productProduced.itemName} c {animalData.speciesName}");
-            // Пытаемся добавить предмет в инвентарь
-            bool added = inventoryManager.AddItem(animalData.productProduced, animalData.productAmount);
+            itemInvolved = animalData.productProduced; // Запомним продукт для лога
+            Debug.Log($"Попытка собрать {itemInvolved.itemName} c {animalData.speciesName}");
 
-            if (added)
+            // -------- ПРОВЕРКА ИНСТРУМЕНТА --------
+            bool toolCheckPassed = true; // По умолчанию считаем, что инструмент не нужен или есть
+            if (animalData.requiredToolForHarvest != null) // Требуется ли инструмент?
             {
-                Debug.Log($"Успешно собрано {animalData.productAmount} {animalData.productProduced.itemName}");
-                ResetProductionTimer();
-                hasProductReady = false; // Сбрасываем флаг
-                interactionSuccessful = true;
+                Debug.Log($"Для сбора {itemInvolved.itemName} требуется {animalData.requiredToolForHarvest.itemName}");
+                InventoryItem selectedItem = inventoryManager.GetSelectedItem();
+
+                if (selectedItem == null || selectedItem.IsEmpty || selectedItem.itemData != animalData.requiredToolForHarvest)
+                {
+                    // Инструмент не выбран или не тот
+                    Debug.Log($"Не удалось собрать: Игрок не держит {animalData.requiredToolForHarvest.itemName}. Выбрано: {selectedItem?.itemData?.itemName ?? "Ничего"}");
+                    toolCheckPassed = false;
+                    // Можно добавить показ "сообщения" игроку, что нужен инструмент
+                    // например, через UI или другое облачко мысли
+                }
+                else
+                {
+                    Debug.Log($"Игрок держит нужный инструмент: {selectedItem.itemData.itemName}");
+                    // Инструмент правильный, toolCheckPassed остается true
+                }
             }
-            else
+            // ---------------------------------------
+
+            // Если проверка инструмента пройдена (или он не требовался)
+            if (toolCheckPassed)
             {
-                Debug.Log("Не удалось собрать продукт - инвентарь полон!");
-                // Ничего не делаем, облачко остается
+                // Пытаемся добавить предмет в инвентарь
+                bool added = inventoryManager.AddItem(animalData.productProduced, animalData.productAmount);
+
+                if (added)
+                {
+                    Debug.Log($"Успешно собрано {animalData.productAmount} {animalData.productProduced.itemName}");
+                    // Сбрасываем флаг ДО сброса таймера, чтобы UpdateAppearance сработал корректно
+                    hasProductReady = false;
+                    ResetProductionTimer(); // Этот метод вызовет UpdateAppearance()
+                    interactionSuccessful = true;
+                }
+                else
+                {
+                    Debug.Log("Не удалось собрать продукт - инвентарь полон!");
+                    // Вид не меняем, потребность остается
+                }
             }
+            // Если инструмент не тот, interactionSuccessful остается false
         }
+
         // 3. Проверяем, готово ли удобрение (если не кормили и не собирали продукт)
         else if (hasFertilizerReady)
         {

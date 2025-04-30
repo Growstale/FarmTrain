@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Bed
+  m_Name: Wool
   m_EditorClassIdentifier: 
-  itemName: New Item
-  itemIcon: {fileID: 0}
-  itemType: 3
+  itemName: Wool
+  itemIcon: {fileID: -4213263217045903187, guid: 0bfe67e3cf42996408e1ba0656068c79, type: 3}
+  itemType: 4
   isStackable: 1
   maxStackSize: 16
   description: 

@@ -6,6 +6,12 @@ public class AnimalData : ScriptableObject
     public string speciesName = "New Animal";
     public GameObject animalPrefab; // Префаб животного с его моделью/спрайтом и базовым скриптом
 
+    [Header("Appearance")]
+    [Tooltip("Основной спрайт животного")]
+    public Sprite defaultSprite;
+    [Tooltip("Спрайт животного, когда продукт готов")]
+    public Sprite productReadySprite;
+
     [Header("Needs")]
     public ItemData requiredFood; // Какой ItemData нужен для кормления
     public float feedInterval = 60.0f; // Как часто нужно кормить
@@ -14,6 +20,8 @@ public class AnimalData : ScriptableObject
     public ItemData productProduced; // Какой ItemData производит
     public float productionInterval = 120.0f; // Как часто производит продукт
     public int productAmount = 1; // Сколько продукта за раз
+    [Tooltip("Инструмент, необходимый для сбора продукта")]
+    public ItemData requiredToolForHarvest;
 
     [Header("Fertilizer")] // Удобрение
     public ItemData fertilizerProduced;
