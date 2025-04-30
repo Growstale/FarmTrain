@@ -101,171 +101,196 @@ public class TrainCameraController : MonoBehaviour
 
     void HandleLeftClick()
     {
-        // Выпускаем луч из камеры
+        // --- Raycast и Сортировка (без изменений) ---
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        // Находит все 2D-коллайдеры (Collider2D), которые пересекаются с лучом, выпущенным из точки worldPoint
         RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
-        if (hits.Length == 0)
-        {
-            return;
-        }
+        if (hits.Length == 0) return; // Ни во что не попали
 
-        // Для каждого попадания он пытается найти SpriteRenderer (у самого объекта или у его родителя), чтобы получить информацию о слое (Layer),
-        // сортировочном слое (SortLayerID) и порядке в слое (Order)
-        if (hits.Length > 0)
-        {
-            foreach (var h in hits)
-            {
-                SpriteRenderer r = h.collider.GetComponentInParent<SpriteRenderer>();
-            }
-        }
-
-
-        // Сортируем попадания
+        // Сортируем попадания (без изменений)
         System.Array.Sort(hits, (hit1, hit2) =>
         {
+            // Используем SpriteRenderer на самом объекте или его родителях для сортировки
             SpriteRenderer r1 = hit1.collider.GetComponentInParent<SpriteRenderer>();
             SpriteRenderer r2 = hit2.collider.GetComponentInParent<SpriteRenderer>();
             if (r1 == null && r2 == null) return 0;
-            if (r1 == null) return -1;
-            if (r2 == null) return 1;
+            if (r1 == null) return 1; // Объекты без рендерера считаем "ниже"
+            if (r2 == null) return -1;
+            // Сначала по слою сортировки (более высокий слой = визуально выше)
             if (r1.sortingLayerID != r2.sortingLayerID) return r2.sortingLayerID.CompareTo(r1.sortingLayerID);
+            // Потом по порядку в слое (больший порядок = визуально выше)
             if (r1.sortingOrder != r2.sortingOrder) return r2.sortingOrder.CompareTo(r1.sortingOrder);
+            // Если всё совпадает, можно добавить сравнение по Z или расстоянию от камеры, но пока оставим 0
             return 0;
         });
 
-        // Логируем верхнее попадание после сортировки
-        RaycastHit2D topHit = hits[0];
+        // Логируем попадания (опционально, но полезно для отладки)
+        // Debug.Log($"Raycast Hits ({hits.Length}):");
+        // for(int i = 0; i < hits.Length; i++) { /* ... подробный лог ... */ }
+
+        RaycastHit2D topHit = hits[0]; // Самый верхний объект по сортировке
         Transform topHitTransform = topHit.transform;
         Collider2D topHitCollider = topHit.collider;
-        SpriteRenderer topRenderer = topHitCollider.GetComponentInParent<SpriteRenderer>();
 
+        // Debug.Log($"Top Hit: Name='{topHitCollider.name}', Tag='{topHitCollider.tag}'"); // Лог верхнего попадания
 
-        if (!isOverview) // РЕЖИМ ФОКУСА
+        // --- Логика обработки клика ---
+
+        if (!isOverview) // --- РЕЖИМ ФОКУСА ---
         {
-            // Проверяем, кликнули ли мы на ПРЕДМЕТ
+            // Проверяем все попадания, а не только topHit, на случай если вагон перекрыт, но клик был по нему
+            // Однако, для простоты пока оставим логику с topHit, но изменим порядок
+
+            // 1. Является ли верхний объект ИНТЕРАКТИВНЫМ ПРЕДМЕТОМ?
             ItemPickup clickedItem = topHitCollider.GetComponent<ItemPickup>();
             if (clickedItem != null)
             {
-                // Ищем родительский вагон
-                Transform parentWagonTransform = FindParentWagon(clickedItem.transform);
-
-                if (parentWagonTransform != null)
+                Transform parentWagon = FindParentWagon(clickedItem.transform);
+                if (parentWagon != null)
                 {
-                    int itemWagonIndex = wagons.IndexOf(parentWagonTransform);
-                    // Проверка: Предмет принадлежит ТЕКУЩЕМУ вагону?
-                    if (itemWagonIndex == currentWagonIndex)
+                    int itemWagonIndex = wagons.IndexOf(parentWagon);
+                    if (itemWagonIndex == currentWagonIndex) // Предмет в ТЕКУЩЕМ вагоне?
                     {
-                        clickedItem.AttemptPickup();
-                        return;
+                        clickedItem.AttemptPickup(); // Взаимодействуем
+                        Debug.Log($"Attempting pickup on {clickedItem.name} in current wagon {currentWagonIndex}");
+                        return; // Выходим
+                    }
+                    else if (itemWagonIndex > 0 && itemWagonIndex < wagons.Count && Mathf.Abs(itemWagonIndex - currentWagonIndex) == 1) // Предмет в СОСЕДНЕМ вагоне?
+                    {
+                        // Клик по предмету в соседнем вагоне = команда перейти к этому вагону
+                        Debug.Log($"Clicked item {clickedItem.name} in adjacent wagon {itemWagonIndex}. Moving camera.");
+                        MoveToWagon(itemWagonIndex);
+                        return; // Выходим
                     }
                     else
                     {
-                        return;
+                        Debug.Log($"Clicked item {clickedItem.name} in non-adjacent wagon {itemWagonIndex}. Ignoring.");
+                        return; // Игнорируем клик по предмету в далеком вагоне
                     }
                 }
-                else
-                {
-                    return;
-                }
+                else { return; } // Не нашли вагон для предмета, игнорируем
             }
 
+            // 2. Является ли верхний объект ЖИВОТНЫМ?
             AnimalController clickedAnimal = topHitCollider.GetComponent<AnimalController>();
             if (clickedAnimal != null)
             {
-                Debug.Log($"Кликнули на животное: {clickedAnimal.gameObject.name} с состоянием {clickedAnimal.GetCurrentStateName()}"); // Используем новый метод
-
-                // Ищем родительский вагон животного
-                Transform parentWagonTransform = FindParentWagon(clickedAnimal.transform);
-                if (parentWagonTransform != null)
+                Transform parentWagon = FindParentWagon(clickedAnimal.transform);
+                if (parentWagon != null)
                 {
-                    int animalWagonIndex = wagons.IndexOf(parentWagonTransform);
-
-                    // Проверяем: животное в ТЕКУЩЕМ вагоне (если не режим обзора)
-                    if (isOverview || animalWagonIndex == currentWagonIndex)
+                    int animalWagonIndex = wagons.IndexOf(parentWagon);
+                    if (animalWagonIndex == currentWagonIndex) // Животное в ТЕКУЩЕМ вагоне?
                     {
-                        // Проверяем, нуждается ли животное во внимании (используем новый метод)
+                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in current wagon {currentWagonIndex}. State: {clickedAnimal.GetCurrentStateName()}");
                         if (clickedAnimal.GetCurrentStateName() == "NeedsAttention")
                         {
-                            Debug.Log($"Животное {clickedAnimal.gameObject.name} нуждается во внимании. Вызываем AttemptInteraction.");
-                            clickedAnimal.AttemptInteraction(); // Вызываем ПУБЛИЧНЫЙ метод из AnimalController
-                            return; // Взаимодействие произошло, выходим из HandleLeftClick
+                            clickedAnimal.AttemptInteraction(); // Взаимодействуем, если нужно
                         }
-                        else
-                        {
-                            Debug.Log($"Животное {clickedAnimal.gameObject.name} сейчас не нуждается во внимании.");
-                            // Можно добавить звук клика по животному или другую реакцию
-                            // ВАЖНО: Ставим return, чтобы не проверять вагон ПОД животным
-                            return;
-                        }
+                        // Даже если не нужно взаимодействие, клик обработан (показали лог), выходим
+                        return;
+                    }
+                    else if (animalWagonIndex > 0 && animalWagonIndex < wagons.Count && Mathf.Abs(animalWagonIndex - currentWagonIndex) == 1) // Животное в СОСЕДНЕМ вагоне?
+                    {
+                        // Клик по животному в соседнем вагоне = команда перейти к этому вагону
+                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in adjacent wagon {animalWagonIndex}. Moving camera.");
+                        MoveToWagon(animalWagonIndex);
+                        return; // Выходим
                     }
                     else
                     {
-                        Debug.Log($"Клик на животном {clickedAnimal.gameObject.name}, но оно не в текущем вагоне ({animalWagonIndex} vs {currentWagonIndex})");
-                        // Если животное в другом вагоне (в режиме фокуса), просто игнорируем клик
-                        // ВАЖНО: Ставим return, чтобы не проверять вагон ПОД животным
-                        return;
+                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in non-adjacent wagon {animalWagonIndex}. Ignoring.");
+                        return; // Игнорируем клик по животному в далеком вагоне (старое сообщение было здесь)
                     }
                 }
-                else
-                {
-                    Debug.LogWarning($"Не удалось определить вагон для животного {clickedAnimal.gameObject.name}");
-                    // Если не нашли вагон, тоже выходим, чтобы не проверять дальше
-                    return;
-                }
+                else { return; } // Не нашли вагон для животного, игнорируем
             }
 
-
-
-            // Обработка клика на слот с грядками
-
-
+            // 3. Является ли верхний объект ГРЯДКОЙ (Bed)?
             if (topHitCollider.CompareTag("Bed"))
             {
-               BedsScripts bedsScripts = topHitCollider.GetComponent<BedsScripts>();
+                BedsScripts bedsScripts = topHitCollider.GetComponent<BedsScripts>();
                 if (bedsScripts != null)
                 {
-                    bedsScripts.PlantSeeds();
-                }
-
-            }
-
-
-
-            // 2. Если не кликнули на интерактивный предмет в текущем вагоне, проверяем ВАГОН
-            Debug.Log($"  Checking if top hit object has 'Wagon' tag: {topHitCollider.CompareTag("Wagon")}");
-
-            if (topHitCollider.CompareTag("Wagon"))
-            {
-                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
-
-                // Если кликнули на видимый СОСЕДНИЙ вагон
-                if (clickedWagonIndex == currentWagonIndex + 1 || clickedWagonIndex == currentWagonIndex - 1)
-                {
-                    if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
+                    Transform parentWagon = FindParentWagon(bedsScripts.transform);
+                    if (parentWagon != null)
                     {
-                        MoveToWagon(clickedWagonIndex);
-                        return;
+                        int bedWagonIndex = wagons.IndexOf(parentWagon);
+                        if (bedWagonIndex == currentWagonIndex) // Грядка в ТЕКУЩЕМ вагоне?
+                        {
+                            Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
+                            bedsScripts.PlantSeeds();
+                            return; // Взаимодействие, выходим
+                        }
+                        else if (bedWagonIndex > 0 && bedWagonIndex < wagons.Count && Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1) // Грядка в СОСЕДНЕМ вагоне?
+                        {
+                            // Клик по грядке в соседнем вагоне = команда перейти к этому вагону
+                            Debug.Log($"Clicked bed in adjacent wagon {bedWagonIndex}. Moving camera.");
+                            MoveToWagon(bedWagonIndex);
+                            return; // Выходим
+                        }
+                        else
+                        {
+                            Debug.Log($"Clicked bed in non-adjacent wagon {bedWagonIndex}. Ignoring.");
+                            return; // Игнорируем клик по грядке в далеком вагоне
+                        }
                     }
+                    else { return; } // Не нашли вагон для грядки, игнорируем
                 }
+                else { return; } // Нет скрипта BedsScripts, игнорируем
             }
-        }
-        else // РЕЖИМ ОБЗОРА (isOverview == true)
-        {
 
+            // 4. Если НЕ попали ни в один известный интерактивный объект,
+            //    проверяем, принадлежит ли ВООБЩЕ кликнутый объект (topHit) соседнему вагону.
+            //    Это обработает клики по зонам, декорациям и т.д. в соседних вагонах.
+            Transform clickedObjectParentWagon = FindParentWagon(topHitTransform);
+            if (clickedObjectParentWagon != null) // Нашли родительский вагон для topHit?
+            {
+                int clickedObjectWagonIndex = wagons.IndexOf(clickedObjectParentWagon);
+
+                // Проверяем, является ли этот вагон СОСЕДНИМ и валидным
+                if (clickedObjectWagonIndex > 0 && clickedObjectWagonIndex < wagons.Count && Mathf.Abs(clickedObjectWagonIndex - currentWagonIndex) == 1)
+                {
+                    Debug.Log($"Clicked on non-interactive object '{topHitCollider.name}' belonging to adjacent wagon {clickedObjectWagonIndex}. Moving camera.");
+                    MoveToWagon(clickedObjectWagonIndex);
+                    return; // Переходим
+                }
+                // Если объект принадлежит ТЕКУЩЕМУ вагону (или далекому), просто ничего не делаем здесь,
+                // позволяя коду дойти до проверки на тег "Wagon" ниже (на всякий случай).
+            }
+
+
+            // 4. Если НЕ попали ни в один интерактивный объект ИЛИ попали в интерактивный объект в ДАЛЕКОМ вагоне,
+            //    тогда проверяем, был ли клик по КОЛЛАЙДЕРУ СОСЕДНЕГО ВАГОНА.
             if (topHitCollider.CompareTag("Wagon"))
             {
                 int clickedWagonIndex = wagons.IndexOf(topHitTransform);
-
-                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
+                // Проверяем, является ли этот вагон СОСЕДНИМ и валидным
+                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count && Mathf.Abs(clickedWagonIndex - currentWagonIndex) == 1)
                 {
+                    Debug.Log($"Clicked directly on adjacent wagon {clickedWagonIndex}. Moving camera.");
+                    MoveToWagon(clickedWagonIndex);
+                    return; // Переходим
+                }
+                // Если кликнули на текущий вагон или локомотив, ничего не делаем
+            }
+
+            // Если дошли до сюда, значит клик был либо по текущему вагону, либо по локомотиву,
+            // либо по неинтерактивному объекту в текущем вагоне. Никаких действий не требуется.
+        }
+        else // --- РЕЖИМ ОБЗОРА (isOverview == true) ---
+        {
+            // Логика для режима обзора: клик по любому вагону (кроме локомотива) должен приближать
+            if (topHitCollider.CompareTag("Wagon"))
+            {
+                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
+                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count) // Проверяем, что это не локомотив и вагон существует
+                {
+                    Debug.Log($"Clicked on wagon {clickedWagonIndex} in overview mode. Zooming in.");
                     ExitOverviewMode(clickedWagonIndex);
                     return;
                 }
-                
             }
-
+            // Клик мимо вагонов в режиме обзора ничего не делает
         }
     }
 

@@ -1,12 +1,12 @@
 using UnityEngine;
-using System.Collections; // Нужно для корутин (задержек)
+using System.Collections;
 
 public class AnimalController : MonoBehaviour
 {
     
     [Header("Data & Links")]
-    public AnimalData animalData; // Сюда будем назначать ScriptableObject с данными коровы
-    public GameObject thoughtBubblePrefab; // Префаб "облачка мыслей" (создадим его позже)
+    public AnimalData animalData; 
+    public GameObject thoughtBubblePrefab; // облако мыслей
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f; // Скорость передвижения
@@ -36,7 +36,7 @@ public class AnimalController : MonoBehaviour
     private bool hasFertilizerReady = false;
     private ItemData currentNeedIcon = null; // Какой предмет показывать в облачке
 
-    // --- Ссылки ---
+    // --- Ссылки --- ???????????????????????
     private Transform myTransform; // Кэшируем transform для производительности
     private ThoughtBubbleController activeThoughtBubble; // Ссылка на активное облачко
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
@@ -46,41 +46,32 @@ public class AnimalController : MonoBehaviour
     private Vector2 currentTargetPosition;
     private bool isMoving = false;
 
-    //=========================================================================
-    // ИНИЦИАЛИЗАЦИЯ
-    //=========================================================================
-
-    void Awake() // Используем Awake вместо Start для инициализации ссылок
+    void Awake() 
     {
-        myTransform = transform; // Инициализируем здесь! Теперь это произойдет ДО InitializeMovementBounds
-        spriteRenderer = GetComponent<SpriteRenderer>(); // И другие GetComponent лучше делать здесь
-        inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
+        myTransform = transform;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        inventoryManager = InventoryManager.Instance; 
         if (inventoryManager == null)
         {
-            // Предупреждение можно оставить и в Start, но поиск лучше сделать здесь
-            Debug.LogError($"InventoryManager не найден! Awake() в AnimalController.");
+            Debug.LogError($"InventoryManager не найден! Awake() в AnimalController");
         }
     }
 
     void Start()
     {
-        // myTransform УЖЕ инициализирован в Awake()
-
         if (animalData == null)
         {
             Debug.LogError($"AnimalData не назначено для {gameObject.name}! Животное не будет работать.", gameObject);
-            enabled = false; // Выключаем скрипт
+            enabled = false; 
             return;
         }
         if (thoughtBubblePrefab == null)
         {
             Debug.LogError($"ThoughtBubblePrefab не назначен для {gameObject.name}! Не сможем показать потребности.", gameObject);
-            // Можно не выключать
         }
-        if (inventoryManager == null) // Повторная проверка, если Awake не нашел
+        if (inventoryManager == null)
         {
             Debug.LogError($"InventoryManager не найден на сцене! Сбор предметов не будет работать.", gameObject);
-            // Можно не выключать
         }
 
         // Запускаем начальные таймеры
@@ -88,38 +79,28 @@ public class AnimalController : MonoBehaviour
         ResetProductionTimer();
         ResetFertilizerTimer();
 
-        // Устанавливаем начальное состояние и таймер для него
         currentState = AnimalState.Idle;
         SetNewStateTimer(AnimalState.Idle);
-
-        // ВАЖНО: Границы и запуск поведения будут в InitializeMovementBounds
-        // Не вызываем StartCoroutine здесь!
     }
 
 
-    // Этот метод должен вызываться ИЗВНЕ (например, из спавнера) после создания животного
+    // Этот метод должен вызываться ИЗВНЕ
     public void InitializeMovementBounds(Bounds bounds)
     {
-        // Добавим проверку на всякий случай, хотя Awake должен был сработать
         if (myTransform == null)
         {
             Debug.LogError($"ОШИБКА: myTransform все еще null в InitializeMovementBounds! Проверьте Awake() у {gameObject.name}", gameObject);
-            myTransform = transform; // Попытка инициализировать аварийно
+            myTransform = transform;
         }
 
         movementBounds = bounds;
         boundsInitialized = true;
         Debug.Log($"{animalData.speciesName} ({gameObject.name}) получил границы движения: {movementBounds}");
 
-        // Устанавливаем начальную позицию ВНУТРИ границ (на всякий случай)
-        // Теперь myTransform должен быть не null
-        myTransform.position = GetRandomPositionInBounds(); // Строка ~101 - теперь должна работать
-
-        // Теперь можно выбрать первую цель для движения, если нужно
+        myTransform.position = GetRandomPositionInBounds();
         PickNewWanderTarget();
 
-        // ЗАПУСКАЕМ КОРУТИНУ ПОВЕДЕНИЯ ЗДЕСЬ, ПОСЛЕ ИНИЦИАЛИЗАЦИИ ГРАНИЦ!
-        if (boundsInitialized) // Доп. проверка, что все хорошо
+        if (boundsInitialized) // Доп. проверка
         {
             StartCoroutine(StateMachineCoroutine());
             Debug.Log($"StateMachineCoroutine запущен для {animalData.speciesName} ({gameObject.name})");
@@ -130,10 +111,6 @@ public class AnimalController : MonoBehaviour
         }
     }
 
-
-    //=========================================================================
-    // ОБНОВЛЕНИЕ (Update) - Управление таймерами и состояниями
-    //=========================================================================
 
     void Update()
     {
@@ -150,13 +127,13 @@ public class AnimalController : MonoBehaviour
         // Обновление позиции облачка, если оно активно
         if (activeThoughtBubble != null && activeThoughtBubble.gameObject.activeSelf)
         {
+            // Обновляем его позицию каждый кадр, чтобы оно оставалось над головой движущегося животного
             activeThoughtBubble.transform.position = myTransform.position + thoughtBubbleOffset;
         }
 
-        // Простая логика поворота спрайта (опционально)
+        // Логика поворота спрайта
         if (isMoving && spriteRenderer != null)
         {
-            // Поворачиваем спрайт влево/вправо в зависимости от направления к цели
             spriteRenderer.flipX = (currentTargetPosition.x < myTransform.position.x);
         }
     }
@@ -165,24 +142,19 @@ public class AnimalController : MonoBehaviour
     // Корутина для управления состояниями Idle/Walking
     private IEnumerator StateMachineCoroutine()
     {
-        Debug.Log($"StateMachineCoroutine НАЧАЛ работу для {gameObject.name}. Начальное состояние: {currentState}"); // Добавим лог при старте
+        Debug.Log($"StateMachineCoroutine НАЧАЛ работу для {gameObject.name}. Начальное состояние: {currentState}");
 
-        while (boundsInitialized) // Работаем, пока все хорошо
+        while (boundsInitialized) 
         {
-            // ----- ПРОВЕРЯЕМ СОСТОЯНИЕ В НАЧАЛЕ ЦИКЛА -----
             if (currentState == AnimalState.NeedsAttention)
             {
-                // Если нужно внимание, просто ждем один кадр и проверяем снова.
-                // Не ждем stateChangeTimer!
-                // Debug.Log($"{gameObject.name}: В состоянии NeedsAttention, ожидание 1 кадра.");
-                isMoving = false; // Убедимся, что не двигаемся
+                isMoving = false;
                 yield return null; // Ждать 1 кадр
                 continue; // Вернуться к началу цикла while и проверить состояние снова
             }
 
-            // ----- ЕСЛИ СОСТОЯНИЕ НЕ NeedsAttention (т.е. Idle или Walking) -----
+            // Idle или Walking
 
-            // Debug.Log($"{gameObject.name}: В состоянии {currentState}. Ожидание {stateChangeTimer} секунд.");
             yield return new WaitForSeconds(stateChangeTimer); // Ждем пока пройдет время текущего состояния
 
             // После ожидания, ПРОВЕРЯЕМ СНОВА, не изменилось ли состояние на NeedsAttention ПОКА мы ждали
@@ -219,17 +191,11 @@ public class AnimalController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Передвижение лучше делать в FixedUpdate для стабильности физики (хотя у нас ее нет)
-        // или просто в Update, если нет Rigidbody
         if (currentState == AnimalState.Walking && isMoving && boundsInitialized)
         {
             MoveTowardsTarget();
         }
     }
-
-    //=========================================================================
-    // ЛОГИКА ТАЙМЕРОВ И ПОТРЕБНОСТЕЙ
-    //=========================================================================
 
     private void UpdateTimers(float deltaTime)
     {
@@ -242,27 +208,27 @@ public class AnimalController : MonoBehaviour
     private void CheckNeeds()
     {
         bool needsAttentionNow = false;
-        ItemData nextNeedIcon = null; // Временная переменная для лога
+        ItemData nextNeedIcon = null; 
 
         if (!needsFeeding && feedTimer <= 0)
         {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Еда ({animalData.requiredFood.itemName})"); // ЛОГ 1
+            Debug.Log($"[CheckNeeds] Обнаружена потребность: Еда ({animalData.requiredFood.itemName})"); 
             needsFeeding = true;
             nextNeedIcon = animalData.requiredFood;
             needsAttentionNow = true;
         }
-        // Используем else if, чтобы проверить продукт только если не голоден
+
         else if (!hasProductReady && productionTimer <= 0)
         {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Продукт ({animalData.productProduced.itemName})"); // ЛОГ 2
+            Debug.Log($"[CheckNeeds] Обнаружена потребность: Продукт ({animalData.productProduced.itemName})");
             hasProductReady = true;
             nextNeedIcon = animalData.productProduced;
             needsAttentionNow = true;
         }
-        // Используем else if, чтобы проверить удобрение только если не голоден и нет продукта
+
         else if (!hasFertilizerReady && fertilizerTimer <= 0)
         {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Удобрение ({animalData.fertilizerProduced.itemName})"); // ЛОГ 3
+            Debug.Log($"[CheckNeeds] Обнаружена потребность: Удобрение ({animalData.fertilizerProduced.itemName})");
             hasFertilizerReady = true;
             nextNeedIcon = animalData.fertilizerProduced;
             needsAttentionNow = true;
@@ -271,33 +237,24 @@ public class AnimalController : MonoBehaviour
         // Если что-то требуется, переходим в состояние NeedsAttention
         if (needsAttentionNow)
         {
-            // Сверяем, нужно ли ДЕЙСТВИТЕЛЬНО менять состояние (оптимизация)
             if (currentState != AnimalState.NeedsAttention || currentNeedIcon != nextNeedIcon)
             {
-                // Debug.LogWarning($"[CheckNeeds] Найдена потребность ({nextNeedIcon?.itemName}). Устанавливаем NeedsAttention.");
                 currentState = AnimalState.NeedsAttention;
-                currentNeedIcon = nextNeedIcon; // Важно обновить иконку!
+                currentNeedIcon = nextNeedIcon;
                 isMoving = false;
                 ShowThoughtBubble(currentNeedIcon);
             }
-            // else { Debug.Log($"[CheckNeeds] Потребность ({nextNeedIcon?.itemName}) уже активна. Состояние не меняем."); }
         }
-        // ----- НОВОЕ: ЕСЛИ ПОТРЕБНОСТЕЙ НЕТ, А СОСТОЯНИЕ БЫЛО NeedsAttention -----
         else if (currentState == AnimalState.NeedsAttention)
         {
             // Если НЕТ активных потребностей (needsAttentionNow == false),
             // а мы все еще в состоянии NeedsAttention, значит, потребность была только что удовлетворена
             // или возникла ошибка. Возвращаем в Idle.
             Debug.LogWarning($"[CheckNeeds] Потребностей не найдено, но состояние было NeedsAttention. Возвращаем в Idle.");
-            HideThoughtBubble(); // Скрываем облачко на всякий случай
+            HideThoughtBubble();
             currentState = AnimalState.Idle;
             SetNewStateTimer(currentState);
-            // Корутина должна сама подхватить новое состояние Idle при следующей итерации
-            // НЕ перезапускаем корутину здесь, чтобы избежать возможных конфликтов с перезапуском в AttemptInteraction
         }
-        // else if (needsAttentionNow && nextNeedIcon == null) {
-        //     Debug.LogError("[CheckNeeds] needsAttentionNow is true, but nextNeedIcon is null! Это не должно происходить.");
-        // }
     }
 
     private void ResetFeedTimer()
@@ -337,18 +294,15 @@ public class AnimalController : MonoBehaviour
     private void PickNewWanderTarget()
     {
         currentTargetPosition = GetRandomPositionInBounds();
-        // Debug.Log($"{animalData.speciesName} идет к {currentTargetPosition}");
     }
 
     private Vector2 GetRandomPositionInBounds()
     {
         if (!boundsInitialized) return myTransform.position; // Безопасность
 
-        // Генерируем случайную точку внутри прямоугольника movementBounds
         float randomX = Random.Range(movementBounds.min.x, movementBounds.max.x);
         float randomY = Random.Range(movementBounds.min.y, movementBounds.max.y);
 
-        // Возвращаем как Vector2 (или Vector3 с нужным Z, если надо)
         return new Vector2(randomX, randomY);
     }
 
@@ -356,14 +310,10 @@ public class AnimalController : MonoBehaviour
     {
         if (!isMoving) return;
 
-        // Двигаем объект к цели с заданной скоростью
         Vector2 currentPosition = myTransform.position;
         Vector2 direction = (currentTargetPosition - currentPosition).normalized;
         Vector2 newPosition = Vector2.MoveTowards(currentPosition, currentTargetPosition, moveSpeed * Time.fixedDeltaTime);
 
-        // Важно: Проверяем, не выйдет ли новый шаг за границы
-        // Хотя GetRandomPositionInBounds выбирает точку внутри, MoveTowards может вывести за край на последнем шаге
-        // Простой способ - просто зажать позицию внутри границ
         newPosition.x = Mathf.Clamp(newPosition.x, movementBounds.min.x, movementBounds.max.x);
         newPosition.y = Mathf.Clamp(newPosition.y, movementBounds.min.y, movementBounds.max.y);
 
@@ -371,12 +321,9 @@ public class AnimalController : MonoBehaviour
         myTransform.position = newPosition;
 
 
-        // Проверяем, достигли ли мы цели (с небольшой погрешностью)
         if (Vector2.Distance(currentPosition, currentTargetPosition) < 0.1f)
         {
-            isMoving = false; // Останавливаемся по достижении
-                              // Состояние сменится по таймеру stateChangeTimer в корутине
-                              // Debug.Log($"{animalData.speciesName} достиг цели.");
+            isMoving = false; 
         }
     }
 
@@ -426,12 +373,9 @@ public class AnimalController : MonoBehaviour
         {
             activeThoughtBubble.Hide();
         }
-        currentNeedIcon = null; // Сбрасываем текущую потребность
+        currentNeedIcon = null; 
     }
 
-    //=========================================================================
-    // ВЗАИМОДЕЙСТВИЕ С ИГРОКОМ
-    //=========================================================================
 
     public string GetCurrentStateName()
     {
@@ -448,7 +392,7 @@ public class AnimalController : MonoBehaviour
         }
 
         bool interactionSuccessful = false;
-        ItemData itemInvolved = null; // Запомним, какой предмет участвовал
+        ItemData itemInvolved = null; 
 
         // 1. Проверяем, нужно ли кормить
         if (needsFeeding)

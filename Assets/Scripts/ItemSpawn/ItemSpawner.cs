@@ -29,7 +29,6 @@ public class ItemSpawner : MonoBehaviour
     {
         if (trainController == null)
         {
-            // Важно оставить эту проверку, так как без trainController ничего не будет работать
             Debug.LogError("TrainCameraController не назначен в ItemSpawner! Невозможно определить родительские вагоны.");
         }
 
@@ -61,7 +60,6 @@ public class ItemSpawner : MonoBehaviour
             return null;
         }
 
-        // --- ПРОВЕРКА ТИПА ПРЕДМЕТА ---
         if (dataToSpawn.itemType == ItemType.Animal && dataToSpawn.associatedAnimalData != null)
         {
             // --- ЭТО ЖИВОТНОЕ! ---
