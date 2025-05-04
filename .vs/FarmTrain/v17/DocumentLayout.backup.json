@@ -1,10 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\",
+  "WorkspaceRootPath": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\sceneloader\\sceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sceneloader\\sceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|d:\\unityprojects\\farmingsimulator\\farmtrain\\assets\\scripts\\data\\plantdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\data\\plantdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SceneLoader.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneLoader\\SceneLoader.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "PlantData.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\PlantData.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Data\\PlantData.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\Data\\PlantData.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Data\\PlantData.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-29T15:01:44.576Z",
+              "WhenOpened": "2025-05-04T17:45:29.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CreateGrid.cs",
+              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwCsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T17:38:52.148Z",
               "EditorCaption": ""
             }
           ]

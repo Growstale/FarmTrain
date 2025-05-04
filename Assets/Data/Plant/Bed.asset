@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
+  m_Script: {fileID: 11500000, guid: b8bc6c6f5ca22f849801c1171e8013a4, type: 3}
   m_Name: Bed
   m_EditorClassIdentifier: 
-  itemName: New Item
-  itemIcon: {fileID: 0}
-  itemType: 3
-  isStackable: 1
-  maxStackSize: 16
-  description: 
-  associatedPlantData: {fileID: 0}
-  associatedAnimalData: {fileID: 0}
+  speciesName: New Bed
+  bedlPrefab: {fileID: 2771188962019848165, guid: 067d053ee28d7904893efd99bbda53be, type: 3}
+  bedSprite: {fileID: 0}
+  isPlanted: 0

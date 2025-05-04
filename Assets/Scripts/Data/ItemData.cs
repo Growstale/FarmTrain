@@ -18,6 +18,10 @@ public class ItemData : ScriptableObject
 
     [Tooltip("Данные о животном, если этот предмет используется для его размещения/создания.")]
     public AnimalData associatedAnimalData; // Ссылка на данные животного
+
+    [Tooltip("Данные о грядке")]
+    public BedData associatedBedData; // Ссылка на данные грядки
+
 }
 
 public enum ItemType

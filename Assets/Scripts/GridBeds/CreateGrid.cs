@@ -6,8 +6,13 @@ public class CreateGrid : MonoBehaviour
 
 [SerializeField]GameObject slot;
     [SerializeField] GameObject bedprefab;
-    [SerializeField] GameObject BedManager;
+    [SerializeField] GameObject SpawnManager;
     BedsManagerScript bedsManagerScript;
+
+    ItemSpawner itemSpawner;
+    [SerializeField]ItemData _bedData;
+
+
 
     [Header("Position")]
     public float GridPosX; // позиция сетки по X
@@ -27,7 +32,7 @@ public class CreateGrid : MonoBehaviour
     {
         slotPosX = GridPosX;
         slotPosY = GridPosY;
-        bedsManagerScript = BedManager.GetComponent<BedsManagerScript>();
+        itemSpawner = SpawnManager.GetComponent<ItemSpawner>();
         GenerateGrid();
 
     }
@@ -39,9 +44,9 @@ public class CreateGrid : MonoBehaviour
            
             for (int j = 0; j < CountBedsY; j++) {
                 Vector3 spawnPosition = new Vector3(slotPosX, slotPosY, 0);
-                newSlot = Instantiate(slot, spawnPosition, Quaternion.identity);
+                newSlot =  itemSpawner.SpawnItem(_bedData,spawnPosition) ;// Instantiate(slot, spawnPosition, Quaternion.identity);
                 newSlot.transform.position = spawnPosition;
-                GenerateBed(bedprefab, newSlot);
+                //GenerateBed(bedprefab, newSlot);
                 slotPosY += newSlot.transform.localScale.y + spacingY;
             }
             slotPosX += newSlot.transform.localScale.x;
