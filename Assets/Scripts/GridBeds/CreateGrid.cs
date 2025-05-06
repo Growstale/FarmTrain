@@ -7,11 +7,10 @@ public class CreateGrid : MonoBehaviour
 [SerializeField]GameObject slot;
     [SerializeField] GameObject bedprefab;
     [SerializeField] GameObject SpawnManager;
-    BedsManagerScript bedsManagerScript;
-
-    ItemSpawner itemSpawner;
+    SlotManagerScript _slotManagerScript;
+    
     [SerializeField]ItemData _bedData;
-
+    [SerializeField] GameObject _Wagon;
 
 
     [Header("Position")]
@@ -32,7 +31,7 @@ public class CreateGrid : MonoBehaviour
     {
         slotPosX = GridPosX;
         slotPosY = GridPosY;
-        itemSpawner = SpawnManager.GetComponent<ItemSpawner>();
+       
         GenerateGrid();
 
     }
@@ -44,12 +43,22 @@ public class CreateGrid : MonoBehaviour
            
             for (int j = 0; j < CountBedsY; j++) {
                 Vector3 spawnPosition = new Vector3(slotPosX, slotPosY, 0);
-                newSlot =  itemSpawner.SpawnItem(_bedData,spawnPosition) ;// Instantiate(slot, spawnPosition, Quaternion.identity);
+                newSlot = Instantiate(slot,spawnPosition,Quaternion.identity);
+
                 newSlot.transform.position = spawnPosition;
-                //GenerateBed(bedprefab, newSlot);
+                if (newSlot == null)
+                {
+                    Debug.Log("newslot null");
+                }
+                if (bedprefab == null)
+                {
+                    Debug.Log("bedprefab null");
+                }
+                GenerateBed(bedprefab, newSlot);
                 slotPosY += newSlot.transform.localScale.y + spacingY;
+                newSlot.transform.parent = _Wagon.transform;
             }
-            slotPosX += newSlot.transform.localScale.x;
+            slotPosX += newSlot.transform.localScale.x * 2.85f;
             slotPosY = GridPosY;
         }
     }
@@ -84,7 +93,7 @@ public class CreateGrid : MonoBehaviour
         smallSquare4.transform.localScale = sizeBed;
         smallSquare4.transform.parent = largeSquare.transform;
 
-        bedsManagerScript.AddBed(largeSquare,new GameObject[] { smallSquare1 , smallSquare2, smallSquare3, smallSquare4});
+       // _slotManagerScript.AddBed(largeSquare,new GameObject[] { smallSquare1 , smallSquare2, smallSquare3, smallSquare4});
 
     }
 

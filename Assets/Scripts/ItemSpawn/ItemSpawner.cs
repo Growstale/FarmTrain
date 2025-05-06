@@ -64,12 +64,17 @@ public class ItemSpawner : MonoBehaviour
 
             BedData bedData = dataToSpawn.associatedBedData;
 
-            // 1. Создаем копию префаба ЖИВОТНОГО
+            // 1. Создаем копию префаба грядки
             GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
 
             // 2. Устанавливаем масштаб
-           // bedData.transform.localScale = spawnScale;
+            // bedData.transform.localScale = spawnScale;
 
+            if (bedObject == null) {
+
+                Debug.Log("<<<<<<<< no obj");
+            
+            }
 
             // 3. ----- УСТАНОВКА РОДИТЕЛЯ (ВАГОНА) И ПОЛУЧЕНИЕ ЕГО TRANSFORM -----
             Transform parentWagon = null; // Переменная для хранения ссылки на вагон
@@ -89,7 +94,7 @@ public class ItemSpawner : MonoBehaviour
                     // Дополнительная проверка: убедимся, что родитель действительно установился
                     if (parentWagon == null)
                     {
-                        Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установился! Животное уничтожено.", bedObject);
+                        Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установился! Грядка уничтожено.", bedObject);
                         Destroy(bedObject);
                         return null;
                     }
@@ -97,7 +102,7 @@ public class ItemSpawner : MonoBehaviour
                 }
                 else // Если AssignParentWagonByPosition вернул false
                 {
-                    Debug.LogError($"Не удалось найти или назначить родительский вагон для грядка '{bedObject.name}' в позиции {spawnPosition}. Животное уничтожено.");
+                    Debug.LogError($"Не удалось найти или назначить родительский вагон для грядка '{bedObject.name}' в позиции {spawnPosition}. Грядка уничтожено.");
                     Destroy(bedObject);
                     return null;
                 }

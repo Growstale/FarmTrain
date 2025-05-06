@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BedsScripts : MonoBehaviour
+public class SlotScripts : MonoBehaviour
 {
     public bool isPlanted = false;
     Color currentColor;
@@ -15,14 +15,20 @@ public class BedsScripts : MonoBehaviour
 
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
 
+    [SerializeField] GameObject _itemSpawnManager;
 
+     ItemSpawner _itemSpawner;
     
 
     void Start()
     {
 
         inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
-
+        _itemSpawner = _itemSpawnManager.GetComponent<ItemSpawner>();
+        if(_itemSpawner == null)
+        {
+            Debug.Log("itemSpaner not found!");
+        }
 
         slot = transform.Find("Square");
         seed = transform.Find("Seed");
@@ -49,24 +55,32 @@ public class BedsScripts : MonoBehaviour
         // Проверяем, есть ли выбранный предмет и является ли он семенами
         if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Seed && !isPlanted)
         {
-          
-                seed.gameObject.SetActive(true);
+
+                _itemSpawner.SpawnItem(selectedItem.itemData, transform.position);
                 isPlanted = true;
                 InventoryManager.Instance.RemoveItem(selectedIndex);
         }
         else
         {
-            if (isPlanted) {
-
-                Debug.Log("Тут уже занято, куда??");
-            }
-            if(selectedItem.itemData.itemType != ItemType.Seed)
+            if (selectedItem != null)
             {
-                Debug.Log("Садить можно только семена ;)");
-            }
 
-            Debug.Log($"Не удалось посадить :(");
-            //interactionSuccessful = false; // Кормление НЕ успешно
+                if (isPlanted)
+                {
+
+                    Debug.Log("Тут уже занято, куда??");
+                }
+                if (selectedItem.itemData.itemType != ItemType.Seed)
+                {
+                    Debug.Log("Садить можно только семена ;)");
+                }
+
+                
+            }
+            else
+            {
+                Debug.Log($"Выбери предмет из инвентаря");
+            }
         }
     }
     public void ChangeColor()

@@ -208,7 +208,7 @@ public class TrainCameraController : MonoBehaviour
             // 3. явл€етс€ ли верхний объект √–яƒ ќ… (Bed)?
             if (topHitCollider.CompareTag("Bed"))
             {
-                BedsScripts bedsScripts = topHitCollider.GetComponent<BedsScripts>();
+                SlotScripts bedsScripts = topHitCollider.GetComponent<SlotScripts>();
                 if (bedsScripts != null)
                 {
                     Transform parentWagon = FindParentWagon(bedsScripts.transform);

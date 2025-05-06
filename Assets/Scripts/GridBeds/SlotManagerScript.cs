@@ -1,17 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BedsManagerScript : MonoBehaviour
+public class SlotManagerScript : MonoBehaviour
 {
     public Dictionary<GameObject, GameObject[]> bedsDictionary = new Dictionary<GameObject, GameObject[]>();
 
-
-
-
-    public void AddBed(GameObject slot,GameObject[] newbed)
+    public void AddBed(GameObject slot, GameObject[] newbed)
     {
 
-        bedsDictionary.Add(slot,newbed);
+        bedsDictionary.Add(slot, newbed);
 
     }
     public void ViewList()
@@ -19,16 +16,17 @@ public class BedsManagerScript : MonoBehaviour
         var arrayObjects = bedsDictionary.Values;
         foreach (var beds in arrayObjects)
         {
-            foreach (var item in beds) { 
-            
-                Debug.Log( ">> " + item.name);
+            foreach (var item in beds)
+            {
+
+                Debug.Log(">> " + item.name);
             }
         }
     }
 
     public void CheckFreeSlots()
     {
-        BedsScripts script;
+        SlotScripts script;
 
         foreach (var beds in bedsDictionary.Values)
         {
@@ -36,9 +34,10 @@ public class BedsManagerScript : MonoBehaviour
 
             if (beds != null)
             {
-                foreach (var item in beds) {
+                foreach (var item in beds)
+                {
 
-                    script = item.GetComponent<BedsScripts>();
+                    script = item.GetComponent<SlotScripts>();
                     if (script && !script.isPlanted)
                     {
                         script.ChangeColor();
@@ -50,14 +49,14 @@ public class BedsManagerScript : MonoBehaviour
                     }
 
                 }
-                
+
             }
 
         }
     }
     public void UnCheckFreeSlots()
     {
-        BedsScripts script;
+        SlotScripts script;
 
         foreach (var beds in bedsDictionary.Values)
         {
@@ -68,7 +67,7 @@ public class BedsManagerScript : MonoBehaviour
                 foreach (var item in beds)
                 {
 
-                    script = item.GetComponent<BedsScripts>();
+                    script = item.GetComponent<SlotScripts>();
                     if (script && !script.isPlanted)
                     {
                         script.UnChangeColor();
