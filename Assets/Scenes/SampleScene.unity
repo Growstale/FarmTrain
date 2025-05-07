@@ -551,7 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSpawner: {fileID: 1064586490}
   itemToSpawn: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
-  spawnPosition: {x: 0, y: 0, z: 0}
+  spawnPosition: {x: 5, y: 0, z: 0}
   spawnScale: {x: 1, y: 1, z: 1}
 --- !u!114 &168198591
 MonoBehaviour:

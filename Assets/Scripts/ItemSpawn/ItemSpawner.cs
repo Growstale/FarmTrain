@@ -59,64 +59,7 @@ public class ItemSpawner : MonoBehaviour
             Debug.LogWarning("Попытка заспавнить предмет с null ItemData.");
             return null;
         }
-        // --- ЭТО ГРЯДКА! ---
-        if (dataToSpawn.itemType == ItemType.Pot) {
-
-            BedData bedData = dataToSpawn.associatedBedData;
-
-            // 1. Создаем копию префаба грядки
-            GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
-
-            // 2. Устанавливаем масштаб
-            // bedData.transform.localScale = spawnScale;
-
-            if (bedObject == null) {
-
-                Debug.Log("<<<<<<<< no obj");
-            
-            }
-
-            // 3. ----- УСТАНОВКА РОДИТЕЛЯ (ВАГОНА) И ПОЛУЧЕНИЕ ЕГО TRANSFORM -----
-            Transform parentWagon = null; // Переменная для хранения ссылки на вагон
-            bool parentAssignedSuccessfully = false; // Флаг для отслеживания успеха
-
-            if (trainController != null)
-            {
-                // Вызываем метод. Он ВНУТРИ СЕБЯ устанавливает родителя, если находит вагон.
-                // Метод возвращает true, если установка прошла успешно, иначе false.
-                parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(bedObject.transform, spawnPosition);
-
-                if (parentAssignedSuccessfully)
-                {
-                    // Если родитель успешно назначен, ПОЛУЧАЕМ ссылку на него из объекта
-                    parentWagon = bedObject.transform.parent;
-
-                    // Дополнительная проверка: убедимся, что родитель действительно установился
-                    if (parentWagon == null)
-                    {
-                        Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установился! Грядка уничтожено.", bedObject);
-                        Destroy(bedObject);
-                        return null;
-                    }
-                    // Debug.Log($"Животное {animalObject.name} успешно привязано к вагону {parentWagon.name}");
-                }
-                else // Если AssignParentWagonByPosition вернул false
-                {
-                    Debug.LogError($"Не удалось найти или назначить родительский вагон для грядка '{bedObject.name}' в позиции {spawnPosition}. Грядка уничтожено.");
-                    Destroy(bedObject);
-                    return null;
-                }
-            }
-            else
-            {
-                // trainController не назначен, мы уже выдали ошибку в Start, но дублируем здесь для надежности
-                Debug.LogWarning("TrainController не назначен в ItemSpawner. Невозможно определить вагон для грядки. Грядка уничтожена.");
-                Destroy(bedObject);
-                return null;
-            }
-            return bedObject;
-
-        }
+       
 
         if (dataToSpawn.itemType == ItemType.Animal && dataToSpawn.associatedAnimalData != null)
         {

@@ -6,12 +6,10 @@ using UnityEngine;
 public class SlotScripts : MonoBehaviour
 {
     public bool isPlanted = false;
+    bool ishavebed = false; // есть ли грядка 
     Color currentColor;
     SpriteRenderer spriteRenderer;
     Transform slot;
-
-    Transform seed;
-
 
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
 
@@ -31,7 +29,6 @@ public class SlotScripts : MonoBehaviour
         }
 
         slot = transform.Find("Square");
-        seed = transform.Find("Seed");
         spriteRenderer = slot.GetComponent<SpriteRenderer>();
         currentColor = spriteRenderer.color;
         if (slot == null)
@@ -53,7 +50,7 @@ public class SlotScripts : MonoBehaviour
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
 
         // Проверяем, есть ли выбранный предмет и является ли он семенами
-        if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Seed && !isPlanted)
+        if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Pot && !isPlanted)
         {
 
                 _itemSpawner.SpawnItem(selectedItem.itemData, transform.position);
@@ -70,12 +67,43 @@ public class SlotScripts : MonoBehaviour
 
                     Debug.Log("Тут уже занято, куда??");
                 }
-                if (selectedItem.itemData.itemType != ItemType.Seed)
+                if (selectedItem.itemData.itemType != ItemType.Pot)
                 {
-                    Debug.Log("Садить можно только семена ;)");
+                    Debug.Log("Сначала нужна земелька ;)");
                 }
 
                 
+            }
+            else
+            {
+                Debug.Log($"Выбери предмет из инвентаря");
+            }
+        }
+
+
+        if(selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Seed && !ishavebed && isPlanted)
+        {
+            _itemSpawner.SpawnItem(selectedItem.itemData, transform.position);
+            ishavebed = true;
+            InventoryManager.Instance.RemoveItem(selectedIndex);
+        }
+        else
+        {
+            if (selectedItem != null)
+            {
+
+                if (ishavebed)
+                {
+
+                    Debug.Log("Тут уже занято, куда??");
+                }
+                if (selectedItem.itemData.itemType != ItemType.Seed)
+                {
+                    Debug.Log("Тут только семена ;)");
+                }
+               
+
+
             }
             else
             {
