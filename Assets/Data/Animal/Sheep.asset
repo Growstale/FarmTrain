@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speciesName: Sheep
   animalPrefab: {fileID: 6831710792727493270, guid: 12814e20431ae9640b240afbcb60b003, type: 3}
+  correspondingItemData: {fileID: 11400000, guid: 97895cbbaa33cfc4a88f36338e0360ce, type: 2}
   defaultSprite: {fileID: -7169504175864966832, guid: b85795733eaa79e498687e754079cebd, type: 3}
   productReadySprite: {fileID: -8636221404721523813, guid: c93247d695a4bc347a6fb41a4fb8a76d, type: 3}
   requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}

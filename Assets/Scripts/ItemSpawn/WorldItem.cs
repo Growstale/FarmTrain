@@ -2,7 +2,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
-
 public class WorldItem : MonoBehaviour
 {
     public ItemData itemData;
@@ -24,7 +23,7 @@ public class WorldItem : MonoBehaviour
         if (itemData != null)
         {
             spriteRenderer.sprite = itemData.itemIcon;
-            gameObject.name = $"{itemData.itemName}"; 
+            gameObject.name = $"{itemData.itemName}";
 
             UpdateCollider();
         }
@@ -36,7 +35,6 @@ public class WorldItem : MonoBehaviour
         }
     }
 
-    // ћетод дл€ обновлени€ коллайдера под размер спрайта
     private void UpdateCollider()
     {
         if (itemCollider == null || spriteRenderer == null || spriteRenderer.sprite == null)
@@ -48,13 +46,11 @@ public class WorldItem : MonoBehaviour
         BoxCollider2D boxCollider = itemCollider as BoxCollider2D;
         if (boxCollider != null)
         {
-            // ”станавливаем размер и смещение коллайдера равными границам спрайта
             boxCollider.size = spriteRenderer.sprite.bounds.size;
             boxCollider.offset = spriteRenderer.sprite.bounds.center;
         }
         else
         {
-            // ≈сли это не BoxCollider2D, добавить логику дл€ других типов (мб потом)
             Debug.LogWarning($" оллайдер на {gameObject.name} не €вл€етс€ BoxCollider2D. јвтоматическое изменение размера не поддерживаетс€ дл€ типа {itemCollider.GetType()}.");
         }
     }

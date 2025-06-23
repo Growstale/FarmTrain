@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speciesName: Cow
   animalPrefab: {fileID: 6193734015065537699, guid: 71c49aea95914be46b6aed0376290386, type: 3}
+  correspondingItemData: {fileID: 11400000, guid: 951dcf08067b23443a44d474ead9bdb8, type: 2}
   defaultSprite: {fileID: 6168083732550661486, guid: f2ae7b565746eb7408cf003d86d7831b, type: 3}
   productReadySprite: {fileID: 0}
   requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}

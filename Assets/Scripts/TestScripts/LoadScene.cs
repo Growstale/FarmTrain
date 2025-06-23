@@ -9,6 +9,6 @@ public class LoadScene : MonoBehaviour
     {
 
         Debug.Log("Загружаем сцену: " + sceneToLoad);
-        SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Additive);
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
