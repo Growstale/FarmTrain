@@ -6,6 +6,9 @@ public class AnimalData : ScriptableObject
     public string speciesName = "New Animal";
     public GameObject animalPrefab; // Префаб животного с его моделью/спрайтом и базовым скриптом
 
+    [Tooltip("Ссылка на ItemData, представляющий это животное в магазинах и инвентаре")]
+    public ItemData correspondingItemData;
+
     [Header("Appearance")]
     [Tooltip("Основной спрайт животного")]
     public Sprite defaultSprite;

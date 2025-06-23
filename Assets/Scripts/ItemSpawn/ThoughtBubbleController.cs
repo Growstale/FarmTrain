@@ -10,16 +10,15 @@ public class ThoughtBubbleController : MonoBehaviour
         {
             Debug.LogError("Icon Renderer не найден или не назначен в ThoughtBubbleController!", gameObject);
         }
-        Hide(); // Скрываем по умолчанию
+        Hide();
     }
 
-    // Показывает облачко с указанной иконкой
     public void Show(Sprite iconToShow)
     {
         if (iconRenderer != null)
         {
             iconRenderer.sprite = iconToShow;
-            gameObject.SetActive(true); // Делаем весь объект видимым
+            gameObject.SetActive(true);
         }
         else
         {
@@ -27,13 +26,12 @@ public class ThoughtBubbleController : MonoBehaviour
         }
     }
 
-    // Скрывает облачко
     public void Hide()
     {
-        gameObject.SetActive(false); // Делаем весь объект невидимым
+        gameObject.SetActive(false);
         if (iconRenderer != null)
         {
-            iconRenderer.sprite = null; // Убираем иконку на всякий случай
+            iconRenderer.sprite = null;
         }
     }
 }

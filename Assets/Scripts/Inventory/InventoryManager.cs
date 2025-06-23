@@ -1,44 +1,38 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System; 
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager Instance { get; private set; } // Singleton
+    public static InventoryManager Instance { get; private set; }
 
     [Header("Inventory Data")]
     [SerializeField] private int hotbarSize = 7;
     [SerializeField] private int maxMainInventoryRows = 3;
     [SerializeField] private int columns = 7;
-    private int currentMainInventoryRows = 3; // Текущее количество строк склада
-    private List<InventoryItem> inventoryItems; // Единый список для всех слотов
+    private int currentMainInventoryRows = 3;
+    private List<InventoryItem> inventoryItems;
 
     [Header("UI References")]
-    [SerializeField] private GameObject hotbarPanel; // Панель хотбара
-    [SerializeField] private GameObject mainInventoryPanel; // Панель склада
-    [SerializeField] private GameObject slotPrefab; // Префаб слота UI
-    [SerializeField] private Button inventoryToggleButton; // Кнопка для открытия/закрытия склада
+    [SerializeField] private GameObject hotbarPanel;
+    [SerializeField] private GameObject mainInventoryPanel;
+    [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private Button inventoryToggleButton;
     [SerializeField] private GameObject inventoryBackgroundPanel;
-    
+
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
 
-
-
-
-
     [Header("BedManager")]
-    [SerializeField] GameObject BedManager; // для управления с подсвечиванием слотов
-    public int SelectedSlotIndex => selectedSlotIndex; // Публичное свойство для чтения
+    [SerializeField] GameObject BedManager;
+    public int SelectedSlotIndex => selectedSlotIndex;
 
     private List<InventorySlotUI> hotbarSlotsUI = new List<InventorySlotUI>();
     private List<InventorySlotUI> mainInventorySlotsUI = new List<InventorySlotUI>();
 
     public event Action OnInventoryChanged;
     public event Action<int> OnSelectedSlotChanged;
-
-    #region Initialization
 
     private void Awake()
     {
@@ -48,7 +42,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
-        // DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
 
         InitializeInventory();
     }
@@ -57,18 +51,18 @@ public class InventoryManager : MonoBehaviour
     {
         CreateSlotsUI();
         SetupToggleButton();
-        UpdateAllSlotsUI(); 
+        UpdateAllSlotsUI();
         SelectSlot(selectedSlotIndex);
         UpdateMainInventoryUIVisibility();
     }
 
     private void InitializeInventory()
     {
-        int totalSlots = hotbarSize + (maxMainInventoryRows * columns); // ?
+        int totalSlots = hotbarSize + (maxMainInventoryRows * columns);
         inventoryItems = new List<InventoryItem>(totalSlots);
         for (int i = 0; i < totalSlots; i++)
         {
-            inventoryItems.Add(null); // Заполняем null или new InventoryItem(null, 0)
+            inventoryItems.Add(null);
         }
     }
 
@@ -87,7 +81,7 @@ public class InventoryManager : MonoBehaviour
             else
             {
                 Debug.LogError($"Slot Prefab '{slotPrefab.name}' is missing InventorySlotUI script!");
-                return; 
+                return;
             }
         }
 
@@ -122,10 +116,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Input Handling
-
     private void Update()
     {
         HandleHotbarInput();
@@ -133,10 +123,9 @@ public class InventoryManager : MonoBehaviour
 
     private void HandleHotbarInput()
     {
-        // Выбор слота хотбара клавишами 1-7
         for (int i = 0; i < hotbarSize; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i)) 
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 SelectSlot(i);
                 break;
@@ -157,20 +146,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Inventory Management (Add, Remove, Find)
-
     public bool AddItem(ItemData itemToAdd, int quantity = 1)
     {
         if (itemToAdd == null || quantity <= 0) return false;
 
-        // 1. Поиск существующего стака
         if (itemToAdd.isStackable)
         {
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                // Пропускаем неактивные слоты основного инвентаря
                 if (!IsSlotActive(i)) continue;
 
                 InventoryItem currentItem = inventoryItems[i];
@@ -181,15 +164,14 @@ public class InventoryManager : MonoBehaviour
                     {
                         currentItem.AddQuantity(quantity);
                         UpdateSlotUI(i);
-                        OnInventoryChanged?.Invoke(); // Уведомляем об изменении
-                        return true; 
+                        OnInventoryChanged?.Invoke();
+                        return true;
                     }
                     else if (spaceAvailable > 0)
                     {
                         currentItem.AddQuantity(spaceAvailable);
                         UpdateSlotUI(i);
-                        quantity -= spaceAvailable; 
-                        // Продолжаем поиск для остатка
+                        quantity -= spaceAvailable;
                     }
                 }
                 if (quantity <= 0)
@@ -200,14 +182,13 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        // 2. Поиск пустого слота
         int firstEmptySlot = FindFirstEmptySlot();
         if (firstEmptySlot != -1)
         {
             inventoryItems[firstEmptySlot] = new InventoryItem(itemToAdd, quantity);
             UpdateSlotUI(firstEmptySlot);
             OnInventoryChanged?.Invoke();
-            return true; 
+            return true;
         }
 
         Debug.Log("Inventory is full!");
@@ -230,7 +211,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (index < 0 || index >= inventoryItems.Count || inventoryItems[index] == null || inventoryItems[index].IsEmpty)
         {
-            return; 
+            return;
         }
 
         inventoryItems[index].RemoveQuantity(quantity);
@@ -255,14 +236,8 @@ public class InventoryManager : MonoBehaviour
         return GetItemInSlot(selectedSlotIndex);
     }
 
-
-    #endregion
-
-    #region UI Update & Selection
-
     public void UpdateAllSlotsUI()
     {
-        // Хотбар
         for (int i = 0; i < hotbarSize; i++)
         {
             UpdateSlotUI(i);
@@ -296,19 +271,16 @@ public class InventoryManager : MonoBehaviour
         return null;
     }
 
-
     public void SelectSlot(int index)
     {
         if (index < 0 || index >= hotbarSize) return;
 
-        // Снять выделение с предыдущего слота
         InventorySlotUI previousSlotUI = GetSlotUIByIndex(selectedSlotIndex);
         if (previousSlotUI != null)
         {
             previousSlotUI.SetHighlight(false);
         }
 
-        // Выделить новый слот
         selectedSlotIndex = index;
         InventorySlotUI currentSlotUI = GetSlotUIByIndex(selectedSlotIndex);
         if (currentSlotUI != null)
@@ -317,37 +289,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         Debug.Log($"Selected hotbar slot: {selectedSlotIndex}");
-        OnSelectedSlotChanged?.Invoke(selectedSlotIndex); 
-
-
-        // Выделение свободных слотов для посадки (тестовое не уверен что норм)
-
-        //InventoryItem selected = GetSelectedItem();
-        //if(selected.itemData.itemType == ItemType.Seed)
-        //{
-        //    BedsManagerScript bedsManagerScript = BedManager.GetComponent<BedsManagerScript>();
-        //    if (bedsManagerScript != null) { 
-        //        bedsManagerScript.CheckFreeSlots();
-        //    }
-        //}
-        //else
-        //{
-        //    BedsManagerScript bedsManagerScript = BedManager.GetComponent<BedsManagerScript>();
-        //    if (bedsManagerScript != null)
-        //    {
-        //        bedsManagerScript.UnCheckFreeSlots();
-        //    }
-        //}
-
+        OnSelectedSlotChanged?.Invoke(selectedSlotIndex);
     }
-
-    #endregion
-
-    #region Main Inventory Expansion
 
     public bool IsMainInventoryPanelActive()
     {
-        // Добавляем проверку на null на случай, если панель не назначена
         return mainInventoryPanel != null && mainInventoryPanel.activeSelf;
     }
 
@@ -356,9 +302,9 @@ public class InventoryManager : MonoBehaviour
         bool isActive = !mainInventoryPanel.activeSelf;
         mainInventoryPanel.SetActive(isActive);
 
-        if (inventoryBackgroundPanel != null) // Проверяем, назначена ли ссылка на фон
+        if (inventoryBackgroundPanel != null)
         {
-            inventoryBackgroundPanel.SetActive(isActive); // Устанавливаем то же состояние активности
+            inventoryBackgroundPanel.SetActive(isActive);
         }
         else
         {
@@ -371,14 +317,13 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Устанавливает количество видимых строк основного инвентаря
     public void SetMainInventorySize(int numberOfRows)
     {
         currentMainInventoryRows = Mathf.Clamp(numberOfRows, 1, maxMainInventoryRows);
         Debug.Log($"Main inventory size set to {currentMainInventoryRows} rows.");
         UpdateMainInventoryUIVisibility();
-        ClearInactiveSlots(); // очистка предмета в неактивных слотах
-        OnInventoryChanged?.Invoke(); 
+        ClearInactiveSlots();
+        OnInventoryChanged?.Invoke();
     }
 
     private void UpdateMainInventoryUIVisibility()
@@ -401,24 +346,21 @@ public class InventoryManager : MonoBehaviour
                 UpdateSlotUI(hotbarSize + i);
             }
         }
-
     }
 
-    // Проверяет, активен ли слот (в хотбаре или в видимой части склада)
     private bool IsSlotActive(int index)
     {
         if (index >= 0 && index < hotbarSize)
         {
-            return true; // Слоты хотбара всегда активны
+            return true;
         }
         else if (index >= hotbarSize && index < hotbarSize + (currentMainInventoryRows * columns))
         {
-            return true; // Слот в видимой части основного инвентаря
+            return true;
         }
-        return false; // Слот за пределами видимой части
+        return false;
     }
 
-    // Очищает данные в слотах, которые стали неактивными
     private void ClearInactiveSlots()
     {
         for (int i = 0; i < inventoryItems.Count; i++)
@@ -431,46 +373,32 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-
-    #endregion
-
-    #region Drag & Drop Logic
-
-    // Метод для перемещения/обмена предметов между слотами
     public void MoveItem(int fromIndex, int toIndex)
     {
-        // Проверки на корректность индексов
         if (fromIndex < 0 || fromIndex >= inventoryItems.Count ||
             toIndex < 0 || toIndex >= inventoryItems.Count ||
-            fromIndex == toIndex) // Нельзя переместить в тот же слот
+            fromIndex == toIndex)
         {
             Debug.LogWarning($"Invalid move operation: from {fromIndex} to {toIndex}");
-            // Нужно обновить UI исходного слота, так как OnDrop мог не вернуть иконку
             UpdateSlotUI(fromIndex);
             return;
         }
 
-        // Проверяем, активны ли оба слота
         if (!IsSlotActive(fromIndex) || !IsSlotActive(toIndex))
         {
             Debug.LogWarning($"Cannot move item: one or both slots are inactive (from: {IsSlotActive(fromIndex)}, to: {IsSlotActive(toIndex)})");
-            UpdateSlotUI(fromIndex); // Восстановить вид исходного слота
+            UpdateSlotUI(fromIndex);
             return;
         }
 
-        // Получаем предметы из слотов
         InventoryItem itemFrom = inventoryItems[fromIndex];
         InventoryItem itemTo = inventoryItems[toIndex];
 
         Debug.Log($"Attempting to move item from {fromIndex} ({itemFrom?.itemData?.itemName ?? "Empty"}) to {toIndex} ({itemTo?.itemData?.itemName ?? "Empty"})");
 
-        // --- Логика обмена/слияния ---
-
-        // Случай 1: Оба слота содержат одинаковые стакающиеся предметы
         if (itemFrom != null && !itemFrom.IsEmpty && itemTo != null && !itemTo.IsEmpty &&
             itemFrom.itemData == itemTo.itemData && itemFrom.itemData.isStackable)
         {
-            // Пытаемся слить стаки
             int spaceInTarget = itemTo.itemData.maxStackSize - itemTo.quantity;
             if (spaceInTarget > 0)
             {
@@ -478,7 +406,6 @@ public class InventoryManager : MonoBehaviour
                 itemTo.AddQuantity(amountToMove);
                 itemFrom.RemoveQuantity(amountToMove);
 
-                // Если исходный стак опустел, очищаем его
                 if (itemFrom.quantity <= 0)
                 {
                     inventoryItems[fromIndex] = null;
@@ -488,26 +415,118 @@ public class InventoryManager : MonoBehaviour
             else
             {
                 Debug.Log("Merge failed: Target stack is full. Swapping instead.");
-                // Если места нет, просто меняем местами
                 inventoryItems[toIndex] = itemFrom;
-                inventoryItems[fromIndex] = itemTo; // itemTo не может быть null здесь
+                inventoryItems[fromIndex] = itemTo;
             }
         }
-        else // Случай 2: Простой обмен (или перемещение в пустой слот)
+        else
         {
             inventoryItems[toIndex] = itemFrom;
-            inventoryItems[fromIndex] = itemTo; // itemTo может быть null (если toIndex был пуст)
+            inventoryItems[fromIndex] = itemTo;
             Debug.Log("Swapped items between slots.");
         }
 
-        // Обновляем UI обоих затронутых слотов
         UpdateSlotUI(fromIndex);
         UpdateSlotUI(toIndex);
 
-        // Вызываем событие изменения инвентаря
         OnInventoryChanged?.Invoke();
     }
 
-    #endregion // Drag & Drop Logic
+    public void RemoveItemByType(ItemData itemToRemove, int quantityToRemove)
+    {
+        if (itemToRemove == null || quantityToRemove <= 0) return;
 
+        int quantityLeftToRemove = quantityToRemove;
+
+        for (int i = inventoryItems.Count - 1; i >= 0; i--)
+        {
+            if (!IsSlotActive(i)) continue;
+
+            InventoryItem currentItem = inventoryItems[i];
+            if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData == itemToRemove)
+            {
+                if (currentItem.quantity > quantityLeftToRemove)
+                {
+                    currentItem.RemoveQuantity(quantityLeftToRemove);
+                    quantityLeftToRemove = 0;
+                    UpdateSlotUI(i);
+                    break;
+                }
+                else
+                {
+                    quantityLeftToRemove -= currentItem.quantity;
+                    inventoryItems[i] = null;
+                    UpdateSlotUI(i);
+                }
+            }
+
+            if (quantityLeftToRemove <= 0)
+            {
+                break;
+            }
+        }
+
+        if (quantityLeftToRemove > 0)
+        {
+            Debug.LogWarning($"Could not remove all items. {quantityLeftToRemove} of {itemToRemove.itemName} remained.");
+        }
+
+        OnInventoryChanged?.Invoke();
+    }
+
+    public int GetTotalItemQuantity(ItemData itemToCount)
+    {
+        int totalQuantity = 0;
+        if (itemToCount == null) return 0;
+
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (IsSlotActive(i))
+            {
+                InventoryItem currentItem = inventoryItems[i];
+                if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData == itemToCount)
+                {
+                    totalQuantity += currentItem.quantity;
+                }
+            }
+        }
+        return totalQuantity;
+    }
+
+    public bool CheckForSpace(ItemData itemToAdd, int quantity)
+    {
+        if (itemToAdd == null || quantity <= 0) return false;
+
+        int quantityLeftToPlace = quantity;
+
+        if (itemToAdd.isStackable)
+        {
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                if (!IsSlotActive(i)) continue;
+
+                InventoryItem currentItem = inventoryItems[i];
+                if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData == itemToAdd)
+                {
+                    int spaceAvailable = itemToAdd.maxStackSize - currentItem.quantity;
+                    quantityLeftToPlace -= spaceAvailable;
+
+                    if (quantityLeftToPlace <= 0) return true;
+                }
+            }
+        }
+
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (!IsSlotActive(i)) continue;
+
+            if (inventoryItems[i] == null || inventoryItems[i].IsEmpty)
+            {
+                quantityLeftToPlace -= itemToAdd.maxStackSize;
+                if (quantityLeftToPlace <= 0) return true;
+            }
+        }
+
+        return false;
+    }
 }
