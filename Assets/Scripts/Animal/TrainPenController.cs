@@ -47,22 +47,27 @@ public class TrainPenController : MonoBehaviour
     private void SpawnAnimalsFromData()
     {
         Debug.Log("TrainPenController: Начинаю спавн животных по данным из AnimalPenManager...");
-        var allAnimalCounts = AnimalPenManager.Instance.GetAllAnimalCounts();
 
         foreach (var penConfig in penConfigurations)
         {
-            if (allAnimalCounts.TryGetValue(penConfig.animalData, out int countToSpawn) && countToSpawn > 0)
+            // Получаем не просто количество, а список состояний!
+            List<AnimalStateData> statesToSpawn = AnimalPenManager.Instance.GetStatesForAnimalType(penConfig.animalData);
+
+            if (statesToSpawn.Count > 0)
             {
-                Debug.Log($"Найдены данные для {penConfig.animalData.speciesName}. Нужно заспавнить: {countToSpawn}");
-                for (int i = 0; i < countToSpawn; i++)
+                Debug.Log($"Найдены данные для {penConfig.animalData.speciesName}. Нужно заспавнить: {statesToSpawn.Count}");
+
+                // Проходим по каждому сохраненному состоянию и создаем под него животное
+                foreach (var animalState in statesToSpawn)
                 {
-                    SpawnSingleAnimal(penConfig);
+                    SpawnSingleAnimal(penConfig, animalState); // Передаем состояние в метод спавна
                 }
             }
         }
     }
 
-    private void SpawnSingleAnimal(PenInfo penConfig)
+
+    private void SpawnSingleAnimal(PenInfo penConfig, AnimalStateData stateToLoad)
     {
         var animalData = penConfig.animalData;
 
@@ -72,7 +77,27 @@ public class TrainPenController : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPos = GetRandomSpawnPosition(penConfig.placementArea.bounds);
+        Debug.Log($"<color=lightblue>[TrainPenController]</color> Получаю состояние для {stateToLoad.animalData.speciesName}. " +
+            $"Проверяю старую позицию {stateToLoad.lastPosition}" +
+          $"Проверяю флаг hasBeenPlaced. Его значение: <color=yellow>{stateToLoad.hasBeenPlaced}</color>");
+
+        Vector3 spawnPos;
+
+        if (stateToLoad.hasBeenPlaced)
+        {
+            // Если у животного есть сохраненная позиция, используем ее
+            spawnPos = stateToLoad.lastPosition;
+            Debug.Log($"<color=lightblue>[TrainPenController]</color> Восстанавливаю {animalData.speciesName} на сохраненной позиции {spawnPos}");
+        }
+        else
+        {
+            // Если это новое животное, генерируем случайную позицию
+            spawnPos = GetRandomSpawnPosition(penConfig.placementArea.bounds);
+            Debug.Log($"<color=lightblue>[TrainPenController]</color> Спавню нового {animalData.speciesName} на случайной позиции {spawnPos}");
+        }
+
+        Debug.Log($"Перепроверяем позицию перед спавном {spawnPos}");
+
 
         GameObject animalGO = itemSpawner.SpawnItem(animalData.correspondingItemData, spawnPos);
 
@@ -83,7 +108,7 @@ public class TrainPenController : MonoBehaviour
             AnimalController newAnimal = animalGO.GetComponent<AnimalController>();
             if (newAnimal != null)
             {
-                newAnimal.InitializeMovementBounds(penConfig.placementArea.bounds);
+                newAnimal.InitializeWithState(stateToLoad, penConfig.placementArea.bounds);
                 spawnedAnimals.Add(newAnimal);
             }
             else

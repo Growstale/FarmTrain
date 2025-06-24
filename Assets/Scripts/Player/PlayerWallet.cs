@@ -7,6 +7,7 @@ public class PlayerWallet : MonoBehaviour
     public static PlayerWallet Instance { get; private set; }
 
     [SerializeField] private int startingMoney = 500;
+    [SerializeField] private int maxMoney = 999999999;
 
     private int currentMoney;
 
@@ -40,7 +41,10 @@ public class PlayerWallet : MonoBehaviour
     public void AddMoney(int amount)
     {
         if (amount < 0) return;
+
         currentMoney += amount;
+        currentMoney = Mathf.Min(currentMoney, maxMoney);
+
         OnMoneyChanged?.Invoke(currentMoney);
         Debug.Log($"Добавлено {amount} денег. Всего: {currentMoney}");
     }

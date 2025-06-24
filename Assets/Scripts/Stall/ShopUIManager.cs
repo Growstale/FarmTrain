@@ -215,17 +215,11 @@ public class ShopUIManager : MonoBehaviour
 
                 PlayerWallet.Instance.SpendMoney(totalPrice);
                 ShopDataManager.Instance.DecreaseStock(currentShopData, itemData, transactionQuantity);
-                AnimalPenManager.Instance.AddAnimal(itemData.associatedAnimalData, transactionQuantity);
-                if (TrainPenController.Instance != null)
+                for (int i = 0; i < transactionQuantity; i++)
                 {
-                    // Тут можно было бы сделать умнее и спавнить сразу N, но для простоты так
-                    for (int i = 0; i < transactionQuantity; i++)
-                    {
-                        // Нужно передавать конфиг загона, а не просто спавнить
-                        // Это усложняет. Проще всего будет просто перезагрузить сцену или вагон.
-                        // САМОЕ ПРОСТОЕ: ничего не делать. Животное появится при следующем посещении вагона.
-                    }
+                    AnimalPenManager.Instance.AddAnimal(itemData.associatedAnimalData);
                 }
+                
             }
             else 
             {
@@ -245,7 +239,10 @@ public class ShopUIManager : MonoBehaviour
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);
-                AnimalPenManager.Instance.SellAnimal(itemData.associatedAnimalData, transactionQuantity);
+                for (int i = 0; i < transactionQuantity; i++)
+                {
+                    AnimalPenManager.Instance.SellAnimal(itemData.associatedAnimalData);
+                }
             }
         }
         else

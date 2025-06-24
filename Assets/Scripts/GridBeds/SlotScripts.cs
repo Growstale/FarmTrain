@@ -37,7 +37,7 @@ public class SlotScripts : MonoBehaviour
         }
         else
         {
-            Debug.Log("<< find");
+            // Debug.Log("<< find"); закоментила так как спамило всю консоль
         }
       
     }

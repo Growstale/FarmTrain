@@ -74,14 +74,8 @@ public class TrainCameraController : MonoBehaviour
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scroll < 0f && !isOverview)
-        {
-            EnterOverviewMode();
-        }
-        else if (scroll > 0f && isOverview)
-        {
-            ExitOverviewMode(lastWagonIndex);
-        }
+        if (scroll < 0f && !isOverview) EnterOverviewMode();
+        else if (scroll > 0f && isOverview) ExitOverviewMode(lastWagonIndex);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -91,160 +85,174 @@ public class TrainCameraController : MonoBehaviour
         HandlePanning();
     }
 
+    // ===================================================================
+    // НОВАЯ, УЛУЧШЕННАЯ ЛОГИКА ОБРАБОТКИ КЛИКОВ
+    // ===================================================================
+
+    // ЗАМЕНИТЕ ВАШ СТАРЫЙ HandleLeftClick НА ЭТОТ
+
     void HandleLeftClick()
     {
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
+        RaycastHit2D[] allHits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
-        if (hits.Length == 0) return;
+        if (allHits.Length == 0) return;
 
-        System.Array.Sort(hits, (hit1, hit2) =>
+        if (isOverview)
         {
-            SpriteRenderer r1 = hit1.collider.GetComponentInParent<SpriteRenderer>();
-            SpriteRenderer r2 = hit2.collider.GetComponentInParent<SpriteRenderer>();
-            if (r1 == null && r2 == null) return 0;
-            if (r1 == null) return 1;
-            if (r2 == null) return -1;
-            if (r1.sortingLayerID != r2.sortingLayerID) return r2.sortingLayerID.CompareTo(r1.sortingLayerID);
-            if (r1.sortingOrder != r2.sortingOrder) return r2.sortingOrder.CompareTo(r1.sortingOrder);
-            return 0;
-        });
-
-        RaycastHit2D topHit = hits[0];
-        Transform topHitTransform = topHit.transform;
-        Collider2D topHitCollider = topHit.collider;
-
-        if (!isOverview)
-        {
-            ItemPickup clickedItem = topHitCollider.GetComponent<ItemPickup>();
-            if (clickedItem != null)
+            // В режиме обзора ищем ТОЛЬКО вагоны (эта часть работает правильно)
+            foreach (var hit in allHits)
             {
-                Transform parentWagon = FindParentWagon(clickedItem.transform);
-                if (parentWagon != null)
+                if (hit.collider.CompareTag("Wagon"))
                 {
-                    int itemWagonIndex = wagons.IndexOf(parentWagon);
-                    if (itemWagonIndex == currentWagonIndex)
+                    int clickedWagonIndex = wagons.IndexOf(hit.transform);
+                    if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
                     {
-                        clickedItem.AttemptPickup();
-                        Debug.Log($"Attempting pickup on {clickedItem.name} in current wagon {currentWagonIndex}");
-                        return;
-                    }
-                    else if (itemWagonIndex > 0 && itemWagonIndex < wagons.Count && Mathf.Abs(itemWagonIndex - currentWagonIndex) == 1)
-                    {
-                        Debug.Log($"Clicked item {clickedItem.name} in adjacent wagon {itemWagonIndex}. Moving camera.");
-                        MoveToWagon(itemWagonIndex);
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log($"Clicked item {clickedItem.name} in non-adjacent wagon {itemWagonIndex}. Ignoring.");
+                        Debug.Log($"<color=cyan>[Overview Click]</color> Клик по вагону {clickedWagonIndex}. Приближаемся.");
+                        ExitOverviewMode(clickedWagonIndex);
                         return;
                     }
                 }
-                else { return; }
             }
-
-            AnimalController clickedAnimal = topHitCollider.GetComponent<AnimalController>();
-            if (clickedAnimal != null)
-            {
-                Transform parentWagon = FindParentWagon(clickedAnimal.transform);
-                if (parentWagon != null)
-                {
-                    int animalWagonIndex = wagons.IndexOf(parentWagon);
-                    if (animalWagonIndex == currentWagonIndex)
-                    {
-                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in current wagon {currentWagonIndex}. State: {clickedAnimal.GetCurrentStateName()}");
-                        if (clickedAnimal.GetCurrentStateName() == "NeedsAttention")
-                        {
-                            clickedAnimal.AttemptInteraction();
-                        }
-                        return;
-                    }
-                    else if (animalWagonIndex > 0 && animalWagonIndex < wagons.Count && Mathf.Abs(animalWagonIndex - currentWagonIndex) == 1)
-                    {
-                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in adjacent wagon {animalWagonIndex}. Moving camera.");
-                        MoveToWagon(animalWagonIndex);
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in non-adjacent wagon {animalWagonIndex}. Ignoring.");
-                        return;
-                    }
-                }
-                else { return; }
-            }
-
-            if (topHitCollider.CompareTag("Bed"))
-            {
-                SlotScripts bedsScripts = topHitCollider.GetComponent<SlotScripts>();
-                if (bedsScripts != null)
-                {
-                    Transform parentWagon = FindParentWagon(bedsScripts.transform);
-                    if (parentWagon != null)
-                    {
-                        int bedWagonIndex = wagons.IndexOf(parentWagon);
-                        if (bedWagonIndex == currentWagonIndex)
-                        {
-                            Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
-                            bedsScripts.PlantSeeds();
-                            return;
-                        }
-                        else if (bedWagonIndex > 0 && bedWagonIndex < wagons.Count && Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
-                        {
-                            Debug.Log($"Clicked bed in adjacent wagon {bedWagonIndex}. Moving camera.");
-                            MoveToWagon(bedWagonIndex);
-                            return;
-                        }
-                        else
-                        {
-                            Debug.Log($"Clicked bed in non-adjacent wagon {bedWagonIndex}. Ignoring.");
-                            return;
-                        }
-                    }
-                    else { return; }
-                }
-                else { return; }
-            }
-
-            Transform clickedObjectParentWagon = FindParentWagon(topHitTransform);
-            if (clickedObjectParentWagon != null)
-            {
-                int clickedObjectWagonIndex = wagons.IndexOf(clickedObjectParentWagon);
-
-                if (clickedObjectWagonIndex > 0 && clickedObjectWagonIndex < wagons.Count && Mathf.Abs(clickedObjectWagonIndex - currentWagonIndex) == 1)
-                {
-                    Debug.Log($"Clicked on non-interactive object '{topHitCollider.name}' belonging to adjacent wagon {clickedObjectWagonIndex}. Moving camera.");
-                    MoveToWagon(clickedObjectWagonIndex);
-                    return;
-                }
-            }
-
-            if (topHitCollider.CompareTag("Wagon"))
-            {
-                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
-                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count && Mathf.Abs(clickedWagonIndex - currentWagonIndex) == 1)
-                {
-                    Debug.Log($"Clicked directly on adjacent wagon {clickedWagonIndex}. Moving camera.");
-                    MoveToWagon(clickedWagonIndex);
-                    return;
-                }
-            }
+            Debug.Log("[Overview Click] Клик был, но не по вагону.");
         }
         else
         {
-            if (topHitCollider.CompareTag("Wagon"))
+            // В режиме фокуса ищем самый верхний интерактивный объект
+            System.Array.Sort(allHits, (hit1, hit2) => {
+                SpriteRenderer r1 = hit1.collider.GetComponentInParent<SpriteRenderer>();
+                SpriteRenderer r2 = hit2.collider.GetComponentInParent<SpriteRenderer>();
+                if (r1 == null && r2 == null) return 0;
+                if (r1 == null) return 1;
+                if (r2 == null) return -1;
+                if (r1.sortingLayerID != r2.sortingLayerID) return r2.sortingLayerID.CompareTo(r1.sortingLayerID);
+                if (r1.sortingOrder != r2.sortingOrder) return r2.sortingOrder.CompareTo(r1.sortingOrder);
+                return 0;
+            });
+
+            // Проходимся по всем отсортированным хитам, пока не найдем что-то, с чем можно взаимодействовать
+            foreach (var hit in allHits)
             {
-                int clickedWagonIndex = wagons.IndexOf(topHitTransform);
-                if (clickedWagonIndex > 0 && clickedWagonIndex < wagons.Count)
-                {
-                    Debug.Log($"Clicked on wagon {clickedWagonIndex} in overview mode. Zooming in.");
-                    ExitOverviewMode(clickedWagonIndex);
-                    return;
-                }
+                // Сначала проверяем на конкретные интерактивные объекты
+                if (TryHandleAnimalClick(hit)) return;
+                if (TryHandleItemClick(hit)) return;
+                if (TryHandleBedClick(hit)) return;
+
+                // !!! ВОТ ИСПРАВЛЕНИЕ !!!
+                // Если ничего из вышеперечисленного не сработало, то для ЭТОГО ЖЕ объекта
+                // проверяем, не принадлежит ли он соседнему вагону.
+                // Это наш "запасной" вариант.
+                if (TryHandleAdjacentWagonClick(hit)) return;
             }
         }
     }
+
+    // --- Вспомогательные методы для HandleLeftClick ---
+
+    private bool TryHandleAnimalClick(RaycastHit2D hit)
+    {
+        AnimalController clickedAnimal = hit.collider.GetComponent<AnimalController>();
+        if (clickedAnimal == null) return false;
+
+        Transform parentWagon = FindParentWagon(clickedAnimal.transform);
+        if (parentWagon == null) return false;
+
+        int animalWagonIndex = wagons.IndexOf(parentWagon);
+        if (animalWagonIndex < 1) return false;
+
+        if (animalWagonIndex == currentWagonIndex)
+        {
+            Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in current wagon.");
+            clickedAnimal.AttemptInteraction();
+            return true;
+        }
+
+        if (Mathf.Abs(animalWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked animal {clickedAnimal.gameObject.name} in adjacent wagon {animalWagonIndex}. Moving camera.");
+            MoveToWagon(animalWagonIndex);
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryHandleItemClick(RaycastHit2D hit)
+    {
+        ItemPickup clickedItem = hit.collider.GetComponent<ItemPickup>();
+        if (clickedItem == null) return false;
+
+        Transform parentWagon = FindParentWagon(clickedItem.transform);
+        if (parentWagon == null) return false;
+
+        int itemWagonIndex = wagons.IndexOf(parentWagon);
+        if (itemWagonIndex < 1) return false;
+
+        if (itemWagonIndex == currentWagonIndex)
+        {
+            Debug.Log($"Attempting pickup on {clickedItem.name} in current wagon {currentWagonIndex}");
+            clickedItem.AttemptPickup();
+            return true;
+        }
+
+        if (Mathf.Abs(itemWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked item {clickedItem.name} in adjacent wagon {itemWagonIndex}. Moving camera.");
+            MoveToWagon(itemWagonIndex);
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryHandleBedClick(RaycastHit2D hit)
+    {
+        if (!hit.collider.CompareTag("Bed")) return false;
+
+        SlotScripts bedScripts = hit.collider.GetComponent<SlotScripts>();
+        if (bedScripts == null) return false;
+
+        Transform parentWagon = FindParentWagon(bedScripts.transform);
+        if (parentWagon == null) return false;
+
+        int bedWagonIndex = wagons.IndexOf(parentWagon);
+        if (bedWagonIndex < 1) return false;
+
+        if (bedWagonIndex == currentWagonIndex)
+        {
+            Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
+            bedScripts.PlantSeeds();
+            return true;
+        }
+
+        if (Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked bed in adjacent wagon {bedWagonIndex}. Moving camera.");
+            MoveToWagon(bedWagonIndex);
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryHandleAdjacentWagonClick(RaycastHit2D hit)
+    {
+        Transform parentWagon = FindParentWagon(hit.transform);
+        if (parentWagon == null) return false;
+
+        int clickedWagonIndex = wagons.IndexOf(parentWagon);
+        if (clickedWagonIndex < 1) return false;
+
+        if (clickedWagonIndex != currentWagonIndex && Mathf.Abs(clickedWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked on non-interactive object '{hit.collider.name}' in adjacent wagon {clickedWagonIndex}. Moving camera.");
+            MoveToWagon(clickedWagonIndex);
+            return true;
+        }
+
+        return false;
+    }
+
+    // ===================================================================
+    // ОСТАЛЬНАЯ ЧАСТЬ КОДА (без изменений)
+    // ===================================================================
 
     private Transform FindParentWagon(Transform child)
     {
@@ -267,26 +275,20 @@ public class TrainCameraController : MonoBehaviour
             isPanning = false;
             return;
         }
-
         if (Input.GetMouseButtonDown(1))
         {
             isPanning = true;
             panOrigin = transform.position;
             Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             panOrigin -= mouseWorldPos;
-
         }
-
         if (Input.GetMouseButton(1) && isPanning)
         {
             Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector3 desiredPos = panOrigin + mouseWorldPos;
-
             float clampedX = Mathf.Clamp(desiredPos.x, minPanX, maxPanX);
-
             targetPosition = new Vector3(clampedX, targetPosition.y, targetPosition.z);
         }
-
         if (Input.GetMouseButtonUp(1))
         {
             isPanning = false;
@@ -299,7 +301,6 @@ public class TrainCameraController : MonoBehaviour
         lastWagonIndex = currentWagonIndex;
         currentWagonIndex = -1;
         targetOrthographicSize = zoomOutSize;
-
         targetPosition = GetTargetPositionForWagon(lastWagonIndex);
         CalculatePanLimits();
     }
@@ -312,7 +313,6 @@ public class TrainCameraController : MonoBehaviour
             targetIndex = lastWagonIndex;
             if (targetIndex <= 0) targetIndex = 1;
         }
-
         isOverview = false;
         isPanning = false;
         currentWagonIndex = targetIndex;
@@ -363,23 +363,14 @@ public class TrainCameraController : MonoBehaviour
     void CalculatePanLimits()
     {
         if (wagons.Count == 0) return;
-
         minPanX = wagons[0].position.x;
         maxPanX = wagons[wagons.Count - 1].position.x;
-
         Debug.Log($"Calculated Pan Limits: MinX={minPanX}, MaxX={maxPanX}");
     }
 
-    public bool IsInOverview()
-    {
-        return isOverview;
-    }
-
-    public int GetCurrentWagonIndex()
-    {
-        return isOverview ? -1 : currentWagonIndex;
-    }
-
+    // --- Публичные методы и геттеры ---
+    public bool IsInOverview() => isOverview;
+    public int GetCurrentWagonIndex() => isOverview ? -1 : currentWagonIndex;
     public Transform GetCurrentWagonTransform()
     {
         if (!isOverview && currentWagonIndex > 0 && currentWagonIndex < wagons.Count)
@@ -390,19 +381,12 @@ public class TrainCameraController : MonoBehaviour
     }
     public Transform GetWagonOwnerOfPosition(float worldXPosition)
     {
-        if (wagons == null || wagons.Count <= 1)
-        {
-            Debug.LogError("Список вагонов не инициализирован или содержит менее 2 элементов.");
-            return null;
-        }
-
+        if (wagons == null || wagons.Count <= 1) return null;
         for (int i = 1; i < wagons.Count; i++)
         {
             Transform currentWagon = wagons[i];
             Transform previousWagon = wagons[i - 1];
-
             float leftBoundary = previousWagon.position.x + (currentWagon.position.x - previousWagon.position.x) / 2.0f;
-
             float rightBoundary;
             if (i == wagons.Count - 1)
             {
@@ -413,30 +397,21 @@ public class TrainCameraController : MonoBehaviour
                 Transform nextWagon = wagons[i + 1];
                 rightBoundary = currentWagon.position.x + (nextWagon.position.x - currentWagon.position.x) / 2.0f;
             }
-
             if (worldXPosition >= leftBoundary && worldXPosition < rightBoundary)
             {
                 return currentWagon;
             }
         }
-
-        Debug.LogWarning($"Не удалось найти вагон для X-координаты: {worldXPosition}. Возможно, позиция слишком левее?");
         return null;
     }
     public bool AssignParentWagonByPosition(Transform itemTransform, Vector3 spawnPosition)
     {
         Transform parentWagon = GetWagonOwnerOfPosition(spawnPosition.x);
-
         if (parentWagon != null)
         {
-            Debug.Log($"Назначен родительский вагон '{parentWagon.name}' для объекта '{itemTransform.name}' в позиции {spawnPosition}");
             itemTransform.SetParent(parentWagon, true);
             return true;
         }
-        else
-        {
-            Debug.LogWarning($"Не удалось назначить родительский вагон для объекта '{itemTransform.name}' в позиции {spawnPosition}. Объект останется без родителя.");
-            return false;
-        }
+        return false;
     }
 }

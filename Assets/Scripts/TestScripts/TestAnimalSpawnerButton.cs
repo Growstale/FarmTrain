@@ -24,12 +24,22 @@ public class TestAnimalSpawnerButton : MonoBehaviour
     {
         if (itemSpawner != null && animalItemToSpawn != null && spawnPoint != null)
         {
+            if (animalItemToSpawn.itemType != ItemType.Animal || animalItemToSpawn.associatedAnimalData == null)
+            {
+                Debug.LogError($"Предмет {animalItemToSpawn.itemName} не является животным или для него не указаны данные (AnimalData). Учет не будет обновлен.");
+                return; 
+            }
+
             Debug.Log($"Нажата кнопка спавна {animalItemToSpawn.itemName}");
-            itemSpawner.SpawnItem(animalItemToSpawn, spawnPoint.position);
+
+            AnimalPenManager.Instance.AddAnimal(animalItemToSpawn.associatedAnimalData);
+
+            Debug.Log($"Данные обновлены. Теперь в AnimalPenManager есть новое животное типа {animalItemToSpawn.associatedAnimalData.speciesName}");
         }
         else
         {
             Debug.LogError("Не могу заспавнить животное - не все ссылки установлены!");
         }
     }
+
 }
