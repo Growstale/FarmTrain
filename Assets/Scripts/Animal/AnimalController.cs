@@ -39,6 +39,8 @@ public class AnimalController : MonoBehaviour
     private Vector2 currentTargetPosition;
     private bool isMoving = false;
 
+    private AnimalStateData currentStateData;
+
     void Awake()
     {
         myTransform = transform;
@@ -67,16 +69,28 @@ public class AnimalController : MonoBehaviour
             Debug.LogError($"InventoryManager не найден на сцене! Сбор предметов не будет работать.", gameObject);
         }
 
-        ResetFeedTimer();
-        ResetProductionTimer();
-        ResetFertilizerTimer();
-
         currentState = AnimalState.Idle;
         SetNewStateTimer(AnimalState.Idle);
         UpdateAppearance();
     }
 
-    public void InitializeMovementBounds(Bounds bounds)
+    public void InitializeWithState(AnimalStateData stateData, Bounds bounds)
+    {
+        currentStateData = stateData;
+        animalData = stateData.animalData; // Берем AnimalData из состояния
+
+        // Загружаем таймеры из сохраненных данных
+        feedTimer = stateData.feedTimer;
+        productionTimer = stateData.productionTimer;
+        fertilizerTimer = stateData.fertilizerTimer;
+
+        // Остальная часть вашей инициализации
+        InitializeMovementBounds(bounds, false);
+        // ... и так далее. Проверьте ваш Start() - возможно, что-то оттуда надо перенести сюда.
+        // Важно, чтобы InitializeMovementBounds вызывался после того, как animalData уже установлено.
+    }
+
+    public void InitializeMovementBounds(Bounds bounds, bool setInitialPosition)
     {
         if (myTransform == null)
         {
@@ -88,7 +102,11 @@ public class AnimalController : MonoBehaviour
         boundsInitialized = true;
         Debug.Log($"{animalData.speciesName} ({gameObject.name}) получил границы движения: {movementBounds}");
 
-        myTransform.position = GetRandomPositionInBounds();
+        if (setInitialPosition)
+        {
+            myTransform.position = GetRandomPositionInBounds();
+            Debug.Log($"Устанавливаю начальную случайную позицию для {animalData.speciesName}: {myTransform.position}");
+        }
         PickNewWanderTarget();
 
         if (boundsInitialized)
@@ -102,31 +120,55 @@ public class AnimalController : MonoBehaviour
         }
     }
 
-    void Update()
+    public void SaveState()
     {
-        if (!boundsInitialized || animalData == null) return;
-
-        if (currentState != AnimalState.NeedsAttention)
+        Debug.Log("SaveState!!!");
+        if (currentStateData != null)
         {
-            UpdateTimers(Time.deltaTime);
-            CheckNeeds();
+            currentStateData.feedTimer = this.feedTimer;
+            currentStateData.productionTimer = this.productionTimer;
+            currentStateData.fertilizerTimer = this.fertilizerTimer;
+
+            currentStateData.lastPosition = transform.position;
+            currentStateData.hasBeenPlaced = true;
+
+            Debug.Log($"<color=orange>[AnimalController]</color> Сохраняю состояние для {animalData.speciesName}. " +
+          $"Позиция: {currentStateData.lastPosition}. " +
+          $"Флаг hasBeenPlaced теперь: <color=yellow>{currentStateData.hasBeenPlaced}</color>");
+
         }
-
-        if (activeThoughtBubble != null && activeThoughtBubble.gameObject.activeSelf)
+        else
         {
-            activeThoughtBubble.transform.position = myTransform.position + thoughtBubbleOffset;
-        }
-
-        if (isMoving && spriteRenderer != null)
-        {
-            float horizontalDifference = currentTargetPosition.x - myTransform.position.x;
-
-            if (Mathf.Abs(horizontalDifference) > 0.01f)
-            {
-                spriteRenderer.flipX = (horizontalDifference > 0);
-            }
+            Debug.Log($"<color=red>[AnimalController]</color> Попытка сохранить состояние для {gameObject.name}, но currentStateData is null! Сохранение не удалось.");
         }
     }
+
+
+        void Update()
+        {
+            if (!boundsInitialized || animalData == null) return;
+
+            if (currentState != AnimalState.NeedsAttention)
+            {
+                UpdateTimers(Time.deltaTime);
+                CheckNeeds();
+            }
+
+            if (activeThoughtBubble != null && activeThoughtBubble.gameObject.activeSelf)
+            {
+                activeThoughtBubble.transform.position = myTransform.position + thoughtBubbleOffset;
+            }
+
+            if (isMoving && spriteRenderer != null)
+            {
+                float horizontalDifference = currentTargetPosition.x - myTransform.position.x;
+
+                if (Mathf.Abs(horizontalDifference) > 0.01f)
+                {
+                    spriteRenderer.flipX = (horizontalDifference > 0);
+                }
+            }
+        }
 
     private IEnumerator StateMachineCoroutine()
     {
@@ -510,4 +552,12 @@ public class AnimalController : MonoBehaviour
             Debug.Log($"Взаимодействие с {animalData.speciesName} (предмет: {itemInvolved?.itemName ?? "NULL"}) было НЕУСПЕШНЫМ. Текущее состояние: {currentState}. Флаги: Feed={needsFeeding}, Prod={hasProductReady}, Fert={hasFertilizerReady}");
         }
     }
+
+    private void OnDestroy()
+    {
+        Debug.Log($"<color=red>[AnimalController]</color> {gameObject.name} уничтожается (OnDestroy). Вызываю SaveState().");
+        SaveState();
+    }
+
+
 }

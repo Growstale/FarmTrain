@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AnimalPenManager : MonoBehaviour
 {
     public static AnimalPenManager Instance { get; private set; }
 
-    private Dictionary<AnimalData, int> animalCounts = new Dictionary<AnimalData, int>();
+    private List<AnimalStateData> allAnimals = new List<AnimalStateData>();
 
     private void Awake()
     {
@@ -20,43 +21,38 @@ public class AnimalPenManager : MonoBehaviour
         }
     }
 
-    public void AddAnimal(AnimalData animalData, int quantity = 1)
+    public void AddAnimal(AnimalData animalData)
     {
-        if (animalCounts.ContainsKey(animalData))
-        {
-            animalCounts[animalData] += quantity;
-        }
-        else
-        {
-            animalCounts[animalData] = quantity;
-        }
-        Debug.Log($"Данные обновлены: теперь есть {animalCounts[animalData]} {animalData.speciesName}");
+        AnimalStateData newState = new AnimalStateData(animalData);
+        allAnimals.Add(newState);
+        Debug.Log($"<color=green>[AnimalPenManager]</color> Добавлено новое животное: {animalData.speciesName}. " +
+                  $"Всего в списке: <color=yellow>{allAnimals.Count}</color> животных. " +
+                  $"Из них этого типа: <color=yellow>{GetAnimalCount(animalData)}</color>");
     }
 
-    public bool SellAnimal(AnimalData animalData, int quantity = 1)
+    public bool SellAnimal(AnimalData animalData)
     {
-        if (animalCounts.TryGetValue(animalData, out int currentCount) && currentCount >= quantity)
+        AnimalStateData animalToRemove = allAnimals.FirstOrDefault(a => a.animalData == animalData);
+
+        if (animalToRemove != null)
         {
-            animalCounts[animalData] -= quantity;
-            Debug.Log($"Данные обновлены: осталось {animalCounts[animalData]} {animalData.speciesName}");
+            allAnimals.Remove(animalToRemove);
+            Debug.Log($"Из AnimalPenManager продано животное: {animalData.speciesName}. Осталось: {GetAnimalCount(animalData)}");
             return true;
         }
 
-        Debug.LogWarning($"Попытка продать {animalData.speciesName}, но в данных их недостаточно.");
+        Debug.LogWarning($"Попытка продать {animalData.speciesName}, но в данных их не найдено.");
         return false;
     }
 
+
     public int GetAnimalCount(AnimalData animalData)
     {
-        if (animalCounts.TryGetValue(animalData, out int count))
-        {
-            return count;
-        }
-        return 0;
+        return allAnimals.Count(a => a.animalData == animalData);
     }
 
-    public IReadOnlyDictionary<AnimalData, int> GetAllAnimalCounts()
+    public List<AnimalStateData> GetStatesForAnimalType(AnimalData animalData)
     {
-        return animalCounts;
+        return allAnimals.Where(a => a.animalData == animalData).ToList();
     }
 }

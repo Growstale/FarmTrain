@@ -117,7 +117,7 @@ public class ItemSpawner : MonoBehaviour
                         Collider2D boundsCollider = placementAreaTransform.GetComponent<Collider2D>();
                         if (boundsCollider != null)
                         {
-                            animalController.InitializeMovementBounds(boundsCollider.bounds);
+                            animalController.InitializeMovementBounds(boundsCollider.bounds, false);
                             Debug.Log($"Границы {boundsCollider.bounds} переданы животному {animalData.speciesName} ({animalObject.name})");
                         }
                         else
