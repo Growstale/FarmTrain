@@ -47,6 +47,6 @@ public class BubbleYSorter : MonoBehaviour
         int baseSortingOrder = Mathf.RoundToInt(ownerY * sortingOrderMultiplier);
 
         backgroundRenderer.sortingOrder = baseSortingOrder + backgroundOrderOffset;
-        iconRenderer.sortingOrder = baseSortingiority + iconOrderOffset;
+        iconRenderer.sortingOrder = baseSortingOrder + iconOrderOffset;
     }
 }
