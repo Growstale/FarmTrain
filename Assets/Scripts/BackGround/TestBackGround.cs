@@ -20,7 +20,7 @@ public class TestBackGround : MonoBehaviour
     //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector3 position = new Vector3 (-38.97891f, startY, 0); // x: 
+        Vector3 position = new Vector3 (-38.57891f, startY, 0); // x: 
         GameObject go = Instantiate(BackGrounds,position,Quaternion.identity); // создаем объект в позиции начала предыдущего
         BackGrounds = go;
        // Debug.Log(startX - BackGrounds.GetComponent<BoxCollider2D>().bounds.min.x);
