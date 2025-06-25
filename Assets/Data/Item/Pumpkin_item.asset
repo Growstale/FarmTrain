@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
   m_Name: Pumpkin_item
   m_EditorClassIdentifier: 
-  itemName: New Item
-  itemIcon: {fileID: 0}
-  itemType: 0
+  itemName: Pumpkin_item
+  itemIcon: {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  itemType: 2
   isStackable: 1
   maxStackSize: 16
   description: 
-  associatedPlantData: {fileID: 0}
+  associatedPlantData: {fileID: 11400000, guid: 3ff7e1a616c656e4f9254707d4dfa1a8, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

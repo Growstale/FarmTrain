@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31603f64966064043a4638eea9f9827d, type: 3}
   m_Name: Corn
   m_EditorClassIdentifier: 
-  plantName: New Plant
+  plantName: Corn
   growthStagesSprites: []
   timePerGrowthStage: 10
   waterNeededInterval: 5
   fertilizerGrowthMultiplier: 1.5
-  Weight: 1
+  Weight: 2
   harvestedCrop: {fileID: 0}
-  seedItem: {fileID: 0}
+  seedItem: {fileID: 11400000, guid: 2e858b5dc9ab0b543a6e41ed2e6e73e4, type: 2}
   seedDropChance: 0.8

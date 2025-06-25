@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speciesName: New Bed
   bedlPrefab: {fileID: 4948496027085741848, guid: 067d053ee28d7904893efd99bbda53be, type: 3}
-  bedSprite: {fileID: 0}
+  bedSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   isPlanted: 0
