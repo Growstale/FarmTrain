@@ -19,6 +19,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject mainInventoryPanel;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Button inventoryToggleButton;
+    [SerializeField] private Button CloseButton;
     [SerializeField] private GameObject inventoryBackgroundPanel;
 
     [Header("Selection")]
@@ -106,13 +107,14 @@ public class InventoryManager : MonoBehaviour
 
     private void SetupToggleButton()
     {
-        if (inventoryToggleButton != null)
+        if (inventoryToggleButton != null && CloseButton != null)
         {
-            inventoryToggleButton.onClick.AddListener(ToggleMainInventory);
+            inventoryToggleButton.onClick.AddListener(OpenInventory);
+            CloseButton.onClick.AddListener(CloseInventory);
         }
         else
         {
-            Debug.LogWarning("Inventory Toggle Button is not assigned in the Inspector.");
+            Debug.LogWarning("Inventory Toggle Button and Close Button is not assigned in the Inspector.");
         }
     }
 
@@ -292,6 +294,34 @@ public class InventoryManager : MonoBehaviour
         OnSelectedSlotChanged?.Invoke(selectedSlotIndex);
     }
 
+    public void OpenInventory()
+    {
+        if (!mainInventoryPanel.activeSelf)
+        {
+            mainInventoryPanel.SetActive(true);
+
+            if (inventoryBackgroundPanel != null)
+            {
+                inventoryBackgroundPanel.SetActive(true);
+            }
+
+            UpdateMainInventoryUIVisibility();
+        }
+    }
+
+    public void CloseInventory()
+    {
+        if (mainInventoryPanel.activeSelf)
+        {
+            mainInventoryPanel.SetActive(false);
+
+            if (inventoryBackgroundPanel != null)
+            {
+                inventoryBackgroundPanel.SetActive(false);
+            }
+        }
+    }
+
     public bool IsMainInventoryPanelActive()
     {
         return mainInventoryPanel != null && mainInventoryPanel.activeSelf;
@@ -299,21 +329,13 @@ public class InventoryManager : MonoBehaviour
 
     public void ToggleMainInventory()
     {
-        bool isActive = !mainInventoryPanel.activeSelf;
-        mainInventoryPanel.SetActive(isActive);
-
-        if (inventoryBackgroundPanel != null)
+        if (mainInventoryPanel.activeSelf)
         {
-            inventoryBackgroundPanel.SetActive(isActive);
+            CloseInventory();
         }
         else
         {
-            Debug.LogWarning("Inventory Background Panel is not assigned in the Inspector. Background visibility will not be toggled.");
-        }
-
-        if (isActive)
-        {
-            UpdateMainInventoryUIVisibility();
+            OpenInventory();
         }
     }
 
