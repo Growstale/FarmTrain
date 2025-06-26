@@ -303,7 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f33961d98ee8b44897c6f7957dc188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 1234567890
+  startingMoney: 300
+  maxMoney: 9999
 --- !u!114 &1426141031
 MonoBehaviour:
   m_ObjectHideFlags: 0
