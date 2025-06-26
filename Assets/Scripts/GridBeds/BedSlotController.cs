@@ -56,14 +56,11 @@ public class BedSlotController : MonoBehaviour
         if (match.Success)
         {
             numberid = int.Parse(match.Value);
-            Debug.Log(">>>>> ID : " +  numberid);
+
            
         }
 
-        if(numberid == 1)
-        {
-            Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1");
-        }
+       
 
         if (bedSlot1 != null && bedSlot2 != null && bedSlot3 != null && bedSlot4 != null)
         {
