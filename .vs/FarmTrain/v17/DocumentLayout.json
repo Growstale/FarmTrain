@@ -108,6 +108,14 @@
           "SelectedChildIndex": 5,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "ShopUIManager.cs",
@@ -305,7 +313,8 @@
               "RelativeToolTip": "Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T19:16:36.436Z"
+              "WhenOpened": "2025-05-06T19:16:36.436Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -351,9 +360,10 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
               "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
               "RelativeToolTip": "Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAuwD0AAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAADQAAAAAAAAAAAA5wN4AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:53:22.496Z"
+              "WhenOpened": "2025-05-06T18:53:22.496Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -363,7 +373,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\SlotScripts.cs",
               "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotScripts.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridBeds\\SlotScripts.cs",
-              "ViewState": "AgIAAFIAAAAAAAAAAIBJwGcAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAADQAAAAAAAAAAAAWwEoAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-06T18:52:27.57Z"
             },
@@ -384,10 +394,17 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
               "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAQwEUAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBUAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:47:23.168Z"
-            },
+              "WhenOpened": "2025-05-06T18:47:23.168Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 53,
+          "SelectedChildIndex": -1,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 21,

@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31603f64966064043a4638eea9f9827d, type: 3}
-  m_Name: wheat
+  m_Name: Carrot
   m_EditorClassIdentifier: 
-  plantName: Wheat
+  plantName: Carrot
   growthStagesSprites: []
   timePerGrowthStage: 10
   waterNeededInterval: 5
   fertilizerGrowthMultiplier: 1.5
-  Weight: 1
   harvestedCrop: {fileID: 0}
-  seedItem: {fileID: 0}
+  seedItem: {fileID: 11400000, guid: b3d81db6279c52f4fab8628f523498dd, type: 2}
   seedDropChance: 0.8

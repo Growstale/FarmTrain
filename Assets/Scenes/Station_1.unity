@@ -651,8 +651,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 4}
-  m_SizeDelta: {x: -218.688, y: -114.7909}
+  m_AnchoredPosition: {x: -0.0010070801, y: -2}
+  m_SizeDelta: {x: 0.0019531, y: -114.7909}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &238697539
 CanvasRenderer:
@@ -932,7 +932,7 @@ MonoBehaviour:
   closeButton: {fileID: 935098303}
   buyTabButton: {fileID: 1509631083}
   sellTabButton: {fileID: 1724204277}
-  itemsContentArea: {fileID: 1335355341}
+  itemsContentArea: {fileID: 1178154412}
   shopItemRowPrefab: {fileID: 8948368198053207494, guid: f4df30f5987e205438158c59e522d102, type: 3}
   confirmationPanel: {fileID: 1317935539}
   confirmationText: {fileID: 610918836}
@@ -991,8 +991,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0009422302, y: -0.47473}
-  m_SizeDelta: {x: 724.81, y: 379.51}
+  m_AnchoredPosition: {x: 4.9487, y: -0.47473}
+  m_SizeDelta: {x: 833.7023, y: 379.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &593359422
 MonoBehaviour:
@@ -1847,7 +1847,7 @@ Transform:
   m_GameObject: {fileID: 855639866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.8, y: -0.5, z: -0.0391258}
+  m_LocalPosition: {x: -9.8, y: 1.87, z: -0.0391258}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2012,18 +2012,30 @@ PrefabInstance:
     - target: {fileID: 4366867295939658769, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5059059612952370613, guid: 0e507facf2194a940bf849c4062f95b0, type: 3}
+      objectReference: {fileID: -8745230918930563484, guid: 1d1b9a9304392e24287c2c1e1fb3c8ac, type: 3}
     - target: {fileID: 4366867295939658769, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.212574
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.212574
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3164294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.959151
+      value: 1.9592
       objectReference: {fileID: 0}
     - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3778219
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 6597725253387762277, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2363,7 +2375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 2
 --- !u!114 &1178154414
 MonoBehaviour:
@@ -2384,7 +2396,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -2693,8 +2705,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: -38}
-  m_SizeDelta: {x: 541.9376, y: 214.2027}
+  m_AnchoredPosition: {x: 5.7576, y: -38}
+  m_SizeDelta: {x: 649.4067, y: 214.2027}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1335355342
 MonoBehaviour:

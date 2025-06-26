@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Wheat_Seed
+  m_Name: Carrot_Seed
   m_EditorClassIdentifier: 
-  itemName: Wheat_Seed
-  itemIcon: {fileID: -3641404781026635025, guid: b5fa56d0951943546aaf8247edd27b18, type: 3}
+  itemName: Carrot_Seed
+  itemIcon: {fileID: -1151798497464645528, guid: 646e4a236f4c9274099bbc35ed9c5fbc, type: 3}
   itemType: 2
   isStackable: 1
   maxStackSize: 16
   description: 
-  associatedPlantData: {fileID: 11400000, guid: e4ae4a108edb38b46a8dcbf97724cc12, type: 2}
+  associatedPlantData: {fileID: 11400000, guid: fdd5c084e410da34c93b4c7de2e7654a, type: 2}
   associatedAnimalData: {fileID: 0}
-  associatedBedData: {fileID: 0}
+  associatedBedData: {fileID: 11400000, guid: 25128b5ab7c1f0941bf84557f20f21d3, type: 2}

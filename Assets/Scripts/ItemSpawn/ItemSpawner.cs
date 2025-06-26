@@ -54,9 +54,70 @@ public class ItemSpawner : MonoBehaviour
     {
         if (dataToSpawn == null)
         {
+
             Debug.LogWarning("ѕопытка заспавнить предмет с null ItemData.");
             return null;
         }
+
+        //if (dataToSpawn.itemType == ItemType.Pot)
+        //{
+
+
+        //    BedData bedData = dataToSpawn.associatedBedData;
+
+        //    if (bedData.bedlPrefab == null)
+        //    {
+        //        Debug.LogError($"” AnimalData '{bedData.speciesName}' не назначен bedlPrefab в инспекторе!");
+        //        return null;
+        //    }
+
+        //    GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
+
+        //    bedObject.transform.localScale = spawnScale;
+
+        //    Transform parentWagon = null;
+        //    bool parentAssignedSuccessfully = false;
+
+        //    if (trainController != null)
+        //    {
+        //        parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(bedObject.transform, spawnPosition);
+
+        //        if (parentAssignedSuccessfully)
+        //        {
+        //            parentWagon = bedObject.transform.parent;
+
+        //            if (parentWagon == null)
+        //            {
+        //                Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установилс€! гр€дка уничтожено.", bedObject);
+        //                Destroy(bedObject);
+        //                return null;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Debug.LogError($"Ќе удалось найти или назначить родительский вагон дл€ гр€дка '{bedObject.name}' в позиции {spawnPosition}. гр€дка уничтожено.");
+        //            Destroy(bedObject);
+        //            return null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("TrainController не назначен в ItemSpawner. Ќевозможно определить вагон дл€ гр€дка. ∆ивотное уничтожено.");
+        //        GameObject bedManager = GameObject.FindWithTag("bedManager");
+        //        if(bedManager!= null)
+        //        {
+
+        //        }
+        //        return bedObject;
+        //    }
+
+
+
+        //    Debug.Log($"«аспавнен гр€дка: {bedObject.name} в позиции {spawnPosition}");
+        //        return bedObject;
+            
+            
+        //}
 
         if (dataToSpawn.itemType == ItemType.Animal && dataToSpawn.associatedAnimalData != null)
         {

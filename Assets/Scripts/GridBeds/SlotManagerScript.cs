@@ -19,7 +19,7 @@ public class SlotManagerScript : MonoBehaviour
             foreach (var item in beds)
             {
 
-                Debug.Log(">> " + item.name);
+              //  Debug.Log(">> " + item.name);
             }
         }
     }
