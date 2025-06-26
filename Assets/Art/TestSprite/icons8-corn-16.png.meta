@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-corn-16_0: 1837216702720429577
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

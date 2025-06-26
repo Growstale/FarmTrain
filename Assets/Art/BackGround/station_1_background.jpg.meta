@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 646e4a236f4c9274099bbc35ed9c5fbc
+guid: 1d1b9a9304392e24287c2c1e1fb3c8ac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1151798497464645528
-    second: icons8-carrot-16_0
+      213: -8745230918930563484
+    second: station_1_background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icons8-carrot-16_0
+      name: station_1_background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 1280
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8688ac97e5df300f0800000000000000
-      internalID: -1151798497464645528
+      spriteID: 46e716e30d2b2a680800000000000000
+      internalID: -8745230918930563484
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      icons8-carrot-16_0: -1151798497464645528
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
