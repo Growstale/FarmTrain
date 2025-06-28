@@ -205,13 +205,18 @@ public class TrainCameraController : MonoBehaviour
 
     private bool TryHandleBedClick(RaycastHit2D hit)
     {
-        if (!hit.collider.CompareTag("Bed")) return false;
-
-        SlotScripts bedScripts = hit.collider.GetComponent<SlotScripts>();
+        
+        if (!hit.collider.CompareTag("Bed")) { Debug.Log($"Dont object {hit.collider.name} dont have tag bed "); return false; }
+        //
+        else Debug.Log("CompareTag have");
+            SlotScripts bedScripts = hit.collider.GetComponent<SlotScripts>();
         if (bedScripts == null) return false;
 
-        Transform parentWagon = FindParentWagon(bedScripts.transform);
+            Transform parentWagon = FindParentWagon(bedScripts.transform);
         if (parentWagon == null) return false;
+
+
+
 
         int bedWagonIndex = wagons.IndexOf(parentWagon);
         if (bedWagonIndex < 1) return false;
@@ -219,6 +224,7 @@ public class TrainCameraController : MonoBehaviour
         if (bedWagonIndex == currentWagonIndex)
         {
             Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
+            Debug.Log($"Clicked on object {hit.collider.gameObject}");
             bedScripts.PlantSeeds();
             return true;
         }

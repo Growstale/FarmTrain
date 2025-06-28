@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
@@ -59,65 +60,7 @@ public class ItemSpawner : MonoBehaviour
             return null;
         }
 
-        //if (dataToSpawn.itemType == ItemType.Pot)
-        //{
-
-
-        //    BedData bedData = dataToSpawn.associatedBedData;
-
-        //    if (bedData.bedlPrefab == null)
-        //    {
-        //        Debug.LogError($"” AnimalData '{bedData.speciesName}' не назначен bedlPrefab в инспекторе!");
-        //        return null;
-        //    }
-
-        //    GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
-
-        //    bedObject.transform.localScale = spawnScale;
-
-        //    Transform parentWagon = null;
-        //    bool parentAssignedSuccessfully = false;
-
-        //    if (trainController != null)
-        //    {
-        //        parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(bedObject.transform, spawnPosition);
-
-        //        if (parentAssignedSuccessfully)
-        //        {
-        //            parentWagon = bedObject.transform.parent;
-
-        //            if (parentWagon == null)
-        //            {
-        //                Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установилс€! гр€дка уничтожено.", bedObject);
-        //                Destroy(bedObject);
-        //                return null;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.LogError($"Ќе удалось найти или назначить родительский вагон дл€ гр€дка '{bedObject.name}' в позиции {spawnPosition}. гр€дка уничтожено.");
-        //            Destroy(bedObject);
-        //            return null;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("TrainController не назначен в ItemSpawner. Ќевозможно определить вагон дл€ гр€дка. ∆ивотное уничтожено.");
-        //        GameObject bedManager = GameObject.FindWithTag("bedManager");
-        //        if(bedManager!= null)
-        //        {
-
-        //        }
-        //        return bedObject;
-        //    }
-
-
-
-        //    Debug.Log($"«аспавнен гр€дка: {bedObject.name} в позиции {spawnPosition}");
-        //        return bedObject;
-            
-            
-        //}
+        
 
         if (dataToSpawn.itemType == ItemType.Animal && dataToSpawn.associatedAnimalData != null)
         {
@@ -255,4 +198,135 @@ public class ItemSpawner : MonoBehaviour
     {
         return SpawnItem(dataToSpawn, spawnPosition, defaultSpawnScale);
     }
+
+
+    // тестова€ функци€ дл€ спавна префаба гр€дки на уровне
+    public GameObject TestSpawnBed(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale)
+    {
+        if (dataToSpawn.itemType == ItemType.Pot)
+        {
+
+
+            BedData bedData = dataToSpawn.associatedBedData;
+
+            if (bedData.bedlPrefab == null)
+            {
+                Debug.LogError($"” BedData '{bedData.speciesName}' не назначен bedlPrefab в инспекторе!");
+                return null;
+            }
+
+            GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
+
+            bedObject.transform.localScale = spawnScale;
+
+            Transform parentWagon = null;
+            bool parentAssignedSuccessfully = false;
+
+            if (trainController != null)
+            {
+                parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(bedObject.transform, spawnPosition);
+
+                if (parentAssignedSuccessfully)
+                {
+                    parentWagon = bedObject.transform.parent;
+
+                    if (parentWagon == null)
+                    {
+                        Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установилс€! гр€дка уничтожено.", bedObject);
+                        Destroy(bedObject);
+                        return null;
+                    }
+                  
+
+                    Debug.Log($"«аспавнен гр€дка: {bedObject.name} в позиции {spawnPosition}");
+                    return bedObject;
+
+                }
+                else
+                {
+                    Debug.LogError($"Ќе удалось найти или назначить родительский вагон дл€ гр€дка '{bedObject.name}' в позиции {spawnPosition}. гр€дка уничтожено.");
+                    Destroy(bedObject);
+                    return null;
+                }
+           
+            }
+            else
+            {
+                Debug.LogWarning("TrainController не назначен в ItemSpawner. Ќевозможно определить вагон дл€ гр€дка. √р€дка уничтожено.");
+                GameObject bedManager = GameObject.FindWithTag("bedManager");
+                Destroy(bedObject);
+                return null;
+            }
+          
+
+        }
+        Debug.Log($"ѕопытка спавна не гр€дки, ошибка");
+        return null;
+
+    }
+
+
+    public GameObject TestSpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale)
+    {
+        if (dataToSpawn.itemType == ItemType.Seed)
+        {
+
+
+            PlantData plantData = dataToSpawn.associatedPlantData;
+
+            if (plantData.PlantPrefab == null)
+            {
+                Debug.LogError($"” plantData '{plantData.name}' не назначен PlantPrefab в инспекторе!");
+                return null;
+            }
+
+            GameObject plantObject = Instantiate(plantData.PlantPrefab, spawnPosition, Quaternion.identity);
+
+            plantObject.transform.localScale = spawnScale;
+
+            Transform parentWagon = null;
+            bool parentAssignedSuccessfully = false;
+
+            if (trainController != null)
+            {
+                parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(plantObject.transform, spawnPosition);
+
+                if (parentAssignedSuccessfully)
+                {
+                    parentWagon = plantObject.transform.parent;
+
+                    if (parentWagon == null)
+                    {
+                        Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {plantObject.name} не установилс€! растение уничтожено.", plantObject);
+                        Destroy(plantObject);
+                        return null;
+                    }
+
+
+                    Debug.Log($"«аспавнен растение: {plantObject.name} в позиции {spawnPosition}");
+                    return plantObject;
+
+                }
+                else
+                {
+                    Debug.LogError($"Ќе удалось найти или назначить родительский вагон дл€ растени€ '{plantObject.name}' в позиции {spawnPosition}. растени€ уничтожено.");
+                    Destroy(plantObject);
+                    return null;
+                }
+
+            }
+            else
+            {
+                Debug.LogWarning("TrainController не назначен в ItemSpawner. Ќевозможно определить вагон дл€ растени€. растени€ уничтожено.");
+              
+                Destroy(plantObject);
+                return null;
+            }
+
+
+        }
+        Debug.Log($"ѕопытка спавна не растени€, ошибка");
+        return null;
+    }
+    
 }

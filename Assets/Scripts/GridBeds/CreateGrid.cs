@@ -6,10 +6,10 @@ public class CreateGrid : MonoBehaviour
 
 [SerializeField]GameObject slot;
     [SerializeField] GameObject bedprefab;
-    [SerializeField] GameObject SpawnManager;
-    SlotManagerScript _slotManagerScript;
+    //[SerializeField] GameObject SpawnManager;
+   
     
-    [SerializeField]ItemData _bedData;
+    //[SerializeField]ItemData _bedData;
     [SerializeField] GameObject _Wagon;
 
 
