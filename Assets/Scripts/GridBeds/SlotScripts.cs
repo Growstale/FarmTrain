@@ -15,43 +15,45 @@ public class SlotScripts : MonoBehaviour
 
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
 
-    [SerializeField] GameObject _itemSpawnManager;
+   
 
-     ItemSpawner _itemSpawner;
+    [SerializeField] ItemSpawner _itemSpawner;
     
 
     void Start()
     {
 
         inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
-        _itemSpawner = _itemSpawnManager.GetComponent<ItemSpawner>();
+       
         if(_itemSpawner == null)
         {
             Debug.Log("itemSpaner not found!");
         }
 
-        slot = transform.Find("Square");
-        spriteRenderer = slot.GetComponent<SpriteRenderer>();
+        //slot = transform.Find("Square");
+        spriteRenderer = GetComponent<SpriteRenderer>();
         currentColor = spriteRenderer.color;
-        if (slot == null)
-        {
-            Debug.Log("not find");
-        }
-        else
-        {
-            // Debug.Log("<< find"); закоментила так как спамило всю консоль 
-        }
+        //if (slot == null)
+        //{
+        //    Debug.Log("not find");
+        //}
+        //else
+        //{
+        //    // Debug.Log("<< find"); закоментила так как спамило всю консоль 
+        //    spriteRenderer = slot.GetComponent<SpriteRenderer>();
+        //}
       
     }
 
     public void PlantSeeds()
     {
-        
+        Debug.Log(">>>>> Try plant new seeds ");
+
         // Получаем ВЫБРАННЫЙ предмет и ИНДЕКС выбранного слота
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
 
-
+       
         if(selectedItem == null)
         {
             Debug.Log("Выбери предмет из инвенторя");
@@ -72,7 +74,7 @@ public class SlotScripts : MonoBehaviour
                 }
                 else
                 {
-                    _itemSpawner.SpawnItem(selectedItem.itemData, transform.position);
+                    _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, new Vector3(0.25f,0.25f,0.25f));
                     ishavebed = true;
                     InventoryManager.Instance.RemoveItem(selectedIndex);
 
@@ -95,7 +97,7 @@ public class SlotScripts : MonoBehaviour
                     switch (weightSeed)
                     {
                         case 1:
-                            _itemSpawner.SpawnItem(selectedItem.itemData, transform.position);
+                            _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             isPlanted = true;
                             InventoryManager.Instance.RemoveItem(selectedIndex);
                             break;
@@ -109,7 +111,7 @@ public class SlotScripts : MonoBehaviour
 
                                 if (isFreeSlot)
                                 {
-                                    _itemSpawner.SpawnItem(selectedItem.itemData, bedSlotController.Plant2Slot(gameObject.name));
+                                    _itemSpawner.TestSpawnPlant(selectedItem.itemData, bedSlotController.Plant2Slot(gameObject.name), new Vector3(0.5f, 0.5f, 0.5f));
                                     InventoryManager.Instance.RemoveItem(selectedIndex);
                                 }
                                 else
@@ -133,7 +135,7 @@ public class SlotScripts : MonoBehaviour
 
                                 if (isFreeSlot)
                                 {
-                                    _itemSpawner.SpawnItem(selectedItem.itemData, bedSlotController.Plant4Slot());
+                                    _itemSpawner.TestSpawnPlant(selectedItem.itemData, bedSlotController.Plant4Slot(), new Vector3(0.5f, 0.5f, 0.5f));
                                     InventoryManager.Instance.RemoveItem(selectedIndex);
                                 }
                                 else
