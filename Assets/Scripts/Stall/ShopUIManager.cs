@@ -144,14 +144,81 @@ public class ShopUIManager : MonoBehaviour
 
     private void UpdateConfirmationPanel()
     {
-        if (currentItemForTransaction == null) return;
+        // --- СУПЕР-ДЕБАГ ВЕРСИЯ ---
+        Debug.Log("[!!! DEBUG !!!] Начинаю UpdateConfirmationPanel.");
+
+        if (currentItemForTransaction == null)
+        {
+            Debug.LogError("[!!! DEBUG !!!] Ошибка: currentItemForTransaction is NULL. Выход.");
+            return;
+        }
 
         var itemData = currentItemForTransaction.itemData;
-        int price = isBuyMode ? currentItemForTransaction.buyPrice : currentItemForTransaction.sellPrice;
-        int maxQuantity = 1;
+        Debug.Log($"[!!! DEBUG !!!] Работаем с предметом: {itemData.itemName}");
 
-        if (itemData.itemType != ItemType.Animal)
+        int price = isBuyMode ? currentItemForTransaction.buyPrice : currentItemForTransaction.sellPrice;
+        int maxQuantity = int.MaxValue;
+
+        if (itemData.itemType == ItemType.Animal)
         {
+            Debug.Log($"[!!! DEBUG !!!] Тип предмета - Animal. Режим покупки: {isBuyMode}");
+            if (isBuyMode)
+            {
+                // Получаем существующие ограничения
+                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
+                maxQuantity = Mathf.Min(stock, affordable);
+                Debug.Log($"[!!! DEBUG !!!] Начальные ограничения: Запас={stock}, По карману={affordable}. Начальный maxQuantity={maxQuantity}");
+
+                if (TrainPenController.Instance != null)
+                {
+                    Debug.Log("[!!! DEBUG !!!] TrainPenController найден. Начинаю проверку загона.");
+                    var animalData = itemData.associatedAnimalData;
+
+                    if (animalData != null)
+                    {
+                        Debug.Log($"[!!! DEBUG !!!] Найдена ссылка на AnimalData: {animalData.name}. Ищем для него загон...");
+                        PenInfo penInfo = TrainPenController.Instance.GetPenInfoForAnimal(animalData);
+
+                        if (penInfo != null)
+                        {
+                            Debug.Log($"[!!! DEBUG !!!] Загон НАЙДЕН! Вместимость (MaxCapacity) = {penInfo.maxCapacity}");
+                            int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+                            Debug.Log($"[!!! DEBUG !!!] Животных этого типа сейчас: {currentAnimalCount}");
+
+                            int availableSpace = penInfo.maxCapacity - currentAnimalCount;
+                            Debug.Log($"[!!! DEBUG !!!] Свободных мест: {availableSpace}");
+
+                            maxQuantity = Mathf.Min(maxQuantity, availableSpace);
+                            Debug.Log($"[!!! DEBUG !!!] Итоговый maxQuantity после проверки загона = {maxQuantity}");
+                        }
+                        else
+                        {
+                            Debug.LogError($"[!!! DEBUG !!!] Загон НЕ НАЙДЕН для {animalData.name}! Проверьте, добавлен ли он в Pen Configurations в TrainPenController.");
+                            maxQuantity = 0;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"[!!! DEBUG !!!] У предмета {itemData.name} поле associatedAnimalData ПУСТОЕ (None)!");
+                        maxQuantity = 0;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("[!!! DEBUG !!!] TrainPenController.Instance is NULL!");
+                }
+            }
+            else // Режим продажи
+            {
+                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                Debug.Log($"[!!! DEBUG !!!] Режим продажи. Животных для продажи: {maxQuantity}");
+            }
+        }
+        else
+        {
+            Debug.Log($"[!!! DEBUG !!!] Это не животное. Стандартный расчет.");
+            // Логика для обычных предметов
             if (isBuyMode)
             {
                 int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
@@ -163,28 +230,18 @@ public class ShopUIManager : MonoBehaviour
                 maxQuantity = InventoryManager.Instance.GetTotalItemQuantity(itemData);
             }
         }
-        else
-        {
-            if (isBuyMode)
-            {
-                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
-                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
-                maxQuantity = Mathf.Min(stock, affordable);
-            }
-            else 
-            {
-                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
-            }
-        }
-
 
         transactionQuantity = Mathf.Clamp(transactionQuantity, 1, maxQuantity);
-        if (maxQuantity == 0) transactionQuantity = 0;
+        if (maxQuantity <= 0) transactionQuantity = 0;
 
+        Debug.Log($"[!!! DEBUG !!!] Финальный расчет: transactionQuantity={transactionQuantity}, maxQuantity={maxQuantity}");
         quantityText.text = transactionQuantity.ToString();
         totalPriceText.text = $"{transactionQuantity * price} BYN";
         confirmButton.interactable = transactionQuantity > 0;
+
+        Debug.Log("[!!! DEBUG !!!] Конец UpdateConfirmationPanel.");
     }
+
 
 
     private void IncreaseQuantity()
@@ -211,6 +268,31 @@ public class ShopUIManager : MonoBehaviour
         {
             if (isBuyMode)
             {
+                if (TrainPenController.Instance != null)
+                {
+                    // 1. Точно так же получаем AnimalData из ItemData
+                    var animalData = itemData.associatedAnimalData;
+
+                    if (animalData != null)
+                    {
+                        PenInfo penInfo = TrainPenController.Instance.GetPenInfoForAnimal(animalData);
+                        int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+
+                        if (penInfo == null || currentAnimalCount + transactionQuantity > penInfo.maxCapacity)
+                        {
+                            Debug.LogError($"Ошибка! Попытка купить {transactionQuantity} животных, но в загоне нет места. " +
+                                           $"({currentAnimalCount} + {transactionQuantity} > {penInfo?.maxCapacity}). Транзакция отменена.");
+                            confirmationPanel.SetActive(false);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"У предмета {itemData.itemName} не указана ссылка на AnimalData! Транзакция отменена.");
+                        confirmationPanel.SetActive(false);
+                        return;
+                    }
+                }
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
 
                 PlayerWallet.Instance.SpendMoney(totalPrice);
