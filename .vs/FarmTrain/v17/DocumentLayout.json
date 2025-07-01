@@ -3,99 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\inventory\\inventorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\inventorymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\radio\\radiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\radio\\radiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\inventory\\inventoryslotui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\inventoryslotui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Radio\\RadioManager.cs.meta||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Radio\\RadioManager.cs.meta||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\inventory\\inventoryitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\inventoryitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\inventory\\stallinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventory\\stallinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\stall\\shopuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stall\\shopuimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\stall\\shopitemrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stall\\shopitemrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|c:\\users\\ascoltat0\\desktop\\farmtrain\\assets\\scripts\\stall\\shopdatamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stall\\shopdatamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\background\\spawnbackgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\background\\spawnbackgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\background\\backgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\background\\backgroundscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\textmesh pro\\shaders\\tmp_sdf.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\textmesh pro\\shaders\\tmp_sdf.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\player\\moneyuiupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\moneyuiupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\camera\\traincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camera\\traincameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\camera\\stallcameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camera\\stallcameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\testscripts\\spawnbuttonhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\testscripts\\spawnbuttonhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\testscripts\\loadscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\testscripts\\loadscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\player\\trainupgrademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\trainupgrademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\player\\playerwallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerwallet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\gridbeds\\slotscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\slotscripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\itemspawn\\itemspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\itemspawn\\itemspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\creategrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\gridbeds\\slotmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gridbeds\\slotmanagerscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\assets\\scripts\\menu\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87EF1310-5861-9F31-9CB2-6692273FB392}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\menu\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -105,317 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ShopUIManager.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopUIManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stall\\ShopUIManager.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopUIManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stall\\ShopUIManager.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAAAG0AAABQAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "RadioManager.cs",
+              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Radio\\RadioManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Radio\\RadioManager.cs",
+              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Radio\\RadioManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Radio\\RadioManager.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAAwEgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T12:33:03.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ShopDataManager.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopDataManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stall\\ShopDataManager.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopDataManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stall\\ShopDataManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T12:33:28.452Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ShopItemRow.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopItemRow.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Stall\\ShopItemRow.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Stall\\ShopItemRow.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Stall\\ShopItemRow.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T12:33:26.122Z",
+              "WhenOpened": "2025-06-30T22:46:03.81Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "InventorySlotUI.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventorySlotUI.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\InventorySlotUI.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventorySlotUI.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\InventorySlotUI.cs",
-              "ViewState": "AgIAAJUAAAAAAAAAAAA7wKYAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:47.84Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "StallInteraction.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\StallInteraction.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\StallInteraction.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\StallInteraction.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\StallInteraction.cs",
+              "Title": "RadioManager.cs.meta",
+              "DocumentMoniker": "c:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Radio\\RadioManager.cs.meta",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Radio\\RadioManager.cs.meta",
+              "ToolTip": "c:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Radio\\RadioManager.cs.meta",
+              "RelativeToolTip": "Assets\\Scripts\\Radio\\RadioManager.cs.meta",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:43.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "InventoryManager.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\InventoryManager.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\InventoryManager.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:37.518Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-30T23:45:57.319Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "InventoryItem.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryItem.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Inventory\\InventoryItem.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Inventory\\InventoryItem.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Inventory\\InventoryItem.cs",
+              "Title": "Menu.cs",
+              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Menu\\Menu.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Menu\\Menu.cs",
+              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Menu\\Menu.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Menu\\Menu.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:33.335Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SpawnBackGroundScript.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\BackGround\\SpawnBackGroundScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\BackGround\\SpawnBackGroundScript.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\BackGround\\SpawnBackGroundScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\BackGround\\SpawnBackGroundScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:28.551Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "BackGroundScript.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\BackGround\\BackGroundScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\BackGround\\BackGroundScript.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\BackGround\\BackGroundScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\BackGround\\BackGroundScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T08:23:24.69Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TMP_SDF.shader",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "RelativeToolTip": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF.shader",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2025-06-25T17:09:08.203Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TextMeshProUGUI.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs",
-              "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs",
-              "RelativeToolTip": "Library\\PackageCache\\com.unity.ugui@f3fac7af1578\\Runtime\\TMP\\TextMeshProUGUI.cs",
-              "ViewState": "AgIAAIgJAAAAAAAAAAAvwJ0JAAB0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T15:15:14.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "StallCameraController.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Camera\\StallCameraController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\StallCameraController.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Camera\\StallCameraController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Camera\\StallCameraController.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:45:36.31Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TrainCameraController.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Camera\\TrainCameraController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\TrainCameraController.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Camera\\TrainCameraController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Camera\\TrainCameraController.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAAAAAoBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:45:35.732Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "LoadScene.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\TestScripts\\LoadScene.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\TestScripts\\LoadScene.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\TestScripts\\LoadScene.cs",
-              "RelativeToolTip": "Assets\\Scripts\\TestScripts\\LoadScene.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:37:44.409Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "MoneyUIUpdater.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\MoneyUIUpdater.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\MoneyUIUpdater.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\MoneyUIUpdater.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\MoneyUIUpdater.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAB0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:24:47.998Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "SpawnButtonHandler.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\TestScripts\\SpawnButtonHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T19:16:36.436Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "PlayerMovement.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\PlayerMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerMovement.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\PlayerMovement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerMovement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:28:25.083Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "TrainUpgradeManager.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\TrainUpgradeManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\TrainUpgradeManager.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\TrainUpgradeManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\TrainUpgradeManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:28:33.18Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "PlayerWallet.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\PlayerWallet.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerWallet.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\Player\\PlayerWallet.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerWallet.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAYwDoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:28:29.374Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ItemSpawner.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ItemSpawn\\ItemSpawner.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAA5wN4AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:53:22.496Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "SlotScripts.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotScripts.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\SlotScripts.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotScripts.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\SlotScripts.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAWwEoAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:52:27.57Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "BedsScripts.cs",
-              "DocumentMoniker": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "ToolTip": "D:\\UnityProjects\\FarmingSimulator\\FarmTrain\\Assets\\Scripts\\GridBeds\\BedsScripts.cs",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:49:55.197Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "SlotManagerScript.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\SlotManagerScript.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBUAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:47:23.168Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 53,
-          "SelectedChildIndex": -1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "CreateGrid.cs",
-              "DocumentMoniker": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ToolTip": "C:\\Users\\ascoltat0\\Desktop\\FarmTrain\\Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GridBeds\\CreateGrid.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T18:25:00.504Z"
+              "WhenOpened": "2025-06-30T20:51:16.453Z"
             }
           ]
         }
