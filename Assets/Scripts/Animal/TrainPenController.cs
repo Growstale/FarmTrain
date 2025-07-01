@@ -6,6 +6,7 @@ using System.Linq;
 public class PenInfo
 {
     public AnimalData animalData;
+    public int maxCapacity;
     public Collider2D placementArea;
     public Transform animalParent;
 }
@@ -25,8 +26,15 @@ public class TrainPenController : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     void Start()
@@ -137,5 +145,9 @@ public class TrainPenController : MonoBehaviour
             Random.Range(bounds.min.y, bounds.max.y),
             0
         );
+    }
+    public PenInfo GetPenInfoForAnimal(AnimalData animalData)
+    {
+        return penConfigurations.FirstOrDefault(p => p.animalData == animalData);
     }
 }
