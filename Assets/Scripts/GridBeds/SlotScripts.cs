@@ -7,6 +7,7 @@ public class SlotScripts : MonoBehaviour
 {
     public bool isPlanted = false; // есть ли растение
     public bool ishavebed = false;  // есть ли грядка
+    public bool isRaked = false; // обработана ли грядка
     Color currentColor;
     SpriteRenderer spriteRenderer;
     Transform slot;
@@ -47,8 +48,8 @@ public class SlotScripts : MonoBehaviour
 
     public void PlantSeeds()
     {
-        Debug.Log(">>>>> Try plant new seeds ");
 
+       
         // Получаем ВЫБРАННЫЙ предмет и ИНДЕКС выбранного слота
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
@@ -62,7 +63,7 @@ public class SlotScripts : MonoBehaviour
         else
         {
             // Проверяем, есть ли выбранный предмет и является ли он горшком или грядкой
-            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Pot && !isPlanted)
+            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Pot)
             {
 
                
@@ -74,7 +75,7 @@ public class SlotScripts : MonoBehaviour
                 }
                 else
                 {
-                    _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, new Vector3(0.25f,0.25f,0.25f));
+                    _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, new Vector3(0.25f,0.25f,0.25f), gameObject.transform);
                     ishavebed = true;
                     InventoryManager.Instance.RemoveItem(selectedIndex);
 
@@ -82,101 +83,173 @@ public class SlotScripts : MonoBehaviour
 
             }
 
-            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Seed && ishavebed && !isPlanted)
+            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Seed && !isPlanted)
             {
+                if (ishavebed) {
+                    if (isRaked) {
+                        if (!isPlanted) {
+                            Transform parentSlot = transform.parent;
 
-                Transform parentSlot = transform.parent;
+                            BedSlotController bedSlotController = parentSlot.GetComponent<BedSlotController>();
+                            GridGenerator gridGenerator = parentSlot.GetComponent<GridGenerator>();
 
-                BedSlotController bedSlotController = parentSlot.GetComponent<BedSlotController>();
-                if (parentSlot != null)
-                {
-                    float weightSeed = selectedItem.itemData.associatedPlantData.Weight;
 
-                    // проверка веса растения 
-                 
-                    switch (weightSeed)
+
+                            if (parentSlot != null)
+                            {
+                                float weightSeed = selectedItem.itemData.associatedPlantData.Weight;
+
+                                // проверка веса растения 
+
+                                switch (weightSeed)
+                                {
+                                    case 1:
+                                        _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform);
+                                        isPlanted = true;
+                                        InventoryManager.Instance.RemoveItem(selectedIndex);
+                                        break;
+
+                                    case 2:
+
+                                        if (gridGenerator != null)
+                                        {
+
+                                            bool isFreeSlot = gridGenerator.CheckFree2Slot(name);
+
+                                            if (isFreeSlot)
+                                            {
+                                                _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent);
+                                                InventoryManager.Instance.RemoveItem(selectedIndex);
+                                            }
+                                            else
+                                            {
+                                                Debug.Log("Не хватает грядок, надо купить еще");
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Ошибка заполнения, отсутствует скрипт gridGenerator у родительского Slot");
+                                        }
+                                        break;
+                                    case 4:
+
+                                        if (gridGenerator != null)
+                                        {
+
+                                            bool isFreeSlot = gridGenerator.CheckSquareCells(name).Item1;
+                                            Vector3 Plantposition = gridGenerator.CheckSquareCells(name).Item2;
+
+                                            if (isFreeSlot)
+                                            {
+                                                _itemSpawner.TestSpawnPlant(selectedItem.itemData, Plantposition, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent);
+                                                InventoryManager.Instance.RemoveItem(selectedIndex);
+                                            }
+                                            else
+                                            {
+                                                Debug.Log("Не хватает грядок, надо купить еще");
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("Ошибка заполнения, отсутствует скрипт BedSlotController у родительского Slot");
+                                        }
+                                        break;
+
+                                }
+
+                            }
+                            else
+                            {
+                                Debug.LogError("Не найден родительский слот! Ошибка");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Тут уже занято, куда??");
+                        }
+                    }
+                    else
                     {
-                        case 1:
-                            _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-                            isPlanted = true;
-                            InventoryManager.Instance.RemoveItem(selectedIndex);
-                            break;
-
-                        case 2:
-                           
-                            if (bedSlotController != null)
-                            {
-
-                                bool isFreeSlot = bedSlotController.CheckFreeSlot(2);
-
-                                if (isFreeSlot)
-                                {
-                                    _itemSpawner.TestSpawnPlant(selectedItem.itemData, bedSlotController.Plant2Slot(gameObject.name), new Vector3(0.5f, 0.5f, 0.5f));
-                                    InventoryManager.Instance.RemoveItem(selectedIndex);
-                                }
-                                else
-                                {
-                                    Debug.Log("Не хватает грядок, надо купить еще");
-
-                                }
-
-                            }
-                            else
-                            {
-                                Debug.Log("Ошибка заполнения, отсутствует скрипт BedSlotController у родительского Slot");
-                            }
-                            break;
-                        case 4:
-                          
-                            if (bedSlotController != null)
-                            {
-
-                                bool isFreeSlot = bedSlotController.CheckFreeSlot(4);
-
-                                if (isFreeSlot)
-                                {
-                                    _itemSpawner.TestSpawnPlant(selectedItem.itemData, bedSlotController.Plant4Slot(), new Vector3(0.5f, 0.5f, 0.5f));
-                                    InventoryManager.Instance.RemoveItem(selectedIndex);
-                                }
-                                else
-                                {
-                                    Debug.Log("Не хватает грядок, надо купить еще");
-
-                                }
-
-                            }
-                            else
-                            {
-                                Debug.Log("Ошибка заполнения, отсутствует скрипт BedSlotController у родительского Slot");
-                            }
-                                break;
+                        Debug.Log("Сначала надо обработать грядку, а потом уже садить растение");
 
                     }
 
                 }
                 else
                 {
-                    Debug.LogError("Не найден родительский слот! Ошибка");
+                    Debug.Log("Сначала надо поставить грядку!");
                 }
+
+                
                
             }
-            else
-            {
-                    if (isPlanted)
-                    {
+         
 
-                        Debug.Log("Тут уже занято, куда??");
-                    }
-                    if (selectedItem.itemData.itemType != ItemType.Seed)
+            if(!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Tool)
+            {
+                if (ishavebed)
+                {
+                    if (selectedItem.itemData.itemName == "Rake")
                     {
-                        Debug.Log("Тут только семена ;)");
+                        GameObject childBed = FindChildWithTag("Bed");
+                        if (childBed != null)
+                        {
+                            BedController bedController = childBed.GetComponent<BedController>();
+                            if (bedController != null) {
+
+                                bedController.ChangeStage(BedData.StageGrowthPlant.Raked, 1);
+                                isRaked = true;
+                            }
+                            else
+                            {
+                                Debug.LogError("bedController не найден");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("Грядка не является дочерней для слота, ошибка");
+                        }
                     }
+                    if(selectedItem.itemData.itemName == "Shovel")
+                    {
+                        if (isPlanted)
+                        {
+                            GameObject plant = FindChildWithTag("Plant");
+                            Destroy(plant);
+                            isPlanted = false;
+                        }
+                        else
+                        {
+                            Debug.Log("Здесь нет растения, нечего выкапывать ");
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("Обрабатывать можно только посаженные грядки!");
+                }
             }
+
         }
         
     }
 
-
+    private GameObject FindChildWithTag(string tag)
+    {
+        foreach (Transform child in GetComponentsInChildren<Transform>())
+        {
+            if (child.CompareTag(tag))
+            {
+                return child.gameObject;
+            }
+        }
+        Debug.LogWarning($"No child with tag {tag} found.");
+        return null;
+    }
 
 
 

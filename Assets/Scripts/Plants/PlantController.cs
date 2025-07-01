@@ -22,7 +22,7 @@ public class WheatController : MonoBehaviour
         {
             Stageplant = PlantData.StageGrowthPlant.defaultStage;
             timePerGrowthStage = plantData.timePerGrowthStage;
-            _spriteRenderer.sprite = plantData.growthStagesSprites[2];
+            _spriteRenderer.sprite = plantData.growthStagesSprites[0];
             InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
         }
         else
