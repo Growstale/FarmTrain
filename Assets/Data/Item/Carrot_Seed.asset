@@ -20,4 +20,4 @@ MonoBehaviour:
   description: 
   associatedPlantData: {fileID: 11400000, guid: fdd5c084e410da34c93b4c7de2e7654a, type: 2}
   associatedAnimalData: {fileID: 0}
-  associatedBedData: {fileID: 11400000, guid: 25128b5ab7c1f0941bf84557f20f21d3, type: 2}
+  associatedBedData: {fileID: 0}

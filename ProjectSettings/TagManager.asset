@@ -9,6 +9,8 @@ TagManager:
   - Bed
   - CharacterWalkArea
   - BedManager
+  - Slot
+  - Plant
   layers:
   - Default
   - TransparentFX

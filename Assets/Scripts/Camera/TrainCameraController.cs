@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+
 public class TrainCameraController : MonoBehaviour
 {
     [Header("Wagon Setup")]
@@ -136,7 +137,7 @@ public class TrainCameraController : MonoBehaviour
                 // Сначала проверяем на конкретные интерактивные объекты
                 if (TryHandleAnimalClick(hit)) return;
                 if (TryHandleItemClick(hit)) return;
-                if (TryHandleBedClick(hit)) return;
+                if (TryHandleSlotClick(hit)) return;
 
                 // !!! ВОТ ИСПРАВЛЕНИЕ !!!
                 // Если ничего из вышеперечисленного не сработало, то для ЭТОГО ЖЕ объекта
@@ -203,17 +204,18 @@ public class TrainCameraController : MonoBehaviour
         return false;
     }
 
-    private bool TryHandleBedClick(RaycastHit2D hit)
+    private bool TryHandleSlotClick(RaycastHit2D hit)
     {
         
-        if (!hit.collider.CompareTag("Bed")) { Debug.Log($"Dont object {hit.collider.name} dont have tag bed "); return false; }
+        if (!hit.collider.CompareTag("Slot")) { Debug.Log($"Object {hit.collider.name} dont have tag slot "); return false; }
         //
-        else Debug.Log("CompareTag have");
-            SlotScripts bedScripts = hit.collider.GetComponent<SlotScripts>();
-        if (bedScripts == null) return false;
+        else Debug.Log($"Object {hit.collider.name}  have tag slot ");
+        SlotScripts slotScripts = hit.collider.GetComponent<SlotScripts>();
 
-            Transform parentWagon = FindParentWagon(bedScripts.transform);
-        if (parentWagon == null) return false;
+
+        if (slotScripts == null) { Debug.Log(">>>>>> slotscript null"); return false; }
+            Transform parentWagon = FindParentWagon(slotScripts.transform);
+        if (parentWagon == null) { Debug.Log(">>>>>> parentWagon null"); return false; }
 
 
 
@@ -223,9 +225,9 @@ public class TrainCameraController : MonoBehaviour
 
         if (bedWagonIndex == currentWagonIndex)
         {
-            Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
+            Debug.Log($"Clicked slot in current wagon {currentWagonIndex}.");
             Debug.Log($"Clicked on object {hit.collider.gameObject}");
-            bedScripts.PlantSeeds();
+            slotScripts.PlantSeeds();
             return true;
         }
 
