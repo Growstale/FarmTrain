@@ -14,6 +14,8 @@
 *.sln
 *.user
 *.suo
+.vs/FarmTrain/v17/DocumentLayout.backup.json
+.vs/FarmTrain/v17/DocumentLayout.json
 
 # OS
 .DS_Store
@@ -34,5 +36,4 @@ UserSettings/
 # LFS tracked files (fallback)
 *.zip
 
- Assets/MyFolder/
-
+Assets/MyFolder/
