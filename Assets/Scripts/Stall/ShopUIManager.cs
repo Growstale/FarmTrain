@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class ShopUIManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class ShopUIManager : MonoBehaviour
     private int transactionQuantity = 1;
 
     private List<GameObject> spawnedRows = new List<GameObject>();
+    public event Action<ItemData, int> OnItemPurchased;
 
     private void Awake()
     {
@@ -348,6 +350,7 @@ public class ShopUIManager : MonoBehaviour
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
                 InventoryManager.Instance.RemoveItemByType(itemData, transactionQuantity);
+                OnItemPurchased?.Invoke(itemData, transactionQuantity);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);
             }
         }
