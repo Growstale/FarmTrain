@@ -239,7 +239,8 @@ public class ItemSpawner : MonoBehaviour
     }
 
 
-    public GameObject TestSpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform)
+   
+    public GameObject SpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform, Vector2Int[] IdSelectedSlot, bool isFertilize)
     {
         if (dataToSpawn.itemType == ItemType.Seed)
         {
@@ -256,18 +257,33 @@ public class ItemSpawner : MonoBehaviour
             GameObject plantObject = Instantiate(plantData.PlantPrefab, spawnPosition, Quaternion.identity);
 
             plantObject.transform.localScale = spawnScale;
-            plantObject.transform.parent = parentTransform ;
+            plantObject.transform.parent = parentTransform;
+            PlantController plantController = plantObject.GetComponent<PlantController>();
 
+            if (plantController != null)
+            {
+                if (isFertilize)
+                {
+                    plantController.FertilizePlant();
+                }
+                plantController.FillVectorInts(IdSelectedSlot);
+            }
+            else
+            {
+                Debug.LogError($"У объекта {plantObject.name} нет plantController, растение не заспавнено!");
+                return null;
+
+            }
 
             Debug.Log($"Заспавнен растение: {plantObject.name} в позиции {spawnPosition}");
-                  return plantObject;
+            return plantObject;
 
-         
+
 
 
         }
         Debug.Log($"Попытка спавна не растения, ошибка");
         return null;
     }
-    
+
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 671048716946437440}
   - component: {fileID: 6641982567677625048}
   - component: {fileID: -4482240727178169817}
+  - component: {fileID: 1052354438881440878}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Plant
@@ -101,3 +102,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantData: {fileID: 11400000, guid: 3ff7e1a616c656e4f9254707d4dfa1a8, type: 2}
+  icon_water: {fileID: 2697768212951697730, guid: a0dd0af51373532469f74f9d80ffd5f1, type: 3}
+  worldItemPrefab: {fileID: 8032518324842481959, guid: 308e3e6a9e621d94ea7d4ec0df0fc124, type: 3}
+--- !u!58 &1052354438881440878
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4029445244989665859}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5

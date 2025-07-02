@@ -138,7 +138,7 @@ public class TrainCameraController : MonoBehaviour
                 if (TryHandleAnimalClick(hit)) return;
                 if (TryHandleItemClick(hit)) return;
                 if (TryHandleSlotClick(hit)) return;
-
+                if (TryHandlePlantClick(hit)) return;
                 // !!! ВОТ ИСПРАВЛЕНИЕ !!!
                 // Если ничего из вышеперечисленного не сработало, то для ЭТОГО ЖЕ объекта
                 // проверяем, не принадлежит ли он соседнему вагону.
@@ -209,13 +209,13 @@ public class TrainCameraController : MonoBehaviour
         
         if (!hit.collider.CompareTag("Slot")) { Debug.Log($"Object {hit.collider.name} dont have tag slot "); return false; }
         //
-        else Debug.Log($"Object {hit.collider.name}  have tag slot ");
+        
         SlotScripts slotScripts = hit.collider.GetComponent<SlotScripts>();
 
 
-        if (slotScripts == null) { Debug.Log(">>>>>> slotscript null"); return false; }
+        if (slotScripts == null) {  return false; }
             Transform parentWagon = FindParentWagon(slotScripts.transform);
-        if (parentWagon == null) { Debug.Log(">>>>>> parentWagon null"); return false; }
+        if (parentWagon == null) { return false; }
 
 
 
@@ -233,7 +233,40 @@ public class TrainCameraController : MonoBehaviour
 
         if (Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
         {
-            Debug.Log($"Clicked bed in adjacent wagon {bedWagonIndex}. Moving camera.");
+            Debug.Log($"Clicked slot in adjacent wagon {bedWagonIndex}. Moving camera.");
+            MoveToWagon(bedWagonIndex);
+            return true;
+        }
+        return false;
+    }
+    private bool TryHandlePlantClick(RaycastHit2D hit)
+    {
+
+        if (!hit.collider.CompareTag("Plant")) { Debug.Log($"Object {hit.collider.name} dont have tag plant "); return false; }
+      
+        
+         PlantController plantController= hit.collider.GetComponent<PlantController>();
+
+
+        if (plantController == null) { return false; }
+        Transform parentWagon = FindParentWagon(plantController.transform);
+        if (parentWagon == null) { return false; }
+
+
+        int bedWagonIndex = wagons.IndexOf(parentWagon);
+        if (bedWagonIndex < 1) return false;
+
+        if (bedWagonIndex == currentWagonIndex)
+        {
+            Debug.Log($"Clicked plant in current wagon {currentWagonIndex}.");
+            Debug.Log($"Clicked on object {hit.collider.gameObject}");
+            plantController.ClickHandler();
+            return true;
+        }
+
+        if (Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked plant in adjacent wagon {bedWagonIndex}. Moving camera.");
             MoveToWagon(bedWagonIndex);
             return true;
         }

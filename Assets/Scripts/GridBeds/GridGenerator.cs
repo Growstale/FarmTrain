@@ -68,11 +68,46 @@ public class GridGenerator : MonoBehaviour
         return null;
     }
 
-    // Метод для проверки двух свободных слотов (вертикальная пара)
-    public bool CheckFree2Slot(string nameSlot)
+
+    public (bool, Vector3, Vector2Int[]) CheckFreeSlot(string nameSlot)
     {
         Vector2Int currentIDSlot = GetGridPositionFromName(nameSlot);
-        if (currentIDSlot != Vector2Int.zero)
+        if (currentIDSlot != new Vector2Int(100, 100))
+        {
+            GameObject currentSlot = transform.Find(nameSlot)?.gameObject;
+            SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
+            if (currentSlotScripts != null) {
+
+                if (!currentSlotScripts.isPlanted && currentSlotScripts.isRaked) {
+                    return (true, currentSlot.transform.position, new Vector2Int[1] { currentIDSlot });
+                }
+                else
+                {
+                    Debug.LogError($"Грядка занята");
+                    return (false, new Vector3(222, 222), null);
+                }
+            }
+            else
+            {
+                Debug.LogError($"Не удалось получить корректный currentSlotScripts из имени {nameSlot}.");
+                return (false, new Vector3(222, 222), null);
+            }
+        }
+        else
+        {
+            Debug.LogError($"Не удалось получить корректный ID слота из имени {nameSlot}.");
+            return (false, new Vector3(222, 222), null);
+
+
+        }
+    }
+
+
+    // Метод для проверки двух свободных слотов (вертикальная пара)
+    public (bool, Vector3, Vector2Int[]) CheckFree2Slot(string nameSlot)
+    {
+        Vector2Int currentIDSlot = GetGridPositionFromName(nameSlot);
+        if (currentIDSlot != new Vector2Int(100, 100))
         {
             if (currentIDSlot.y == 0)
             {
@@ -82,7 +117,7 @@ public class GridGenerator : MonoBehaviour
                 if (currentSlot == null || upperSlot == null)
                 {
                     Debug.LogWarning($"Один из слотов ({nameSlot} или Slot_{currentIDSlot.x}_1) не найден.");
-                    return false;
+                    return (false, new Vector3(222, 222),null);
                 }
 
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
@@ -94,7 +129,13 @@ public class GridGenerator : MonoBehaviour
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {upperSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
                     upperSlotScript.isPlanted = true;
-                    return true;
+
+
+                    Vector2Int[] IdCurrentSlot = new Vector2Int[2] { currentIDSlot, GetGridPositionFromName($"Slot_{currentIDSlot.x}_{1}") };
+
+                    Vector3 pos = (upperSlot.transform.position + currentSlot.transform.position)/2;
+
+                    return (true,pos,IdCurrentSlot);
                 }
             }
             else if (currentIDSlot.y == 1)
@@ -105,7 +146,7 @@ public class GridGenerator : MonoBehaviour
                 if (currentSlot == null || lowerSlot == null)
                 {
                     Debug.LogWarning($"Один из слотов ({nameSlot} или Slot_{currentIDSlot.x}_0) не найден.");
-                    return false;
+                    return (false, new Vector3(222, 222), null);
                 }
 
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
@@ -117,30 +158,34 @@ public class GridGenerator : MonoBehaviour
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {lowerSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
                     lowerSlotScript.isPlanted = true;
-                    return true;
+
+                    Vector2Int[] IdCurrentSlot = new Vector2Int[2] { currentIDSlot, GetGridPositionFromName($"Slot_{currentIDSlot.x}_{0}") };
+
+                    Vector3 pos = (lowerSlotScript.transform.position + currentSlot.transform.position) / 2;
+
+                    return (true, pos, IdCurrentSlot);
                 }
             }
 
             Debug.LogWarning($"Не удалось найти свободную пару слотов для {nameSlot}.");
-            return false;
+            return (false, new Vector3(222, 222), null);
         }
         else
         {
             Debug.LogError($"Не удалось получить корректный ID слота из имени {nameSlot}.");
-            return false;
+            return (false, new Vector3(222, 222), null);
         }
     }
 
     // Метод для проверки четырех клеток, образующих квадрат, на isPlanted == false
-    public (bool, Vector3) CheckSquareCells(string nameslot)
+    public (bool, Vector3, Vector2Int[]) CheckSquareCells(string nameslot)
     {
         Vector2Int currentCell = GetGridPositionFromName(nameslot);
-
         // Проверяем, что текущая клетка существует в словаре
         if (!gridObjects.TryGetValue(currentCell, out GameObject currentObj) || currentObj == null)
         {
             Debug.LogWarning($"Клетка {currentCell} не существует.");
-            return (false, Vector3.zero);
+            return (false, Vector3.zero, null);
         }
 
         // Проверяем, что текущая клетка имеет isPlanted == false
@@ -148,44 +193,44 @@ public class GridGenerator : MonoBehaviour
         if (currentSlot == null || currentSlot.isPlanted)
         {
             Debug.LogWarning($"Клетка {currentCell} либо не имеет SlotScripts, либо уже занята (isPlanted = true).");
-            return (false, Vector3.zero);
+            return (false, Vector3.zero, null);
         }
 
         // Проверяем возможные квадраты вокруг текущей клетки
         // Вариант 1: текущая клетка — левый нижний угол (x,y), квадрат: (x,y), (x,y+1), (x+1,y), (x+1,y+1)
         Vector2Int[] square1 = new Vector2Int[]
         {
-            currentCell,                    // (x, y)
-            new Vector2Int(currentCell.x, currentCell.y + 1),   // (x, y+1)
-            new Vector2Int(currentCell.x + 1, currentCell.y),   // (x+1, y)
-            new Vector2Int(currentCell.x + 1, currentCell.y + 1) // (x+1, y+1)
+        currentCell,                    // (x, y)
+        new Vector2Int(currentCell.x, currentCell.y + 1),   // (x, y+1)
+        new Vector2Int(currentCell.x + 1, currentCell.y),   // (x+1, y)
+        new Vector2Int(currentCell.x + 1, currentCell.y + 1) // (x+1, y+1)
         };
 
         // Вариант 2: текущая клетка — правый нижний угол (x,y), квадрат: (x-1,y), (x-1,y+1), (x,y), (x,y+1)
         Vector2Int[] square2 = new Vector2Int[]
         {
-            new Vector2Int(currentCell.x - 1, currentCell.y),   // (x-1, y)
-            new Vector2Int(currentCell.x - 1, currentCell.y + 1), // (x-1, y+1)
-            currentCell,                    // (x, y)
-            new Vector2Int(currentCell.x, currentCell.y + 1)    // (x, y+1)
+        new Vector2Int(currentCell.x - 1, currentCell.y),   // (x-1, y)
+        new Vector2Int(currentCell.x - 1, currentCell.y + 1), // (x-1, y+1)
+        currentCell,                    // (x, y)
+        new Vector2Int(currentCell.x, currentCell.y + 1)    // (x, y+1)
         };
 
         // Вариант 3: текущая клетка — левый верхний угол (x,y), квадрат: (x,y-1), (x,y), (x+1,y-1), (x+1,y)
         Vector2Int[] square3 = new Vector2Int[]
         {
-            new Vector2Int(currentCell.x, currentCell.y - 1),   // (x, y-1)
-            currentCell,                    // (x, y)
-            new Vector2Int(currentCell.x + 1, currentCell.y - 1), // (x+1, y-1)
-            new Vector2Int(currentCell.x + 1, currentCell.y)    // (x+1, y)
+        new Vector2Int(currentCell.x, currentCell.y - 1),   // (x, y-1)
+        currentCell,                    // (x, y)
+        new Vector2Int(currentCell.x + 1, currentCell.y - 1), // (x+1, y-1)
+        new Vector2Int(currentCell.x + 1, currentCell.y)    // (x+1, y)
         };
 
         // Вариант 4: текущая клетка — правый верхний угол (x,y), квадрат: (x-1,y-1), (x-1,y), (x,y-1), (x,y)
         Vector2Int[] square4 = new Vector2Int[]
         {
-            new Vector2Int(currentCell.x - 1, currentCell.y - 1), // (x-1, y-1)
-            new Vector2Int(currentCell.x - 1, currentCell.y),   // (x-1, y)
-            new Vector2Int(currentCell.x, currentCell.y - 1),   // (x, y-1)
-            currentCell                     // (x, y)
+        new Vector2Int(currentCell.x - 1, currentCell.y - 1), // (x-1, y-1)
+        new Vector2Int(currentCell.x - 1, currentCell.y),   // (x-1, y)
+        new Vector2Int(currentCell.x, currentCell.y - 1),   // (x, y-1)
+        currentCell                     // (x, y)
         };
 
         // Проверяем все варианты квадрата
@@ -221,7 +266,7 @@ public class GridGenerator : MonoBehaviour
                     }
 
                     SlotScripts slot = obj.GetComponent<SlotScripts>();
-                    if (slot == null || slot.isPlanted)
+                    if (slot == null || slot.isPlanted || !slot.ishavebed || !slot.isRaked)
                     {
                         allFree = false;
                         break;
@@ -232,7 +277,7 @@ public class GridGenerator : MonoBehaviour
                     validObjects++;
                 }
 
-                // Если найден свободный квадрат, устанавливаем isPlanted = true и возвращаем центр
+                // Если найден свободный квадрат, устанавливаем isPlanted = true и возвращаем центр и массив id
                 if (allFree && validObjects == 4)
                 {
                     // Вычисляем среднюю позицию (центр квадрата)
@@ -253,13 +298,13 @@ public class GridGenerator : MonoBehaviour
 
                     Debug.Log($"Найден свободный квадрат: {square[0]}, {square[1]}, {square[2]}, {square[3]}. " +
                               $"Установлено isPlanted = true. Центр квадрата: {centerPosition}");
-                    return (true, centerPosition);
+                    return (true, centerPosition, square);
                 }
             }
         }
 
         Debug.LogWarning($"Свободный квадрат вокруг клетки {currentCell} не найден.");
-        return (false, Vector3.zero);
+        return (false, Vector3.zero, null);
     }
 
     private Vector2Int GetGridPositionFromName(string objectName)
@@ -286,6 +331,40 @@ public class GridGenerator : MonoBehaviour
         }
 
         Debug.LogWarning($"Не удалось преобразовать координаты из имени: {objectName}");
-        return Vector2Int.zero;
+        return new Vector2Int(100, 100);
+    }
+
+
+    public bool FreeSlot(Vector2Int[] idSlots)
+    {
+        bool allFreed = true;
+
+        foreach (Vector2Int slotPos in idSlots)
+        {
+            // Проверяем, существует ли слот в словаре
+            if (gridObjects.TryGetValue(slotPos, out GameObject slotObj) && slotObj != null)
+            {
+                // Получаем компонент SlotScripts
+                SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
+                if (slotScript != null)
+                {
+                    // Устанавливаем isPlanted в false
+                    slotScript.isPlanted = false;
+                    Debug.Log($"Слот {slotObj.name} освобожден (isPlanted = false).");
+                }
+                else
+                {
+                    Debug.LogWarning($"Слот {slotObj.name} не имеет компонента SlotScripts.");
+                    allFreed = false;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Слот с позицией {slotPos} не найден в сетке.");
+                allFreed = false;
+            }
+        }
+
+        return allFreed;
     }
 }

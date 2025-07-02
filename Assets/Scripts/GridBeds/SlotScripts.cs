@@ -8,6 +8,7 @@ public class SlotScripts : MonoBehaviour
     public bool isPlanted = false; // есть ли растение
     public bool ishavebed = false;  // есть ли грядка
     public bool isRaked = false; // обработана ли грядка
+    public bool isFertilize = false; // есть ли удобрения
     Color currentColor;
     SpriteRenderer spriteRenderer;
     Transform slot;
@@ -31,18 +32,10 @@ public class SlotScripts : MonoBehaviour
             Debug.Log("itemSpaner not found!");
         }
 
-        //slot = transform.Find("Square");
+       
         spriteRenderer = GetComponent<SpriteRenderer>();
         currentColor = spriteRenderer.color;
-        //if (slot == null)
-        //{
-        //    Debug.Log("not find");
-        //}
-        //else
-        //{
-        //    // Debug.Log("<< find"); закоментила так как спамило всю консоль 
-        //    spriteRenderer = slot.GetComponent<SpriteRenderer>();
-        //}
+       
       
     }
 
@@ -104,21 +97,31 @@ public class SlotScripts : MonoBehaviour
                                 switch (weightSeed)
                                 {
                                     case 1:
-                                        _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform);
-                                        isPlanted = true;
-                                        InventoryManager.Instance.RemoveItem(selectedIndex);
+
+                                        var tourple1 = gridGenerator.CheckFreeSlot(name);
+                                        bool isFreeSlot1 = tourple1.Item1;
+                                        Vector3 pos1 = tourple1.Item2;
+                                        Vector2Int[] idSlots1 = tourple1.Item3;
+                                        if (isFreeSlot1)
+                                        {
+                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, new Vector3(0.5f, 0.5f, 0.5f), gameObject.transform.parent, idSlots1,isFertilize);
+                                            isPlanted = true;
+                                            InventoryManager.Instance.RemoveItem(selectedIndex);
+                                        }
+                                        
                                         break;
 
                                     case 2:
 
                                         if (gridGenerator != null)
                                         {
-
-                                            bool isFreeSlot = gridGenerator.CheckFree2Slot(name);
-
+                                            var tourple = gridGenerator.CheckFree2Slot(name);
+                                            bool isFreeSlot = tourple.Item1;
+                                            Vector3 pos = tourple.Item2;
+                                            Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.TestSpawnPlant(selectedItem.itemData, transform.position, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent,idSlots, isFertilize);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -137,13 +140,13 @@ public class SlotScripts : MonoBehaviour
 
                                         if (gridGenerator != null)
                                         {
-
-                                            bool isFreeSlot = gridGenerator.CheckSquareCells(name).Item1;
-                                            Vector3 Plantposition = gridGenerator.CheckSquareCells(name).Item2;
-
+                                            var tourple = gridGenerator.CheckSquareCells(name);
+                                            bool isFreeSlot = tourple.Item1;
+                                            Vector3 Plantposition = tourple.Item2;
+                                            Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.TestSpawnPlant(selectedItem.itemData, Plantposition, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent, idSlots, isFertilize);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -214,19 +217,7 @@ public class SlotScripts : MonoBehaviour
                             Debug.LogError("Грядка не является дочерней для слота, ошибка");
                         }
                     }
-                    if(selectedItem.itemData.itemName == "Shovel")
-                    {
-                        if (isPlanted)
-                        {
-                            GameObject plant = FindChildWithTag("Plant");
-                            Destroy(plant);
-                            isPlanted = false;
-                        }
-                        else
-                        {
-                            Debug.Log("Здесь нет растения, нечего выкапывать ");
-                        }
-                    }
+                    
                 }
                 else
                 {

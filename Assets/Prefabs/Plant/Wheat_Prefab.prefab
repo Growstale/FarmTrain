@@ -102,6 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantData: {fileID: 11400000, guid: e4ae4a108edb38b46a8dcbf97724cc12, type: 2}
+  icon_water: {fileID: 2697768212951697730, guid: a0dd0af51373532469f74f9d80ffd5f1, type: 3}
+  worldItemPrefab: {fileID: 8032518324842481959, guid: 308e3e6a9e621d94ea7d4ec0df0fc124, type: 3}
 --- !u!61 &6376160421748986779
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -139,7 +141,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.49999964, y: 0.042559307}
     oldSize: {x: 1.1, y: 0.9}
     newSize: {x: 1.1, y: 0.9}
     adaptiveTilingThreshold: 0.5
