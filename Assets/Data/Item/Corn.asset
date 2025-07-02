@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Corn_item
+  m_Name: Corn
   m_EditorClassIdentifier: 
-  itemName: Corn_item
+  itemName: Corn
   itemIcon: {fileID: 1837216702720429577, guid: 9393c2a48dbaa2445bcc87b89593cc5f, type: 3}
-  itemType: 2
+  itemType: 5
   isStackable: 1
   maxStackSize: 16
   description: 
-  associatedPlantData: {fileID: 11400000, guid: e941d544150a994448da3acf24374769, type: 2}
+  associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

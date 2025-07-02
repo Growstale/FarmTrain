@@ -8,7 +8,6 @@ TagManager:
   - CanBePickedUp
   - Bed
   - CharacterWalkArea
-  - BedManager
   - Slot
   - Plant
   layers:

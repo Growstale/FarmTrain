@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Rake
   itemIcon: {fileID: -2572143405178213479, guid: 9fd65c6e52e2d8141b476964accf92aa, type: 3}
   itemType: 1
-  isStackable: 0
+  isStackable: 1
   maxStackSize: 16
   description: 
   associatedPlantData: {fileID: 0}

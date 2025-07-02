@@ -20,10 +20,10 @@ MonoBehaviour:
   - {fileID: 1734387795819554390, guid: b615d90258a753241826c8cbac502676, type: 3}
   - {fileID: 8578180459406042070, guid: b615d90258a753241826c8cbac502676, type: 3}
   timePerGrowthStage: 5
-  waterNeededInterval: 5
+  waterNeededInterval: 10
   fertilizerGrowthMultiplier: 1.5
   Weight: 1
-  harvestedCrop: {fileID: 0}
+  harvestedCrop: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
   seedItem: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
   PlantPrefab: {fileID: 5932674423841291334, guid: b623b43fdc5b77d42a0ab836885cabc7, type: 3}
   seedDropChance: 0.8
