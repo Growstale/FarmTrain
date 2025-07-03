@@ -20,7 +20,8 @@ public class SlotScripts : MonoBehaviour
    
 
     [SerializeField] ItemSpawner _itemSpawner;
-    
+    [SerializeField] Vector3 _sizeBed;
+    [SerializeField] Vector3 _sizePlant;
 
     void Start()
     {
@@ -68,7 +69,7 @@ public class SlotScripts : MonoBehaviour
                 }
                 else
                 {
-                    _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, new Vector3(0.25f,0.25f,0.25f), gameObject.transform);
+                    _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, _sizeBed, gameObject.transform);
                     ishavebed = true;
                     InventoryManager.Instance.RemoveItem(selectedIndex);
 
@@ -104,7 +105,7 @@ public class SlotScripts : MonoBehaviour
                                         Vector2Int[] idSlots1 = tourple1.Item3;
                                         if (isFreeSlot1)
                                         {
-                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, new Vector3(0.5f, 0.5f, 0.5f), gameObject.transform.parent, idSlots1,isFertilize);
+                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1,isFertilize);
                                             isPlanted = true;
                                             InventoryManager.Instance.RemoveItem(selectedIndex);
                                         }
@@ -121,7 +122,7 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent,idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots, isFertilize);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -146,7 +147,7 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, new Vector3(0.5f, 0.5f, 0.5f),gameObject.transform.parent, idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots, isFertilize);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -217,7 +218,55 @@ public class SlotScripts : MonoBehaviour
                             Debug.LogError("Грядка не является дочерней для слота, ошибка");
                         }
                     }
-                    
+                   
+
+                }
+                else
+                {
+                    Debug.Log("Обрабатывать можно только посаженные грядки!");
+                }
+            }
+            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Fertilizer)
+            {
+                if (ishavebed)
+                {
+
+                    if (isRaked)
+                    {
+                        if (!isFertilize)
+                        {
+                            GameObject childBed = FindChildWithTag("Bed");
+                            if (childBed != null)
+                            {
+                                BedController bedController = childBed.GetComponent<BedController>();
+                                if (bedController != null)
+                                {
+                                    isFertilize = true;
+                                    bedController.ChangeStage(BedData.StageGrowthPlant.WithFertilizers, 3);
+                                    InventoryManager.Instance.RemoveItem(selectedIndex);
+                                }
+                                else
+                                {
+                                    Debug.LogError("bedController не найден");
+                                }
+                            }
+                            else
+                            {
+                                Debug.LogError("Грядка не является дочерней для слота, ошибка");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("На грядке уже имеется удобрение!");
+                        }
+
+                    }
+                    else
+                    {
+                        Debug.Log("Обрабатывать можно только вспаханные грядки!");
+                    }
+
+
                 }
                 else
                 {

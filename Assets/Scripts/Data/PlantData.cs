@@ -18,7 +18,6 @@ public class PlantData : ScriptableObject
         SecondStage,
         ThirdStage,
         FourthStage,
-        FifthStage
     }
 
 

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      QuestTrackerPanel_0: -9058235072760824709
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

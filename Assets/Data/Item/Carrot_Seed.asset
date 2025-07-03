@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Carrot_Seed
   m_EditorClassIdentifier: 
   itemName: Carrot_Seed
-  itemIcon: {fileID: -1151798497464645528, guid: 646e4a236f4c9274099bbc35ed9c5fbc, type: 3}
+  itemIcon: {fileID: -256651336083396372, guid: 2d14b62ad37ecb042b73bb404ec55ab1, type: 3}
   itemType: 2
   isStackable: 1
   maxStackSize: 16

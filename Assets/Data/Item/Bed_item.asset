@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bed_item
   m_EditorClassIdentifier: 
   itemName: Bed
-  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemIcon: {fileID: -1829052360224850312, guid: 277ca43ffcc93104abf0ecb15d31c5b9, type: 3}
   itemType: 3
   isStackable: 1
   maxStackSize: 16

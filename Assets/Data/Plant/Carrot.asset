@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: 
   plantName: Carrot
-  growthStagesSprites: []
+  growthStagesSprites:
+  - {fileID: -7756956127017962999, guid: 2a798b25d08644e4294d83bd80e1bc00, type: 3}
+  - {fileID: 2622793519933395493, guid: 9bfa0b91b097f5e42a11c01a7cdfa6d7, type: 3}
+  - {fileID: 1820796405891678531, guid: 8267fb3e8cb70344f98da3180b484b36, type: 3}
+  - {fileID: 4118520437923042088, guid: 6a38242316e079e48bf0d886d29a8b6e, type: 3}
   timePerGrowthStage: 10
-  waterNeededInterval: 5
+  waterNeededInterval: 25
   fertilizerGrowthMultiplier: 1.5
-  harvestedCrop: {fileID: 0}
+  Weight: 1
+  harvestedCrop: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
   seedItem: {fileID: 11400000, guid: b3d81db6279c52f4fab8628f523498dd, type: 2}
+  PlantPrefab: {fileID: 7501720143481927976, guid: 13f7b07be962e89489bcb3044e2a48a9, type: 3}
   seedDropChance: 0.8
