@@ -18,7 +18,6 @@ MonoBehaviour:
   - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
   - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
   - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
-  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
   timePerGrowthStage: 10
   waterNeededInterval: 15
   fertilizerGrowthMultiplier: 1.5

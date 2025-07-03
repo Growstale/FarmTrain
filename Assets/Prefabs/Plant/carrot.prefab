@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4029445244989665859
+--- !u!1 &7501720143481927976
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 671048716946437440}
-  - component: {fileID: 6641982567677625048}
-  - component: {fileID: -4482240727178169817}
-  - component: {fileID: 1052354438881440878}
+  - component: {fileID: 8318921416422041719}
+  - component: {fileID: 6279325164929253250}
+  - component: {fileID: 3593719995541827704}
+  - component: {fileID: -1558553556296790023}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: carrot
   m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &671048716946437440
+--- !u!4 &8318921416422041719
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4029445244989665859}
+  m_GameObject: {fileID: 7501720143481927976}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.62, y: -9.46, z: 0}
+  m_LocalPosition: {x: 2.6208525, y: 19.385761, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6641982567677625048
+--- !u!212 &6279325164929253250
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4029445244989665859}
+  m_GameObject: {fileID: 7501720143481927976}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -78,39 +78,39 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 5540354210898670013, guid: 6cc7229aa6598834f92de5ed7edecbb8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.11, y: 0.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4482240727178169817
+--- !u!114 &3593719995541827704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4029445244989665859}
+  m_GameObject: {fileID: 7501720143481927976}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1928fc756f2240f48a62b37620cace15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantData: {fileID: 11400000, guid: 3ff7e1a616c656e4f9254707d4dfa1a8, type: 2}
+  plantData: {fileID: 11400000, guid: fdd5c084e410da34c93b4c7de2e7654a, type: 2}
   icon_water: {fileID: 2697768212951697730, guid: a0dd0af51373532469f74f9d80ffd5f1, type: 3}
   worldItemPrefab: {fileID: 8032518324842481959, guid: 308e3e6a9e621d94ea7d4ec0df0fc124, type: 3}
---- !u!58 &1052354438881440878
-CircleCollider2D:
+--- !u!61 &-1558553556296790023
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4029445244989665859}
+  m_GameObject: {fileID: 7501720143481927976}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -138,5 +138,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.002583146, y: 0.011070251}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11, y: 0.08}
+    newSize: {x: 0.11, y: 0.08}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.19782662, y: 0.15380478}
+  m_EdgeRadius: 0

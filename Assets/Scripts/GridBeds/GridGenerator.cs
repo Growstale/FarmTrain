@@ -367,4 +367,34 @@ public class GridGenerator : MonoBehaviour
 
         return allFreed;
     }
+    public bool FertilizerSlot(Vector2Int[] idSlots)
+    {
+        bool allFertilizer = true;
+
+        foreach (Vector2Int slotPos in idSlots)
+        {
+            // Проверяем, существует ли слот в словаре
+            if (gridObjects.TryGetValue(slotPos, out GameObject slotObj) && slotObj != null)
+            {
+                // Получаем компонент SlotScripts
+                SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
+                if (slotScript != null)
+                {
+                   if(!slotScript.isFertilize) return false;
+                }
+                else
+                {
+                    Debug.LogWarning($"Слот {slotObj.name} не имеет компонента SlotScripts.");
+                    allFertilizer = false;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Слот с позицией {slotPos} не найден в сетке.");
+                allFertilizer = false;
+            }
+        }
+
+        return allFertilizer;
+    }
 }

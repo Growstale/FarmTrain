@@ -1,4 +1,4 @@
-using UnityEngine;
+  using UnityEngine;
 
 public class PlantController : MonoBehaviour
 {
@@ -39,6 +39,15 @@ public class PlantController : MonoBehaviour
             _spriteRenderer.sprite = plantData.growthStagesSprites[0];
             InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
             InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
+            if (isBedHaveFertilizer(IdSlots))
+            {
+                FertilizePlant();
+                Debug.Log($"У грядки есть удобрение, время между ростом растений равно {timePerGrowthStage}");
+            }
+            else
+            {
+                Debug.Log($"У грядки нет удобрение, время между ростом растений равно {timePerGrowthStage}");
+            }
         }
         else
         {
@@ -71,10 +80,6 @@ public class PlantController : MonoBehaviour
                     break;
                 case PlantData.StageGrowthPlant.FourthStage:
                     _spriteRenderer.sprite = plantData.growthStagesSprites[3];
-                    Stageplant = PlantData.StageGrowthPlant.FifthStage;
-                    break;
-                case PlantData.StageGrowthPlant.FifthStage:
-                    _spriteRenderer.sprite = plantData.growthStagesSprites[4];
                     CancelInvoke("StartPlantGrowth");
                     break;
             }
@@ -83,7 +88,7 @@ public class PlantController : MonoBehaviour
     }
     void StartWaterNeededInterval()
     {
-        if (!isNeedWater && Stageplant != PlantData.StageGrowthPlant.FifthStage)
+        if (!isNeedWater && Stageplant != PlantData.StageGrowthPlant.FourthStage)
         {
             isNeedWater = true;
             GameObject iconWater = Instantiate(icon_water, new Vector3(transform.position.x + 0.3f, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
@@ -140,7 +145,7 @@ public class PlantController : MonoBehaviour
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
 
-        if (selectedItem == null && Stageplant == PlantData.StageGrowthPlant.FifthStage)
+        if (selectedItem == null && Stageplant == PlantData.StageGrowthPlant.FourthStage)
         {
             Debug.Log(">>> Сбор урожая");
             GameObject parent = transform.parent.gameObject;
@@ -281,6 +286,38 @@ public class PlantController : MonoBehaviour
             Debug.LogError($"На префабе '{worldItemPrefab.name}' отсутствует компонент WorldItem! Предмет '{dataToSpawn.itemName}' уничтожен.");
             Destroy(newItemObject);
             return null;
+        }
+    }
+
+    private bool isBedHaveFertilizer(Vector2Int[] idSlots)
+    {
+
+        foreach (var slot in idSlots) { 
+        
+        Debug.Log(">>>>>>>> PosSlots: " +  slot);   
+        }
+
+        GameObject parent = transform.parent.gameObject;
+
+        if(parent != null)
+        {
+            GridGenerator generator = parent.GetComponent<GridGenerator>();
+            if(generator != null)
+            {
+                return generator.FertilizerSlot(idSlots);
+            }
+            else
+            {
+                Debug.Log($"Для parent  {parent.name} generator is null");
+                return false;
+            }
+
+
+        }
+        else
+        {
+            Debug.Log($"Для растеничя  {name} Parent is null");
+            return false;
         }
     }
 }
