@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-fertilizer-16_0: 2312750513098567659
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
