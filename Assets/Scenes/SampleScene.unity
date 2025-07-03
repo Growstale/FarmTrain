@@ -15149,7 +15149,7 @@ MonoBehaviour:
   isFertilize: 0
   _itemSpawner: {fileID: 1064586490}
   _sizeBed: {x: 1, y: 2, z: 1}
-  _sizePlant: {x: 2, y: 2, z: 2}
+  _sizePlant: {x: 1.7, y: 2, z: 2}
 --- !u!61 &2020051693
 BoxCollider2D:
   m_ObjectHideFlags: 0
