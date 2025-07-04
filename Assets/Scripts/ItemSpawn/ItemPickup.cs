@@ -24,6 +24,11 @@ public class ItemPickup : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         if (gameObject.CompareTag(requiredTagForPickup))
         {
             AttemptPickup();

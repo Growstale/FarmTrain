@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 01_FirstHarvest
+  m_Name: 04_SeedMoney
   m_EditorClassIdentifier: 
-  id: 01_FirstHarvest
-  title: First Steps
-  description: Plant and harvest your first wheat.
-  shortDescription: Harvest Wheat
-  stationId: 1
-  nextQuest: {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
+  id: 04_SeedMoney
+  title: Seed Money
+  description: Sell your produce to earn 330 coins for an upgrade.
+  shortDescription: Earn Coins
+  stationId: 0
+  nextQuest: {fileID: 0}
   goals:
-  - goalType: 0
-    targetID: Wheat_Seed
-    requiredAmount: 1
+  - goalType: 2
+    targetID: 
+    requiredAmount: 330
     currentAmount: 0
-  rewardXP: 10
-  status: 1
+  rewardXP: 30
+  status: 0
   isPinned: 0
   hasBeenViewed: 0

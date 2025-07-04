@@ -458,6 +458,11 @@ public class AnimalController : MonoBehaviour
                     needsFeeding = false;
                     interactionSuccessful = true;
                     Debug.Log($"Успешно покормлен {animalData.speciesName}");
+                    if (QuestManager.Instance != null)
+                    {
+                        // Мы передаем тип цели, ID (имя вида животного) и количество (1)
+                        QuestManager.Instance.AddQuestProgress(GoalType.FeedAnimal, animalData.speciesName, 1);
+                    }
                 }
                 else
                 {

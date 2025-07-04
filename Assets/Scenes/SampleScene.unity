@@ -4472,6 +4472,7 @@ GameObject:
   - component: {fileID: 670843379}
   - component: {fileID: 670843381}
   - component: {fileID: 670843380}
+  - component: {fileID: 670843382}
   m_Layer: 0
   m_Name: Wagon_2
   m_TagString: Wagon
@@ -4599,6 +4600,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.382789, y: 1.8923252}
   m_EdgeRadius: 0
+--- !u!114 &670843382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670843378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3829c6a7e1ecc5241867f0446066a014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSpawner: {fileID: 1064586490}
 --- !u!1 &682692940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6261,7 +6275,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887109061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f916c329be85ae8418dc779f2a1e7dd1, type: 3}
   m_Name: 
@@ -10845,6 +10859,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8135353ba78282047976397e58132d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  penConfigurations:
+  - animalData: {fileID: 11400000, guid: 12c567d19caa4a945b452ae23cb53dda, type: 2}
+    maxCapacity: 2
+    placementAreaName: ChickenPlacementArea
+    animalParentName: ChickenPlacementArea
+  - animalData: {fileID: 11400000, guid: 10642858300fb674a93eca7cabadbd22, type: 2}
+    maxCapacity: 3
+    placementAreaName: CowPlacementArea
+    animalParentName: CowPlacementArea
+  - animalData: {fileID: 11400000, guid: 9c3ea944612bed54fb0a9dcc494dc961, type: 2}
+    maxCapacity: 4
+    placementAreaName: SheepPlacementArea
+    animalParentName: SheepPlacementArea
 --- !u!1 &1553529746
 GameObject:
   m_ObjectHideFlags: 0
@@ -13455,64 +13482,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786520548}
   m_CullTransparentMesh: 1
---- !u!1 &1787535643
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1787535644}
-  - component: {fileID: 1787535645}
-  m_Layer: 0
-  m_Name: TrainPenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1787535644
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787535643}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.239382, y: -1.3310918, z: -0.0391258}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1787535645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787535643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3829c6a7e1ecc5241867f0446066a014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemSpawner: {fileID: 1064586490}
-  penConfigurations:
-  - animalData: {fileID: 11400000, guid: 12c567d19caa4a945b452ae23cb53dda, type: 2}
-    maxCapacity: 2
-    placementArea: {fileID: 1818038289}
-    animalParent: {fileID: 1818038288}
-  - animalData: {fileID: 11400000, guid: 9c3ea944612bed54fb0a9dcc494dc961, type: 2}
-    maxCapacity: 2
-    placementArea: {fileID: 1064063853}
-    animalParent: {fileID: 1064063852}
-  - animalData: {fileID: 11400000, guid: 10642858300fb674a93eca7cabadbd22, type: 2}
-    maxCapacity: 2
-    placementArea: {fileID: 1925198643}
-    animalParent: {fileID: 1925198642}
 --- !u!1 &1791610535
 GameObject:
   m_ObjectHideFlags: 0
@@ -15309,6 +15278,8 @@ MonoBehaviour:
   allQuests:
   - {fileID: 11400000, guid: 0ed4d9c2d943f2740b40beebf5e4fbdf, type: 2}
   - {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
+  - {fileID: 11400000, guid: 69078eff1cdfcfc4ca30df2a75fde343, type: 2}
+  - {fileID: 11400000, guid: eea12ffab89cb18449a3567bb576cf39, type: 2}
 --- !u!114 &2024606369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16378,7 +16349,6 @@ SceneRoots:
   - {fileID: 1528405285}
   - {fileID: 156422810}
   - {fileID: 1543580907}
-  - {fileID: 1787535644}
   - {fileID: 887109064}
   - {fileID: 2024606367}
   - {fileID: 2022129075}

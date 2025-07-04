@@ -6,14 +6,15 @@ public enum GoalType
     Gather, // Собрать ресурсы (или иметь в инвентаре)
     Buy,    // Купить что-то
     Earn,   // Заработать денег
-    Use    // Использовать предмет/починить что-то (пока не используется, но оставим)
+    Use,    // Использовать предмет/починить что-то (пока не используется, но оставим)
+    FeedAnimal
 }
 
 [System.Serializable]
 public class QuestGoal
 {
     public GoalType goalType;
-    [Tooltip("ID цели. Для Gather/Buy - ItemData.name. Для Earn - не используется.")]
+    [Tooltip("ID цели. Gather/Buy: ItemData.name. FeedAnimal: AnimalData.speciesName.")]
     public string targetID;
     public int requiredAmount;
 

@@ -17,6 +17,8 @@ public class Quest : ScriptableObject
     public string title;
     [TextArea(4, 10)]
     public string description;
+    [TextArea(4, 10)]
+    public string shortDescription;
 
     [Header("Progression")]
     [Tooltip("К какой станции относится этот квест (1, 2, 3...)")]
