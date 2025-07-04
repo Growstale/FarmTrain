@@ -34,27 +34,16 @@ public class QuestTrackerUI : MonoBehaviour
         }
 
         trackerPanel.SetActive(true);
-        titleText.text = pinnedQuest.title;
+        titleText.text = pinnedQuest.shortDescription;
 
         string goalsString = "";
         foreach (var goal in pinnedQuest.goals)
         {
             if (!goal.IsReached())
             {
-                goalsString += $"{GetGoalDescription(goal)}: {goal.currentAmount}/{goal.requiredAmount}\n";
+                goalsString += $"{goal.currentAmount}/{goal.requiredAmount}\n";
             }
         }
         goalsText.text = goalsString;
-    }
-
-    private string GetGoalDescription(QuestGoal goal)
-    {
-        switch (goal.goalType)
-        {
-            case GoalType.Gather: return $"Собрать {goal.targetID}";
-            case GoalType.Buy: return $"Купить {goal.targetID}";
-            case GoalType.Earn: return $"Заработать";
-            default: return "Цель";
-        }
     }
 }

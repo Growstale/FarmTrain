@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 01_FirstHarvest
+  m_Name: 03_An_EggcellentGift
   m_EditorClassIdentifier: 
-  id: 01_FirstHarvest
-  title: First Steps
-  description: Plant and harvest your first wheat.
-  shortDescription: Harvest Wheat
+  id: 03_An_EggcellentGift
+  title: An Eggcellent Gift
+  description: Collect your first eggs from the chickens.
+  shortDescription: Collect Eggs
   stationId: 1
-  nextQuest: {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
+  nextQuest: {fileID: 11400000, guid: eea12ffab89cb18449a3567bb576cf39, type: 2}
   goals:
   - goalType: 0
-    targetID: Wheat_Seed
-    requiredAmount: 1
-    currentAmount: 0
-  rewardXP: 10
-  status: 1
-  isPinned: 0
-  hasBeenViewed: 0
+    targetID: Egg
+    requiredAmount: 2
+    currentAmount: 2
+  rewardXP: 5
+  status: 2
+  isPinned: 1
+  hasBeenViewed: 1

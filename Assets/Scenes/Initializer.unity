@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1426141030}
   - component: {fileID: 1426141033}
   - component: {fileID: 1426141034}
+  - component: {fileID: 1426141035}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f33961d98ee8b44897c6f7957dc188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 300
+  startingMoney: 329
   maxMoney: 9999
 --- !u!114 &1426141031
 MonoBehaviour:
@@ -356,6 +357,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xpPerStation: 64000000c80000002c010000
+--- !u!114 &1426141035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426141028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae93cf13732fa54086fa5c7e3f3aac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: 02_SecondHarvest
   m_EditorClassIdentifier: 
   id: 02_SecondHarvest
-  title: SecondHarvest
-  description: SecondHarvest
-  stationId: 2
-  nextQuest: {fileID: 0}
+  title: Making Friends
+  description: Find the chickens and feed them some wheat.
+  shortDescription: Feed Chickens
+  stationId: 1
+  nextQuest: {fileID: 11400000, guid: 69078eff1cdfcfc4ca30df2a75fde343, type: 2}
   goals:
-  - goalType: 0
-    targetID: Wheat_Seed
+  - goalType: 4
+    targetID: Chicken
     requiredAmount: 2
-    currentAmount: 0
-  rewardXP: 20
-  status: 0
+    currentAmount: 2
+  rewardXP: 5
+  status: 2
   isPinned: 0
   hasBeenViewed: 0

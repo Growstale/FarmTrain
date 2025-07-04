@@ -109,16 +109,16 @@ public class QuestManager : MonoBehaviour
         Debug.Log($"Квест '{quest.title}' выполнен! Награда: {quest.rewardXP} XP.");
     }
 
-    // Этот метод будут вызывать другие системы
+
     public void AddQuestProgress(GoalType goalType, string targetID, int amount)
     {
-        foreach (var quest in new List<Quest>(ActiveQuests)) // Создаем временную копию списка
+        foreach (var quest in new List<Quest>(ActiveQuests))
         {
             bool questProgressed = false;
             foreach (var goal in quest.goals.Where(g => g.goalType == goalType && !g.IsReached()))
             {
-                // Для сбора и покупки проверяем ID, для заработка - нет.
-                if (goalType == GoalType.Gather || goalType == GoalType.Buy)
+                // Для сбора, покупки И КОРМЛЕНИЯ проверяем ID
+                if (goalType == GoalType.Gather || goalType == GoalType.Buy || goalType == GoalType.FeedAnimal) // <<< ДОБАВЛЯЕМ СЮДА FeedAnimal
                 {
                     if (goal.targetID == targetID)
                     {
@@ -128,7 +128,6 @@ public class QuestManager : MonoBehaviour
                 }
                 else if (goalType == GoalType.Earn)
                 {
-                    // Для заработка денег мы не добавляем, а устанавливаем текущее значение
                     goal.currentAmount = PlayerWallet.Instance.GetCurrentMoney();
                     questProgressed = true;
                 }
@@ -136,8 +135,8 @@ public class QuestManager : MonoBehaviour
 
             if (questProgressed)
             {
-                Debug.Log($"Прогресс для квеста '{quest.title}' обновлен.");
-                OnQuestLogUpdated?.Invoke(); // Обновляем UI
+                Debug.Log($"<color=lightblue>[QuestManager]</color> Прогресс для квеста '{quest.title}' обновлен по цели '{goalType}'.");
+                OnQuestLogUpdated?.Invoke();
                 CheckQuestCompletion(quest);
             }
         }

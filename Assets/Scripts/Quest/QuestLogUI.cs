@@ -8,41 +8,36 @@ public class QuestLogUI : MonoBehaviour
 {
     // --- ПРИВЯЗКИ К UI В ИНСПЕКТОРЕ ---
     [Header("Main Components")]
-    [SerializeField] private GameObject questLogPanelObject; // Ссылка на саму панель
-    [SerializeField] private Button openLogButton; // Кнопка-книжка на главном экране
-    [SerializeField] private Button closeLogButton; // Крестик на панели
+    [SerializeField] private GameObject questLogPanelObject;
+    [SerializeField] private Button openLogButton;
+    [SerializeField] private Button closeLogButton;
 
     [Header("Quest List")]
-    [Tooltip("Префаб строки для одного квеста")]
     [SerializeField] private GameObject questEntryPrefab;
-    [Tooltip("Контейнер, куда будут добавляться активные квесты")]
     [SerializeField] private Transform questListContentContainer;
 
     [Header("Quest Details (Right Panel)")]
-    [SerializeField] private GameObject detailsPanelObject; // Правая панель с деталями
+    [SerializeField] private GameObject detailsPanelObject; // Эта панель будет скрываться
     [SerializeField] private TextMeshProUGUI detailsTitleText;
     [SerializeField] private TextMeshProUGUI detailsDescriptionText;
-    [SerializeField] private TextMeshProUGUI detailsGoalsText; // Текст для списка целей
-    [SerializeField] private TextMeshProUGUI detailsRewardText; // Текст для награды (например, "10 XP")
+    [SerializeField] private TextMeshProUGUI detailsGoalsText;
+    [SerializeField] private TextMeshProUGUI detailsRewardText;
 
     private List<GameObject> spawnedEntries = new List<GameObject>();
-    private Quest selectedQuest;
+    private Quest selectedQuest; // По умолчанию он и так null
 
     private void Start()
     {
-        // Привязываем методы к кнопкам
         openLogButton.onClick.AddListener(ToggleLog);
         closeLogButton.onClick.AddListener(CloseLog);
 
-        // Подписываемся на события менеджера
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.OnQuestLogUpdated += UpdateUI;
         }
 
-        // Убеждаемся, что все скрыто при старте
         questLogPanelObject.SetActive(false);
-        detailsPanelObject.SetActive(false);
+        detailsPanelObject.SetActive(false); // Убеждаемся, что детали скрыты при старте
     }
 
     private void OnDestroy()
@@ -57,60 +52,51 @@ public class QuestLogUI : MonoBehaviour
     {
         bool isActive = questLogPanelObject.activeSelf;
         questLogPanelObject.SetActive(!isActive);
-        if (!isActive) // Если только что открыли
+
+        if (!isActive) // Если только что открыли журнал
         {
-            UpdateUI();
+            GameStateManager.Instance.RequestPause(this);
+            selectedQuest = null;
+            detailsPanelObject.SetActive(false);
+            UpdateUI(); // Обновляем только список
+        }
+        else // Если только что закрыли
+        {
+            // <<< ИЗМЕНЕНИЕ: Снимаем игру с паузы
+            GameStateManager.Instance.RequestResume(this);
         }
     }
 
     private void CloseLog()
     {
-        questLogPanelObject.SetActive(false);
+        if (questLogPanelObject.activeSelf)
+        {
+            questLogPanelObject.SetActive(false);
+            GameStateManager.Instance.RequestResume(this);
+        }
     }
 
-    // Главный метод обновления всего UI
+    // Этот метод теперь отвечает ТОЛЬКО за обновление списка квестов
     private void UpdateUI()
     {
-        // Если панель не активна, ничего не делаем
         if (!questLogPanelObject.activeSelf) return;
-
         PopulateQuestList();
-
-        // Показываем детали для ранее выбранного квеста или первого в списке
-        if (selectedQuest != null && QuestManager.Instance.ActiveQuests.Contains(selectedQuest))
-        {
-            ShowQuestDetails(selectedQuest);
-        }
-        else
-        {
-            var firstQuest = QuestManager.Instance.ActiveQuests.FirstOrDefault() ?? QuestManager.Instance.CompletedQuests.FirstOrDefault();
-            if (firstQuest != null)
-            {
-                ShowQuestDetails(firstQuest);
-            }
-            else
-            {
-                detailsPanelObject.SetActive(false);
-            }
-        }
     }
 
     private void PopulateQuestList()
     {
-        // Уничтожаем старые записи
         foreach (var entry in spawnedEntries)
         {
             Destroy(entry);
         }
         spawnedEntries.Clear();
 
-        // Объединяем активные и выполненные квесты для отображения в одном списке
         var allVisibleQuests = QuestManager.Instance.ActiveQuests.Concat(QuestManager.Instance.CompletedQuests).ToList();
 
         foreach (var quest in allVisibleQuests)
         {
             GameObject entryGO = Instantiate(questEntryPrefab, questListContentContainer);
-            entryGO.GetComponent<QuestLogEntryUI>().Setup(quest, OnQuestSelected); // Передаем метод выбора
+            entryGO.GetComponent<QuestLogEntryUI>().Setup(quest, OnQuestSelected);
             spawnedEntries.Add(entryGO);
         }
     }
@@ -119,38 +105,35 @@ public class QuestLogUI : MonoBehaviour
     private void OnQuestSelected(Quest quest)
     {
         selectedQuest = quest;
-        quest.hasBeenViewed = true; // Отмечаем как просмотренный
+        quest.hasBeenViewed = true;
+
+        // <<< ИЗМЕНЕНИЕ 2: Теперь ТОЛЬКО этот метод решает, показывать детали или нет
         ShowQuestDetails(quest);
 
-        // Триггерим обновление UI (например, для иконки-булавки и уведомления)
         QuestManager.Instance.TriggerQuestLogUpdate();
     }
 
+    // Этот метод почти не изменился, просто отвечает за заполнение полей
     private void ShowQuestDetails(Quest quest)
     {
+        // Показываем панель, только если нам передали действительный квест
+        if (quest == null)
+        {
+            detailsPanelObject.SetActive(false);
+            return;
+        }
+
         detailsPanelObject.SetActive(true);
         detailsTitleText.text = quest.title;
         detailsDescriptionText.text = quest.description;
-        detailsRewardText.text = $"{quest.rewardXP} XP"; // Ваша награда тут
+        detailsRewardText.text = $"{quest.rewardXP} XP";
 
         // Формируем строку с целями
         string goalsString = "";
         foreach (var goal in quest.goals)
         {
-            string status = goal.IsReached() ? "<color=green>✓</color>" : "";
-            goalsString += $"{status} {GetGoalDescription(goal)}: {goal.currentAmount}/{goal.requiredAmount}\n";
+            goalsString += $"{goal.currentAmount}/{goal.requiredAmount}\n";
         }
         detailsGoalsText.text = goalsString.TrimEnd('\n'); // Убираем лишний перенос строки
-    }
-
-    private string GetGoalDescription(QuestGoal goal)
-    {
-        switch (goal.goalType)
-        {
-            case GoalType.Gather: return $"Собрать {goal.targetID}";
-            case GoalType.Buy: return $"Купить {goal.targetID}";
-            case GoalType.Earn: return $"Заработать денег";
-            default: return "Неизвестная цель";
-        }
     }
 }
