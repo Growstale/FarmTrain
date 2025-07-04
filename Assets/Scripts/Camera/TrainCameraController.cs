@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+
 public class TrainCameraController : MonoBehaviour
 {
     [Header("Wagon Setup")]
@@ -66,12 +67,22 @@ public class TrainCameraController : MonoBehaviour
 
     void Update()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         HandleInput();
         SmoothCameraMovement();
     }
 
     void HandleInput()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
         if (scroll < 0f && !isOverview) EnterOverviewMode();
@@ -93,6 +104,11 @@ public class TrainCameraController : MonoBehaviour
 
     void HandleLeftClick()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D[] allHits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
@@ -136,8 +152,8 @@ public class TrainCameraController : MonoBehaviour
                 // Сначала проверяем на конкретные интерактивные объекты
                 if (TryHandleAnimalClick(hit)) return;
                 if (TryHandleItemClick(hit)) return;
-                if (TryHandleBedClick(hit)) return;
-
+                if (TryHandleSlotClick(hit)) return;
+                if (TryHandlePlantClick(hit)) return;
                 // !!! ВОТ ИСПРАВЛЕНИЕ !!!
                 // Если ничего из вышеперечисленного не сработало, то для ЭТОГО ЖЕ объекта
                 // проверяем, не принадлежит ли он соседнему вагону.
@@ -203,29 +219,69 @@ public class TrainCameraController : MonoBehaviour
         return false;
     }
 
-    private bool TryHandleBedClick(RaycastHit2D hit)
+    private bool TryHandleSlotClick(RaycastHit2D hit)
     {
-        if (!hit.collider.CompareTag("Bed")) return false;
+        
+        if (!hit.collider.CompareTag("Slot")) { Debug.Log($"Object {hit.collider.name} dont have tag slot "); return false; }
+        //
+        
+        SlotScripts slotScripts = hit.collider.GetComponent<SlotScripts>();
 
-        SlotScripts bedScripts = hit.collider.GetComponent<SlotScripts>();
-        if (bedScripts == null) return false;
 
-        Transform parentWagon = FindParentWagon(bedScripts.transform);
-        if (parentWagon == null) return false;
+        if (slotScripts == null) {  return false; }
+            Transform parentWagon = FindParentWagon(slotScripts.transform);
+        if (parentWagon == null) { return false; }
+
+
+
 
         int bedWagonIndex = wagons.IndexOf(parentWagon);
         if (bedWagonIndex < 1) return false;
 
         if (bedWagonIndex == currentWagonIndex)
         {
-            Debug.Log($"Clicked bed in current wagon {currentWagonIndex}.");
-            bedScripts.PlantSeeds();
+            Debug.Log($"Clicked slot in current wagon {currentWagonIndex}.");
+            Debug.Log($"Clicked on object {hit.collider.gameObject}");
+            slotScripts.PlantSeeds();
             return true;
         }
 
         if (Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
         {
-            Debug.Log($"Clicked bed in adjacent wagon {bedWagonIndex}. Moving camera.");
+            Debug.Log($"Clicked slot in adjacent wagon {bedWagonIndex}. Moving camera.");
+            MoveToWagon(bedWagonIndex);
+            return true;
+        }
+        return false;
+    }
+    private bool TryHandlePlantClick(RaycastHit2D hit)
+    {
+
+        if (!hit.collider.CompareTag("Plant")) { Debug.Log($"Object {hit.collider.name} dont have tag plant "); return false; }
+      
+        
+         PlantController plantController= hit.collider.GetComponent<PlantController>();
+
+
+        if (plantController == null) { return false; }
+        Transform parentWagon = FindParentWagon(plantController.transform);
+        if (parentWagon == null) { return false; }
+
+
+        int bedWagonIndex = wagons.IndexOf(parentWagon);
+        if (bedWagonIndex < 1) return false;
+
+        if (bedWagonIndex == currentWagonIndex)
+        {
+            Debug.Log($"Clicked plant in current wagon {currentWagonIndex}.");
+            Debug.Log($"Clicked on object {hit.collider.gameObject}");
+            plantController.ClickHandler();
+            return true;
+        }
+
+        if (Mathf.Abs(bedWagonIndex - currentWagonIndex) == 1)
+        {
+            Debug.Log($"Clicked plant in adjacent wagon {bedWagonIndex}. Moving camera.");
             MoveToWagon(bedWagonIndex);
             return true;
         }

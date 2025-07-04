@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bc6c6f5ca22f849801c1171e8013a4, type: 3}
   m_Name: Bed
   m_EditorClassIdentifier: 
-  speciesName: New Bed
+  speciesName: Bed
   bedlPrefab: {fileID: 4948496027085741848, guid: 067d053ee28d7904893efd99bbda53be, type: 3}
-  bedSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  bedSprites:
+  - {fileID: 21300000, guid: 6ccaaa92eb7707f42a6ef7b359b1306b, type: 3}
+  - {fileID: 21300000, guid: 94cd1e49701473940b9db40dece3cdf9, type: 3}
+  - {fileID: 21300000, guid: 042e2e900cd36e04aa04e2d4955a2746, type: 3}
+  - {fileID: 21300000, guid: 2e169f8eb508fee4cb17cee081716c44, type: 3}
   isPlanted: 0

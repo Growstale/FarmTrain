@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
+  m_Name: Pumpkin_seed
+  m_EditorClassIdentifier: 
+  itemName: Pumpkin_seed
+  itemIcon: {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  itemType: 2
+  isStackable: 1
+  maxStackSize: 16
+  description: 
+  associatedPlantData: {fileID: 11400000, guid: 3ff7e1a616c656e4f9254707d4dfa1a8, type: 2}
+  associatedAnimalData: {fileID: 0}
+  associatedBedData: {fileID: 0}

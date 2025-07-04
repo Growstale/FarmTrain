@@ -1,12 +1,16 @@
+// ShopUIManager.cs
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class ShopUIManager : MonoBehaviour
 {
     public static ShopUIManager Instance { get; private set; }
 
+    // ... (все поля [SerializeField] остаются без изменений) ...
     [Header("Main Panel")]
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private TextMeshProUGUI shopNameText;
@@ -15,8 +19,8 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private Button sellTabButton;
 
     [Header("Item Display")]
-    [SerializeField] private RectTransform itemsContentArea; 
-    [SerializeField] private GameObject shopItemRowPrefab; 
+    [SerializeField] private RectTransform itemsContentArea;
+    [SerializeField] private GameObject shopItemRowPrefab;
 
     [Header("Confirmation Panel")]
     [SerializeField] private GameObject confirmationPanel;
@@ -34,12 +38,16 @@ public class ShopUIManager : MonoBehaviour
     private int transactionQuantity = 1;
 
     private List<GameObject> spawnedRows = new List<GameObject>();
+    public event Action<ItemData, int> OnItemPurchased;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
     }
+
+    // ... (Start, OpenShop, CloseShop, SetMode, PopulateShopList, OnItemActionClicked, OpenConfirmationPanel - без изменений) ...
+    // Все эти методы остаются прежними
 
     private void Start()
     {
@@ -132,7 +140,7 @@ public class ShopUIManager : MonoBehaviour
     {
         Debug.Log($"Нажата кнопка для {shopItem.itemData.itemName}");
         currentItemForTransaction = shopItem;
-        transactionQuantity = 1; 
+        transactionQuantity = 1;
         OpenConfirmationPanel();
     }
 
@@ -142,16 +150,58 @@ public class ShopUIManager : MonoBehaviour
         confirmationPanel.SetActive(true);
     }
 
+
     private void UpdateConfirmationPanel()
     {
         if (currentItemForTransaction == null) return;
 
         var itemData = currentItemForTransaction.itemData;
         int price = isBuyMode ? currentItemForTransaction.buyPrice : currentItemForTransaction.sellPrice;
-        int maxQuantity = 1;
+        int maxQuantity = int.MaxValue;
 
-        if (itemData.itemType != ItemType.Animal)
+        if (itemData.itemType == ItemType.Animal)
         {
+            if (isBuyMode)
+            {
+                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
+                maxQuantity = Mathf.Min(stock, affordable);
+
+                // <<< ИЗМЕНЕНИЕ: Убираем зависимость от TrainPenController.Instance
+                // Вместо этого напрямую работаем с AnimalPenManager
+                var animalData = itemData.associatedAnimalData;
+                if (animalData != null)
+                {
+                    // <<< ИЗМЕНЕНИЕ: Получаем "сухую" конфигурацию
+                    PenConfigData penConfig = AnimalPenManager.Instance.GetPenConfigForAnimal(animalData);
+
+                    if (penConfig != null)
+                    {
+                        int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+                        // Используем maxCapacity из "сухой" конфигурации
+                        int availableSpace = penConfig.maxCapacity - currentAnimalCount;
+                        maxQuantity = Mathf.Min(maxQuantity, availableSpace);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Загон НЕ НАЙДЕН для {animalData.name} в конфигурации AnimalPenManager!");
+                        maxQuantity = 0;
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"У предмета {itemData.name} поле associatedAnimalData ПУСТОЕ!");
+                    maxQuantity = 0;
+                }
+            }
+            else // Режим продажи
+            {
+                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+            }
+        }
+        else
+        {
+            // Логика для обычных предметов (не меняется)
             if (isBuyMode)
             {
                 int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
@@ -163,29 +213,14 @@ public class ShopUIManager : MonoBehaviour
                 maxQuantity = InventoryManager.Instance.GetTotalItemQuantity(itemData);
             }
         }
-        else
-        {
-            if (isBuyMode)
-            {
-                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
-                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
-                maxQuantity = Mathf.Min(stock, affordable);
-            }
-            else 
-            {
-                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
-            }
-        }
-
 
         transactionQuantity = Mathf.Clamp(transactionQuantity, 1, maxQuantity);
-        if (maxQuantity == 0) transactionQuantity = 0;
+        if (maxQuantity <= 0) transactionQuantity = 0;
 
         quantityText.text = transactionQuantity.ToString();
         totalPriceText.text = $"{transactionQuantity * price} BYN";
         confirmButton.interactable = transactionQuantity > 0;
     }
-
 
     private void IncreaseQuantity()
     {
@@ -211,6 +246,25 @@ public class ShopUIManager : MonoBehaviour
         {
             if (isBuyMode)
             {
+                // <<< ИЗМЕНЕНИЕ: Убираем проверку через TrainPenController.Instance
+                // Достаточно убедиться, что у нас хватает денег и есть место (проверка уже была в UpdateConfirmationPanel, но дублируем для надежности)
+                var animalData = itemData.associatedAnimalData;
+                if (animalData == null)
+                {
+                    Debug.LogError($"У предмета {itemData.itemName} не указана ссылка на AnimalData! Транзакция отменена.");
+                    confirmationPanel.SetActive(false);
+                    return;
+                }
+                PenConfigData penConfig = AnimalPenManager.Instance.GetPenConfigForAnimal(animalData);
+                int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+
+                if (penConfig == null || currentAnimalCount + transactionQuantity > penConfig.maxCapacity)
+                {
+                    Debug.LogError($"Ошибка! Попытка купить {transactionQuantity} животных, но в загоне нет места или не найдена конфигурация. Транзакция отменена.");
+                    confirmationPanel.SetActive(false);
+                    return;
+                }
+
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
 
                 PlayerWallet.Instance.SpendMoney(totalPrice);
@@ -219,34 +273,30 @@ public class ShopUIManager : MonoBehaviour
                 {
                     AnimalPenManager.Instance.AddAnimal(itemData.associatedAnimalData);
                 }
-                
             }
-            else 
+            else // Режим продажи
             {
                 if (AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData) < transactionQuantity) return;
-                if (TrainPenController.Instance != null)
-                {
-                    for (int i = 0; i < transactionQuantity; i++)
-                    {
-                        bool despawned = TrainPenController.Instance.DespawnAnimal(itemData.associatedAnimalData);
-                        if (!despawned)
-                        {
-                            Debug.LogError("Ошибка синхронизации! Не удалось удалить визуальное представление животного.");
-                            return;
-                        }
-                    }
-                }
+
+                // <<< ИЗМЕНЕНИЕ: Блок `if (TrainPenController.Instance != null)` НЕ НУЖЕН при продаже.
+                // Продажа - это чисто экономическая/логическая операция. Мы просто удаляем данные из AnimalPenManager.
+                // Despawn животного произойдет автоматически при следующей загрузке сцены с поездом,
+                // так как TrainPenController просто не найдет для него данных и не создаст GameObject.
+                // Это делает систему более надежной. Если игрок продаст животное на станции,
+                // а потом игра вылетит до захода на поезд - данные все равно будут верными.
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);
                 for (int i = 0; i < transactionQuantity; i++)
                 {
+                    // <<< ИЗМЕНЕНИЕ: Мы вызываем `SellAnimal` вместо `DespawnAnimal`
                     AnimalPenManager.Instance.SellAnimal(itemData.associatedAnimalData);
                 }
             }
         }
         else
         {
+            // Логика для обычных предметов (не меняется)
             if (isBuyMode)
             {
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
@@ -266,14 +316,20 @@ public class ShopUIManager : MonoBehaviour
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
                 InventoryManager.Instance.RemoveItemByType(itemData, transactionQuantity);
+                OnItemPurchased?.Invoke(itemData, transactionQuantity);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);
             }
+        }
+
+        if (itemData.itemType == ItemType.Animal && isBuyMode)
+        {
+            var animalData = itemData.associatedAnimalData;
+            int countAfterPurchase = AnimalPenManager.Instance.GetAnimalCount(animalData);
+            Debug.Log($"<color=cyan>[SHOP DEBUG]</color> После покупки животного '{animalData.speciesName}' их стало: {countAfterPurchase}");
         }
 
         Debug.Log("Транзакция успешна!");
         confirmationPanel.SetActive(false);
         PopulateShopList();
     }
-
-
 }

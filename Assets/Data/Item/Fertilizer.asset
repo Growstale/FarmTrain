@@ -20,3 +20,4 @@ MonoBehaviour:
   description: 
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
+  associatedBedData: {fileID: 0}

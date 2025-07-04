@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
+  m_Name: 03_An_EggcellentGift
+  m_EditorClassIdentifier: 
+  id: 03_An_EggcellentGift
+  title: An Eggcellent Gift
+  description: Collect your first eggs from the chickens.
+  shortDescription: Collect Eggs
+  stationId: 1
+  nextQuest: {fileID: 11400000, guid: eea12ffab89cb18449a3567bb576cf39, type: 2}
+  goals:
+  - goalType: 0
+    targetID: Egg
+    requiredAmount: 2
+    currentAmount: 2
+  rewardXP: 5
+  status: 2
+  isPinned: 1
+  hasBeenViewed: 1

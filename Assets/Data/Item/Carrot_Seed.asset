@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Carrot_Seed
   m_EditorClassIdentifier: 
   itemName: Carrot_Seed
-  itemIcon: {fileID: -1151798497464645528, guid: 646e4a236f4c9274099bbc35ed9c5fbc, type: 3}
+  itemIcon: {fileID: 21300000, guid: 89d522d979846d34198883d2320e4ce0, type: 3}
   itemType: 2
   isStackable: 1
   maxStackSize: 16
   description: 
   associatedPlantData: {fileID: 11400000, guid: fdd5c084e410da34c93b4c7de2e7654a, type: 2}
   associatedAnimalData: {fileID: 0}
-  associatedBedData: {fileID: 11400000, guid: 25128b5ab7c1f0941bf84557f20f21d3, type: 2}
+  associatedBedData: {fileID: 0}

@@ -74,19 +74,20 @@ public class BedSlotController : MonoBehaviour
                 
                 if(numberid == 1 || numberid == 2)
                 {
-                    if ((!slotScripts1.isPlanted && slotScripts1.ishavebed) && (!slotScripts2.isPlanted && slotScripts2.ishavebed))
+                    if ((!slotScripts1.isPlanted && slotScripts1.ishavebed && slotScripts1.isRaked) && (!slotScripts2.isPlanted && slotScripts2.ishavebed && slotScripts2.isRaked))
                     {
                         slotScripts1.isPlanted = true;
                         slotScripts2.isPlanted = true;
                         return (bedSlot1.transform.position + bedSlot2.transform.position) / 2;
- 
+
                     }
+                   
 
                 }
 
                 if (numberid == 3 || numberid == 4)
                 {
-                    if ((!slotScripts3.isPlanted && slotScripts3.ishavebed) && (!slotScripts4.isPlanted && slotScripts4.ishavebed))
+                    if ((!slotScripts3.isPlanted && slotScripts3.ishavebed && slotScripts3.isRaked) && (!slotScripts4.isPlanted && slotScripts4.ishavebed && slotScripts4.isRaked))
                     {
                         slotScripts3.isPlanted = true;
                         slotScripts4.isPlanted = true;
@@ -124,7 +125,7 @@ public class BedSlotController : MonoBehaviour
                 SlotScripts slotScripts = slot.GetComponent<SlotScripts>();
                 if (slotScripts != null)
                 {
-                    if (slotScripts.isPlanted || !slotScripts.ishavebed) return false; 
+                    if (slotScripts.isPlanted || !slotScripts.ishavebed || !slotScripts.isRaked) return false; 
 
                 }
                 else

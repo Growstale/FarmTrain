@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: Pumpkin
   m_EditorClassIdentifier: 
   plantName: Pumpkin
-  growthStagesSprites: []
+  growthStagesSprites:
+  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
   timePerGrowthStage: 10
-  waterNeededInterval: 5
+  waterNeededInterval: 15
   fertilizerGrowthMultiplier: 1.5
   Weight: 4
-  harvestedCrop: {fileID: 0}
+  harvestedCrop: {fileID: 11400000, guid: 4f3ca974c7570a843b235ef0555056d2, type: 2}
   seedItem: {fileID: 11400000, guid: 953de61a69c63584cad127a69960cbfc, type: 2}
+  PlantPrefab: {fileID: 4029445244989665859, guid: 53f0aad13ce574d4493a365fec929115, type: 3}
   seedDropChance: 0.8

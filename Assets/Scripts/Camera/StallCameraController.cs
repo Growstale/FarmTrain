@@ -78,12 +78,22 @@ public class StallCameraController : MonoBehaviour
 
     void Update()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         HandleInput();
         SmoothCameraMovement();
     }
 
     void HandleInput()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         if (eventSystem != null && eventSystem.IsPointerOverGameObject())
         {
             return;
@@ -113,6 +123,11 @@ public class StallCameraController : MonoBehaviour
 
     void HandleLeftClick()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 

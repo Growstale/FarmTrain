@@ -34,6 +34,7 @@ public class InventoryManager : MonoBehaviour
 
     public event Action OnInventoryChanged;
     public event Action<int> OnSelectedSlotChanged;
+    public event Action<ItemData, int> OnItemAdded;
 
     private void Awake()
     {
@@ -167,6 +168,7 @@ public class InventoryManager : MonoBehaviour
                         currentItem.AddQuantity(quantity);
                         UpdateSlotUI(i);
                         OnInventoryChanged?.Invoke();
+                        OnItemAdded?.Invoke(itemToAdd, quantity);
                         return true;
                     }
                     else if (spaceAvailable > 0)
@@ -179,6 +181,7 @@ public class InventoryManager : MonoBehaviour
                 if (quantity <= 0)
                 {
                     OnInventoryChanged?.Invoke();
+                    OnItemAdded?.Invoke(itemToAdd, quantity);
                     return true;
                 }
             }
@@ -190,6 +193,7 @@ public class InventoryManager : MonoBehaviour
             inventoryItems[firstEmptySlot] = new InventoryItem(itemToAdd, quantity);
             UpdateSlotUI(firstEmptySlot);
             OnInventoryChanged?.Invoke();
+            OnItemAdded?.Invoke(itemToAdd, quantity);
             return true;
         }
 

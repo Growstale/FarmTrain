@@ -10,8 +10,18 @@ public class BedData : ScriptableObject
 
 
     [Header("Growth")]
-    public Sprite bedSprite; //  спрайт грядки 
+    public List<Sprite> bedSprites; // список спрайт грядки 
     public bool isPlanted; // засажена ли грядка
-    
- 
+
+
+
+    public enum StageGrowthPlant
+    {
+        DrySoil,
+        Raked,
+        Wet,
+        WithFertilizers
+    }
+
+
 }

@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
@@ -59,65 +60,7 @@ public class ItemSpawner : MonoBehaviour
             return null;
         }
 
-        //if (dataToSpawn.itemType == ItemType.Pot)
-        //{
-
-
-        //    BedData bedData = dataToSpawn.associatedBedData;
-
-        //    if (bedData.bedlPrefab == null)
-        //    {
-        //        Debug.LogError($"У AnimalData '{bedData.speciesName}' не назначен bedlPrefab в инспекторе!");
-        //        return null;
-        //    }
-
-        //    GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
-
-        //    bedObject.transform.localScale = spawnScale;
-
-        //    Transform parentWagon = null;
-        //    bool parentAssignedSuccessfully = false;
-
-        //    if (trainController != null)
-        //    {
-        //        parentAssignedSuccessfully = trainController.AssignParentWagonByPosition(bedObject.transform, spawnPosition);
-
-        //        if (parentAssignedSuccessfully)
-        //        {
-        //            parentWagon = bedObject.transform.parent;
-
-        //            if (parentWagon == null)
-        //            {
-        //                Debug.LogError($"AssignParentWagonByPosition вернул true, но родитель у {bedObject.name} не установился! грядка уничтожено.", bedObject);
-        //                Destroy(bedObject);
-        //                return null;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.LogError($"Не удалось найти или назначить родительский вагон для грядка '{bedObject.name}' в позиции {spawnPosition}. грядка уничтожено.");
-        //            Destroy(bedObject);
-        //            return null;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("TrainController не назначен в ItemSpawner. Невозможно определить вагон для грядка. Животное уничтожено.");
-        //        GameObject bedManager = GameObject.FindWithTag("bedManager");
-        //        if(bedManager!= null)
-        //        {
-
-        //        }
-        //        return bedObject;
-        //    }
-
-
-
-        //    Debug.Log($"Заспавнен грядка: {bedObject.name} в позиции {spawnPosition}");
-        //        return bedObject;
-            
-            
-        //}
+        
 
         if (dataToSpawn.itemType == ItemType.Animal && dataToSpawn.associatedAnimalData != null)
         {
@@ -255,4 +198,92 @@ public class ItemSpawner : MonoBehaviour
     {
         return SpawnItem(dataToSpawn, spawnPosition, defaultSpawnScale);
     }
+
+
+    // тестовая функция для спавна префаба грядки на уровне
+    public GameObject TestSpawnBed(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform)
+    {
+        if (dataToSpawn.itemType == ItemType.Pot)
+        {
+
+
+            BedData bedData = dataToSpawn.associatedBedData;
+
+            if (bedData.bedlPrefab == null)
+            {
+                Debug.LogError($"У BedData '{bedData.speciesName}' не назначен bedlPrefab в инспекторе!");
+                return null;
+            }
+
+            GameObject bedObject = Instantiate(bedData.bedlPrefab, spawnPosition, Quaternion.identity);
+
+            bedObject.transform.localScale = spawnScale;
+            if (parentTransform != null) {
+                bedObject.transform.parent = parentTransform;
+                Debug.Log($"Заспавнен растение: {bedObject.name} в позиции {spawnPosition}");
+                       return bedObject;
+            }
+            else
+            {
+                Debug.LogError($"Отсутствует ссылка на позицию родителя, объект не заспавнен");
+                            Destroy(bedObject);
+                           return null;
+
+            }
+          
+
+        }
+        Debug.Log($"Попытка спавна не грядки, ошибка");
+        return null;
+
+    }
+
+
+   
+    public GameObject SpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform, Vector2Int[] IdSelectedSlot, bool isFertilize)
+    {
+        if (dataToSpawn.itemType == ItemType.Seed)
+        {
+
+
+            PlantData plantData = dataToSpawn.associatedPlantData;
+
+            if (plantData.PlantPrefab == null)
+            {
+                Debug.LogError($"У plantData '{plantData.name}' не назначен PlantPrefab в инспекторе!");
+                return null;
+            }
+
+            GameObject plantObject = Instantiate(plantData.PlantPrefab, spawnPosition, Quaternion.identity);
+
+            plantObject.transform.localScale = spawnScale;
+            plantObject.transform.parent = parentTransform;
+            PlantController plantController = plantObject.GetComponent<PlantController>();
+
+            if (plantController != null)
+            {
+                if (isFertilize)
+                {
+                    plantController.FertilizePlant();
+                }
+                plantController.FillVectorInts(IdSelectedSlot);
+            }
+            else
+            {
+                Debug.LogError($"У объекта {plantObject.name} нет plantController, растение не заспавнено!");
+                return null;
+
+            }
+
+            Debug.Log($"Заспавнен растение: {plantObject.name} в позиции {spawnPosition}");
+            return plantObject;
+
+
+
+
+        }
+        Debug.Log($"Попытка спавна не растения, ошибка");
+        return null;
+    }
+
 }
