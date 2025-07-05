@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd151a1d4d31c94fb468deb00f47c9b, type: 3}
+  m_Name: Rancher
+  m_EditorClassIdentifier: 
+  IDArchievment: 2
+  Name: Rancher
+  Description: Collect a total of 20 animal products .
+  Icon: {fileID: -8399952291929501341, guid: 05fc8851e87662a459ad2fe560a781e8, type: 3}
+  typeOfAchivment: 1
+  goal: 20
