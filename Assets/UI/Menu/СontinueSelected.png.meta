@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "\u0421ontinueSelected_0": -5395894891674848209
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

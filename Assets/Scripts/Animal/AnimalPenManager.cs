@@ -14,7 +14,18 @@ public class AnimalPenManager : MonoBehaviour
     [Header("Конфигурация загонов")]
     [SerializeField] private List<PenConfigData> penConfigurations;
 
+    [System.Serializable]
+    public struct StartingAnimal
+    {
+        public AnimalData animalData;
+        public int count;
+    }
+
+    [Header("Стартовый набор")]
+    [SerializeField] private List<StartingAnimal> startingAnimals;
+
     private List<AnimalStateData> allAnimals = new List<AnimalStateData>();
+    private bool isInitialized = false;
 
     private void Awake()
     {
@@ -26,7 +37,33 @@ public class AnimalPenManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            InitializeStartingAnimals();
         }
+    }
+
+    private void InitializeStartingAnimals()
+    {
+        // Этот метод должен выполниться только один раз за сессию игры
+        if (isInitialized) return;
+        // В будущем здесь будет логика загрузки сохранения, и если она успешна,
+        // этот блок кода выполняться не будет.
+
+        Debug.Log("<color=yellow>[AnimalPenManager]</color> Инициализация стартового набора животных...");
+
+        foreach (var startInfo in startingAnimals)
+        {
+            if (startInfo.animalData != null && startInfo.count > 0)
+            {
+                for (int i = 0; i < startInfo.count; i++)
+                {
+                    // Используем уже существующий метод AddAnimal
+                    AddAnimal(startInfo.animalData);
+                }
+            }
+        }
+
+        isInitialized = true;
     }
 
     // <<< ИЗМЕНЕНИЕ: Этот метод теперь возвращает PenConfigData
