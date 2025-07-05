@@ -10,6 +10,8 @@ TagManager:
   - CharacterWalkArea
   - Slot
   - Plant
+  - ParallaxLayer
+  - Horn
   layers:
   - Default
   - TransparentFX

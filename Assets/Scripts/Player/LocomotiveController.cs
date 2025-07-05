@@ -1,66 +1,114 @@
-// LocomotiveController.cs
-
 using UnityEngine;
-using UnityEngine.UI;
+using System.Linq;
 using System.Collections;
-// using UnityEngine.EventSystems; // <<< МОЖНО УДАЛИТЬ
 
 public class LocomotiveController : MonoBehaviour
 {
-    // ... (поля состояний, если есть)
+    // Состояния теперь проще: мы либо движемся, либо стоим у станции.
+    public enum TrainState { Moving, DockedAtStation }
 
-    [Header("Ссылки на объекты")]
-    // <<< СДЕЛАЙТЕ ЭТО ПОЛЕ ПУБЛИЧНЫМ, чтобы другие скрипты могли его видеть
-    public GameObject hornObject;
-    //[SerializeField] private Animator hornAnimator;
-    [SerializeField] private Button goToStationButton;
-    [SerializeField] private GameObject screenFader;
-    [SerializeField] private AutoScrollParallax[] parallaxLayers;
+    private TrainState currentState;
 
-    private bool travelUnlocked = false;
+    // Ссылки на объекты сцены
+    public GameObject hornObject { get; private set; }
+    private Animator hornAnimator;
+    private AutoScrollParallax[] parallaxLayers;
 
-    // <<< УДАЛИТЕ весь метод Update() и Awake() из этого скрипта. Они больше не нужны.
-    // void Awake() { ... }
-    // void Update() { ... }
+    // Флаги состояния
+    private bool travelToStationUnlocked = false;
+    private bool departureUnlocked = false;
 
-    void Start()
+    #region Unity Lifecycle
+    void Awake()
     {
-        // Подписка на событие остается
-        ExperienceManager.Instance.OnPhaseUnlocked += OnPhaseUnlocked;
-        goToStationButton.onClick.AddListener(GoToStation);
-
-        screenFader.SetActive(false);
-        goToStationButton.gameObject.SetActive(false);
-
-        // Проверка при старте тоже остается
-        if (ExperienceManager.Instance.CurrentPhase == GamePhase.Train &&
-            ExperienceManager.Instance.CurrentXP >= ExperienceManager.Instance.XpForNextPhase)
+        FindSceneObjects();
+        if (ExperienceManager.Instance != null)
         {
-            OnPhaseUnlocked(ExperienceManager.Instance.CurrentLevel, GamePhase.Train);
+            ExperienceManager.Instance.OnPhaseUnlocked += OnPhaseUnlocked;
         }
     }
 
-    void OnDisable()
+    void Start()
+    {
+        if (TransitionManager.isReturningFromStation)
+        {
+            TransitionManager.isReturningFromStation = false;
+            OnReturnFromStation();
+        }
+        else
+        {
+            currentState = TrainState.Moving;
+            CheckInitialTravelState();
+        }
+    }
+
+    void LateUpdate()
+    {
+        UpdateHornHighlight();
+        // Постоянно обновляем UI в зависимости от состояния
+        UIManager.Instance.ShowGoToStationButton(currentState == TrainState.DockedAtStation);
+    }
+
+    void OnDestroy()
     {
         if (ExperienceManager.Instance != null)
         {
             ExperienceManager.Instance.OnPhaseUnlocked -= OnPhaseUnlocked;
         }
     }
+    #endregion
 
-    // <<< СДЕЛАЙТЕ ЭТОТ МЕТОД ПУБЛИЧНЫМ
+    #region Scene Object Management
+    private void FindSceneObjects()
+    {
+        hornObject = GameObject.FindGameObjectWithTag("Horn");
+        if (hornObject != null)
+        {
+            hornAnimator = hornObject.GetComponent<Animator>();
+        }
+        else Debug.LogError("[LocomotiveController] Не найден объект с тегом 'Horn'!");
+
+        parallaxLayers = GameObject.FindGameObjectsWithTag("ParallaxLayer")
+            .Select(go => go.GetComponent<AutoScrollParallax>()).Where(c => c != null).ToArray();
+    }
+    #endregion
+
+    #region Event Handlers & Core Logic
     public void OnHornClicked()
     {
-        Debug.Log("<color=orange>Клик по гудку зарегистрирован через LocomotiveController!</color>");
-
-        if (travelUnlocked)
+        switch (currentState)
         {
-            Debug.Log("Условие travelUnlocked выполнено. Останавливаем поезд.");
-            StopTrain();
+            case TrainState.Moving:
+                if (travelToStationUnlocked)
+                {
+                    ArriveAtStation();
+                }
+                break;
+            case TrainState.DockedAtStation:
+                if (departureUnlocked)
+                {
+                    StartCoroutine(DepartSequence());
+                }
+                else
+                {
+                    Debug.Log("Гудок нажат, но отправление со станции еще не разблокировано.");
+                }
+                break;
         }
-        else
+    }
+
+    public void OnGoToStationButtonPressed()
+    {
+        if (currentState == TrainState.DockedAtStation)
         {
-            Debug.Log("Клик по гудку был, но travelUnlocked == false. Ничего не делаем.");
+            UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
+
+            // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
+            // Мы сообщаем менеджеру, что переходим в фазу Станции.
+            // Это обнулит XP и активирует квесты для станции.
+            ExperienceManager.Instance.EnterStation();
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Station_1");
         }
     }
 
@@ -68,34 +116,73 @@ public class LocomotiveController : MonoBehaviour
     {
         if (phase == GamePhase.Train)
         {
-            Debug.Log("<color=cyan>LocomotiveController: Получен сигнал OnPhaseUnlocked. travelUnlocked = true</color>");
-            travelUnlocked = true;
-            //hornAnimator.SetBool("IsHighlighted", true);
+            travelToStationUnlocked = true;
+        }
+        else if (phase == GamePhase.Station)
+        {
+            departureUnlocked = true;
+            // Обновляем флаг в TransitionManager, чтобы он сохранился между сценами
+            TransitionManager.isDepartureUnlocked = true;
         }
     }
 
-    // Остальные методы (StopTrain, GoToStation, DepartToNextTrainLevel) остаются без изменений.
-    private void StopTrain()
+    private void ArriveAtStation()
     {
-        travelUnlocked = false;
-        //hornAnimator.SetBool("IsHighlighted", false);
+        currentState = TrainState.DockedAtStation;
+        // Мы НЕ сбрасываем travelToStationUnlocked, чтобы состояние сохранилось
+
         foreach (var layer in parallaxLayers) layer.enabled = false;
-        goToStationButton.gameObject.SetActive(true);
+
+        // ВАЖНО: Мы не вызываем AdvanceToNextPhase здесь.
+        // Смена фазы произойдет только при окончательном отправлении.
     }
 
-    private void GoToStation()
+    private void OnReturnFromStation()
     {
-        ExperienceManager.Instance.AdvanceToNextPhase();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Station_1");
+        // Когда мы возвращаемся, мы все еще в состоянии "пристыкован к станции"
+        currentState = TrainState.DockedAtStation;
+        departureUnlocked = TransitionManager.isDepartureUnlocked;
+
+        // Останавливаем фон, так как он мог запуститься при загрузке сцены
+        foreach (var layer in parallaxLayers) layer.enabled = false;
     }
 
-    public IEnumerator DepartToNextTrainLevel()
+    private IEnumerator DepartSequence()
     {
-        screenFader.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
-        ExperienceManager.Instance.AdvanceToNextPhase();
-        foreach (var layer in parallaxLayers) layer.enabled = true;
-        yield return new WaitForSeconds(1.0f);
-        screenFader.SetActive(false);
+        currentState = TrainState.Moving;
+        travelToStationUnlocked = false;
+        departureUnlocked = false;
+        TransitionManager.isDepartureUnlocked = false;
+
+        UpdateHornHighlight();
+        UIManager.Instance.ShowGoToStationButton(false);
+
+        ScreenFaderManager.Instance.FadeOutAndIn(() => {
+            // <<< ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ МЕТОД ДЛЯ ОКОНЧАТЕЛЬНОГО ОТПРАВЛЕНИЯ
+            ExperienceManager.Instance.DepartToNextTrainLevel();
+
+            foreach (var layer in parallaxLayers) layer.enabled = true;
+        });
+
+        yield return null;
     }
+
+
+    private void CheckInitialTravelState()
+    {
+        if (ExperienceManager.Instance.CurrentPhase == GamePhase.Train &&
+            ExperienceManager.Instance.CurrentXP >= ExperienceManager.Instance.XpForNextPhase)
+        {
+            travelToStationUnlocked = true;
+        }
+    }
+
+    private void UpdateHornHighlight()
+    {
+        if (hornAnimator == null) return;
+        bool shouldHighlight = (currentState == TrainState.Moving && travelToStationUnlocked) ||
+                               (currentState == TrainState.DockedAtStation && departureUnlocked);
+        hornAnimator.SetBool("IsHighlighted", shouldHighlight);
+    }
+    #endregion
 }
