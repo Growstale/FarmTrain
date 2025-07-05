@@ -20,7 +20,7 @@ public class ExperienceBarUI : MonoBehaviour
         ExperienceManager.Instance.OnXPChanged += UpdateXPBar;
 
         // Обновляем полосу при старте, чтобы показать начальные значения
-        UpdateXPBar(ExperienceManager.Instance.CurrentXP, ExperienceManager.Instance.XpForNextStation);
+        UpdateXPBar(ExperienceManager.Instance.CurrentXP, ExperienceManager.Instance.XpForNextPhase);
     }
 
     private void OnDestroy()
@@ -32,9 +32,15 @@ public class ExperienceBarUI : MonoBehaviour
         }
     }
 
-    private void UpdateXPBar(int currentXP, int xpForNextStation)
+    private void UpdateXPBar(int currentXP, int xpForNextPhase)
     {
-        // Обновляем текст
-        xpText.text = $"{currentXP} / {xpForNextStation}";
+        if (xpForNextPhase > 0)
+            xpText.text = $"{currentXP} / {xpForNextPhase}";
+        else // Если опыта для перехода не нужно (например, на станции 2)
+        {
+            xpText.text = "Выполнено!";
+
+        }
+
     }
 }

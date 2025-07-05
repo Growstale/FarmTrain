@@ -29,6 +29,9 @@ public class TrainCameraController : MonoBehaviour
     private bool isPanning = false;
     private Vector3 panOrigin;
 
+    [Header("Dependencies")]
+    [SerializeField] private LocomotiveController locomotiveController;
+
     void Start()
     {
         mainCamera = GetComponent<Camera>();
@@ -63,6 +66,12 @@ public class TrainCameraController : MonoBehaviour
         mainCamera.orthographicSize = targetOrthographicSize;
 
         CalculatePanLimits();
+
+        if (locomotiveController == null)
+        {
+            Debug.LogError("LocomotiveController не назначен в инспекторе TrainCameraController!", this);
+        }
+
     }
 
     void Update()
@@ -149,6 +158,8 @@ public class TrainCameraController : MonoBehaviour
             // Проходимся по всем отсортированным хитам, пока не найдем что-то, с чем можно взаимодействовать
             foreach (var hit in allHits)
             {
+                if (TryHandleHornClick(hit)) return; // Если кликнули по гудку, выходим
+
                 // Сначала проверяем на конкретные интерактивные объекты
                 if (TryHandleAnimalClick(hit)) return;
                 if (TryHandleItemClick(hit)) return;
@@ -217,6 +228,18 @@ public class TrainCameraController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private bool TryHandleHornClick(RaycastHit2D hit)
+    {
+        // Проверяем, что ссылка на контроллер есть и что мы попали именно в объект гудка
+        if (locomotiveController != null && hit.collider.gameObject == locomotiveController.hornObject)
+        {
+            // Передаем управление в LocomotiveController
+            locomotiveController.OnHornClicked();
+            return true; // Сообщаем, что клик обработан
+        }
+        return false; // Это был не гудок
     }
 
     private bool TryHandleSlotClick(RaycastHit2D hit)

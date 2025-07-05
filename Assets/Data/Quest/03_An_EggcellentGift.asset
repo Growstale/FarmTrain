@@ -16,7 +16,8 @@ MonoBehaviour:
   title: An Eggcellent Gift
   description: Collect your first eggs from the chickens.
   shortDescription: Collect Eggs
-  stationId: 1
+  gameLevel: 1
+  phase: 0
   nextQuest: {fileID: 11400000, guid: eea12ffab89cb18449a3567bb576cf39, type: 2}
   goals:
   - goalType: 0

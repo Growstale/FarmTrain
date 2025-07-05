@@ -16,12 +16,13 @@ MonoBehaviour:
   title: Seed Money
   description: Sell your produce to earn 330 coins for an upgrade.
   shortDescription: Earn Coins
-  stationId: 0
+  gameLevel: 1
+  phase: 0
   nextQuest: {fileID: 0}
   goals:
   - goalType: 2
     targetID: 
-    requiredAmount: 330
+    requiredAmount: 15
     currentAmount: 0
   rewardXP: 30
   status: 0

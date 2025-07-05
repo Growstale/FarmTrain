@@ -39,7 +39,7 @@ public class QuestManager : MonoBehaviour
         SubscribeToEvents();
 
         // Запускаем квесты для первой станции
-        ActivateQuestsForStation(1, true);
+        ActivateQuestsForCurrentPhase();
     }
 
     private void OnDestroy()
@@ -47,34 +47,36 @@ public class QuestManager : MonoBehaviour
         UnsubscribeFromEvents();
     }
 
-    private void HandleStationChanged(int newStationID)
+    public void ActivateQuestsForCurrentPhase()
     {
-        ActivateQuestsForStation(newStationID, false);
-    }
+        int level = ExperienceManager.Instance.CurrentLevel;
+        GamePhase phase = ExperienceManager.Instance.CurrentPhase;
 
-    // Активирует квесты для станции
-    private void ActivateQuestsForStation(int stationId, bool isFirstStation)
-    {
-        var questsForStation = allQuests.Where(q => q.stationId == stationId && q.status == QuestStatus.NotAccepted).ToList();
+        Debug.Log($"<color=yellow>[QuestManager]</color> Активация квестов для Уровня {level}, Фаза: {phase}");
 
-        if (isFirstStation)
+        var questsForPhase = allQuests.Where(q => q.gameLevel == level && q.phase == phase && q.status == QuestStatus.NotAccepted).ToList();
+
+        // Специальная логика для самой первой фазы (Поезд 1)
+        if (level == 1 && phase == GamePhase.Train)
         {
-            // Для первой станции начинаем только первый квест (у которого нет "предка")
-            var firstQuest = questsForStation.FirstOrDefault(q => !allQuests.Any(pq => pq.nextQuest == q));
-            if (firstQuest != null)
+            Debug.Log("Активация квестов в режиме 'по цепочке'.");
+            var firstQuestInChain = questsForPhase.FirstOrDefault(q => !allQuests.Any(pq => pq.nextQuest == q));
+            if (firstQuestInChain != null)
             {
-                StartQuest(firstQuest);
+                StartQuest(firstQuestInChain);
             }
         }
         else
         {
-            // Для станций 2+ активируем все квесты сразу
-            foreach (var quest in questsForStation)
+            Debug.Log("Активация квестов в режиме 'все сразу'.");
+            foreach (var quest in questsForPhase)
             {
                 StartQuest(quest);
             }
         }
     }
+
+
 
     public void StartQuest(Quest quest)
     {
@@ -117,20 +119,21 @@ public class QuestManager : MonoBehaviour
             bool questProgressed = false;
             foreach (var goal in quest.goals.Where(g => g.goalType == goalType && !g.IsReached()))
             {
-                // Для сбора, покупки И КОРМЛЕНИЯ проверяем ID
-                if (goalType == GoalType.Gather || goalType == GoalType.Buy || goalType == GoalType.FeedAnimal) // <<< ДОБАВЛЯЕМ СЮДА FeedAnimal
+                // <<< ОБЪЕДИНЯЕМ ЛОГИКУ ДЛЯ ВСЕХ НАКОПИТЕЛЬНЫХ ЦЕЛЕЙ
+                if (goalType == GoalType.Gather ||
+                    goalType == GoalType.Buy ||
+                    goalType == GoalType.FeedAnimal ||
+                    goalType == GoalType.Earn) // <<< ДОБАВЛЯЕМ EARN В ЭТОТ СПИСОК
                 {
-                    if (goal.targetID == targetID)
+                    // Для Earn нам не нужно проверять ID, прогресс идет всегда.
+                    // Для остальных целей ID должен совпадать.
+                    if (goalType == GoalType.Earn || goal.targetID == targetID)
                     {
-                        goal.UpdateProgress(amount);
+                        goal.UpdateProgress(amount); // Этот метод суммирует: currentAmount += amount
                         questProgressed = true;
                     }
                 }
-                else if (goalType == GoalType.Earn)
-                {
-                    goal.currentAmount = PlayerWallet.Instance.GetCurrentMoney();
-                    questProgressed = true;
-                }
+                // <<< СТАРАЯ ЛОГИКА для else if (goalType == GoalType.Earn) теперь не нужна и удалена
             }
 
             if (questProgressed)
@@ -141,6 +144,7 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
 
     private void CheckQuestCompletion(Quest quest)
     {
@@ -164,22 +168,19 @@ public class QuestManager : MonoBehaviour
 
     private void UnsubscribeFromEvents()
     {
-        if (ExperienceManager.Instance != null)
-            ExperienceManager.Instance.OnStationChanged -= HandleStationChanged;
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.OnItemAdded -= HandleItemAdded;
         //if (ShopUIManager.Instance != null)
           //  ShopUIManager.Instance.OnItemPurchased -= HandleItemPurchased;
         if (PlayerWallet.Instance != null)
-            PlayerWallet.Instance.OnMoneyChanged -= HandleMoneyChanged;
+            PlayerWallet.Instance.OnMoneyAdded -= HandleMoneyAdded;
     }
     private void SubscribeToEvents()
     {
-        ExperienceManager.Instance.OnStationChanged += HandleStationChanged;
         InventoryManager.Instance.OnItemAdded += HandleItemAdded;
         //ShopUIManagerShopUIManager.Instance.OnItemPurchased += HandleItemPurchased;
-        // PlayerWallet.OnMoneyChanged уже существует, используем его
-        PlayerWallet.Instance.OnMoneyChanged += HandleMoneyChanged;
+        PlayerWallet.Instance.OnMoneyAdded += HandleMoneyAdded;
+
     }
     private void HandleItemAdded(ItemData item, int quantity)
     {
@@ -193,11 +194,10 @@ public class QuestManager : MonoBehaviour
         AddQuestProgress(GoalType.Buy, item.name, quantity);
     }
 
-    private void HandleMoneyChanged(int newTotalMoney)
+    private void HandleMoneyAdded(int amountAdded)
     {
-        // Отправляем прогресс для целей типа Earn
-        // amount не используется, т.к. мы просто устанавливаем текущее значение
-        AddQuestProgress(GoalType.Earn, "", newTotalMoney);
+        // Теперь мы отправляем прогресс для типа Earn, но передаем только СУММУ ПРИРОСТА
+        AddQuestProgress(GoalType.Earn, "", amountAdded);
     }
     public void TriggerQuestLogUpdate()
     {

@@ -16,7 +16,8 @@ MonoBehaviour:
   title: First Steps
   description: Plant and harvest your first wheat.
   shortDescription: Harvest Wheat
-  stationId: 1
+  gameLevel: 1
+  phase: 0
   nextQuest: {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
   goals:
   - goalType: 0

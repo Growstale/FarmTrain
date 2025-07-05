@@ -1,39 +1,48 @@
 using UnityEngine;
 using System;
 
+public enum GamePhase
+{
+    Train,
+    Station
+}
+
 public class ExperienceManager : MonoBehaviour
 {
     public static ExperienceManager Instance { get; private set; }
 
-    [SerializeField] private int[] xpPerStation = { 100, 200, 300 }; // XP для перехода на 2, 3, 4 станцию
+    [System.Serializable]
+    public struct XpThreshold
+    {
+        public int trainPhaseXP; // XP для перехода с поезда на станцию
+        public int stationPhaseXP; // XP для перехода со станции на следующий поезд
+    }
+
+    [SerializeField] private XpThreshold[] xpLevels; // Массив порогов XP для каждого "уровня"
+
+    public int CurrentLevel { get; private set; } // Уровень игры (1, 2, 3...)
+    public GamePhase CurrentPhase { get; private set; } // Текущая фаза (Поезд или Станция)
 
     public int CurrentXP { get; private set; }
-    public int CurrentStation { get; private set; }
-    public int XpForNextStation { get; private set; }
+    public int XpForNextPhase { get; private set; }
 
     public event Action<int, int> OnXPChanged; // currentXP, xpForNext
-    public event Action<int> OnStationChanged; // newStationID
+    public event Action<int, GamePhase> OnPhaseUnlocked; // Сигнал, что можно переходить на след. фазу
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            Initialize();
-        }
+        // ... (синглтон)
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else { Instance = this; DontDestroyOnLoad(gameObject); Initialize(); }
     }
 
     private void Initialize()
     {
-        // Здесь будет логика загрузки сохранения, а пока начнем с нуля
+        // В будущем здесь будет загрузка сохранения
+        CurrentLevel = 1;
+        CurrentPhase = GamePhase.Train;
         CurrentXP = 0;
-        CurrentStation = 1;
-        XpForNextStation = GetXPForStation(CurrentStation);
+        UpdateXpThreshold();
     }
 
     public void AddXP(int amount)
@@ -41,41 +50,57 @@ public class ExperienceManager : MonoBehaviour
         if (amount <= 0) return;
 
         CurrentXP += amount;
-        Debug.Log($"Получено {amount} XP. Всего: {CurrentXP}/{XpForNextStation}");
+        Debug.Log($"Получено {amount} XP. Всего: {CurrentXP}/{XpForNextPhase}");
 
-        OnXPChanged?.Invoke(CurrentXP, XpForNextStation);
+        OnXPChanged?.Invoke(CurrentXP, XpForNextPhase);
 
-        if (CurrentXP >= XpForNextStation)
+        if (CurrentXP >= XpForNextPhase)
         {
-            LevelUpStation();
+            // Мы не переходим на новый уровень автоматически.
+            // Мы просто сообщаем, что переход РАЗБЛОКИРОВАН.
+            OnPhaseUnlocked?.Invoke(CurrentLevel, CurrentPhase);
+            Debug.Log($"<color=cyan>Переход на следующую фазу разблокирован!</color>");
         }
     }
 
-    private void LevelUpStation()
+    // Этот метод будет вызываться из LocomotiveController или StationController
+    public void AdvanceToNextPhase()
     {
-        if (CurrentStation >= xpPerStation.Length + 1)
+        CurrentXP = 0; // Сбрасываем XP для нового этапа
+
+        if (CurrentPhase == GamePhase.Train)
         {
-            Debug.Log("Достигнута последняя станция!");
+            // Переходим со Поезда на Станцию
+            CurrentPhase = GamePhase.Station;
+        }
+        else // CurrentPhase == GamePhase.Station
+        {
+            // Переходим со Станции на следующий Поезд
+            CurrentPhase = GamePhase.Train;
+            CurrentLevel++;
+        }
+
+        UpdateXpThreshold();
+        OnXPChanged?.Invoke(CurrentXP, XpForNextPhase); // Обновляем UI XP бара
+        QuestManager.Instance.ActivateQuestsForCurrentPhase(); // <<< КЛЮЧЕВОЙ МОМЕНТ
+    }
+
+    private void UpdateXpThreshold()
+    {
+        int levelIndex = CurrentLevel - 1;
+        if (levelIndex < 0 || levelIndex >= xpLevels.Length)
+        {
+            XpForNextPhase = int.MaxValue; // Конец игры
             return;
         }
 
-        CurrentXP -= XpForNextStation;
-        CurrentStation++;
-        XpForNextStation = GetXPForStation(CurrentStation);
-
-        Debug.Log($"<color=cyan>ПЕРЕХОД НА НОВУЮ СТАНЦИЮ: {CurrentStation}!</color>");
-
-        OnStationChanged?.Invoke(CurrentStation);
-        OnXPChanged?.Invoke(CurrentXP, XpForNextStation);
-    }
-
-    private int GetXPForStation(int station)
-    {
-        int index = station - 1;
-        if (index >= 0 && index < xpPerStation.Length)
+        if (CurrentPhase == GamePhase.Train)
         {
-            return xpPerStation[index];
+            XpForNextPhase = xpLevels[levelIndex].trainPhaseXP;
         }
-        return int.MaxValue; // Если станций больше, чем задано
+        else
+        {
+            XpForNextPhase = xpLevels[levelIndex].stationPhaseXP;
+        }
     }
 }

@@ -74,6 +74,7 @@ public class StallCameraController : MonoBehaviour
         transform.position = GetTargetPositionForStall(startingStallIndex);
         mainCamera.orthographicSize = targetOrthographicSize;
         CalculatePanLimits();
+        ConfigureStallsForCurrentLevel();
     }
 
     void Update()
@@ -246,4 +247,43 @@ public class StallCameraController : MonoBehaviour
         minPanX = stalls[0].position.x;
         maxPanX = stalls[stalls.Count - 1].position.x;
     }
+    private void ConfigureStallsForCurrentLevel()
+    {
+        if (ExperienceManager.Instance == null || StationDatabase.Instance == null)
+        {
+            Debug.LogError("ExperienceManager или StationDatabase не найдены!");
+            return;
+        }
+
+        int currentLevel = ExperienceManager.Instance.CurrentLevel;
+        StationData stationData = StationDatabase.Instance.GetStationDataById(currentLevel);
+
+        if (stationData == null)
+        {
+            Debug.LogError($"Не найдены данные для станции уровня: {currentLevel}!");
+            return;
+        }
+
+        if (stalls.Count != stationData.stallInventories.Count)
+        {
+            Debug.LogWarning($"Количество ларьков на сцене ({stalls.Count}) не совпадает с количеством инвентарей в StationData ({stationData.stallInventories.Count})!");
+        }
+
+        for (int i = 0; i < stalls.Count; i++)
+        {
+            if (i < stationData.stallInventories.Count)
+            {
+                var stallInteraction = stalls[i].GetComponent<StallInteraction>();
+                if (stallInteraction != null)
+                {
+                    stallInteraction.shopInventoryData = stationData.stallInventories[i];
+                    // Важно! Нужно переинициализировать магазин в менеджере, так как данные могли поменяться
+                    ShopDataManager.Instance.InitializeShop(stallInteraction.shopInventoryData);
+                }
+            }
+        }
+
+        Debug.Log($"Станция настроена для '{stationData.stationName}' (Уровень {currentLevel})");
+    }
+
 }
