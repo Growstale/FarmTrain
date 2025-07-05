@@ -1,35 +1,31 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class StationPhaseController : MonoBehaviour
 {
-    [SerializeField] private Button departButton; // Кнопка "Отправиться дальше"
     [SerializeField] private TextMeshProUGUI stationTitle;
 
-    private bool departureUnlocked = false;
+    // Этот скрипт больше не хранит состояние, он только реагирует
 
     void Start()
     {
         ExperienceManager.Instance.OnPhaseUnlocked += OnPhaseUnlocked;
-        departButton.onClick.AddListener(DepartToNextTrain);
 
-        // Настраиваем вид при входе
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
-        stationTitle.text = $"Станция {currentLevel}";
+        if (stationTitle != null)
+        {
+            stationTitle.text = $"Станция {currentLevel}";
+        }
 
-        // Проверяем, нужно ли вообще тут копить опыт
+        // Если для этой фазы станции не нужно копить опыт (XP = 0)
         if (ExperienceManager.Instance.XpForNextPhase == 0)
         {
-            OnPhaseUnlocked(currentLevel, GamePhase.Station);
-        }
-        else
-        {
-            departButton.gameObject.SetActive(false);
+            // Сразу сообщаем главному менеджеру, что можно уезжать
+            TransitionManager.Instance.UnlockDeparture();
         }
     }
 
-    void OnDisable()
+    void OnDestroy() // <<< ИЗМЕНЕНО с OnDisable на OnDestroy
     {
         if (ExperienceManager.Instance != null)
         {
@@ -39,40 +35,10 @@ public class StationPhaseController : MonoBehaviour
 
     private void OnPhaseUnlocked(int level, GamePhase phase)
     {
-        // Реагируем только на сигналы из фазы Станции
         if (phase == GamePhase.Station)
         {
-            departureUnlocked = true;
-            departButton.gameObject.SetActive(true);
-            // Тут можно добавить анимацию подсветки кнопки
-        }
-    }
-
-    private void DepartToNextTrain()
-    {
-        if (!departureUnlocked) return;
-
-        // Загружаем сцену поезда. Локомотив сам разберется с анимацией перехода.
-        // Мы передаем управление ему.
-        StartCoroutine(LoadTrainAndDepart());
-    }
-
-    private System.Collections.IEnumerator LoadTrainAndDepart()
-    {
-        AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("TrainScene");
-
-        // Ждем, пока сцена загрузится
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-
-        // После загрузки сцены, находим LocomotiveController и запускаем его корутину.
-        // Это более надежно, чем статические методы.
-        LocomotiveController loco = FindObjectOfType<LocomotiveController>();
-        if (loco != null)
-        {
-            yield return loco.StartCoroutine(loco.DepartToNextTrainLevel());
+            // Сообщаем главному менеджеру, что теперь можно отправляться
+            TransitionManager.Instance.UnlockDeparture();
         }
     }
 }

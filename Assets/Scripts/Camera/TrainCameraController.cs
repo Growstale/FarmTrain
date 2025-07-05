@@ -67,9 +67,10 @@ public class TrainCameraController : MonoBehaviour
 
         CalculatePanLimits();
 
+        locomotiveController = FindObjectOfType<LocomotiveController>();
         if (locomotiveController == null)
         {
-            Debug.LogError("LocomotiveController не назначен в инспекторе TrainCameraController!", this);
+            Debug.LogError("TrainCameraController не смог найти LocomotiveController на сцене!", this);
         }
 
     }
@@ -233,14 +234,15 @@ public class TrainCameraController : MonoBehaviour
     private bool TryHandleHornClick(RaycastHit2D hit)
     {
         // Проверяем, что ссылка на контроллер есть и что мы попали именно в объект гудка
+        // Теперь мы читаем публичное свойство hornObject
         if (locomotiveController != null && hit.collider.gameObject == locomotiveController.hornObject)
         {
-            // Передаем управление в LocomotiveController
             locomotiveController.OnHornClicked();
-            return true; // Сообщаем, что клик обработан
+            return true;
         }
-        return false; // Это был не гудок
+        return false;
     }
+
 
     private bool TryHandleSlotClick(RaycastHit2D hit)
     {
