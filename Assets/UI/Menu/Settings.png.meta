@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 339faf561e8d72c4a916e4084d5a5011
+guid: c9a08f51262a9394daacc80ab0b5d5e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4904397997407495647
-    second: AchievmentEntryBackground 1_0
+      213: 7886631795410796208
+    second: Settings_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AchievmentEntryBackground 1_0
+      name: Settings_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 800
-        height: 159
+        width: 681
+        height: 766
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12a9367810410fbb0800000000000000
-      internalID: -4904397997407495647
+      spriteID: 0bef2cf25d1f27d60800000000000000
+      internalID: 7886631795410796208
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      AchievmentEntryBackground 1_0: -4904397997407495647
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
