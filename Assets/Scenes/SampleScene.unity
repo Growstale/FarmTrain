@@ -3763,6 +3763,58 @@ Transform:
   - {fileID: 1125509244}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &440015203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440015205}
+  - component: {fileID: 440015204}
+  m_Layer: 0
+  m_Name: AchievementManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &440015204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440015203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2d04a2d9bbdd549bb78f088c91d516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllDataAchievement:
+  - {fileID: 11400000, guid: 8892252409a53d74c8790b8b43c4b133, type: 2}
+  - {fileID: 11400000, guid: 7d7317dbcdbd30246b500a948811297c, type: 2}
+  - {fileID: 11400000, guid: f833589c5e5210448b5cefab5d46f78f, type: 2}
+  - {fileID: 11400000, guid: 8336d477070019c48a6516df45ed71fb, type: 2}
+  - {fileID: 11400000, guid: 9a551d1bb8ddd774f8f7a2de97e8e190, type: 2}
+  - {fileID: 11400000, guid: b61c99f3117cefb4da623a61f8d1f918, type: 2}
+  - {fileID: 11400000, guid: 4e40b36edc4381d429130a66a5dd25d7, type: 2}
+--- !u!4 &440015205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440015203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.021274, y: -2.7561438, z: 0.1110277}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446035395
 GameObject:
   m_ObjectHideFlags: 0
@@ -19622,7 +19674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hornObject: {fileID: 683198673}
-  hornAnimator: {fileID: 0}
   goToStationButton: {fileID: 1247684380}
   screenFader: {fileID: 837621646}
   parallaxLayers: []
@@ -19862,3 +19913,4 @@ SceneRoots:
   - {fileID: 887109064}
   - {fileID: 2024606367}
   - {fileID: 2022129075}
+  - {fileID: 440015205}
