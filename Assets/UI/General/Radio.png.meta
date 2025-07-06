@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e4b2addd5e1c9cc44a6c0f5a120cba8c
+guid: 6e67a866ae3f98545819edf8a7c51d51
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6563091236044189345
-    second: SaveBackgroundEntry_0
+      213: -8070686850402279387
+    second: Radio_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SaveBackgroundEntry_0
+      name: Radio_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 830
-        height: 90
+        width: 84
+        height: 84
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1aea4e8d4b8c41b50800000000000000
-      internalID: 6563091236044189345
+      spriteID: 5202b54e1192fff80800000000000000
+      internalID: -8070686850402279387
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      SaveBackgroundEntry_0: 6563091236044189345
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

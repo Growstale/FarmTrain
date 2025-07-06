@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d5b6cdd594c6946468fd4889be859cde
+guid: 2acfa1321d50db24e9ffb881b751deea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3962687901650076120
-    second: Button radio choosen_0
+      213: -7267983381874085804
+    second: RadioHighlighted_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button radio choosen_0
+      name: RadioHighlighted_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 82eb8624954b109c0800000000000000
-      internalID: -3962687901650076120
+      spriteID: 450f3f12f9fe22b90800000000000000
+      internalID: -7267983381874085804
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Button radio choosen_0: -3962687901650076120
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
