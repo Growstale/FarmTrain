@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+
 
 public class AchievementManager : MonoBehaviour
 {
@@ -18,11 +20,13 @@ public class AchievementManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeProgress();
-
-
+          
+            
+            LoadProgress();
         }
         else
         {
+            Debug.LogWarning($"Destroyed gaameobject {gameObject.name}");
             Destroy(gameObject);
         }
         
@@ -31,13 +35,12 @@ public class AchievementManager : MonoBehaviour
     private void InitializeProgress()
     {
         foreach (var item in AllDataAchievement) {
-            if (progress.ContainsKey(item.typeOfAchivment)) {
-
+          
                 progress[item.typeOfAchivment] = 0;
-            }
+            
         
         }
-        LoadProgress();
+      
     }
 
     public void AddProgress(TypeOfAchivment type, int amount)
@@ -49,20 +52,110 @@ public class AchievementManager : MonoBehaviour
         }
 
         progress[type] += amount;
+        Debug.Log($"Progress {type} is amount: {progress[type]}");
+        SaveProgress();
     }
 
     private void LoadProgress()
     {
-        Debug.Log("Loading progres...");
+        string path = Application.persistentDataPath + "/achievements.json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            // Загружаем прогресс
+            progress.Clear();
+            foreach (var savedProgress in data.playerProgress)
+            {
+                progress[savedProgress.type] = savedProgress.value;
+            }
+
+           
+            Debug.Log("Progress Loaded!");
+        }
     }
 
 
     private void OnEnable()
     {
+        GameEvents.OnHarvestTheCrop += HandleHarvestTheCrop;
+        GameEvents.OnCollectAnimalProduct += HandleCollectAnimalProduct;
+        GameEvents.OnCollectCoin += HandleCollectCoin;
+        GameEvents.OnAddedNewAnimal += HandleAddedNewAnimal;
         GameEvents.OnAddedNewPlant += HandleAddedNewPlant;
+      
+        GameEvents.OnAddedNewUpdgrade += HandleAddedNewUpgrade;
+        GameEvents.OnCompleteTheQuest += HandleCompleteTheQuest;
     }
     private void HandleAddedNewPlant(int amount)
     {
         AddProgress(TypeOfAchivment.MasterGardener, amount);
+       
+    }
+    private void HandleHarvestTheCrop(int amount)
+    {
+        AddProgress(TypeOfAchivment.BountifulHarvest, amount);
+    }
+    private void HandleCollectAnimalProduct(int amount)
+    {
+        AddProgress(TypeOfAchivment.Rancher, amount);
+    }
+    private void HandleAddedNewAnimal(int amount)
+    {
+        AddProgress(TypeOfAchivment.TheWholeGangsHere, amount);
+    }
+    private void HandleCollectCoin(int amount)
+    {
+        AddProgress(TypeOfAchivment.BuddingTycoon, amount);
+    }
+    private void HandleAddedNewUpgrade(int amount)
+    {
+        AddProgress(TypeOfAchivment.StateoftheArtFarm, amount);
+    }
+
+    private void HandleCompleteTheQuest(int amount)
+    {
+        AddProgress(TypeOfAchivment.FarmingLegend, amount);
+    }
+
+    // Класс для сохранения
+    [System.Serializable]
+    private class SaveData
+    {
+        public List<SerializableProgress> playerProgress = new List<SerializableProgress>();
+        public List<string> unlockedAchievements = new List<string>();
+    }
+
+    [System.Serializable]
+    private struct SerializableProgress
+    {
+        public TypeOfAchivment type;
+        public int value;
+    }
+    private void SaveProgress()
+    {
+
+        SaveData data = new SaveData();
+        foreach (var pair in progress)
+        {
+            data.playerProgress.Add(new SerializableProgress { type = pair.Key, value = pair.Value });
+        }
+        string json = JsonUtility.ToJson(data, true);
+        string folderPath = Application.persistentDataPath;
+
+        // 2. Указываем имя нашего файла.
+        string fileName = "achievements.json";
+
+        // 3. Соединяем путь к папке и имя файла в один полный путь.
+        // Это самый надежный способ!
+        string fullPath = Path.Combine(folderPath, fileName);
+
+        // 4. (Очень полезно для отладки!) Выводим финальный путь в консоль.
+        Debug.Log("Сохраняю данные по пути: " + fullPath);
+
+        // 5. Сохраняем файл по полному, корректному пути.
+        File.WriteAllText(fullPath, json);
+        Debug.Log("Progress Saved!");
     }
 }
