@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b0e60528ea81d3f419d634316a16fd58
+guid: 3d4fa5fc0743355469bb73adb9386dbf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9221713662614176789
-    second: Button task choosen_0
+      213: -5793936745113125703
+    second: ForwardSelected_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button task choosen_0
+      name: ForwardSelected_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 144
-        height: 144
+        width: 104
+        height: 104
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bebf3875844e50080800000000000000
-      internalID: -9221713662614176789
+      spriteID: 9bcf2785a3dc79fa0800000000000000
+      internalID: -5793936745113125703
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Button task choosen_0: -9221713662614176789
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
