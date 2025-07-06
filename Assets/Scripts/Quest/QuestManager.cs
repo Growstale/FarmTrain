@@ -166,22 +166,50 @@ public class QuestManager : MonoBehaviour
         OnQuestLogUpdated?.Invoke();
     }
 
+    private void SubscribeToEvents()
+    {
+        InventoryManager.Instance.OnItemAdded += HandleItemAdded;
+        PlayerWallet.Instance.OnMoneyAdded += HandleMoneyAdded;
+
+        // <<< НОВАЯ ЛОГИКА ПОДПИСКИ >>>
+        // Подписываемся на СОЗДАНИЕ ShopUIManager
+        ShopUIManager.OnInstanceReady += HandleShopUIManagerReady;
+
+        // Также проверим, может ShopUIManager УЖЕ существует (если мы загрузились сразу на станцию)
+        if (ShopUIManager.Instance != null)
+        {
+            HandleShopUIManagerReady(ShopUIManager.Instance);
+        }
+    }
+
     private void UnsubscribeFromEvents()
     {
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.OnItemAdded -= HandleItemAdded;
-        //if (ShopUIManager.Instance != null)
-          //  ShopUIManager.Instance.OnItemPurchased -= HandleItemPurchased;
         if (PlayerWallet.Instance != null)
             PlayerWallet.Instance.OnMoneyAdded -= HandleMoneyAdded;
-    }
-    private void SubscribeToEvents()
-    {
-        InventoryManager.Instance.OnItemAdded += HandleItemAdded;
-        //ShopUIManagerShopUIManager.Instance.OnItemPurchased += HandleItemPurchased;
-        PlayerWallet.Instance.OnMoneyAdded += HandleMoneyAdded;
 
+        // <<< НОВАЯ ЛОГИКА ОТПИСКИ >>>
+        // Отписываемся от СОЗДАНИЯ
+        ShopUIManager.OnInstanceReady -= HandleShopUIManagerReady;
+
+        // И на всякий случай отписываемся от самого события, если мы были на него подписаны
+        if (ShopUIManager.Instance != null)
+        {
+            ShopUIManager.Instance.OnItemPurchased -= HandleItemPurchased;
+        }
     }
+
+    // <<< НОВЫЙ МЕТОД-ОБРАБОТЧИК >>>
+    private void HandleShopUIManagerReady(ShopUIManager shopUI)
+    {
+        Debug.Log("<color=lightblue>[QuestManager]</color> ShopUIManager появился. Подписываюсь на OnItemPurchased.");
+        // Отписываемся на всякий случай, чтобы избежать двойной подписки
+        shopUI.OnItemPurchased -= HandleItemPurchased;
+        // Подписываемся на событие покупки
+        shopUI.OnItemPurchased += HandleItemPurchased;
+    }
+
     private void HandleItemAdded(ItemData item, int quantity)
     {
         // Отправляем прогресс для целей типа Gather
@@ -190,9 +218,11 @@ public class QuestManager : MonoBehaviour
 
     private void HandleItemPurchased(ItemData item, int quantity)
     {
+        Debug.Log($"<color=lightblue>[QuestManager]</color> Получено событие покупки: {item.name}");
         // Отправляем прогресс для целей типа Buy
         AddQuestProgress(GoalType.Buy, item.name, quantity);
     }
+
 
     private void HandleMoneyAdded(int amountAdded)
     {
