@@ -35,6 +35,7 @@ public class TrainPenController : MonoBehaviour
         // К моменту вызова Start(), все Awake() уже гарантированно выполнились.
         // AnimalPenManager.Instance точно не будет null.
         InitializePenInfo();
+        UpdateAllPenVisuals();
 
         if (itemSpawner == null)
         {
@@ -49,6 +50,36 @@ public class TrainPenController : MonoBehaviour
         }
     }
 
+    private void UpdateAllPenVisuals()
+    {
+        foreach (var penInfo in livePenInfo)
+        {
+            UpdatePenVisuals(penInfo.config.animalData);
+        }
+    }
+
+    // <<< НОВЫЙ ПУБЛИЧНЫЙ МЕТОД
+    public void UpdatePenVisuals(AnimalData forAnimal)
+    {
+        var penInfo = livePenInfo.FirstOrDefault(p => p.config.animalData == forAnimal);
+        if (penInfo == null) return;
+
+        int currentLevel = AnimalPenManager.Instance.GetCurrentPenLevel(forAnimal);
+        if (currentLevel < 0 || currentLevel >= penInfo.config.upgradeLevels.Count)
+        {
+            Debug.LogError($"Некорректный уровень {currentLevel} для загона {forAnimal.speciesName}");
+            return;
+        }
+
+        penInfo.currentLevel = currentLevel;
+        PenLevelData levelData = penInfo.config.upgradeLevels[currentLevel];
+
+        // Устанавливаем правильный спрайт
+        penInfo.penSpriteRenderer.sprite = levelData.penSprite;
+        Debug.Log($"Обновлен спрайт для загона {forAnimal.speciesName} на уровень {currentLevel}.");
+    }
+
+
     // <<< НОВЫЙ МЕТОД: Находим объекты на сцене и кэшируем ссылки
     private void InitializePenInfo()
     {
@@ -57,8 +88,14 @@ public class TrainPenController : MonoBehaviour
 
         foreach (var config in configs)
         {
+            Transform penRendererTransform = FindDeepChild(transform, config.penSpriteRendererName);
             Transform placementAreaTransform = FindDeepChild(transform, config.placementAreaName);
             Transform animalParentTransform = FindDeepChild(transform, config.animalParentName);
+
+            if (penRendererTransform == null) { /* ошибка */ continue; }
+
+            SpriteRenderer penRenderer = penRendererTransform.GetComponent<SpriteRenderer>();
+            if (penRenderer == null) { /* ошибка */ continue; }
 
             if (placementAreaTransform == null)
             {
@@ -78,18 +115,20 @@ public class TrainPenController : MonoBehaviour
                 continue;
             }
 
-            // Создаем "живую" информацию со всеми ссылками
             livePenInfo.Add(new PenRuntimeInfo
             {
                 config = config,
-                placementArea = areaCollider,
-                animalParent = animalParentTransform
+                penSpriteRenderer = penRenderer, // <<< Сохраняем SpriteRenderer
+                animalParent = animalParentTransform,
+                placementArea = areaCollider
             });
+
         }
         Debug.Log($"<color=orange>[TRAIN DEBUG]</color> Инициализировано {livePenInfo.Count} загонов. Проверяю их: ");
         foreach (var info in livePenInfo)
         {
-            Debug.Log($" - Загон для '{info.config.animalData.speciesName}', вместимость: {info.config.maxCapacity}, parent: {info.animalParent.name}");
+            int capacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(info.config.animalData);
+            Debug.Log($" - Загон для '{info.config.animalData.speciesName}', вместимость: {capacity}, parent: {info.animalParent.name}");
         }
     }
 
