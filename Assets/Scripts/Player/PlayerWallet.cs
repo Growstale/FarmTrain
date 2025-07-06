@@ -12,6 +12,7 @@ public class PlayerWallet : MonoBehaviour
     private int currentMoney;
 
     public event Action<int> OnMoneyChanged;
+    public event Action<int> OnMoneyAdded;
 
     private void Awake()
     {
@@ -40,14 +41,20 @@ public class PlayerWallet : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        if (amount < 0) return;
+        if (amount <= 0) return; // Игнорируем нулевые и отрицательные значения
 
         currentMoney += amount;
         currentMoney = Mathf.Min(currentMoney, maxMoney);
 
+        // <<< ВЫЗЫВАЕМ НОВОЕ СОБЫТИЕ
+        // Сообщаем всем, СКОЛЬКО ИМЕННО было добавлено
+        OnMoneyAdded?.Invoke(amount);
+
+        // Старое событие для UI и других систем оставляем как есть
         OnMoneyChanged?.Invoke(currentMoney);
         Debug.Log($"Добавлено {amount} денег. Всего: {currentMoney}");
     }
+
 
     public void SpendMoney(int amount)
     {

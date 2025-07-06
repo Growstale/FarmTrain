@@ -16,7 +16,8 @@ MonoBehaviour:
   title: Making Friends
   description: Find the chickens and feed them some wheat.
   shortDescription: Feed Chickens
-  stationId: 1
+  gameLevel: 1
+  phase: 0
   nextQuest: {fileID: 11400000, guid: 69078eff1cdfcfc4ca30df2a75fde343, type: 2}
   goals:
   - goalType: 4

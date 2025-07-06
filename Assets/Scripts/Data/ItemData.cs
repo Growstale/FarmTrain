@@ -33,5 +33,6 @@ public enum ItemType
     AnimalProduct,
     PlantProduct,
     Fertilizer,
-    Animal
+    Animal,
+    Upgrade
 }

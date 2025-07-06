@@ -21,8 +21,10 @@ public class Quest : ScriptableObject
     public string shortDescription;
 
     [Header("Progression")]
-    [Tooltip("К какой станции относится этот квест (1, 2, 3...)")]
-    public int stationId;
+    [Tooltip("К какому уровню игры относится квест (1, 2, 3...)")]
+    public int gameLevel; // Заменяем stationId
+    [Tooltip("К какой фазе относится квест (Поезд или Станция)")]
+    public GamePhase phase; // Новое поле
     [Tooltip("Квест, который начнется после завершения этого. Оставьте пустым, если это последний в цепочке.")]
     public Quest nextQuest; // Какой квест открывается после этого
 

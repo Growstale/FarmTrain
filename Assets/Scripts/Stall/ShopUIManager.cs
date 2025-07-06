@@ -39,12 +39,22 @@ public class ShopUIManager : MonoBehaviour
 
     private List<GameObject> spawnedRows = new List<GameObject>();
     public event Action<ItemData, int> OnItemPurchased;
+    public static event Action<ShopUIManager> OnInstanceReady;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        // НЕ делаем DontDestroyOnLoad, так как он должен жить только на сцене станции.
+
+        // <<< СООБЩАЕМ ВСЕМ, ЧТО МЫ ГОТОВЫ
+        OnInstanceReady?.Invoke(this);
     }
+
 
     // ... (Start, OpenShop, CloseShop, SetMode, PopulateShopList, OnItemActionClicked, OpenConfirmationPanel - без изменений) ...
     // Все эти методы остаются прежними
@@ -164,29 +174,18 @@ public class ShopUIManager : MonoBehaviour
             if (isBuyMode)
             {
                 int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+                // int price = currentItemForTransaction.buyPrice; // <<< УДАЛЯЕМ ЭТУ СТРОКУ
                 int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
                 maxQuantity = Mathf.Min(stock, affordable);
 
-                // <<< ИЗМЕНЕНИЕ: Убираем зависимость от TrainPenController.Instance
-                // Вместо этого напрямую работаем с AnimalPenManager
                 var animalData = itemData.associatedAnimalData;
                 if (animalData != null)
                 {
-                    // <<< ИЗМЕНЕНИЕ: Получаем "сухую" конфигурацию
-                    PenConfigData penConfig = AnimalPenManager.Instance.GetPenConfigForAnimal(animalData);
+                    int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+                    int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
 
-                    if (penConfig != null)
-                    {
-                        int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
-                        // Используем maxCapacity из "сухой" конфигурации
-                        int availableSpace = penConfig.maxCapacity - currentAnimalCount;
-                        maxQuantity = Mathf.Min(maxQuantity, availableSpace);
-                    }
-                    else
-                    {
-                        Debug.LogError($"Загон НЕ НАЙДЕН для {animalData.name} в конфигурации AnimalPenManager!");
-                        maxQuantity = 0;
-                    }
+                    int availableSpace = maxCapacity - currentAnimalCount;
+                    maxQuantity = Mathf.Min(maxQuantity, availableSpace);
                 }
                 else
                 {
@@ -222,6 +221,7 @@ public class ShopUIManager : MonoBehaviour
         confirmButton.interactable = transactionQuantity > 0;
     }
 
+
     private void IncreaseQuantity()
     {
         transactionQuantity++;
@@ -246,8 +246,6 @@ public class ShopUIManager : MonoBehaviour
         {
             if (isBuyMode)
             {
-                // <<< ИЗМЕНЕНИЕ: Убираем проверку через TrainPenController.Instance
-                // Достаточно убедиться, что у нас хватает денег и есть место (проверка уже была в UpdateConfirmationPanel, но дублируем для надежности)
                 var animalData = itemData.associatedAnimalData;
                 if (animalData == null)
                 {
@@ -255,12 +253,15 @@ public class ShopUIManager : MonoBehaviour
                     confirmationPanel.SetActive(false);
                     return;
                 }
-                PenConfigData penConfig = AnimalPenManager.Instance.GetPenConfigForAnimal(animalData);
-                int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
 
-                if (penConfig == null || currentAnimalCount + transactionQuantity > penConfig.maxCapacity)
+                // <<< ИСПРАВЛЕНИЕ ОШИБКИ >>>
+                // Повторяем проверку, используя новый метод
+                int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+                int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
+
+                if (currentAnimalCount + transactionQuantity > maxCapacity)
                 {
-                    Debug.LogError($"Ошибка! Попытка купить {transactionQuantity} животных, но в загоне нет места или не найдена конфигурация. Транзакция отменена.");
+                    Debug.LogError($"Ошибка! Попытка купить {transactionQuantity} животных, но в загоне нет места. Транзакция отменена.");
                     confirmationPanel.SetActive(false);
                     return;
                 }
@@ -303,9 +304,23 @@ public class ShopUIManager : MonoBehaviour
                 if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity)) return;
 
                 PlayerWallet.Instance.SpendMoney(totalPrice);
-                InventoryManager.Instance.AddItem(itemData, transactionQuantity);
+                if (itemData.itemType == ItemType.Upgrade)
+                {
+                    Debug.Log($"<color=cyan>ПОКУПКА УЛУЧШЕНИЯ:</color> {itemData.itemName}"); // 1. Проверяем, что мы сюда заходим
+
+                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData);
+                    AnimalPenManager.Instance.ApplyUpgrade(itemData);
+
+                    // <<< ВАЖНОЕ ИСПРАВЛЕНИЕ ДЛЯ КВЕСТА >>>
+                    // Сообщаем системе квестов, что предмет был куплен.
+                    OnItemPurchased?.Invoke(itemData, transactionQuantity);
+                }
+                else
+                {
+                    InventoryManager.Instance.AddItem(itemData, transactionQuantity);
+                }
                 ShopDataManager.Instance.DecreaseStock(currentShopData, itemData, transactionQuantity);
-                if (itemData.itemType == ItemType.Tool)
+                if (itemData.itemType == ItemType.Upgrade)
                 {
                     TrainUpgradeManager.Instance.PurchaseUpgrade(itemData);
                 }

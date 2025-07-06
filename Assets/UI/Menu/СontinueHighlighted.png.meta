@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "\u0421ontinueHighlighted_0": -844359260271035392
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

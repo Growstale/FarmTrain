@@ -223,7 +223,16 @@ public class AnimalController : MonoBehaviour
 
     private void UpdateTimers(float deltaTime)
     {
-        if (feedTimer > 0) feedTimer -= deltaTime;
+        // Проверяем, есть ли у нас автокормушка
+        bool hasAutoFeeder = AnimalPenManager.Instance.HasAutoFeeder(this.animalData);
+
+        // Уменьшаем таймер голода, ТОЛЬКО если автокормушки НЕТ
+        if (!hasAutoFeeder && feedTimer > 0)
+        {
+            feedTimer -= deltaTime;
+        }
+
+        // Остальные таймеры работают как обычно
         if (productionTimer > 0) productionTimer -= deltaTime;
         if (fertilizerTimer > 0) fertilizerTimer -= deltaTime;
     }
@@ -234,7 +243,12 @@ public class AnimalController : MonoBehaviour
         ItemData nextNeedIcon = null;
         bool didProductBecomeReady = false;
 
-        if (!needsFeeding && feedTimer <= 0)
+        // <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ >>>
+        // Проверяем, есть ли у нас автокормушка
+        bool hasAutoFeeder = AnimalPenManager.Instance.HasAutoFeeder(this.animalData);
+
+        // Проверяем потребность в еде, ТОЛЬКО если автокормушки НЕТ
+        if (!hasAutoFeeder && !needsFeeding && feedTimer <= 0)
         {
             Debug.Log($"[CheckNeeds] Обнаружена потребность: Еда ({animalData.requiredFood.itemName})");
             needsFeeding = true;

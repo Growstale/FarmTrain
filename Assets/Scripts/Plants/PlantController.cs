@@ -48,6 +48,7 @@ public class PlantController : MonoBehaviour
             {
                 Debug.Log($"У грядки нет удобрение, время между ростом растений равно {timePerGrowthStage}");
             }
+            GameEvents.TriggerAddedNewPlant(1);
         }
         else
         {
@@ -294,7 +295,7 @@ public class PlantController : MonoBehaviour
 
         foreach (var slot in idSlots) { 
         
-        Debug.Log(">>>>>>>> PosSlots: " +  slot);   
+       
         }
 
         GameObject parent = transform.parent.gameObject;
