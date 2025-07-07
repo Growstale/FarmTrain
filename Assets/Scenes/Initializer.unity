@@ -361,7 +361,7 @@ MonoBehaviour:
   xpLevels:
   - trainPhaseXP: 50
     stationPhaseXP: 25
-  - trainPhaseXP: 100
+  - trainPhaseXP: 80
     stationPhaseXP: 0
   - trainPhaseXP: 100
     stationPhaseXP: 0

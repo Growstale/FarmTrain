@@ -17,7 +17,7 @@ MonoBehaviour:
   correspondingItemData: {fileID: 11400000, guid: 951dcf08067b23443a44d474ead9bdb8, type: 2}
   defaultSprite: {fileID: 6168083732550661486, guid: f2ae7b565746eb7408cf003d86d7831b, type: 3}
   productReadySprite: {fileID: 0}
-  requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+  requiredFood: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
   feedInterval: 5
   productProduced: {fileID: 11400000, guid: 36e850dd4e298be4b9f46c69f51c7872, type: 2}
   productionInterval: 10

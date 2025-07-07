@@ -76,4 +76,4 @@ MonoBehaviour:
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 2
+    initialStock: 1

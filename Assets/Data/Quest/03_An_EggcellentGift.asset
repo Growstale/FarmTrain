@@ -22,9 +22,10 @@ MonoBehaviour:
   goals:
   - goalType: 0
     targetID: Egg
-    requiredAmount: 2
-    currentAmount: 2
+    requiredAmount: 1
+    targetIDs: []
+    currentAmount: 0
   rewardXP: 5
-  status: 2
-  isPinned: 1
-  hasBeenViewed: 1
+  status: 0
+  isPinned: 0
+  hasBeenViewed: 0

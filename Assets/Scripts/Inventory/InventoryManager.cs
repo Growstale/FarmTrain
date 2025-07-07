@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 
+[System.Serializable]
+public class StartingItemInfo
+{
+    public ItemData itemData;
+    [Min(1)] public int quantity = 1;
+}
+
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
@@ -45,6 +52,10 @@ public class InventoryManager : MonoBehaviour
 
     private bool isStorageUnlocked = false; // Флаг, который отслеживает, куплен ли склад
 
+    [Header("Starting Inventory")]
+    [Tooltip("Список предметов, которые будут в инвентаре при старте игры")]
+    [SerializeField] private List<StartingItemInfo> startingItems = new List<StartingItemInfo>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -65,6 +76,7 @@ public class InventoryManager : MonoBehaviour
         // SetupToggleButton(); 
         UpdateAllSlotsUI();
         SelectSlot(selectedSlotIndex);
+        AddStartingItems();
 
         // --- НАЧАЛО ИЗМЕНЕНИЙ ---
         // Проверяем статус улучшения при старте
@@ -84,6 +96,24 @@ public class InventoryManager : MonoBehaviour
         // Предположим, что TrainUpgradeManager может сообщить об изменениях
         // Если нет, мы можем это добавить. А пока сделаем проверку в Update.
         // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+    }
+
+    private void AddStartingItems()
+    {
+        if (startingItems == null || startingItems.Count == 0)
+        {
+            return; // Если список пуст, ничего не делаем
+        }
+
+        Debug.Log("Adding starting items to inventory...");
+        foreach (var itemInfo in startingItems)
+        {
+            if (itemInfo.itemData != null && itemInfo.quantity > 0)
+            {
+                // Используем уже существующий метод для добавления
+                AddItem(itemInfo.itemData, itemInfo.quantity);
+            }
+        }
     }
 
     private void InitializeInventory()
