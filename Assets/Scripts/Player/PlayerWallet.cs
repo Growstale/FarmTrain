@@ -52,6 +52,7 @@ public class PlayerWallet : MonoBehaviour
 
         // Старое событие для UI и других систем оставляем как есть
         OnMoneyChanged?.Invoke(currentMoney);
+        GameEvents.TriggerCollectCoin(amount);
         Debug.Log($"Добавлено {amount} денег. Всего: {currentMoney}");
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wheat
   m_EditorClassIdentifier: 
   itemName: Wheat
-  itemIcon: {fileID: -3641404781026635025, guid: b5fa56d0951943546aaf8247edd27b18, type: 3}
+  itemIcon: {fileID: 4888850253088699902, guid: 30c83ced264fbe140a0f618170ef5b6e, type: 3}
   itemType: 5
   isStackable: 1
   maxStackSize: 16

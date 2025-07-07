@@ -63,4 +63,5 @@ public class ItemPickup : MonoBehaviour
             Debug.Log($"Не удалось подобрать {dataToPickup.itemName} - инвентарь полон?");
         }
     }
+  
 }

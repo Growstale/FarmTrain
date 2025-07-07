@@ -123,8 +123,8 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
                 SlotScripts upperSlotScript = upperSlot.GetComponent<SlotScripts>();
 
-                if (currentSlotScripts != null && !currentSlotScripts.isPlanted &&
-                    upperSlotScript != null && !upperSlotScript.isPlanted)
+                if (currentSlotScripts != null && !currentSlotScripts.isPlanted && currentSlotScripts.isRaked &&
+                    upperSlotScript != null && !upperSlotScript.isPlanted && upperSlotScript.isRaked)
                 {
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {upperSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
@@ -152,8 +152,8 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
                 SlotScripts lowerSlotScript = lowerSlot.GetComponent<SlotScripts>();
 
-                if (currentSlotScripts != null && !currentSlotScripts.isPlanted &&
-                    lowerSlotScript != null && !lowerSlotScript.isPlanted)
+                if (currentSlotScripts != null && !currentSlotScripts.isPlanted && currentSlotScripts.isRaked &&
+                    lowerSlotScript != null && !lowerSlotScript.isPlanted && lowerSlotScript.isRaked)
                 {
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {lowerSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
