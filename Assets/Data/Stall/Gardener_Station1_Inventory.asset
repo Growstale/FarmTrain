@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopName: Gardener
   shopItems:
-  - itemData: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
+  - itemData: {fileID: 11400000, guid: b3d81db6279c52f4fab8628f523498dd, type: 2}
+    buyPrice: 5
+    sellPrice: 4
+    forSale: 1
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 4
+  - itemData: {fileID: 11400000, guid: 2e858b5dc9ab0b543a6e41ed2e6e73e4, type: 2}
     buyPrice: 5
     sellPrice: 4
     forSale: 1

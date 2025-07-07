@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 04_SeedMoney
+  m_Name: 07_A_Woolly_Friend
   m_EditorClassIdentifier: 
-  id: 04_SeedMoney
-  title: Seed Money
-  description: Sell your produce to earn 330 coins for an upgrade.
-  shortDescription: Earn Coins
+  id: 07_A Woolly_Friend
+  title: A Woolly Friend
+  description: Buy your first sheep to welcome it to the farm.
+  shortDescription: Buy a Sheep
   gameLevel: 1
-  phase: 0
+  phase: 1
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 4
-    targetID: 
-    requiredAmount: 15
+  - goalType: 2
+    targetID: Sheep_item
+    requiredAmount: 1
     targetIDs: []
-    currentAmount: 15
-  rewardXP: 30
-  status: 2
-  isPinned: 0
+    currentAmount: 0
+  rewardXP: 5
+  status: 1
+  isPinned: 1
   hasBeenViewed: 0

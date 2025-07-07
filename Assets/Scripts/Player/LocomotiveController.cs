@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LocomotiveController : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class LocomotiveController : MonoBehaviour
     // Флаги состояния
     private bool travelToStationUnlocked = false;
     private bool departureUnlocked = false;
+
+    [Header("Backgrounds")]
+    [SerializeField] private List<Sprite> backgroundSprites; // Список всех возможных фонов
+    private int currentBackgroundIndex = 0;
 
     #region Unity Lifecycle
     void Awake()
@@ -157,16 +162,47 @@ public class LocomotiveController : MonoBehaviour
         UpdateHornHighlight();
         UIManager.Instance.ShowGoToStationButton(false);
 
-        ScreenFaderManager.Instance.FadeOutAndIn(() => {
-            // <<< ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ МЕТОД ДЛЯ ОКОНЧАТЕЛЬНОГО ОТПРАВЛЕНИЯ
+        // Запускаем корутину затемнения и передаем ей действие,
+        // которое нужно выполнить в середине, пока экран черный.
+        yield return StartCoroutine(ScreenFaderManager.Instance.FadeOutAndInCoroutine(() =>
+        {
+            // --- ДЕЙСТВИЯ В СЕРЕДИНЕ ЗАТЕМНЕНИЯ ---
+
+            // 1. Сообщаем ExperienceManager, что мы перешли на следующий уровень
             ExperienceManager.Instance.DepartToNextTrainLevel();
 
-            foreach (var layer in parallaxLayers) layer.enabled = true;
-        });
+            // 2. Включаем движение параллакса
+            foreach (var layer in parallaxLayers)
+            {
+                layer.enabled = true;
+            }
 
-        yield return null;
+            // 3. Меняем фон
+            ChangeBackground();
+
+            // --- КОНЕЦ ДЕЙСТВИЙ ---
+        }));
     }
 
+
+    private void ChangeBackground()
+    {
+        if (backgroundSprites == null || backgroundSprites.Count == 0) return;
+
+        // Переключаемся на следующий фон в списке, зацикливаясь
+        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundSprites.Count;
+
+        // Находим все слои параллакса и меняем им спрайт
+        foreach (var layer in parallaxLayers)
+        {
+            var spriteRenderer = layer.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = backgroundSprites[currentBackgroundIndex];
+            }
+        }
+        Debug.Log($"<color=green>Фон изменен на: {backgroundSprites[currentBackgroundIndex].name}</color>");
+    }
 
     private void CheckInitialTravelState()
     {

@@ -1,12 +1,18 @@
 using UnityEngine;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
-// Перечисление для типов целей
+// QuestGoal.cs
+
 public enum GoalType
 {
-    Gather, // Собрать ресурсы (или иметь в инвентаре)
-    Buy,    // Купить что-то
-    Earn,   // Заработать денег
-    Use,    // Использовать предмет/починить что-то (пока не используется, но оставим)
+    Gather,       // Собрать один конкретный ресурс
+    GatherAny,    // Собрать любое количество из списка ресурсов
+    Buy,          // Купить один конкретный предмет
+    BuyAny,       // Купить любое количество из списка предметов  <<< НОВОЕ
+    Earn,         // Заработать денег
+    Use,          // Использовать предмет/починить что-то
     FeedAnimal
 }
 
@@ -17,6 +23,10 @@ public class QuestGoal
     [Tooltip("ID цели. Gather/Buy: ItemData.name. FeedAnimal: AnimalData.speciesName.")]
     public string targetID;
     public int requiredAmount;
+
+    [Tooltip("Список ID для составных целей (GatherAny).")]
+    public List<string> targetIDs;
+
 
     [HideInInspector] public int currentAmount;
 
