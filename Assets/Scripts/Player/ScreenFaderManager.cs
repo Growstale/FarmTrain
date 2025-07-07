@@ -1,49 +1,69 @@
+// ScreenFaderManager.cs
+
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; // <<< Добавьте это
 
 public class ScreenFaderManager : MonoBehaviour
 {
     public static ScreenFaderManager Instance { get; private set; }
 
-    [SerializeField] private GameObject faderObject;
+    [SerializeField] private CanvasGroup faderCanvasGroup; // <<< ИЗМЕНЕНИЕ: теперь ссылка на CanvasGroup
     [SerializeField] private float fadeDuration = 1.0f;
-    // Если у вас есть аниматор, можно использовать его
-    // [SerializeField] private Animator faderAnimator; 
 
     void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (faderObject != null)
+        // В инспекторе перетащите ваш FaderImage с компонентом CanvasGroup в это поле
+        if (faderCanvasGroup == null)
         {
-            faderObject.SetActive(false);
+            Debug.LogError("Fader Canvas Group не назначен в ScreenFaderManager!");
+            return;
         }
+
+        // Убеждаемся, что он прозрачен при старте
+        faderCanvasGroup.alpha = 0f;
     }
 
-    public void FadeOutAndIn(System.Action onMiddleOfFade = null)
+    // ScreenFaderManager.cs
+    public IEnumerator FadeOutAndInCoroutine(System.Action onMiddleOfFade = null)
     {
-        StartCoroutine(FadeCoroutine(onMiddleOfFade));
+        // Код остается тем же, просто меняется название метода
+        yield return StartCoroutine(Fade(1f));
+        onMiddleOfFade?.Invoke();
+        yield return StartCoroutine(Fade(0f));
     }
 
     private IEnumerator FadeCoroutine(System.Action onMiddleOfFade)
     {
-        // Fade Out (затемнение)
-        faderObject.SetActive(true);
-        // Здесь можно добавить плавную анимацию через CanvasGroup.alpha
-        yield return new WaitForSeconds(fadeDuration);
+        // 1. Плавное затемнение (Fade Out)
+        yield return StartCoroutine(Fade(1f));
 
-        // Действие в середине (например, смена фазы)
+        // 2. Действие в середине, пока экран черный
         onMiddleOfFade?.Invoke();
 
-        // Fade In (осветление)
-        // Здесь можно добавить плавную анимацию
-        yield return new WaitForSeconds(fadeDuration);
-        faderObject.SetActive(false);
+        // 3. Плавное осветление (Fade In)
+        yield return StartCoroutine(Fade(0f));
+    }
+
+    // Вспомогательная корутина для самого процесса изменения альфы
+    private IEnumerator Fade(float targetAlpha)
+    {
+        float time = 0;
+        float startAlpha = faderCanvasGroup.alpha;
+
+        while (time < fadeDuration)
+        {
+            // Lerp - линейная интерполяция от startAlpha к targetAlpha за время
+            faderCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
+            time += Time.deltaTime;
+            yield return null; // Ждем следующего кадра
+        }
+
+        // Гарантируем, что в конце альфа будет точно равна целевому значению
+        faderCanvasGroup.alpha = targetAlpha;
     }
 }

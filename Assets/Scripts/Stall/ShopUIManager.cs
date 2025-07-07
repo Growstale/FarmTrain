@@ -217,7 +217,7 @@ public class ShopUIManager : MonoBehaviour
         if (maxQuantity <= 0) transactionQuantity = 0;
 
         quantityText.text = transactionQuantity.ToString();
-        totalPriceText.text = $"{transactionQuantity * price} BYN";
+        totalPriceText.text = $"{transactionQuantity * price}";
         confirmButton.interactable = transactionQuantity > 0;
     }
 
@@ -274,6 +274,7 @@ public class ShopUIManager : MonoBehaviour
                 {
                     AnimalPenManager.Instance.AddAnimal(itemData.associatedAnimalData);
                 }
+                OnItemPurchased?.Invoke(itemData, transactionQuantity); // Событие для квестов вызываем для ВСЕХ покупок
             }
             else // Режим продажи
             {

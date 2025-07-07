@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      repair_fence_cow_0: -1528708700563250252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

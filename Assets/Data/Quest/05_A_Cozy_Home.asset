@@ -20,9 +20,10 @@ MonoBehaviour:
   phase: 1
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 1
+  - goalType: 2
     targetID: Upgrade_SheepPen_Repair
     requiredAmount: 1
+    targetIDs: []
     currentAmount: 1
   rewardXP: 10
   status: 2

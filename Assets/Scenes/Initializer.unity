@@ -360,7 +360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpLevels:
   - trainPhaseXP: 50
-    stationPhaseXP: 100
+    stationPhaseXP: 25
   - trainPhaseXP: 100
     stationPhaseXP: 0
   - trainPhaseXP: 100

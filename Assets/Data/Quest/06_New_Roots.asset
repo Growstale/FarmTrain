@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 04_SeedMoney
+  m_Name: 06_New_Roots
   m_EditorClassIdentifier: 
-  id: 04_SeedMoney
-  title: Seed Money
-  description: Sell your produce to earn 330 coins for an upgrade.
-  shortDescription: Earn Coins
+  id: 06_New_Roots
+  title: New Roots
+  description: Buy [Amount] [Crop Name] seeds from the shop.
+  shortDescription: Buy New Seeds
   gameLevel: 1
-  phase: 0
+  phase: 1
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 4
+  - goalType: 3
     targetID: 
-    requiredAmount: 15
-    targetIDs: []
-    currentAmount: 15
-  rewardXP: 30
-  status: 2
+    requiredAmount: 5
+    targetIDs:
+    - Carrot_Seed
+    - Corn_seed
+    currentAmount: 0
+  rewardXP: 5
+  status: 0
   isPinned: 0
   hasBeenViewed: 0
