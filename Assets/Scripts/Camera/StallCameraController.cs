@@ -256,6 +256,7 @@ public class StallCameraController : MonoBehaviour
         }
 
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
+        Debug.Log($"Current Level is {currentLevel}");
         StationData stationData = StationDatabase.Instance.GetStationDataById(currentLevel);
 
         if (stationData == null)

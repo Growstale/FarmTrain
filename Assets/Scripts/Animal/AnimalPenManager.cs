@@ -193,5 +193,24 @@ public class AnimalPenManager : MonoBehaviour
         // Проверяем данные текущего уровня
         return config.upgradeLevels[currentLevel].providesAutoFeeding;
     }
+    public ItemData GetNextAvailableUpgrade(AnimalData animalData)
+    {
+        EnsureInitialized();
+        var config = GetPenConfigForAnimal(animalData);
+        if (config == null) return null;
+
+        int currentLevel = GetCurrentPenLevel(animalData);
+
+        // Проверяем, есть ли следующий уровень в списке улучшений
+        int nextLevelIndex = currentLevel + 1;
+        if (nextLevelIndex < config.upgradeLevels.Count)
+        {
+            // Возвращаем предмет, необходимый для перехода на СЛЕДУЮЩИЙ уровень
+            return config.upgradeLevels[nextLevelIndex].requiredUpgradeItem;
+        }
+
+        // Если следующего уровня нет, значит все уже куплено
+        return null;
+    }
 
 }

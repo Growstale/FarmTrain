@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbf23cee99af65f44ae68c708f1de71e, type: 3}
-  m_Name: Station0
+  m_Name: Station3
   m_EditorClassIdentifier: 
-  stationId: 0
-  stationName: Station0
+  stationId: 3
+  stationName: Station3
   stallInventories:
-  - {fileID: 11400000, guid: 08baa3ada46bcb442aec62c4eb9d0d83, type: 2}
-  - {fileID: 11400000, guid: a3abc0ea7992faf48a318c7b840dbe19, type: 2}
-  - {fileID: 11400000, guid: 0d71fb644d4146247a50005a0d89ed52, type: 2}
+  - {fileID: 11400000, guid: 754897df25d4baa4f935eb4d6a55e582, type: 2}
+  - {fileID: 11400000, guid: e1cb848fc0bf16f46892b9a0265df48c, type: 2}
+  - {fileID: 11400000, guid: 9b64c6a458cbcb24aba67805e2bb6c1d, type: 2}

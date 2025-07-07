@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Upgrade_CowPen_Feed
   m_EditorClassIdentifier: 
   itemName: Upgrade_CowPen_Feed
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 3854630991444281088, guid: c26f86dbf2e8ed84a8807b0f4ee42939, type: 3}
   itemType: 8
   isStackable: 0
   maxStackSize: 16
-  description: Upgrade_SheepPen_Repair
+  description: CowPen Feed
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

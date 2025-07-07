@@ -303,27 +303,38 @@ public class ShopUIManager : MonoBehaviour
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
                 if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity)) return;
 
-                PlayerWallet.Instance.SpendMoney(totalPrice);
                 if (itemData.itemType == ItemType.Upgrade)
                 {
-                    Debug.Log($"<color=cyan>ПОКУПКА УЛУЧШЕНИЯ:</color> {itemData.itemName}"); // 1. Проверяем, что мы сюда заходим
+                    // Улучшения не занимают места в инвентаре, так что проверку на место пропускаем
+                    PlayerWallet.Instance.SpendMoney(totalPrice);
+                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData); // Регистрируем покупку улучшения
 
-                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData);
-                    AnimalPenManager.Instance.ApplyUpgrade(itemData);
-
-                    // <<< ВАЖНОЕ ИСПРАВЛЕНИЕ ДЛЯ КВЕСТА >>>
-                    // Сообщаем системе квестов, что предмет был куплен.
-                    OnItemPurchased?.Invoke(itemData, transactionQuantity);
+                    // Теперь определяем, КАКОЕ это улучшение
+                    if (InventoryManager.Instance.StorageUpgradeData == itemData)
+                    {
+                        // Это улучшение склада!
+                        // Никаких других действий не требуется, InventoryManager сам подхватит изменение
+                        // через TrainUpgradeManager.Instance.HasUpgrade() в своем Update.
+                        Debug.Log($"<color=cyan>Успешно куплено улучшение для склада:</color> {itemData.itemName}");
+                    }
+                    else
+                    {
+                        // Предполагаем, что это улучшение для загона животных
+                        Debug.Log($"<color=cyan>Попытка применить улучшение для загона:</color> {itemData.itemName}");
+                        AnimalPenManager.Instance.ApplyUpgrade(itemData);
+                    }
                 }
-                else
+                else // Если это НЕ улучшение (обычный предмет)
                 {
+                    if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity)) return;
+
+                    PlayerWallet.Instance.SpendMoney(totalPrice);
                     InventoryManager.Instance.AddItem(itemData, transactionQuantity);
                 }
+
                 ShopDataManager.Instance.DecreaseStock(currentShopData, itemData, transactionQuantity);
-                if (itemData.itemType == ItemType.Upgrade)
-                {
-                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData);
-                }
+                OnItemPurchased?.Invoke(itemData, transactionQuantity); // Событие для квестов вызываем для ВСЕХ покупок
+
             }
             else
             {

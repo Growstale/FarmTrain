@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Upgrade_SheepPen_Plus
   m_EditorClassIdentifier: 
   itemName: Upgrade_SheepPen_Plus
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: -7513042593176928352, guid: 81e43b8e53b2fbb4c82a43c7217b6c59, type: 3}
   itemType: 8
   isStackable: 0
   maxStackSize: 16
-  description: Upgrade_SheepPen_Repair
+  description: SheepPen Plus
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}
