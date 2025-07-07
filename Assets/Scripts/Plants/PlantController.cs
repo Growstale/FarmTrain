@@ -1,5 +1,6 @@
-  using UnityEngine;
-
+using System.Linq;
+using UnityEngine;
+using System.Collections.Generic;
 public class PlantController : MonoBehaviour
 {
 
@@ -26,10 +27,13 @@ public class PlantController : MonoBehaviour
     bool isNeedWater=false;
     bool isFertilize = false;
 
-    void Start()
+
+  
+
+   void Start()
     {
         inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
-
+       
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if(plantData != null)
         {
@@ -39,6 +43,7 @@ public class PlantController : MonoBehaviour
             _spriteRenderer.sprite = plantData.growthStagesSprites[0];
             InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
             InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
+            Debug.Log($"Spawning plant {plantData.plantName}");
             if (isBedHaveFertilizer(IdSlots))
             {
                 FertilizePlant();
@@ -48,7 +53,7 @@ public class PlantController : MonoBehaviour
             {
                 Debug.Log($"У грядки нет удобрение, время между ростом растений равно {timePerGrowthStage}");
             }
-            GameEvents.TriggerAddedNewPlant(1);
+            CheckForAchievement(plantData.plantName);
         }
         else
         {
@@ -104,6 +109,22 @@ public class PlantController : MonoBehaviour
                 Debug.LogWarning("Ошибка спавна иконки нужды воды");
             }
         }
+    }
+
+    void CheckForAchievement(string namePlant)
+    {
+       
+            if (AchievementManager.allTpyesPlant.Contains(namePlant))
+            {
+                Debug.Log($"Type plant {namePlant} planted");
+                if(AchievementManager.allTpyesPlant.Remove(namePlant))
+                    GameEvents.TriggerOnCollectAllPlants(1);
+                else
+                {
+                    Debug.LogWarning("This type of plant is undefind");
+                }
+            }
+        
     }
 
     void WateringPlants()

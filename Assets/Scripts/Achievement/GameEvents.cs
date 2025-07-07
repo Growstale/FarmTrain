@@ -16,7 +16,7 @@ public static class GameEvents
     //  Отслеживаем количество новых животных 
     public static event Action<int> OnAddedNewAnimal;
     //  Отслеживаем количество новых растений
-    public static event Action<int> OnAddedNewPlant;
+    public static event Action<int> OnCollectAllPlants;
 
     // Отслеживаем новое улучшение
     public static event Action<int> OnAddedNewUpdgrade;
@@ -47,9 +47,9 @@ public static class GameEvents
     {
         OnAddedNewAnimal?.Invoke(amount);
     }
-    public static void TriggerAddedNewPlant(int amount)
+    public static void TriggerOnCollectAllPlants(int amount)
     {
-        OnAddedNewPlant?.Invoke(amount);
+        OnCollectAllPlants?.Invoke(amount);
     }
     public static void TriggerAddedNewUpdgrade(int amount)
     {

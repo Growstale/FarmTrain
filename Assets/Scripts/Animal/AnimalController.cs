@@ -72,6 +72,7 @@ public class AnimalController : MonoBehaviour
         currentState = AnimalState.Idle;
         SetNewStateTimer(AnimalState.Idle);
         UpdateAppearance();
+        CheckForAchievement(animalData.speciesName);
     }
 
     public void InitializeWithState(AnimalStateData stateData, Bounds bounds)
@@ -89,7 +90,7 @@ public class AnimalController : MonoBehaviour
         // ... и так далее. Проверьте ваш Start() - возможно, что-то оттуда надо перенести сюда.
         // Важно, чтобы InitializeMovementBounds вызывался после того, как animalData уже установлено.
     }
-
+   
     public void InitializeMovementBounds(Bounds bounds, bool setInitialPosition)
     {
         if (myTransform == null)
@@ -523,6 +524,7 @@ public class AnimalController : MonoBehaviour
                 if (added)
                 {
                     Debug.Log($"Успешно собрано {animalData.productAmount} {animalData.productProduced.itemName}");
+                    CheckForAchievement();
                     hasProductReady = false;
                     ResetProductionTimer();
                     interactionSuccessful = true;
@@ -541,6 +543,7 @@ public class AnimalController : MonoBehaviour
             if (added)
             {
                 Debug.Log($"Успешно собрано {animalData.fertilizerAmount} {animalData.fertilizerProduced.itemName}");
+                
                 ResetFertilizerTimer();
                 hasFertilizerReady = false;
                 interactionSuccessful = true;
@@ -578,5 +581,25 @@ public class AnimalController : MonoBehaviour
         SaveState();
     }
 
+    void CheckForAchievement(string name)
+    {
+
+        if (AchievementManager.allTpyesAnimal.Contains(name))
+        {
+           
+            if (AchievementManager.allTpyesPlant.Remove(name))
+                GameEvents.TriggerAddedNewAnimal(1);
+            else
+            {
+                Debug.LogWarning("This type of animal is undefind");
+            }
+        }
+
+    }
+    void CheckForAchievement()
+    {
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Checked");
+            GameEvents.TriggerCollectAnimalProduct(1);
+    }
 
 }

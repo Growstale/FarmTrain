@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      repair_fence_sheep_0: 1005763597313196434
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

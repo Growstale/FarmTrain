@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      upgrade_auto_feed_chicken_0: -800123857529987964
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
