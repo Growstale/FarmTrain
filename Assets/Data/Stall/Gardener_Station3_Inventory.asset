@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0491b71c6c6b597478907586e6e604c2, type: 3}
-  m_Name: Mechanic_Station0_Inventory
+  m_Name: Gardener_Station3_Inventory
   m_EditorClassIdentifier: 
-  shopName: Mechanic
+  shopName: Gardener
   shopItems:
-  - itemData: {fileID: 11400000, guid: 12523f2bc659cda40a083d168cc184bc, type: 2}
+  - itemData: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
     buyPrice: 5
     sellPrice: 4
     forSale: 1
-    willBuy: 0
+    willBuy: 1
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 4

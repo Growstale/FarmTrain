@@ -1591,6 +1591,7 @@ MonoBehaviour:
   inventoryToggleButton: {fileID: 158030013}
   CloseButton: {fileID: 723381233}
   inventoryBackgroundPanel: {fileID: 2113983622}
+  storageUpgradeData: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
   selectedSlotIndex: 0
   BedManager: {fileID: 0}
 --- !u!4 &156422810
@@ -1840,7 +1841,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: -5332013890864615094, guid: 11b10b94d3965b8428e9e8873fdd1065, type: 3}
     m_PressedSprite: {fileID: -1663486826631341717, guid: f60905acd98670a48b056c9f06e28362, type: 3}
     m_SelectedSprite: {fileID: -1663486826631341717, guid: f60905acd98670a48b056c9f06e28362, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: -5332013890864615094, guid: 11b10b94d3965b8428e9e8873fdd1065, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

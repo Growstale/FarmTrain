@@ -22,6 +22,13 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Button CloseButton;
     [SerializeField] private GameObject inventoryBackgroundPanel;
 
+    [Header("Storage Upgrade")]
+    [Tooltip("Ссылка на ItemData, который представляет собой улучшение для большого склада.")]
+    [SerializeField] private ItemData storageUpgradeData;
+
+    // --- ДОБАВЬТЕ ЭТУ СТРОКУ ---
+    public ItemData StorageUpgradeData => storageUpgradeData;
+
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
 
@@ -35,6 +42,8 @@ public class InventoryManager : MonoBehaviour
     public event Action OnInventoryChanged;
     public event Action<int> OnSelectedSlotChanged;
     public event Action<ItemData, int> OnItemAdded;
+
+    private bool isStorageUnlocked = false; // Флаг, который отслеживает, куплен ли склад
 
     private void Awake()
     {
@@ -52,10 +61,29 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         CreateSlotsUI();
-        SetupToggleButton();
+        // --- ИЗМЕНЕНИЕ: мы больше не настраиваем кнопку напрямую здесь ---
+        // SetupToggleButton(); 
         UpdateAllSlotsUI();
         SelectSlot(selectedSlotIndex);
-        UpdateMainInventoryUIVisibility();
+
+        // --- НАЧАЛО ИЗМЕНЕНИЙ ---
+        // Проверяем статус улучшения при старте
+        CheckStorageUpgradeStatus();
+        // Настраиваем слушателя для кнопки
+        if (inventoryToggleButton != null)
+        {
+            inventoryToggleButton.onClick.AddListener(ToggleMainInventory);
+        }
+        if (CloseButton != null) // Добавляем обработчик для кнопки закрытия
+        {
+            CloseButton.onClick.AddListener(CloseInventory);
+        }
+
+        // Подписываемся на событие покупки улучшений
+        // Это более гибкий подход, чем прямая ссылка на ShopUIManager
+        // Предположим, что TrainUpgradeManager может сообщить об изменениях
+        // Если нет, мы можем это добавить. А пока сделаем проверку в Update.
+        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
     }
 
     private void InitializeInventory()
@@ -106,22 +134,12 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void SetupToggleButton()
-    {
-        if (inventoryToggleButton != null && CloseButton != null)
-        {
-            inventoryToggleButton.onClick.AddListener(OpenInventory);
-            CloseButton.onClick.AddListener(CloseInventory);
-        }
-        else
-        {
-            Debug.LogWarning("Inventory Toggle Button and Close Button is not assigned in the Inspector.");
-        }
-    }
+    
 
     private void Update()
     {
         HandleHotbarInput();
+        CheckStorageUpgradeStatus();
     }
 
     private void HandleHotbarInput()
@@ -133,6 +151,32 @@ public class InventoryManager : MonoBehaviour
                 SelectSlot(i);
                 break;
             }
+        }
+    }
+
+    private void CheckStorageUpgradeStatus()
+    {
+        if (storageUpgradeData == null)
+        {
+            // Если данные об улучшении не указаны, считаем склад всегда доступным.
+            isStorageUnlocked = true;
+        }
+        else
+        {
+            // Проверяем через менеджер улучшений, куплен ли предмет
+            isStorageUnlocked = TrainUpgradeManager.Instance.HasUpgrade(storageUpgradeData);
+        }
+
+        // Обновляем состояние кнопки
+        if (inventoryToggleButton != null)
+        {
+            inventoryToggleButton.interactable = isStorageUnlocked;
+        }
+
+        // Если склад заблокирован, он должен быть закрыт
+        if (!isStorageUnlocked && mainInventoryPanel.activeSelf)
+        {
+            CloseInventory();
         }
     }
 
@@ -153,12 +197,15 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemToAdd == null || quantity <= 0) return false;
 
+        // Получаем текущий доступный размер инвентаря
+        int currentSize = GetCurrentInventorySize();
+
         if (itemToAdd.isStackable)
         {
-            for (int i = 0; i < inventoryItems.Count; i++)
+            // --- ИЗМЕНЕНИЕ: Цикл идет только до currentSize ---
+            for (int i = 0; i < currentSize; i++)
             {
-                if (!IsSlotActive(i)) continue;
-
+                // IsSlotActive(i) нам больше не нужна, т.к. currentSize уже учитывает все
                 InventoryItem currentItem = inventoryItems[i];
                 if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData == itemToAdd)
                 {
@@ -181,7 +228,7 @@ public class InventoryManager : MonoBehaviour
                 if (quantity <= 0)
                 {
                     OnInventoryChanged?.Invoke();
-                    OnItemAdded?.Invoke(itemToAdd, quantity);
+                    OnItemAdded?.Invoke(itemToAdd, quantity); // quantity здесь будет остатком
                     return true;
                 }
             }
@@ -198,20 +245,24 @@ public class InventoryManager : MonoBehaviour
         }
 
         Debug.Log("Inventory is full!");
+        // Здесь можно добавить всплывающее уведомление для игрока
         return false;
     }
 
     private int FindFirstEmptySlot()
     {
-        for (int i = 0; i < inventoryItems.Count; i++)
+        // --- ИЗМЕНЕНИЕ: Цикл идет только до currentSize ---
+        int currentSize = GetCurrentInventorySize();
+        for (int i = 0; i < currentSize; i++)
         {
-            if (IsSlotActive(i) && (inventoryItems[i] == null || inventoryItems[i].IsEmpty))
+            if (inventoryItems[i] == null || inventoryItems[i].IsEmpty)
             {
                 return i;
             }
         }
-        return -1;
+        return -1; // Свободных слотов в доступной части инвентаря нет
     }
+
 
     public void RemoveItem(int index, int quantity = 1)
     {
@@ -298,8 +349,24 @@ public class InventoryManager : MonoBehaviour
         OnSelectedSlotChanged?.Invoke(selectedSlotIndex);
     }
 
+    public int GetCurrentInventorySize()
+    {
+        // Если склад разблокирован, доступны все слоты.
+        // Если нет - только хотбар.
+        if (isStorageUnlocked)
+        {
+            return hotbarSize + (currentMainInventoryRows * columns);
+        }
+        else
+        {
+            return hotbarSize;
+        }
+    }
+
     public void OpenInventory()
     {
+        if (!isStorageUnlocked) return;
+
         if (!mainInventoryPanel.activeSelf)
         {
             mainInventoryPanel.SetActive(true);
@@ -333,6 +400,12 @@ public class InventoryManager : MonoBehaviour
 
     public void ToggleMainInventory()
     {
+        if (!isStorageUnlocked)
+        {
+            Debug.Log("Нельзя открыть склад, он не куплен.");
+            return;
+        }
+
         if (mainInventoryPanel.activeSelf)
         {
             CloseInventory();
@@ -401,10 +474,12 @@ public class InventoryManager : MonoBehaviour
 
     public void MoveItem(int fromIndex, int toIndex)
     {
-        if (fromIndex < 0 || fromIndex >= inventoryItems.Count ||
-            toIndex < 0 || toIndex >= inventoryItems.Count ||
+        int currentSize = GetCurrentInventorySize();
+        if (fromIndex < 0 || fromIndex >= currentSize ||
+            toIndex < 0 || toIndex >= currentSize ||
             fromIndex == toIndex)
         {
+
             Debug.LogWarning($"Invalid move operation: from {fromIndex} to {toIndex}");
             UpdateSlotUI(fromIndex);
             return;
@@ -521,13 +596,15 @@ public class InventoryManager : MonoBehaviour
 
     public bool CheckForSpace(ItemData itemToAdd, int quantity)
     {
+        int currentSize = GetCurrentInventorySize();
+
         if (itemToAdd == null || quantity <= 0) return false;
 
         int quantityLeftToPlace = quantity;
 
         if (itemToAdd.isStackable)
         {
-            for (int i = 0; i < inventoryItems.Count; i++)
+            for (int i = 0; i < currentSize; i++)
             {
                 if (!IsSlotActive(i)) continue;
 
@@ -542,7 +619,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < inventoryItems.Count; i++)
+        for (int i = 0; i < currentSize; i++)
         {
             if (!IsSlotActive(i)) continue;
 
