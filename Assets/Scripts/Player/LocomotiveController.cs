@@ -19,9 +19,6 @@ public class LocomotiveController : MonoBehaviour
     private bool travelToStationUnlocked = false;
     private bool departureUnlocked = false;
 
-    [Header("Backgrounds")]
-    [SerializeField] private List<Sprite> backgroundSprites; // Список всех возможных фонов
-    private int currentBackgroundIndex = 0;
 
     #region Unity Lifecycle
     void Awake()
@@ -162,47 +159,25 @@ public class LocomotiveController : MonoBehaviour
         UpdateHornHighlight();
         UIManager.Instance.ShowGoToStationButton(false);
 
-        // Запускаем корутину затемнения и передаем ей действие,
-        // которое нужно выполнить в середине, пока экран черный.
         yield return StartCoroutine(ScreenFaderManager.Instance.FadeOutAndInCoroutine(() =>
         {
             // --- ДЕЙСТВИЯ В СЕРЕДИНЕ ЗАТЕМНЕНИЯ ---
 
             // 1. Сообщаем ExperienceManager, что мы перешли на следующий уровень
             ExperienceManager.Instance.DepartToNextTrainLevel();
+            int newLevel = ExperienceManager.Instance.CurrentLevel; // Получаем новый уровень
 
-            // 2. Включаем движение параллакса
+            // 2. Включаем движение параллакса и сообщаем им о новом уровне
             foreach (var layer in parallaxLayers)
             {
                 layer.enabled = true;
+                layer.SetSpriteForLevel(newLevel); // <<< ВОТ КЛЮЧЕВОЕ ИЗМЕНЕНИЕ
             }
-
-            // 3. Меняем фон
-            ChangeBackground();
 
             // --- КОНЕЦ ДЕЙСТВИЙ ---
         }));
     }
 
-
-    private void ChangeBackground()
-    {
-        if (backgroundSprites == null || backgroundSprites.Count == 0) return;
-
-        // Переключаемся на следующий фон в списке, зацикливаясь
-        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundSprites.Count;
-
-        // Находим все слои параллакса и меняем им спрайт
-        foreach (var layer in parallaxLayers)
-        {
-            var spriteRenderer = layer.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.sprite = backgroundSprites[currentBackgroundIndex];
-            }
-        }
-        Debug.Log($"<color=green>Фон изменен на: {backgroundSprites[currentBackgroundIndex].name}</color>");
-    }
 
     private void CheckInitialTravelState()
     {

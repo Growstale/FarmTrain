@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 01_FirstHarvest
+  m_Name: 08_A_Place_for_Everything
   m_EditorClassIdentifier: 
-  id: 01_FirstHarvest
-  title: First Steps
-  description: Plant and harvest your first wheat.
-  shortDescription: Harvest Wheat
+  id: 08_A_Place_for_Everything
+  title: A Place for Everything
+  description: Buy the upgrade to unlock inventory.
+  shortDescription: Unlock inventory
   gameLevel: 1
-  phase: 0
-  nextQuest: {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
+  phase: 1
+  nextQuest: {fileID: 0}
   goals:
-  - goalType: 0
-    targetID: Wheat
+  - goalType: 2
+    targetID: Upgrade_Storehouse
     requiredAmount: 1
     targetIDs: []
-    currentAmount: 1
-  rewardXP: 10
-  status: 2
+    currentAmount: 0
+  rewardXP: 5
+  status: 0
   isPinned: 0
   hasBeenViewed: 0

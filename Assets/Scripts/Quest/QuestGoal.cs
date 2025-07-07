@@ -13,7 +13,8 @@ public enum GoalType
     BuyAny,       // Купить любое количество из списка предметов  <<< НОВОЕ
     Earn,         // Заработать денег
     Use,          // Использовать предмет/починить что-то
-    FeedAnimal
+    FeedAnimal,
+    SellFor
 }
 
 [System.Serializable]

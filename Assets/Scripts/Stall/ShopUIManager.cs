@@ -302,7 +302,6 @@ public class ShopUIManager : MonoBehaviour
             if (isBuyMode)
             {
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
-                if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity)) return;
 
                 if (itemData.itemType == ItemType.Upgrade)
                 {

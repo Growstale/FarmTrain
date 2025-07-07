@@ -22,10 +22,10 @@ MonoBehaviour:
   goals:
   - goalType: 6
     targetID: Chicken
-    requiredAmount: 2
+    requiredAmount: 1
     targetIDs: []
     currentAmount: 0
   rewardXP: 5
   status: 1
-  isPinned: 1
-  hasBeenViewed: 1
+  isPinned: 0
+  hasBeenViewed: 0
