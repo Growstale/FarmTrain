@@ -180,7 +180,7 @@ public class AchievementManager : MonoBehaviour
         {
             if (achievement.typeOfAchivment == type)
             {
-               progress.isReceived = true;
+                achievement.isReceived = true;
                audioSource.PlayOneShot(achievementSound);
             }
         }
