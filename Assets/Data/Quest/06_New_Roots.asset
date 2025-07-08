@@ -25,7 +25,7 @@ MonoBehaviour:
     requiredAmount: 5
     targetIDs:
     - Carrot_Seed
-    - Corn_seed
+    - Potato_seed
     currentAmount: 0
   rewardXP: 5
   status: 0
