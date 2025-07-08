@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class SlotScripts : MonoBehaviour
 {
-    public bool isPlanted = false; // есть ли растение
-    public bool ishavebed = false;  // есть ли грядка
-    public bool isRaked = false; // обработана ли грядка
-    public bool isFertilize = false; // есть ли удобрения
+    public bool isPlanted = false; // ГҐГ±ГІГј Г«ГЁ Г°Г Г±ГІГҐГ­ГЁГҐ
+    public bool ishavebed = false;  // ГҐГ±ГІГј Г«ГЁ ГЈГ°ГїГ¤ГЄГ 
+    public bool isRaked = false; // Г®ГЎГ°Г ГЎГ®ГІГ Г­Г  Г«ГЁ ГЈГ°ГїГ¤ГЄГ 
+    public bool isFertilize = false; // ГҐГ±ГІГј Г«ГЁ ГіГ¤Г®ГЎГ°ГҐГ­ГЁГї
     Color currentColor;
     SpriteRenderer spriteRenderer;
     Transform slot;
 
 
 
-    private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
+    private InventoryManager inventoryManager; // Г‘Г±Г»Г«ГЄГ  Г­Г  Г¬ГҐГ­ГҐГ¤Г¦ГҐГ° ГЁГ­ГўГҐГ­ГІГ Г°Гї
 
    
 
@@ -26,7 +26,7 @@ public class SlotScripts : MonoBehaviour
     void Start()
     {
 
-        inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
+        inventoryManager = InventoryManager.Instance; // Г€ ГЇГ®ГЁГ±ГЄ Г±ГЁГ­ГЈГ«ГІГ®Г­Г  ГІГ®Г¦ГҐ
        
         if(_itemSpawner == null)
         {
@@ -44,19 +44,19 @@ public class SlotScripts : MonoBehaviour
     {
 
        
-        // Получаем ВЫБРАННЫЙ предмет и ИНДЕКС выбранного слота
+        // ГЏГ®Г«ГіГ·Г ГҐГ¬ Г‚Г›ГЃГђГЂГЌГЌГ›Г‰ ГЇГ°ГҐГ¤Г¬ГҐГІ ГЁ Г€ГЌГ„Г…ГЉГ‘ ГўГ»ГЎГ°Г Г­Г­Г®ГЈГ® Г±Г«Г®ГІГ 
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
-        int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
+        int selectedIndex = inventoryManager.SelectedSlotIndex; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ Г­Г®ГўГ®ГҐ Г±ГўГ®Г©Г±ГІГўГ®
 
        
         if(selectedItem == null)
         {
-            Debug.Log("Выбери предмет из инвенторя");
+            Debug.Log("Г‚Г»ГЎГҐГ°ГЁ ГЇГ°ГҐГ¤Г¬ГҐГІ ГЁГ§ ГЁГ­ГўГҐГ­ГІГ®Г°Гї");
         }
 
         else
         {
-            // Проверяем, есть ли выбранный предмет и является ли он горшком или грядкой
+            // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬, ГҐГ±ГІГј Г«ГЁ ГўГ»ГЎГ°Г Г­Г­Г»Г© ГЇГ°ГҐГ¤Г¬ГҐГІ ГЁ ГїГўГ«ГїГҐГІГ±Гї Г«ГЁ Г®Г­ ГЈГ®Г°ГёГЄГ®Г¬ ГЁГ«ГЁ ГЈГ°ГїГ¤ГЄГ®Г©
             if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Pot)
             {
 
@@ -65,7 +65,7 @@ public class SlotScripts : MonoBehaviour
                 if (ishavebed)
                 {
 
-                    Debug.Log("Тут уже занято, куда??");
+                    Debug.Log("Г’ГіГІ ГіГ¦ГҐ Г§Г Г­ГїГІГ®, ГЄГіГ¤Г ??");
                 }
                 else
                 {
@@ -94,7 +94,7 @@ public class SlotScripts : MonoBehaviour
                             {
                                 float weightSeed = selectedItem.itemData.associatedPlantData.Weight;
 
-                                // проверка веса растения 
+                                // ГЇГ°Г®ГўГҐГ°ГЄГ  ГўГҐГ±Г  Г°Г Г±ГІГҐГ­ГЁГї 
 
                                 switch (weightSeed)
                                 {
@@ -106,7 +106,7 @@ public class SlotScripts : MonoBehaviour
                                         Vector2Int[] idSlots1 = tourple1.Item3;
                                         if (isFreeSlot1)
                                         {
-                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1,isFertilize);
+                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1);
                                             AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
                                             SFXManager.Instance.PlaySFX(plantSound);
 
@@ -126,22 +126,22 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots);
                                                 AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
                                                 SFXManager.Instance.PlaySFX(plantSound);
-
+                                                
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
                                             {
-                                                Debug.Log("Не хватает грядок, надо купить еще");
+                                                Debug.Log("ГЌГҐ ГµГўГ ГІГ ГҐГІ ГЈГ°ГїГ¤Г®ГЄ, Г­Г Г¤Г® ГЄГіГЇГЁГІГј ГҐГ№ГҐ");
 
                                             }
 
                                         }
                                         else
                                         {
-                                            Debug.Log("Ошибка заполнения, отсутствует скрипт gridGenerator у родительского Slot");
+                                            Debug.Log("ГЋГёГЁГЎГЄГ  Г§Г ГЇГ®Г«Г­ГҐГ­ГЁГї, Г®ГІГ±ГіГІГ±ГІГўГіГҐГІ Г±ГЄГ°ГЁГЇГІ gridGenerator Гі Г°Г®Г¤ГЁГІГҐГ«ГјГ±ГЄГ®ГЈГ® Slot");
                                         }
                                         break;
                                     case 4:
@@ -154,7 +154,7 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots);
                                                 AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
                                                 SFXManager.Instance.PlaySFX(plantSound);
 
@@ -162,14 +162,14 @@ public class SlotScripts : MonoBehaviour
                                             }
                                             else
                                             {
-                                                Debug.Log("Не хватает грядок, надо купить еще");
+                                                Debug.Log("ГЌГҐ ГµГўГ ГІГ ГҐГІ ГЈГ°ГїГ¤Г®ГЄ, Г­Г Г¤Г® ГЄГіГЇГЁГІГј ГҐГ№ГҐ");
 
                                             }
 
                                         }
                                         else
                                         {
-                                            Debug.Log("Ошибка заполнения, отсутствует скрипт BedSlotController у родительского Slot");
+                                            Debug.Log("ГЋГёГЁГЎГЄГ  Г§Г ГЇГ®Г«Г­ГҐГ­ГЁГї, Г®ГІГ±ГіГІГ±ГІГўГіГҐГІ Г±ГЄГ°ГЁГЇГІ BedSlotController Гі Г°Г®Г¤ГЁГІГҐГ«ГјГ±ГЄГ®ГЈГ® Slot");
                                         }
                                         break;
 
@@ -178,24 +178,24 @@ public class SlotScripts : MonoBehaviour
                             }
                             else
                             {
-                                Debug.LogError("Не найден родительский слот! Ошибка");
+                                Debug.LogError("ГЌГҐ Г­Г Г©Г¤ГҐГ­ Г°Г®Г¤ГЁГІГҐГ«ГјГ±ГЄГЁГ© Г±Г«Г®ГІ! ГЋГёГЁГЎГЄГ ");
                             }
                         }
                         else
                         {
-                            Debug.Log("Тут уже занято, куда??");
+                            Debug.Log("Г’ГіГІ ГіГ¦ГҐ Г§Г Г­ГїГІГ®, ГЄГіГ¤Г ??");
                         }
                     }
                     else
                     {
-                        Debug.Log("Сначала надо обработать грядку, а потом уже садить растение");
+                        Debug.Log("Г‘Г­Г Г·Г Г«Г  Г­Г Г¤Г® Г®ГЎГ°Г ГЎГ®ГІГ ГІГј ГЈГ°ГїГ¤ГЄГі, Г  ГЇГ®ГІГ®Г¬ ГіГ¦ГҐ Г±Г Г¤ГЁГІГј Г°Г Г±ГІГҐГ­ГЁГҐ");
 
                     }
 
                 }
                 else
                 {
-                    Debug.Log("Сначала надо поставить грядку!");
+                    Debug.Log("Г‘Г­Г Г·Г Г«Г  Г­Г Г¤Г® ГЇГ®Г±ГІГ ГўГЁГІГј ГЈГ°ГїГ¤ГЄГі!");
                 }
 
                 
@@ -222,12 +222,12 @@ public class SlotScripts : MonoBehaviour
                             }
                             else
                             {
-                                Debug.LogError("bedController не найден");
+                                Debug.LogError("bedController Г­ГҐ Г­Г Г©Г¤ГҐГ­");
                             }
                         }
                         else
                         {
-                            Debug.LogError("Грядка не является дочерней для слота, ошибка");
+                            Debug.LogError("ГѓГ°ГїГ¤ГЄГ  Г­ГҐ ГїГўГ«ГїГҐГІГ±Гї Г¤Г®Г·ГҐГ°Г­ГҐГ© Г¤Г«Гї Г±Г«Г®ГІГ , Г®ГёГЁГЎГЄГ ");
                         }
                     }
                    
@@ -235,59 +235,44 @@ public class SlotScripts : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Обрабатывать можно только посаженные грядки!");
-                }
-            }
-            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Fertilizer)
-            {
-                if (ishavebed)
-                {
-
-                    if (isRaked)
-                    {
-                        if (!isFertilize)
-                        {
-                            GameObject childBed = FindChildWithTag("Bed");
-                            if (childBed != null)
-                            {
-                                BedController bedController = childBed.GetComponent<BedController>();
-                                if (bedController != null)
-                                {
-                                    isFertilize = true;
-                                    SFXManager.Instance.PlaySFX(SFXManager.Instance.fertilize);
-
-                                    bedController.ChangeStage(BedData.StageGrowthPlant.WithFertilizers, 3);
-                                    InventoryManager.Instance.RemoveItem(selectedIndex);
-                                }
-                                else
-                                {
-                                    Debug.LogError("bedController не найден");
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogError("Грядка не является дочерней для слота, ошибка");
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("На грядке уже имеется удобрение!");
-                        }
-
-                    }
-                    else
-                    {
-                        Debug.Log("Обрабатывать можно только вспаханные грядки!");
-                    }
-
-
-                }
-                else
-                {
-                    Debug.Log("Обрабатывать можно только посаженные грядки!");
+                    Debug.Log("ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГІГј Г¬Г®Г¦Г­Г® ГІГ®Г«ГјГЄГ® ГЇГ®Г±Г Г¦ГҐГ­Г­Г»ГҐ ГЈГ°ГїГ¤ГЄГЁ!");
                 }
             }
 
+            //if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Fertilizer)
+            //{
+            //    if (ishavebed)
+            //    {
+
+            //        if (isRaked)
+            //        {
+            //            if (!isFertilize)
+            //            {
+            //                
+            //                }
+            //                else
+            //                {
+            //                    Debug.LogError("ГѓГ°ГїГ¤ГЄГ  Г­ГҐ ГїГўГ«ГїГҐГІГ±Гї Г¤Г®Г·ГҐГ°Г­ГҐГ© Г¤Г«Гї Г±Г«Г®ГІГ , Г®ГёГЁГЎГЄГ ");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Debug.Log("ГЌГ  ГЈГ°ГїГ¤ГЄГҐ ГіГ¦ГҐ ГЁГ¬ГҐГҐГІГ±Гї ГіГ¤Г®ГЎГ°ГҐГ­ГЁГҐ!");
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            Debug.Log("ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГІГј Г¬Г®Г¦Г­Г® ГІГ®Г«ГјГЄГ® ГўГ±ГЇГ ГµГ Г­Г­Г»ГҐ ГЈГ°ГїГ¤ГЄГЁ!");
+            //        }
+
+
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГІГј Г¬Г®Г¦Г­Г® ГІГ®Г«ГјГЄГ® ГЇГ®Г±Г Г¦ГҐГ­Г­Г»ГҐ ГЈГ°ГїГ¤ГЄГЁ!");
+            //    }
+            //}
         }
         
     }
@@ -306,6 +291,26 @@ public class SlotScripts : MonoBehaviour
     }
 
 
+    public bool ChangeStateBed(BedData.StageGrowthPlant stage ,int idx)
+    {
+        GameObject childBed = FindChildWithTag("Bed");
+        if (childBed != null)
+        {
+            BedController bedController = childBed.GetComponent<BedController>();
+            if (bedController != null)
+            {
+                
+                bedController.ChangeStage(stage, idx);
+                return true;
+            }
+            else
+            {
+                Debug.LogError("bedController Г­ГҐ Г­Г Г©Г¤ГҐГ­");
+                return false;
+            }
+        }
+        return false;
+    }
 
     public void ChangeColor()
     {

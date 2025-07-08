@@ -1,12 +1,13 @@
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 public class PlantController : MonoBehaviour
 {
 
 
     [Header("Growth")]
-    // ссылка на data растения 
+    // Г±Г±Г»Г«ГЄГ  Г­Г  data Г°Г Г±ГІГҐГ­ГЁГї 
     [SerializeField] PlantData plantData;
     [SerializeField] GameObject icon_water;
     [SerializeField] GameObject worldItemPrefab;
@@ -34,7 +35,7 @@ public class PlantController : MonoBehaviour
 
    void Start()
     {
-        inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
+        inventoryManager = InventoryManager.Instance; // Г€ ГЇГ®ГЁГ±ГЄ Г±ГЁГ­ГЈГ«ГІГ®Г­Г  ГІГ®Г¦ГҐ
        
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if(plantData != null)
@@ -46,20 +47,12 @@ public class PlantController : MonoBehaviour
             InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
             InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
             Debug.Log($"Spawning plant {plantData.plantName}");
-            if (isBedHaveFertilizer(IdSlots))
-            {
-                FertilizePlant();
-                Debug.Log($"У грядки есть удобрение, время между ростом растений равно {timePerGrowthStage}");
-            }
-            else
-            {
-                Debug.Log($"У грядки нет удобрение, время между ростом растений равно {timePerGrowthStage}");
-            }
+            
             CheckForAchievement(plantData.plantName);
         }
         else
         {
-            Debug.LogError("Отстутсвует ссылка на данные растения");
+            Debug.LogError("ГЋГІГ±ГІГіГІГ±ГўГіГҐГІ Г±Г±Г»Г«ГЄГ  Г­Г  Г¤Г Г­Г­Г»ГҐ Г°Г Г±ГІГҐГ­ГЁГї");
             Destroy(gameObject);
         }
 
@@ -108,7 +101,7 @@ public class PlantController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Ошибка спавна иконки нужды воды");
+                Debug.LogWarning("ГЋГёГЁГЎГЄГ  Г±ГЇГ ГўГ­Г  ГЁГЄГ®Г­ГЄГЁ Г­ГіГ¦Г¤Г» ГўГ®Г¤Г»");
             }
         }
     }
@@ -137,7 +130,7 @@ public class PlantController : MonoBehaviour
             if (child.gameObject.name == "icon_water")
             {
                Destroy(child.gameObject);
-                Debug.Log("Вы успешно полили растение!");
+                Debug.Log("Г‚Г» ГіГ±ГЇГҐГёГ­Г® ГЇГ®Г«ГЁГ«ГЁ Г°Г Г±ГІГҐГ­ГЁГҐ!");
                 if (SFXManager.Instance != null && SFXManager.Instance.wateringSound != null)
                 {
                     SFXManager.Instance.PlaySFX(SFXManager.Instance.wateringSound);
@@ -147,7 +140,7 @@ public class PlantController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Нет иконки!");
+                Debug.Log("ГЌГҐГІ ГЁГЄГ®Г­ГЄГЁ!");
             }
         }
     }
@@ -161,22 +154,46 @@ public class PlantController : MonoBehaviour
         //    Debug.Log($"<<< Current IdSlot for Plant: {slot}");
         //}
     }
-    public void FertilizePlant()
+    private void FertilizePlant(Vector2Int[] idSlots)
     {
         float fertilizerGrowthMultiplie = plantData.fertilizerGrowthMultiplier;
 
-        timePerGrowthStage /= fertilizerGrowthMultiplie;
-        isFertilize = true;
+        GameObject parent = transform.parent.gameObject;
+
+        if (parent != null)
+        {
+            GridGenerator generator = parent.GetComponent<GridGenerator>();
+            if (generator != null)
+            {
+                 generator.FertilizerSlot(idSlots);
+                timePerGrowthStage /= fertilizerGrowthMultiplie;
+                isFertilize = true;
+            }
+            else
+            {
+                Debug.Log($"Г„Г«Гї parent  {parent.name} generator is null");
+                
+            }
+
+
+        }
+        else
+        {
+            Debug.Log($"Г„Г«Гї Г°Г Г±ГІГҐГ­ГЁГ·Гї  {name} Parent is null");
+            
+        }
+
+     
 
     }
     public void ClickHandler()
     {
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
-        int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
+        int selectedIndex = inventoryManager.SelectedSlotIndex; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ Г­Г®ГўГ®ГҐ Г±ГўГ®Г©Г±ГІГўГ®
 
         if (selectedItem == null && Stageplant == PlantData.StageGrowthPlant.FourthStage)
         {
-            Debug.Log(">>> Сбор урожая");
+            Debug.Log(">>> Г‘ГЎГ®Г° ГіГ°Г®Г¦Г Гї");
             GameObject parent = transform.parent.gameObject;
 
             if (parent != null)
@@ -191,40 +208,37 @@ public class PlantController : MonoBehaviour
                         {
                             SFXManager.Instance.PlaySFX(SFXManager.Instance.shovelSound);
                         }
-                        GameObject seed = GetHarvest(transform.position, plantData.seedItem);
-                        GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
-                        if (seed != null)
+
+                        if (TryGetSeeds(plantData.seedDropChance))
                         {
-                            Debug.Log("Урожай семян собран!");
-                        }
-                        else
-                        {
-                            Debug.Log(">>> Урожай семян не собран!");
+                            GameObject seed = GetHarvest(transform.position, plantData.seedItem);
 
                         }
+
+                        GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
                         if (harvestedCrop != null)
                         {
-                            Debug.Log("Урожай  собран!");
+                            Debug.Log("Г“Г°Г®Г¦Г Г©  Г±Г®ГЎГ°Г Г­!");
                         }
                         else
                         {
-                            Debug.Log("Урожай не собран!");
+                            Debug.Log("Г“Г°Г®Г¦Г Г© Г­ГҐ Г±Г®ГЎГ°Г Г­!");
                         }
                         Destroy(gameObject);
                     }
                     else
                     {
-                        Debug.Log("Ошибка удаления растения");
+                        Debug.Log("ГЋГёГЁГЎГЄГ  ГіГ¤Г Г«ГҐГ­ГЁГї Г°Г Г±ГІГҐГ­ГЁГї");
                     }
                 }
                 else
                 {
-                    Debug.Log($"У {gameObject.name} нет родителя GridGenerator и контроллера gridGenerator");
+                    Debug.Log($"Г“ {gameObject.name} Г­ГҐГІ Г°Г®Г¤ГЁГІГҐГ«Гї GridGenerator ГЁ ГЄГ®Г­ГІГ°Г®Г«Г«ГҐГ°Г  gridGenerator");
                 }
             }
             else
             {
-                Debug.Log($"У {gameObject.name} нет родителя GridGenerator");
+                Debug.Log($"Г“ {gameObject.name} Г­ГҐГІ Г°Г®Г¤ГЁГІГҐГ«Гї GridGenerator");
             }
 
 
@@ -232,7 +246,7 @@ public class PlantController : MonoBehaviour
         }
         if (selectedItem == null)
         {
-            Debug.Log("Выбери предмет из инвенторя");
+            Debug.Log("Г‚Г»ГЎГҐГ°ГЁ ГЇГ°ГҐГ¤Г¬ГҐГІ ГЁГ§ ГЁГ­ГўГҐГ­ГІГ®Г°Гї");
         }
 
         else
@@ -254,17 +268,17 @@ public class PlantController : MonoBehaviour
                             Destroy(gameObject);
                             else
                             {
-                                Debug.Log("Ошибка удаления растения");
+                                Debug.Log("ГЋГёГЁГЎГЄГ  ГіГ¤Г Г«ГҐГ­ГЁГї Г°Г Г±ГІГҐГ­ГЁГї");
                             }
                         }
                         else
                         {
-                            Debug.Log($"У {gameObject.name} нет родителя GridGenerator и контроллера gridGenerator");
+                            Debug.Log($"Г“ {gameObject.name} Г­ГҐГІ Г°Г®Г¤ГЁГІГҐГ«Гї GridGenerator ГЁ ГЄГ®Г­ГІГ°Г®Г«Г«ГҐГ°Г  gridGenerator");
                         }
                     }
                     else
                     {
-                        Debug.Log($"У {gameObject.name} нет родителя GridGenerator");
+                        Debug.Log($"Г“ {gameObject.name} Г­ГҐГІ Г°Г®Г¤ГЁГІГҐГ«Гї GridGenerator");
                     }
                 }
                 if(selectedItem.itemData.itemName == "watering_can")
@@ -277,25 +291,37 @@ public class PlantController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log($"У {gameObject.name} нет нужды в поливке");
+                        Debug.Log($"Г“ {gameObject.name} Г­ГҐГІ Г­ГіГ¦Г¤Г» Гў ГЇГ®Г«ГЁГўГЄГҐ");
                     }
                 }
-                
+                if (selectedItem.itemData.itemType == ItemType.Fertilizer)
+                {
+                    if (!isFertilize)
+                    {
+                        FertilizePlant(IdSlots);
+                    }
+                    else
+                    {
+                        Debug.Log("ГђГ Г±ГІГҐГ­ГЁГҐ ГіГ¦ГҐ ГіГ¤Г®ГЎГ°ГҐГ­Г®!");
+                    }
+                }
+
+
             }
             
         }
     }
     
     
-    // получить урожай (дублирование кода, но что поделать) 
+    // ГЇГ®Г«ГіГ·ГЁГІГј ГіГ°Г®Г¦Г Г© (Г¤ГіГЎГ«ГЁГ°Г®ГўГ Г­ГЁГҐ ГЄГ®Г¤Г , Г­Г® Г·ГІГ® ГЇГ®Г¤ГҐГ«Г ГІГј) 
     public GameObject GetHarvest(Vector3 spawnPosition, ItemData itemTospawn)
     {
-        float randomValue = Random.Range(-1f, 1f);
+        float randomValue = UnityEngine.Random.Range(-1f, 1f);
         Vector3 spawnScale = Vector3.one;
         ItemData dataToSpawn = itemTospawn;
         if (worldItemPrefab == null)
         {
-            Debug.LogError($"World Item Prefab не назначен в ItemSpawner! Невозможно заспавнить предмет '{dataToSpawn.itemName}'.");
+            Debug.LogError($"World Item Prefab Г­ГҐ Г­Г Г§Г­Г Г·ГҐГ­ Гў ItemSpawner! ГЌГҐГўГ®Г§Г¬Г®Г¦Г­Г® Г§Г Г±ГЇГ ГўГ­ГЁГІГј ГЇГ°ГҐГ¤Г¬ГҐГІ '{dataToSpawn.itemName}'.");
             return null;
         }
 
@@ -310,46 +336,26 @@ public class PlantController : MonoBehaviour
         {
             worldItemComponent.itemData = dataToSpawn;
             worldItemComponent.InitializeVisuals();
-            Debug.Log($"Заспавнен ПРЕДМЕТ: {dataToSpawn.itemName} в позиции {spawnPosition}");
+            Debug.Log($"Г‡Г Г±ГЇГ ГўГ­ГҐГ­ ГЏГђГ…Г„ГЊГ…Г’: {dataToSpawn.itemName} Гў ГЇГ®Г§ГЁГ¶ГЁГЁ {spawnPosition}");
             return newItemObject;
         }
         else
         {
-            Debug.LogError($"На префабе '{worldItemPrefab.name}' отсутствует компонент WorldItem! Предмет '{dataToSpawn.itemName}' уничтожен.");
+            Debug.LogError($"ГЌГ  ГЇГ°ГҐГґГ ГЎГҐ '{worldItemPrefab.name}' Г®ГІГ±ГіГІГ±ГІГўГіГҐГІ ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІ WorldItem! ГЏГ°ГҐГ¤Г¬ГҐГІ '{dataToSpawn.itemName}' ГіГ­ГЁГ·ГІГ®Г¦ГҐГ­.");
             Destroy(newItemObject);
             return null;
         }
     }
 
-    private bool isBedHaveFertilizer(Vector2Int[] idSlots)
+   
+
+    private bool TryGetSeeds(double successRate)
     {
-
-        foreach (var slot in idSlots) { 
-        
-       
-        }
-
-        GameObject parent = transform.parent.gameObject;
-
-        if(parent != null)
+        if (successRate < 0 || successRate > 1)
         {
-            GridGenerator generator = parent.GetComponent<GridGenerator>();
-            if(generator != null)
-            {
-                return generator.FertilizerSlot(idSlots);
-            }
-            else
-            {
-                Debug.Log($"Для parent  {parent.name} generator is null");
-                return false;
-            }
-
-
+            throw new ArgumentException("Success rate must be between 0 and 1");
         }
-        else
-        {
-            Debug.Log($"Для растеничя  {name} Parent is null");
-            return false;
-        }
+        System.Random random = new System.Random();
+        return random.NextDouble() < successRate;
     }
 }

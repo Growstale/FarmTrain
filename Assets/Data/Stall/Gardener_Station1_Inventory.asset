@@ -21,7 +21,7 @@ MonoBehaviour:
     willBuy: 1
     isInfiniteStock: 0
     initialStock: 4
-  - itemData: {fileID: 11400000, guid: 2e858b5dc9ab0b543a6e41ed2e6e73e4, type: 2}
+  - itemData: {fileID: 11400000, guid: 43b94d1f20583344aa509001d129836a, type: 2}
     buyPrice: 5
     sellPrice: 4
     forSale: 1
