@@ -28,6 +28,10 @@ public class StallCameraController : MonoBehaviour
     private bool isOverview = true;
     private bool isPanning = false;
     private Vector3 panOrigin;
+    [Header("Audio")]
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] private AudioClip zoomInSound;   // звук приближения
+    [SerializeField] private AudioClip zoomOutSound;  // звук отдаления
 
     private UnityEngine.EventSystems.EventSystem eventSystem;
 
@@ -171,7 +175,10 @@ public class StallCameraController : MonoBehaviour
         targetOrthographicSize = zoomInSize;
 
         Debug.Log($"Фокусируемся на ларьке {stalls[currentStallIndex].name}");
-
+        if (audioSource != null && zoomInSound != null)
+        {
+            audioSource.PlayOneShot(zoomInSound);
+        }
         stalls[currentStallIndex].GetComponent<StallInteraction>()?.OpenShopUI();
     }
 
@@ -191,6 +198,10 @@ public class StallCameraController : MonoBehaviour
         targetOrthographicSize = zoomOutSize;
 
         targetPosition = new Vector3(transform.position.x, GetBaseYPosition(), transform.position.z);
+        if (audioSource != null && zoomOutSound != null)
+        {
+            audioSource.PlayOneShot(zoomOutSound);
+        }
     }
 
     void HandlePanning()

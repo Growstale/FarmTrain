@@ -12,6 +12,8 @@ public class PlantData : ScriptableObject
     public float waterNeededInterval = 5.0f; // Как часто нужно поливать 
     public float fertilizerGrowthMultiplier = 1.5f; // На сколько ускоряется рост с удобрением 
     public float Weight = 1.0f; // Вес растения, или сколько грядок занимает растение
+    public AudioClip plantingSound; // ЗВУК ДЛЯ ЭТОГО РАСТЕНИЯ
+
     public enum StageGrowthPlant
     {
         defaultStage,

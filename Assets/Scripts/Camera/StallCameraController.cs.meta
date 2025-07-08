@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 938303f66266ea64a9a00da609dbf252
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioSource: {instanceID: 0}
+  - zoomInSound: {fileID: 8300000, guid: 232686cd513c0184ab207db77293765c, type: 3}
+  - zoomOutSound: {fileID: 8300000, guid: adaf3734419dbfe419bd5145c91ded6a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

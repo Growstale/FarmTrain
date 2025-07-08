@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Cow
   m_EditorClassIdentifier: 
   speciesName: Cow
+  animalSounds:
+  - {fileID: 8300000, guid: 4110481503f5f554e9a28e475ac511d4, type: 3}
+  - {fileID: 8300000, guid: 129cf2bebfccd6243b480bf2cf52a7b6, type: 3}
   animalPrefab: {fileID: 6193734015065537699, guid: 71c49aea95914be46b6aed0376290386, type: 3}
   correspondingItemData: {fileID: 11400000, guid: 951dcf08067b23443a44d474ead9bdb8, type: 2}
   defaultSprite: {fileID: 6168083732550661486, guid: f2ae7b565746eb7408cf003d86d7831b, type: 3}

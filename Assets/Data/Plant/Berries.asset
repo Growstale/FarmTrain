@@ -22,6 +22,7 @@ MonoBehaviour:
   waterNeededInterval: 20
   fertilizerGrowthMultiplier: 1.5
   Weight: 4
+  plantingSound: {fileID: 8300000, guid: 4d27375a2093b99419ef23a22bd565bc, type: 3}
   harvestedCrop: {fileID: 11400000, guid: 02209db07b109f84d8b84068d0ac74de, type: 2}
   seedItem: {fileID: 11400000, guid: 658319deb698b5f4f9f5f006f8679f28, type: 2}
   PlantPrefab: {fileID: 3244092318414408600, guid: 325c914ce74109646ad65cc7dabfb389, type: 3}
