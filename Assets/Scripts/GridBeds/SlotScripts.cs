@@ -70,6 +70,7 @@ public class SlotScripts : MonoBehaviour
                 else
                 {
                     _itemSpawner.TestSpawnBed(selectedItem.itemData, transform.position, _sizeBed, gameObject.transform);
+                    SFXManager.Instance.PlaySFX(SFXManager.Instance.placeBed);
                     ishavebed = true;
                     InventoryManager.Instance.RemoveItem(selectedIndex);
 
@@ -106,6 +107,9 @@ public class SlotScripts : MonoBehaviour
                                         if (isFreeSlot1)
                                         {
                                             _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1,isFertilize);
+                                            AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
+                                            SFXManager.Instance.PlaySFX(plantSound);
+
                                             isPlanted = true;
                                             InventoryManager.Instance.RemoveItem(selectedIndex);
                                         }
@@ -123,6 +127,9 @@ public class SlotScripts : MonoBehaviour
                                             if (isFreeSlot)
                                             {
                                                 _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots, isFertilize);
+                                                AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
+                                                SFXManager.Instance.PlaySFX(plantSound);
+
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -148,6 +155,9 @@ public class SlotScripts : MonoBehaviour
                                             if (isFreeSlot)
                                             {
                                                 _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots, isFertilize);
+                                                AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
+                                                SFXManager.Instance.PlaySFX(plantSound);
+
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -207,6 +217,8 @@ public class SlotScripts : MonoBehaviour
 
                                 bedController.ChangeStage(BedData.StageGrowthPlant.Raked, 1);
                                 isRaked = true;
+                                SFXManager.Instance.PlaySFX(SFXManager.Instance.rake);
+
                             }
                             else
                             {
@@ -242,6 +254,8 @@ public class SlotScripts : MonoBehaviour
                                 if (bedController != null)
                                 {
                                     isFertilize = true;
+                                    SFXManager.Instance.PlaySFX(SFXManager.Instance.fertilize);
+
                                     bedController.ChangeStage(BedData.StageGrowthPlant.WithFertilizers, 3);
                                     InventoryManager.Instance.RemoveItem(selectedIndex);
                                 }

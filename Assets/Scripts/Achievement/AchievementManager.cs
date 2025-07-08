@@ -18,14 +18,18 @@ public class AchievementManager : MonoBehaviour
     public static List<string> allTpyesPlant = new List<string> { "Carrot", "Berries", "Potato", "Wheat", "Corn", "Pumpkin" };
     public static List<string> allTpyesAnimal = new List<string> { "Cow", "Chicken", "Sheep" };
 
+    public AudioClip achievementSound;
+    private AudioSource audioSource;
+
     private void Awake()
     {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeProgress();
-          
-            
+
+            audioSource = Camera.main?.GetComponent<AudioSource>();
+
             LoadProgress();
         }
         else
@@ -172,6 +176,8 @@ public class AchievementManager : MonoBehaviour
             if (progress.typeOfAchivment == type)
             {
                progress.isReceived = true;
+               audioSource.PlayOneShot(achievementSound);
+
             }
         }
     }

@@ -1,2 +1,12 @@
 fileFormatVersion: 2
 guid: 7d2d04a2d9bbdd549bb78f088c91d516
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - achievementSound: {fileID: 8300000, guid: 9118f9cd0c0fb4f4394a6393e60529a7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

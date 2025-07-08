@@ -10,10 +10,12 @@ public class PlantController : MonoBehaviour
     [SerializeField] PlantData plantData;
     [SerializeField] GameObject icon_water;
     [SerializeField] GameObject worldItemPrefab;
+   
+
 
 
     private InventoryManager inventoryManager;
-
+     
     // 
     SpriteRenderer _spriteRenderer;
     PlantData.StageGrowthPlant Stageplant;
@@ -136,6 +138,11 @@ public class PlantController : MonoBehaviour
             {
                Destroy(child.gameObject);
                 Debug.Log("Вы успешно полили растение!");
+                if (SFXManager.Instance != null && SFXManager.Instance.wateringSound != null)
+                {
+                    SFXManager.Instance.PlaySFX(SFXManager.Instance.wateringSound);
+                }
+
                 break;
             }
             else
@@ -180,7 +187,10 @@ public class PlantController : MonoBehaviour
                 {
                     if (gridGenerator.FreeSlot(IdSlots))
                     {
-
+                        if (SFXManager.Instance != null && SFXManager.Instance.shovelSound != null)
+                        {
+                            SFXManager.Instance.PlaySFX(SFXManager.Instance.shovelSound);
+                        }
                         GameObject seed = GetHarvest(transform.position, plantData.seedItem);
                         GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
                         if (seed != null)

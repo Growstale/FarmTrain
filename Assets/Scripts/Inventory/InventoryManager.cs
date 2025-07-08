@@ -55,6 +55,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Starting Inventory")]
     [Tooltip("Список предметов, которые будут в инвентаре при старте игры")]
     [SerializeField] private List<StartingItemInfo> startingItems = new List<StartingItemInfo>();
+    [SerializeField] private AudioClip slotClickSound;
 
     private void Awake()
     {
@@ -216,7 +217,12 @@ public class InventoryManager : MonoBehaviour
         if (index < hotbarSize)
         {
             SelectSlot(index);
+            if (slotClickSound != null)
+            {
+                SFXManager.Instance.PlaySFX(slotClickSound);
+            }
         }
+
         else
         {
             Debug.Log($"Clicked on main inventory slot. Item: {GetItemInSlot(index)?.itemData?.itemName ?? "Empty"}");

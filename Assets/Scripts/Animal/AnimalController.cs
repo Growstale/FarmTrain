@@ -17,6 +17,8 @@ public class AnimalController : MonoBehaviour
 
     private enum AnimalState { Idle, Walking, NeedsAttention }
     private AnimalState currentState = AnimalState.Idle;
+    private AudioSource audioSource;
+    private Coroutine soundCoroutine;
 
     private Bounds movementBounds;
     private bool boundsInitialized = false;
@@ -50,6 +52,11 @@ public class AnimalController : MonoBehaviour
         {
             Debug.LogError($"InventoryManager не найден! Awake() в AnimalController");
         }
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Start()
@@ -73,6 +80,11 @@ public class AnimalController : MonoBehaviour
         SetNewStateTimer(AnimalState.Idle);
         UpdateAppearance();
         CheckForAchievement(animalData.speciesName);
+        if (soundCoroutine == null)
+        {
+            soundCoroutine = StartCoroutine(RandomSoundCoroutine());
+        }
+
     }
 
     public void InitializeWithState(AnimalStateData stateData, Bounds bounds)
@@ -579,6 +591,11 @@ public class AnimalController : MonoBehaviour
     {
         Debug.Log($"<color=red>[AnimalController]</color> {gameObject.name} уничтожается (OnDestroy). Вызываю SaveState().");
         SaveState();
+        if (soundCoroutine != null)
+        {
+            StopCoroutine(soundCoroutine);
+        }
+
     }
 
     void CheckForAchievement(string name)
@@ -601,5 +618,25 @@ public class AnimalController : MonoBehaviour
         Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Checked");
             GameEvents.TriggerCollectAnimalProduct(1);
     }
+    private IEnumerator RandomSoundCoroutine()
+    {
+        while (true)
+        {
+            float delay = Random.Range(5f, 100f); // интервал между звуками
+            yield return new WaitForSeconds(delay);
+
+            PlayRandomSound();
+        }
+    }
+    private void PlayRandomSound()
+    {
+        if (animalData.animalSounds != null && animalData.animalSounds.Length > 0 && audioSource != null)
+        {
+            AudioClip clip = animalData.animalSounds[Random.Range(0, animalData.animalSounds.Length)];
+            audioSource.PlayOneShot(clip);
+            Debug.Log($"Звук животного ({animalData.speciesName}): {clip.name}");
+        }
+    }
+
 
 }

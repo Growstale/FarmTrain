@@ -10,7 +10,8 @@ public class ItemPickup : MonoBehaviour
     [Tooltip("Тэг, который должен быть у ЭТОГО объекта, чтобы его можно было подобрать кликом.")]
     public string requiredTagForPickup = "CanBePickedUp";
 
-    private WorldItem worldItem; 
+    private WorldItem worldItem;
+    public AudioClip pickupSound;
 
     void Awake()
     {
@@ -56,6 +57,8 @@ public class ItemPickup : MonoBehaviour
         if (added)
         {
             Debug.Log($"Подобран предмет: {dataToPickup.itemName} (тэг объекта: {gameObject.tag})");
+            if (pickupSound != null)
+                SFXManager.Instance.PlaySFX(pickupSound);
             Destroy(gameObject);
         }
         else

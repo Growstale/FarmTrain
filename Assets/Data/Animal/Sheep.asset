@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Sheep
   m_EditorClassIdentifier: 
   speciesName: Sheep
+  animalSounds:
+  - {fileID: 8300000, guid: 110e5324a9c4a294db8c7f9887840810, type: 3}
+  - {fileID: 8300000, guid: 8f608e10e4e08a944a24c56932334b4f, type: 3}
+  - {fileID: 8300000, guid: 1765d6e888f02ba4aa0fd1b27a15968b, type: 3}
   animalPrefab: {fileID: 6831710792727493270, guid: 12814e20431ae9640b240afbcb60b003, type: 3}
   correspondingItemData: {fileID: 11400000, guid: 97895cbbaa33cfc4a88f36338e0360ce, type: 2}
   defaultSprite: {fileID: -7169504175864966832, guid: b85795733eaa79e498687e754079cebd, type: 3}

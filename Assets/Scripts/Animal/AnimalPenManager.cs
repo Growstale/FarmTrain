@@ -5,7 +5,7 @@ using System.Linq;
 public class AnimalPenManager : MonoBehaviour
 {
     public static AnimalPenManager Instance { get; private set; }
-
+    private AudioSource audioSource;
     [Header("Конфигурация загонов")]
     [SerializeField] private List<PenConfigData> penConfigurations;
 
@@ -97,6 +97,10 @@ public class AnimalPenManager : MonoBehaviour
                         if (TrainPenController.Instance != null)
                         {
                             TrainPenController.Instance.UpdatePenVisuals(config.animalData);
+                        }
+                        if (audioSource != null && levelData.upgradeApplySound != null)
+                        {
+                            audioSource.PlayOneShot(levelData.upgradeApplySound);
                         }
                         return;
                     }

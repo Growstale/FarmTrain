@@ -14,6 +14,7 @@ public class PenLevelData
     public ItemData requiredUpgradeItem; // null для стартового уровня
     [Tooltip("Дает ли этот уровень улучшения автоматическое кормление?")]
     public bool providesAutoFeeding;
+    public AudioClip upgradeApplySound;
 
 }
 
