@@ -15,6 +15,6 @@ MonoBehaviour:
   stationId: 3
   stationName: Station3
   stallInventories:
-  - {fileID: 11400000, guid: 754897df25d4baa4f935eb4d6a55e582, type: 2}
-  - {fileID: 11400000, guid: e1cb848fc0bf16f46892b9a0265df48c, type: 2}
-  - {fileID: 11400000, guid: 9b64c6a458cbcb24aba67805e2bb6c1d, type: 2}
+  - {fileID: 11400000, guid: 4f8046d7aac1c4b48bfb8beed0483c0e, type: 2}
+  - {fileID: 11400000, guid: b8237a1ac6a177648aa90d9b04cdcef4, type: 2}
+  - {fileID: 11400000, guid: 70f4ad963fd71724ba7d8212fda05cd0, type: 2}

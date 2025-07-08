@@ -1019,7 +1019,6 @@ GameObject:
   - component: {fileID: 83984683}
   - component: {fileID: 83984682}
   - component: {fileID: 83984681}
-  - component: {fileID: 83984684}
   m_Layer: 5
   m_Name: NoButton
   m_TagString: Untagged
@@ -1090,7 +1089,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 83984684}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Menu_Sound, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
@@ -1985,7 +1984,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: -5332013890864615094, guid: 11b10b94d3965b8428e9e8873fdd1065, type: 3}
     m_PressedSprite: {fileID: -1663486826631341717, guid: f60905acd98670a48b056c9f06e28362, type: 3}
     m_SelectedSprite: {fileID: -1663486826631341717, guid: f60905acd98670a48b056c9f06e28362, type: 3}
-    m_DisabledSprite: {fileID: -5332013890864615094, guid: 11b10b94d3965b8428e9e8873fdd1065, type: 3}
+    m_DisabledSprite: {fileID: 3001666899468157808, guid: d77b30c1799f2e74cab56fc161232055, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3260,7 +3259,6 @@ GameObject:
   - component: {fileID: 283421683}
   - component: {fileID: 283421682}
   - component: {fileID: 283421681}
-  - component: {fileID: 283421684}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -3343,7 +3341,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 283421684}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Menu_Sound, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
@@ -9678,7 +9676,6 @@ GameObject:
   - component: {fileID: 848406860}
   - component: {fileID: 848406859}
   - component: {fileID: 848406858}
-  - component: {fileID: 848406861}
   - component: {fileID: 848406857}
   m_Layer: 5
   m_Name: AddMoney
@@ -9776,7 +9773,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 848406861}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Menu_Sound, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
@@ -14893,6 +14890,8 @@ MonoBehaviour:
   fertilize: {fileID: 8300000, guid: 1de26272d788d8640963ae67bd900df0, type: 3}
   slotClickSound: {fileID: 8300000, guid: 3b69af143cf83da44b12c59eea8ff2e4, type: 3}
   pickupSound: {fileID: 8300000, guid: be6704edbbface8408829d4f7577e873, type: 3}
+  wateringSound: {fileID: 0}
+  shovelSound: {fileID: 0}
 --- !u!82 &1247573183
 AudioSource:
   m_ObjectHideFlags: 0

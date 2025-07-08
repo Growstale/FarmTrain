@@ -259,7 +259,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      corn_3_horizontal_0: 3666408041687731285
+      corn_3_horizontal_1: -8086670572553737852
+      corn_3_horizontal_2: -5584234334452363419
+      corn_3_horizontal_3: -5154266199170865303
+      corn_3_horizontal_4: 9194477326929065317
+      corn_3_horizontal_5: -4903972637143858678
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
