@@ -350,6 +350,8 @@ public class GridGenerator : MonoBehaviour
                 {
                     // Устанавливаем isPlanted в false
                     slotScript.isPlanted = false;
+                    slotScript.isRaked = false;
+                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.DrySoil,1);
                     Debug.Log($"Слот {slotObj.name} освобожден (isPlanted = false).");
                 }
                 else
@@ -367,7 +369,7 @@ public class GridGenerator : MonoBehaviour
 
         return allFreed;
     }
-    public bool FertilizerSlot(Vector2Int[] idSlots)
+    public void FertilizerSlot(Vector2Int[] idSlots)
     {
         bool allFertilizer = true;
 
@@ -380,7 +382,7 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
                 if (slotScript != null)
                 {
-                   if(!slotScript.isFertilize) return false;
+                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.WithFertilizers,3);
                 }
                 else
                 {
@@ -395,6 +397,6 @@ public class GridGenerator : MonoBehaviour
             }
         }
 
-        return allFertilizer;
+       
     }
 }

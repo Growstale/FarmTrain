@@ -598,7 +598,7 @@ public class AnimalController : MonoBehaviour
     }
     void CheckForAchievement()
     {
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Checked");
+        
             GameEvents.TriggerCollectAnimalProduct(1);
     }
 

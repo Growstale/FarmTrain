@@ -5,27 +5,28 @@ using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
-   public static AchievementManager instance;
+    public static AchievementManager instance;
 
     public List<AchievementData> AllDataAchievement;
 
     private Dictionary<TypeOfAchivment, int> progress = new Dictionary<TypeOfAchivment, int>();
 
 
-    
 
 
-    public static List<string> allTpyesPlant = new List<string> { "Carrot", "Berries", "Potato", "Wheat", "Corn", "Pumpkin" };
+
+    public static List<string> allTpyesPlant = new List<string> { "Carrot", "Berries", "Potato", "Wheat", "Corn", "Pumpkin", "Tomato" };
     public static List<string> allTpyesAnimal = new List<string> { "Cow", "Chicken", "Sheep" };
 
     private void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeProgress();
-          
-            
+
+
             LoadProgress();
         }
         else
@@ -33,18 +34,19 @@ public class AchievementManager : MonoBehaviour
             Debug.LogWarning($"Destroyed gaameobject {gameObject.name}");
             Destroy(gameObject);
         }
-        
+
     }
 
     private void InitializeProgress()
     {
-        foreach (var item in AllDataAchievement) {
-          
-                progress[item.typeOfAchivment] = 0;
-            
-        
+        foreach (var item in AllDataAchievement)
+        {
+
+            progress[item.typeOfAchivment] = 0;
+
+
         }
-      
+
     }
 
     public void AddProgress(TypeOfAchivment type, int amount)
@@ -55,17 +57,17 @@ public class AchievementManager : MonoBehaviour
             return;
         }
 
-        
-        
-          
+
+
+
         switch (type)
         {
             case TypeOfAchivment.MasterGardener:
                 if (CheckForComplete(type))
                 {
-                    if (progress[type] >= 5)
+                    if (progress[type] >= 6)
                     {
-                        progress[type] = 6;
+                        progress[type] = 7;
                         Debug.Log($"Achievemnet {type} recieve");
                         SwitchToComplete(type);
                     }
@@ -74,6 +76,10 @@ public class AchievementManager : MonoBehaviour
                         progress[type] += amount;
                         Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
                     }
+                }
+                else
+                {
+                    Debug.Log("Type is complite");
                 }
                 break;
             case TypeOfAchivment.TheWholeGangsHere:
@@ -108,7 +114,7 @@ public class AchievementManager : MonoBehaviour
                         Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
                     }
                 }
-                
+
                 break;
             case TypeOfAchivment.Rancher:
                 if (CheckForComplete(type))
@@ -124,11 +130,11 @@ public class AchievementManager : MonoBehaviour
                         progress[type] += amount;
                         Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
                     }
-                   
+
                 }
                 break;
         }
-            SaveProgress();
+        SaveProgress();
     }
 
     private void LoadProgress()
@@ -146,7 +152,7 @@ public class AchievementManager : MonoBehaviour
                 progress[savedProgress.type] = savedProgress.value;
             }
 
-           
+
             Debug.Log("Progress Loaded!");
         }
     }
@@ -154,12 +160,12 @@ public class AchievementManager : MonoBehaviour
 
     private bool CheckForComplete(TypeOfAchivment type)
     {
-        foreach(var progress in AllDataAchievement)
+        foreach (var achievement in AllDataAchievement)
         {
-            if(progress.typeOfAchivment == type)
+            if (achievement.typeOfAchivment == type)
             {
-                if(progress.isReceived) return true;
-                else return false;
+                if (achievement.isReceived) return false;
+                else return true;
             }
         }
         Debug.LogWarning($"{type} is not found in AllDataAchievement");
@@ -167,11 +173,11 @@ public class AchievementManager : MonoBehaviour
     }
     private void SwitchToComplete(TypeOfAchivment type)
     {
-        foreach (var progress in AllDataAchievement)
+        foreach (var achievement in AllDataAchievement)
         {
-            if (progress.typeOfAchivment == type)
+            if (achievement.typeOfAchivment == type)
             {
-               progress.isReceived = true;
+                achievement.isReceived = true;
             }
         }
     }
@@ -182,14 +188,15 @@ public class AchievementManager : MonoBehaviour
         GameEvents.OnCollectCoin += HandleCollectCoin;
         GameEvents.OnAddedNewAnimal += HandleAddedNewAnimal;
         GameEvents.OnCollectAllPlants += HandleCollectAllPlants;
-      
+
         GameEvents.OnAddedNewUpdgrade += HandleAddedNewUpgrade;
         GameEvents.OnCompleteTheQuest += HandleCompleteTheQuest;
     }
     private void HandleCollectAllPlants(int amount)
     {
+      
         AddProgress(TypeOfAchivment.MasterGardener, amount);
-       
+
     }
     private void HandleHarvestTheCrop(int amount)
     {
