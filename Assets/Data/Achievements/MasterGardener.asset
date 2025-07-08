@@ -17,4 +17,5 @@ MonoBehaviour:
   Description: Grow every type of crop available in the game at least once.
   Icon: {fileID: 0}
   typeOfAchivment: 4
-  goal: 6
+  goal: 7
+  isReceived: 0

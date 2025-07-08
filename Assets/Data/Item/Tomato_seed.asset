@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
-  m_Name: Corn
+  m_Name: Tomato_seed
   m_EditorClassIdentifier: 
-  itemName: Corn
-  itemIcon: {fileID: 21300000, guid: 790832213e8e87b4490b62ecafa2bc54, type: 3}
-  itemType: 5
+  itemName: Tomato_seed
+  itemIcon: {fileID: 0}
+  itemType: 2
   isStackable: 1
   maxStackSize: 16
   description: 

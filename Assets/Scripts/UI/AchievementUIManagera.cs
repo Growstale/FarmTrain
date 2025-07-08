@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
+
 
 [System.Serializable]
 public class PlayerProgress
@@ -21,15 +23,26 @@ public class AchievementUIManagera : MonoBehaviour
     private string filePath;
     private Dictionary<TypeOfAchivment, int> progress = new Dictionary<TypeOfAchivment, int>();
     [SerializeField] Slider[] allSliders;
-    [SerializeField] Text[] allText;
+    [SerializeField] TextMeshProUGUI[] allText;
+    public List<AchievementData> AllDataAchievement;
 
     void Start()
     {
-        filePath = Path.Combine(Application.streamingAssetsPath, "achievements.json");
-        LoadData();
+        filePath = Application.persistentDataPath + "/achievements.json";
+        LoadData(1);
     }
+    private void OnEnable()
+    {
+        GameEvents.OnHarvestTheCrop += LoadData;
+        GameEvents.OnCollectAnimalProduct += LoadData;
+        GameEvents.OnCollectCoin += LoadData;
+        GameEvents.OnAddedNewAnimal += LoadData;
+        GameEvents.OnCollectAllPlants += LoadData;
 
-    void LoadData()
+        GameEvents.OnAddedNewUpdgrade += LoadData;
+        GameEvents.OnCompleteTheQuest += LoadData;
+    }
+    public void LoadData(int amount)
     {
         if (File.Exists(filePath))
         {
@@ -47,7 +60,11 @@ public class AchievementUIManagera : MonoBehaviour
 
             for (int i = 0; i < progress.Count; i++)
             {
-                allSliders.SetValue(progress[0], 0);
+                allSliders[i].value = playerProgress.playerProgress[i].value;
+            }
+            for(int i = 0;i < allText.Length; i++)
+            {
+                allText[i].text = $" {playerProgress.playerProgress[i].value}/{AllDataAchievement[i].goal}";
             }
 
         }

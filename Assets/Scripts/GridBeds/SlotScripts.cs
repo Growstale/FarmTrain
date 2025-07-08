@@ -105,7 +105,7 @@ public class SlotScripts : MonoBehaviour
                                         Vector2Int[] idSlots1 = tourple1.Item3;
                                         if (isFreeSlot1)
                                         {
-                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1,isFertilize);
+                                            _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1);
                                             isPlanted = true;
                                             InventoryManager.Instance.RemoveItem(selectedIndex);
                                         }
@@ -122,7 +122,7 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent,idSlots);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -147,7 +147,7 @@ public class SlotScripts : MonoBehaviour
                                             Vector2Int[] idSlots = tourple.Item3;
                                             if (isFreeSlot)
                                             {
-                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots, isFertilize);
+                                                _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots);
                                                 InventoryManager.Instance.RemoveItem(selectedIndex);
                                             }
                                             else
@@ -226,53 +226,40 @@ public class SlotScripts : MonoBehaviour
                     Debug.Log("Обрабатывать можно только посаженные грядки!");
                 }
             }
-            if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Fertilizer)
-            {
-                if (ishavebed)
-                {
+            //if (!selectedItem.IsEmpty && selectedItem.itemData.itemType == ItemType.Fertilizer)
+            //{
+            //    if (ishavebed)
+            //    {
 
-                    if (isRaked)
-                    {
-                        if (!isFertilize)
-                        {
-                            GameObject childBed = FindChildWithTag("Bed");
-                            if (childBed != null)
-                            {
-                                BedController bedController = childBed.GetComponent<BedController>();
-                                if (bedController != null)
-                                {
-                                    isFertilize = true;
-                                    bedController.ChangeStage(BedData.StageGrowthPlant.WithFertilizers, 3);
-                                    InventoryManager.Instance.RemoveItem(selectedIndex);
-                                }
-                                else
-                                {
-                                    Debug.LogError("bedController не найден");
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogError("Грядка не является дочерней для слота, ошибка");
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("На грядке уже имеется удобрение!");
-                        }
+            //        if (isRaked)
+            //        {
+            //            if (!isFertilize)
+            //            {
+            //                
+            //                }
+            //                else
+            //                {
+            //                    Debug.LogError("Грядка не является дочерней для слота, ошибка");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Debug.Log("На грядке уже имеется удобрение!");
+            //            }
 
-                    }
-                    else
-                    {
-                        Debug.Log("Обрабатывать можно только вспаханные грядки!");
-                    }
+            //        }
+            //        else
+            //        {
+            //            Debug.Log("Обрабатывать можно только вспаханные грядки!");
+            //        }
 
 
-                }
-                else
-                {
-                    Debug.Log("Обрабатывать можно только посаженные грядки!");
-                }
-            }
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Обрабатывать можно только посаженные грядки!");
+            //    }
+            //}
 
         }
         
@@ -292,6 +279,26 @@ public class SlotScripts : MonoBehaviour
     }
 
 
+    public bool ChangeStateBed(BedData.StageGrowthPlant stage ,int idx)
+    {
+        GameObject childBed = FindChildWithTag("Bed");
+        if (childBed != null)
+        {
+            BedController bedController = childBed.GetComponent<BedController>();
+            if (bedController != null)
+            {
+                
+                bedController.ChangeStage(stage, idx);
+                return true;
+            }
+            else
+            {
+                Debug.LogError("bedController не найден");
+                return false;
+            }
+        }
+        return false;
+    }
 
     public void ChangeColor()
     {

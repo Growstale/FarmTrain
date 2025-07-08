@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 public class PlantController : MonoBehaviour
 {
 
@@ -44,15 +45,7 @@ public class PlantController : MonoBehaviour
             InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
             InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
             Debug.Log($"Spawning plant {plantData.plantName}");
-            if (isBedHaveFertilizer(IdSlots))
-            {
-                FertilizePlant();
-                Debug.Log($"У грядки есть удобрение, время между ростом растений равно {timePerGrowthStage}");
-            }
-            else
-            {
-                Debug.Log($"У грядки нет удобрение, время между ростом растений равно {timePerGrowthStage}");
-            }
+            
             CheckForAchievement(plantData.plantName);
         }
         else
@@ -154,12 +147,36 @@ public class PlantController : MonoBehaviour
         //    Debug.Log($"<<< Current IdSlot for Plant: {slot}");
         //}
     }
-    public void FertilizePlant()
+    private void FertilizePlant(Vector2Int[] idSlots)
     {
         float fertilizerGrowthMultiplie = plantData.fertilizerGrowthMultiplier;
 
-        timePerGrowthStage /= fertilizerGrowthMultiplie;
-        isFertilize = true;
+        GameObject parent = transform.parent.gameObject;
+
+        if (parent != null)
+        {
+            GridGenerator generator = parent.GetComponent<GridGenerator>();
+            if (generator != null)
+            {
+                 generator.FertilizerSlot(idSlots);
+                timePerGrowthStage /= fertilizerGrowthMultiplie;
+                isFertilize = true;
+            }
+            else
+            {
+                Debug.Log($"Для parent  {parent.name} generator is null");
+                
+            }
+
+
+        }
+        else
+        {
+            Debug.Log($"Для растеничя  {name} Parent is null");
+            
+        }
+
+     
 
     }
     public void ClickHandler()
@@ -180,18 +197,14 @@ public class PlantController : MonoBehaviour
                 {
                     if (gridGenerator.FreeSlot(IdSlots))
                     {
+                        
+                            if (TryGetSeeds(plantData.seedDropChance))
+                            {
+                                GameObject seed = GetHarvest(transform.position, plantData.seedItem);
+                                
+                            }
 
-                        GameObject seed = GetHarvest(transform.position, plantData.seedItem);
                         GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
-                        if (seed != null)
-                        {
-                            Debug.Log("Урожай семян собран!");
-                        }
-                        else
-                        {
-                            Debug.Log(">>> Урожай семян не собран!");
-
-                        }
                         if (harvestedCrop != null)
                         {
                             Debug.Log("Урожай  собран!");
@@ -270,7 +283,19 @@ public class PlantController : MonoBehaviour
                         Debug.Log($"У {gameObject.name} нет нужды в поливке");
                     }
                 }
-                
+                if (selectedItem.itemData.itemType == ItemType.Fertilizer)
+                {
+                    if (!isFertilize)
+                    {
+                        FertilizePlant(IdSlots);
+                    }
+                    else
+                    {
+                        Debug.Log("Растение уже удобрено!");
+                    }
+                }
+
+
             }
             
         }
@@ -280,7 +305,7 @@ public class PlantController : MonoBehaviour
     // получить урожай (дублирование кода, но что поделать) 
     public GameObject GetHarvest(Vector3 spawnPosition, ItemData itemTospawn)
     {
-        float randomValue = Random.Range(-1f, 1f);
+        float randomValue = UnityEngine.Random.Range(-1f, 1f);
         Vector3 spawnScale = Vector3.one;
         ItemData dataToSpawn = itemTospawn;
         if (worldItemPrefab == null)
@@ -311,35 +336,15 @@ public class PlantController : MonoBehaviour
         }
     }
 
-    private bool isBedHaveFertilizer(Vector2Int[] idSlots)
+   
+
+    private bool TryGetSeeds(double successRate)
     {
-
-        foreach (var slot in idSlots) { 
-        
-       
-        }
-
-        GameObject parent = transform.parent.gameObject;
-
-        if(parent != null)
+        if (successRate < 0 || successRate > 1)
         {
-            GridGenerator generator = parent.GetComponent<GridGenerator>();
-            if(generator != null)
-            {
-                return generator.FertilizerSlot(idSlots);
-            }
-            else
-            {
-                Debug.Log($"Для parent  {parent.name} generator is null");
-                return false;
-            }
-
-
+            throw new ArgumentException("Success rate must be between 0 and 1");
         }
-        else
-        {
-            Debug.Log($"Для растеничя  {name} Parent is null");
-            return false;
-        }
+        System.Random random = new System.Random();
+        return random.NextDouble() < successRate;
     }
 }
