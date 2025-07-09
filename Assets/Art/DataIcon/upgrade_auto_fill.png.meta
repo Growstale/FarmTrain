@@ -115,10 +115,10 @@ TextureImporter:
       name: upgrade_auto_fill_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 9
-        width: 93
-        height: 90
+        x: 0
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,7 +137,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 75bfe1bedde3176409c5144c453bf7f7
+    spriteID: 45e265644bab5a04e9dd2e1c8aa2b336
     internalID: 0
     vertices: []
     indices: 
