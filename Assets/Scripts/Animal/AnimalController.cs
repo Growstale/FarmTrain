@@ -620,13 +620,17 @@ public class AnimalController : MonoBehaviour
     {
         if (AchievementManager.allTpyesAnimal.Contains(name))
         {
-            if (AchievementManager.allTpyesPlant.Remove(name))
-                GameEvents.TriggerAddedNewAnimal(1);
+            if (AchievementManager.allTpyesAnimal.Remove(name))
+            {
+                GameEvents.TriggerAddedNewAnimal(1); 
+            }
             else
             {
-                Debug.LogWarning("This type of animal is undefind");
+                Debug.LogWarning($"This type of animal {name} is can not remove!");
+
             }
         }
+        
     }
     void CheckForAchievement()
     {

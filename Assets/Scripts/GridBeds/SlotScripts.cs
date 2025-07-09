@@ -243,4 +243,5 @@ public class SlotScripts : MonoBehaviour
     {
         slot.GetComponent<SpriteRenderer>().color = currentColor;
     }
+  
 }

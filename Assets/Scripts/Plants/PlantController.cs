@@ -14,6 +14,8 @@ public class PlantController : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
+    private bool upgradeWatering;
+    
     //
     SpriteRenderer _spriteRenderer;
     PlantData.StageGrowthPlant Stageplant;
@@ -27,10 +29,14 @@ public class PlantController : MonoBehaviour
     bool isNeedWater = false;
     bool isFertilize = false;
 
+    // таймер для воды 
+    private float growthTimer = 0.0f;
+    private float waterNeedTimer = 0.0f;
+
     void Start()
     {
         inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
-
+        upgradeWatering = PlantManager.instance.UpgradeWatering;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (plantData != null)
         {
@@ -38,8 +44,8 @@ public class PlantController : MonoBehaviour
             timePerGrowthStage = plantData.timePerGrowthStage;
             timeWaterNeed = plantData.waterNeededInterval;
             _spriteRenderer.sprite = plantData.growthStagesSprites[0];
-            InvokeRepeating("StartPlantGrowth", 0f, timePerGrowthStage);
-            InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
+          
+           //if(!upgradeWatering) InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
             Debug.Log($"Spawning plant {plantData.plantName}");
 
             CheckForAchievement(plantData.plantName);
@@ -51,50 +57,107 @@ public class PlantController : MonoBehaviour
         }
 
         float countSlot = plantData.Weight;
+       
     }
 
-    void StartPlantGrowth()
+    void Update()
     {
+       
+        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
+        {
+           
+            return;
+        }
+
+       
         if (!isNeedWater)
         {
-            switch (Stageplant)
+           
+            growthTimer += Time.deltaTime;
+            if (growthTimer >= timePerGrowthStage)
             {
-                case PlantData.StageGrowthPlant.defaultStage:
-                    _spriteRenderer.sprite = plantData.growthStagesSprites[0];
-                    Stageplant = PlantData.StageGrowthPlant.SecondStage;
-                    break;
-                case PlantData.StageGrowthPlant.SecondStage:
-                    _spriteRenderer.sprite = plantData.growthStagesSprites[1];
-                    Stageplant = PlantData.StageGrowthPlant.ThirdStage;
-                    break;
-                case PlantData.StageGrowthPlant.ThirdStage:
-                    _spriteRenderer.sprite = plantData.growthStagesSprites[2];
-                    Stageplant = PlantData.StageGrowthPlant.FourthStage;
-                    break;
-                case PlantData.StageGrowthPlant.FourthStage:
-                    _spriteRenderer.sprite = plantData.growthStagesSprites[3];
-                    CancelInvoke("StartPlantGrowth");
-                    break;
+                AdvancePlantGrowth();
+                growthTimer = 0f;
+            }
+
+            if (!upgradeWatering)
+            {
+                waterNeedTimer += Time.deltaTime;
+                if (waterNeedTimer >= timeWaterNeed)
+                {
+                    
+                    TriggerNeedWater();
+                }
             }
         }
     }
 
-    void StartWaterNeededInterval()
+    void AdvancePlantGrowth()
     {
-        if (!isNeedWater && Stageplant != PlantData.StageGrowthPlant.FourthStage)
+        // Если растение уже выросло, ничего не делаем
+        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
         {
-            isNeedWater = true;
-            GameObject iconWater = Instantiate(icon_water, new Vector3(transform.position.x + 0.3f, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
-            if (iconWater != null)
+            return;
+        }
+
+        // 1. Определяем, какая стадия будет следующей
+        PlantData.StageGrowthPlant nextStage = Stageplant;
+        switch (Stageplant)
+        {
+            case PlantData.StageGrowthPlant.defaultStage:
+                nextStage = PlantData.StageGrowthPlant.SecondStage;
+                break;
+            case PlantData.StageGrowthPlant.SecondStage:
+                nextStage = PlantData.StageGrowthPlant.ThirdStage;
+                break;
+            case PlantData.StageGrowthPlant.ThirdStage:
+                nextStage = PlantData.StageGrowthPlant.FourthStage;
+                break;
+        }
+
+        // 2. Обновляем состояние
+        Stageplant = nextStage;
+
+        // 3. Обновляем спрайт в соответствии с НОВЫМ состоянием
+        
+        int spriteIndex = (int)Stageplant;
+        if (spriteIndex < plantData.growthStagesSprites.Count)
+        {
+            _spriteRenderer.sprite = plantData.growthStagesSprites[spriteIndex];
+            Debug.Log($">>>>>> Plant advanced to stage: {Stageplant}");
+        }
+
+        // Если мы достигли финальной стадии, можно сразу выключить иконку воды, если она есть
+        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
+        {
+            if (isNeedWater)
             {
-                iconWater.transform.parent = transform;
-                iconWater.name = "icon_water";
-                Debug.Log($"Plant {name} need Water!");
+                // Находим и удаляем иконку воды, т.к. взрослому растению она не нужна
+                Transform icon = transform.Find("icon_water");
+                if (icon != null)
+                {
+                    Destroy(icon.gameObject);
+                }
+                isNeedWater = false;
             }
-            else
-            {
-                Debug.LogWarning("Ошибка спавна иконки нужды воды");
-            }
+        }
+    }
+
+    void TriggerNeedWater()
+    {
+        isNeedWater = true; // Устанавливаем флаг, что вода нужна
+    
+
+        GameObject iconWater = Instantiate(icon_water, new Vector3(transform.position.x + 0.3f, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
+        if (iconWater != null)
+        {
+            iconWater.transform.parent = transform;
+            iconWater.name = "icon_water";
+            Debug.Log($"Plant {name} need Water!");
+        }
+        else
+        {
+            Debug.LogWarning("Ошибка спавна иконки нужды воды");
         }
     }
 
@@ -115,6 +178,7 @@ public class PlantController : MonoBehaviour
     void WateringPlants()
     {
         isNeedWater = false;
+        waterNeedTimer = 0f;
         foreach (Transform child in GetComponentsInChildren<Transform>())
         {
             if (child.gameObject.name == "icon_water")
@@ -170,9 +234,9 @@ public class PlantController : MonoBehaviour
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
 
-        if (selectedItem == null && Stageplant == PlantData.StageGrowthPlant.FourthStage)
+        if ((selectedItem == null || (selectedItem.itemData.itemType != ItemType.Tool || selectedItem.itemData.itemType != ItemType.Fertilizer)) && Stageplant == PlantData.StageGrowthPlant.FourthStage)
         {
-            Debug.Log(">>> Сбор урожая");
+            
             GameObject parent = transform.parent.gameObject;
 
             if (parent != null)
@@ -191,7 +255,7 @@ public class PlantController : MonoBehaviour
                         {
                             GameObject seed = GetHarvest(transform.position, plantData.seedItem);
                         }
-
+                        
                         GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
                         if (harvestedCrop != null)
                         {
@@ -270,6 +334,7 @@ public class PlantController : MonoBehaviour
                     if (!isFertilize)
                     {
                         FertilizePlant(IdSlots);
+                        InventoryManager.Instance.RemoveItem(selectedIndex);
                     }
                     else
                     {
@@ -283,7 +348,7 @@ public class PlantController : MonoBehaviour
     // получить урожай (дублирование кода, но что поделать)
     public GameObject GetHarvest(Vector3 spawnPosition, ItemData itemTospawn)
     {
-        float randomValue = UnityEngine.Random.Range(-0.3f, 0.3f);
+        float randomValue = UnityEngine.Random.Range(-0.25f, 0.25f);
         Vector3 spawnScale = Vector3.one;
         ItemData dataToSpawn = itemTospawn;
         if (worldItemPrefab == null)
@@ -322,4 +387,5 @@ public class PlantController : MonoBehaviour
         System.Random random = new System.Random();
         return random.NextDouble() < successRate;
     }
+   
 }

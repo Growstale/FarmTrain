@@ -39,6 +39,7 @@ public class BedController : MonoBehaviour
 
     public void ChangeStage(BedData.StageGrowthPlant stage, int idx)
     {
+        
         Stagebed = stage;
         _spriteRenderer.sprite = bedData.bedSprites[idx];
     }
