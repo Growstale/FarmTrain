@@ -5,7 +5,7 @@ using System.Linq;
 public class AnimalPenManager : MonoBehaviour
 {
     public static AnimalPenManager Instance { get; private set; }
-
+    private AudioSource audioSource;
     [Header("Конфигурация загонов")]
     [SerializeField] private List<PenConfigData> penConfigurations;
 
@@ -97,6 +97,10 @@ public class AnimalPenManager : MonoBehaviour
                         if (TrainPenController.Instance != null)
                         {
                             TrainPenController.Instance.UpdatePenVisuals(config.animalData);
+                        }
+                        if (audioSource != null && levelData.upgradeApplySound != null)
+                        {
+                            audioSource.PlayOneShot(levelData.upgradeApplySound);
                         }
                         return;
                     }
@@ -192,6 +196,25 @@ public class AnimalPenManager : MonoBehaviour
 
         // Проверяем данные текущего уровня
         return config.upgradeLevels[currentLevel].providesAutoFeeding;
+    }
+    public ItemData GetNextAvailableUpgrade(AnimalData animalData)
+    {
+        EnsureInitialized();
+        var config = GetPenConfigForAnimal(animalData);
+        if (config == null) return null;
+
+        int currentLevel = GetCurrentPenLevel(animalData);
+
+        // Проверяем, есть ли следующий уровень в списке улучшений
+        int nextLevelIndex = currentLevel + 1;
+        if (nextLevelIndex < config.upgradeLevels.Count)
+        {
+            // Возвращаем предмет, необходимый для перехода на СЛЕДУЮЩИЙ уровень
+            return config.upgradeLevels[nextLevelIndex].requiredUpgradeItem;
+        }
+
+        // Если следующего уровня нет, значит все уже куплено
+        return null;
     }
 
 }

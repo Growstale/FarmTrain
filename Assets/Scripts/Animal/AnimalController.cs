@@ -17,6 +17,8 @@ public class AnimalController : MonoBehaviour
 
     private enum AnimalState { Idle, Walking, NeedsAttention }
     private AnimalState currentState = AnimalState.Idle;
+    private AudioSource audioSource;
+    private Coroutine soundCoroutine;
 
     private Bounds movementBounds;
     private bool boundsInitialized = false;
@@ -50,6 +52,11 @@ public class AnimalController : MonoBehaviour
         {
             Debug.LogError($"InventoryManager не найден! Awake() в AnimalController");
         }
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Start()
@@ -72,6 +79,12 @@ public class AnimalController : MonoBehaviour
         currentState = AnimalState.Idle;
         SetNewStateTimer(AnimalState.Idle);
         UpdateAppearance();
+        CheckForAchievement(animalData.speciesName);
+        if (soundCoroutine == null)
+        {
+            soundCoroutine = StartCoroutine(RandomSoundCoroutine());
+        }
+
     }
 
     public void InitializeWithState(AnimalStateData stateData, Bounds bounds)
@@ -89,7 +102,7 @@ public class AnimalController : MonoBehaviour
         // ... и так далее. Проверьте ваш Start() - возможно, что-то оттуда надо перенести сюда.
         // Важно, чтобы InitializeMovementBounds вызывался после того, как animalData уже установлено.
     }
-
+   
     public void InitializeMovementBounds(Bounds bounds, bool setInitialPosition)
     {
         if (myTransform == null)
@@ -523,6 +536,7 @@ public class AnimalController : MonoBehaviour
                 if (added)
                 {
                     Debug.Log($"Успешно собрано {animalData.productAmount} {animalData.productProduced.itemName}");
+                    CheckForAchievement();
                     hasProductReady = false;
                     ResetProductionTimer();
                     interactionSuccessful = true;
@@ -541,6 +555,7 @@ public class AnimalController : MonoBehaviour
             if (added)
             {
                 Debug.Log($"Успешно собрано {animalData.fertilizerAmount} {animalData.fertilizerProduced.itemName}");
+                
                 ResetFertilizerTimer();
                 hasFertilizerReady = false;
                 interactionSuccessful = true;
@@ -576,6 +591,51 @@ public class AnimalController : MonoBehaviour
     {
         Debug.Log($"<color=red>[AnimalController]</color> {gameObject.name} уничтожается (OnDestroy). Вызываю SaveState().");
         SaveState();
+        if (soundCoroutine != null)
+        {
+            StopCoroutine(soundCoroutine);
+        }
+
+    }
+
+    void CheckForAchievement(string name)
+    {
+
+        if (AchievementManager.allTpyesAnimal.Contains(name))
+        {
+           
+            if (AchievementManager.allTpyesPlant.Remove(name))
+                GameEvents.TriggerAddedNewAnimal(1);
+            else
+            {
+                Debug.LogWarning("This type of animal is undefind");
+            }
+        }
+
+    }
+    void CheckForAchievement()
+    {
+        
+            GameEvents.TriggerCollectAnimalProduct(1);
+    }
+    private IEnumerator RandomSoundCoroutine()
+    {
+        while (true)
+        {
+            float delay = Random.Range(5f, 100f); // интервал между звуками
+            yield return new WaitForSeconds(delay);
+
+            PlayRandomSound();
+        }
+    }
+    private void PlayRandomSound()
+    {
+        if (animalData.animalSounds != null && animalData.animalSounds.Length > 0 && audioSource != null)
+        {
+            AudioClip clip = animalData.animalSounds[Random.Range(0, animalData.animalSounds.Length)];
+            audioSource.PlayOneShot(clip);
+            Debug.Log($"Звук животного ({animalData.speciesName}): {clip.name}");
+        }
     }
 
 

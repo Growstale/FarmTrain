@@ -25,5 +25,7 @@ public class AchievementData : ScriptableObject
     [Header("”словие выполнени€")]
     public TypeOfAchivment typeOfAchivment;
     public int goal; // целевое назгачение в кол-во
+    public bool isReceived = false;
+
 
 }

@@ -126,7 +126,7 @@ public class QuestLogUI : MonoBehaviour
         detailsPanelObject.SetActive(true);
         detailsTitleText.text = quest.title;
         detailsDescriptionText.text = quest.description;
-        detailsRewardText.text = $"Reward: {quest.rewardXP} XP";
+        detailsRewardText.text = $"Reward: {quest.rewardXP}";
 
         // Формируем строку с целями
         string goalsString = "";

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
-   public static AchievementManager instance;
+    public static AchievementManager instance;
 
     public List<AchievementData> AllDataAchievement;
 
@@ -14,14 +14,22 @@ public class AchievementManager : MonoBehaviour
 
 
 
+
+    public static List<string> allTpyesPlant = new List<string> { "Carrot", "Berries", "Potato", "Wheat", "Corn", "Pumpkin", "Tomato" };
+    public static List<string> allTpyesAnimal = new List<string> { "Cow", "Chicken", "Sheep" };
+
+    public AudioClip achievementSound;
+    private AudioSource audioSource;
+
     private void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeProgress();
-          
-            
+
+            audioSource = Camera.main?.GetComponent<AudioSource>();
             LoadProgress();
         }
         else
@@ -29,18 +37,19 @@ public class AchievementManager : MonoBehaviour
             Debug.LogWarning($"Destroyed gaameobject {gameObject.name}");
             Destroy(gameObject);
         }
-        
+
     }
 
     private void InitializeProgress()
     {
-        foreach (var item in AllDataAchievement) {
-          
-                progress[item.typeOfAchivment] = 0;
-            
-        
+        foreach (var item in AllDataAchievement)
+        {
+
+            progress[item.typeOfAchivment] = 0;
+
+
         }
-      
+
     }
 
     public void AddProgress(TypeOfAchivment type, int amount)
@@ -51,8 +60,83 @@ public class AchievementManager : MonoBehaviour
             return;
         }
 
-        progress[type] += amount;
-        Debug.Log($"Progress {type} is amount: {progress[type]}");
+
+
+
+        switch (type)
+        {
+            case TypeOfAchivment.MasterGardener:
+                if (CheckForComplete(type))
+                {
+                    if (progress[type] >= 6)
+                    {
+                        progress[type] = 7;
+                        Debug.Log($"Achievemnet {type} recieve");
+                        SwitchToComplete(type);
+                    }
+                    else
+                    {
+                        progress[type] += amount;
+                        Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Type is complite");
+                }
+                break;
+            case TypeOfAchivment.TheWholeGangsHere:
+                if (CheckForComplete(type))
+                {
+                    if (progress[type] >= 2)
+                    {
+
+                        progress[type] = 3;
+                        Debug.Log($"Achievemnet {type} recieve!!");
+                        SwitchToComplete(type);
+                    }
+                    else
+                    {
+                        progress[type] += amount;
+                        Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
+                    }
+                }
+                break;
+            case TypeOfAchivment.BuddingTycoon:
+                if (CheckForComplete(type))
+                {
+                    if (progress[type] >= 500)
+                    {
+                        progress[type] = 500;
+                        Debug.Log($"Achievemnet {type} recieve!!");
+                        SwitchToComplete(type);
+                    }
+                    else
+                    {
+                        progress[type] += amount;
+                        Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
+                    }
+                }
+
+                break;
+            case TypeOfAchivment.Rancher:
+                if (CheckForComplete(type))
+                {
+                    if (progress[type] >= 19)
+                    {
+                        progress[type] = 20;
+                        Debug.Log($"Achievemnet {type} recieve!!");
+                        SwitchToComplete(type);
+                    }
+                    else
+                    {
+                        progress[type] += amount;
+                        Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
+                    }
+
+                }
+                break;
+        }
         SaveProgress();
     }
 
@@ -64,34 +148,59 @@ public class AchievementManager : MonoBehaviour
             string json = System.IO.File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            // Загружаем прогресс
+            // Г‡Г ГЈГ°ГіГ¦Г ГҐГ¬ ГЇГ°Г®ГЈГ°ГҐГ±Г±
             progress.Clear();
             foreach (var savedProgress in data.playerProgress)
             {
                 progress[savedProgress.type] = savedProgress.value;
             }
 
-           
+
             Debug.Log("Progress Loaded!");
         }
     }
 
 
+    private bool CheckForComplete(TypeOfAchivment type)
+    {
+        foreach (var achievement in AllDataAchievement)
+        {
+            if (achievement.typeOfAchivment == type)
+            {
+                if (achievement.isReceived) return false;
+                else return true;
+            }
+        }
+        Debug.LogWarning($"{type} is not found in AllDataAchievement");
+        return false;
+    }
+    private void SwitchToComplete(TypeOfAchivment type)
+    {
+        foreach (var achievement in AllDataAchievement)
+        {
+            if (achievement.typeOfAchivment == type)
+            {
+                achievement.isReceived = true;
+               audioSource.PlayOneShot(achievementSound);
+            }
+        }
+    }
     private void OnEnable()
     {
         GameEvents.OnHarvestTheCrop += HandleHarvestTheCrop;
         GameEvents.OnCollectAnimalProduct += HandleCollectAnimalProduct;
         GameEvents.OnCollectCoin += HandleCollectCoin;
         GameEvents.OnAddedNewAnimal += HandleAddedNewAnimal;
-        GameEvents.OnAddedNewPlant += HandleAddedNewPlant;
-      
+        GameEvents.OnCollectAllPlants += HandleCollectAllPlants;
+
         GameEvents.OnAddedNewUpdgrade += HandleAddedNewUpgrade;
         GameEvents.OnCompleteTheQuest += HandleCompleteTheQuest;
     }
-    private void HandleAddedNewPlant(int amount)
+    private void HandleCollectAllPlants(int amount)
     {
+      
         AddProgress(TypeOfAchivment.MasterGardener, amount);
-       
+
     }
     private void HandleHarvestTheCrop(int amount)
     {
@@ -119,7 +228,7 @@ public class AchievementManager : MonoBehaviour
         AddProgress(TypeOfAchivment.FarmingLegend, amount);
     }
 
-    // Класс для сохранения
+    // ГЉГ«Г Г±Г± Г¤Г«Гї Г±Г®ГµГ°Г Г­ГҐГ­ГЁГї
     [System.Serializable]
     private class SaveData
     {
@@ -144,17 +253,17 @@ public class AchievementManager : MonoBehaviour
         string json = JsonUtility.ToJson(data, true);
         string folderPath = Application.persistentDataPath;
 
-        // 2. Указываем имя нашего файла.
+        // 2. Г“ГЄГ Г§Г»ГўГ ГҐГ¬ ГЁГ¬Гї Г­Г ГёГҐГЈГ® ГґГ Г©Г«Г .
         string fileName = "achievements.json";
 
-        // 3. Соединяем путь к папке и имя файла в один полный путь.
-        // Это самый надежный способ!
+        // 3. Г‘Г®ГҐГ¤ГЁГ­ГїГҐГ¬ ГЇГіГІГј ГЄ ГЇГ ГЇГЄГҐ ГЁ ГЁГ¬Гї ГґГ Г©Г«Г  Гў Г®Г¤ГЁГ­ ГЇГ®Г«Г­Г»Г© ГЇГіГІГј.
+        // ГќГІГ® Г±Г Г¬Г»Г© Г­Г Г¤ГҐГ¦Г­Г»Г© Г±ГЇГ®Г±Г®ГЎ!
         string fullPath = Path.Combine(folderPath, fileName);
 
-        // 4. (Очень полезно для отладки!) Выводим финальный путь в консоль.
-        Debug.Log("Сохраняю данные по пути: " + fullPath);
+        // 4. (ГЋГ·ГҐГ­Гј ГЇГ®Г«ГҐГ§Г­Г® Г¤Г«Гї Г®ГІГ«Г Г¤ГЄГЁ!) Г‚Г»ГўГ®Г¤ГЁГ¬ ГґГЁГ­Г Г«ГјГ­Г»Г© ГЇГіГІГј Гў ГЄГ®Г­Г±Г®Г«Гј.
+        Debug.Log("Г‘Г®ГµГ°Г Г­ГїГѕ Г¤Г Г­Г­Г»ГҐ ГЇГ® ГЇГіГІГЁ: " + fullPath);
 
-        // 5. Сохраняем файл по полному, корректному пути.
+        // 5. Г‘Г®ГµГ°Г Г­ГїГҐГ¬ ГґГ Г©Г« ГЇГ® ГЇГ®Г«Г­Г®Г¬Гі, ГЄГ®Г°Г°ГҐГЄГІГ­Г®Г¬Гі ГЇГіГІГЁ.
         File.WriteAllText(fullPath, json);
         Debug.Log("Progress Saved!");
     }

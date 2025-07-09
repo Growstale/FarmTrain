@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LocomotiveController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class LocomotiveController : MonoBehaviour
     // Флаги состояния
     private bool travelToStationUnlocked = false;
     private bool departureUnlocked = false;
+
 
     #region Unity Lifecycle
     void Awake()
@@ -157,14 +159,23 @@ public class LocomotiveController : MonoBehaviour
         UpdateHornHighlight();
         UIManager.Instance.ShowGoToStationButton(false);
 
-        ScreenFaderManager.Instance.FadeOutAndIn(() => {
-            // <<< ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ МЕТОД ДЛЯ ОКОНЧАТЕЛЬНОГО ОТПРАВЛЕНИЯ
+        yield return StartCoroutine(ScreenFaderManager.Instance.FadeOutAndInCoroutine(() =>
+        {
+            // --- ДЕЙСТВИЯ В СЕРЕДИНЕ ЗАТЕМНЕНИЯ ---
+
+            // 1. Сообщаем ExperienceManager, что мы перешли на следующий уровень
             ExperienceManager.Instance.DepartToNextTrainLevel();
+            int newLevel = ExperienceManager.Instance.CurrentLevel; // Получаем новый уровень
 
-            foreach (var layer in parallaxLayers) layer.enabled = true;
-        });
+            // 2. Включаем движение параллакса и сообщаем им о новом уровне
+            foreach (var layer in parallaxLayers)
+            {
+                layer.enabled = true;
+                layer.SetSpriteForLevel(newLevel); // <<< ВОТ КЛЮЧЕВОЕ ИЗМЕНЕНИЕ
+            }
 
-        yield return null;
+            // --- КОНЕЦ ДЕЙСТВИЙ ---
+        }));
     }
 
 

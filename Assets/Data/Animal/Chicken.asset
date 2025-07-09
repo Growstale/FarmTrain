@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Chicken
   m_EditorClassIdentifier: 
   speciesName: Chicken
+  animalSounds:
+  - {fileID: 8300000, guid: 97ab4356f3c23a8479c080a7e84f05b8, type: 3}
+  - {fileID: 8300000, guid: 5a1dcbc66ca58f64e92f0e64f49ab56e, type: 3}
+  - {fileID: 8300000, guid: ecf9ae5da56abf14d96109dffd4ba37a, type: 3}
   animalPrefab: {fileID: 6930296401797857906, guid: e99c9c08abf4d7542a33eb71a8ae3e9f, type: 3}
   correspondingItemData: {fileID: 11400000, guid: fb9d3002e1d61a5488214b450fa6b151, type: 2}
   defaultSprite: {fileID: 8678448789981272047, guid: f29862a61cdf738419e40fe9a7fad4d2, type: 3}
   productReadySprite: {fileID: 0}
-  requiredFood: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+  requiredFood: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
   feedInterval: 6
   productProduced: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
   productionInterval: 12

@@ -20,11 +20,12 @@ MonoBehaviour:
   phase: 0
   nextQuest: {fileID: 11400000, guid: 69078eff1cdfcfc4ca30df2a75fde343, type: 2}
   goals:
-  - goalType: 4
+  - goalType: 6
     targetID: Chicken
-    requiredAmount: 2
-    currentAmount: 2
+    requiredAmount: 1
+    targetIDs: []
+    currentAmount: 0
   rewardXP: 5
-  status: 2
+  status: 1
   isPinned: 0
   hasBeenViewed: 0

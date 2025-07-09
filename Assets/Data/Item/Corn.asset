@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Corn
   m_EditorClassIdentifier: 
   itemName: Corn
-  itemIcon: {fileID: 1837216702720429577, guid: 9393c2a48dbaa2445bcc87b89593cc5f, type: 3}
+  itemIcon: {fileID: 21300000, guid: 790832213e8e87b4490b62ecafa2bc54, type: 3}
   itemType: 5
   isStackable: 1
   maxStackSize: 16

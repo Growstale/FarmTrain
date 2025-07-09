@@ -31,6 +31,10 @@ public class TrainCameraController : MonoBehaviour
 
     [Header("Dependencies")]
     [SerializeField] private LocomotiveController locomotiveController;
+    [Header("Audio")]
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] private AudioClip zoomInSound;   // звук приближения
+    [SerializeField] private AudioClip zoomOutSound;  // звук отдаления
 
     void Start()
     {
@@ -384,6 +388,10 @@ public class TrainCameraController : MonoBehaviour
         targetOrthographicSize = zoomOutSize;
         targetPosition = GetTargetPositionForWagon(lastWagonIndex);
         CalculatePanLimits();
+        if (audioSource != null && zoomOutSound != null)
+        {
+            audioSource.PlayOneShot(zoomOutSound);
+        }
     }
 
     void ExitOverviewMode(int targetIndex)
@@ -401,6 +409,10 @@ public class TrainCameraController : MonoBehaviour
         targetOrthographicSize = zoomInSize;
         targetPosition = GetTargetPositionForWagon(currentWagonIndex);
         Debug.Log($"Exiting Overview Mode, focusing on Wagon {currentWagonIndex}");
+        if (audioSource != null && zoomInSound != null)
+        {
+            audioSource.PlayOneShot(zoomInSound);
+        }
     }
 
     void MoveToWagon(int index)
@@ -416,6 +428,11 @@ public class TrainCameraController : MonoBehaviour
         {
             Debug.LogWarning($"Cannot move to index {index}. It might be the locomotive, out of bounds, or in overview mode.");
         }
+        if (audioSource != null && zoomInSound != null)
+        {
+            audioSource.PlayOneShot(zoomInSound);
+        }
+
     }
 
     void SmoothCameraMovement()

@@ -20,11 +20,12 @@ MonoBehaviour:
   phase: 0
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 2
+  - goalType: 4
     targetID: 
     requiredAmount: 15
-    currentAmount: 0
+    targetIDs: []
+    currentAmount: 15
   rewardXP: 30
-  status: 0
+  status: 2
   isPinned: 0
   hasBeenViewed: 0

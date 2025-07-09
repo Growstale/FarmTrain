@@ -111,34 +111,47 @@ public class QuestManager : MonoBehaviour
         Debug.Log($"Квест '{quest.title}' выполнен! Награда: {quest.rewardXP} XP.");
     }
 
-
-    public void AddQuestProgress(GoalType goalType, string targetID, int amount)
+    public void AddQuestProgress(GoalType eventType, string targetID, int amount)
     {
         foreach (var quest in new List<Quest>(ActiveQuests))
         {
             bool questProgressed = false;
-            foreach (var goal in quest.goals.Where(g => g.goalType == goalType && !g.IsReached()))
+            foreach (var goal in quest.goals.Where(g => !g.IsReached()))
             {
-                // <<< ОБЪЕДИНЯЕМ ЛОГИКУ ДЛЯ ВСЕХ НАКОПИТЕЛЬНЫХ ЦЕЛЕЙ
-                if (goalType == GoalType.Gather ||
-                    goalType == GoalType.Buy ||
-                    goalType == GoalType.FeedAnimal ||
-                    goalType == GoalType.Earn) // <<< ДОБАВЛЯЕМ EARN В ЭТОТ СПИСОК
+                bool progressMadeOnThisGoal = false;
+
+                if (goal.goalType == eventType)
                 {
-                    // Для Earn нам не нужно проверять ID, прогресс идет всегда.
-                    // Для остальных целей ID должен совпадать.
-                    if (goalType == GoalType.Earn || goal.targetID == targetID)
+                    switch (goal.goalType)
                     {
-                        goal.UpdateProgress(amount); // Этот метод суммирует: currentAmount += amount
-                        questProgressed = true;
+                        case GoalType.Gather:
+                        case GoalType.Buy:
+                        case GoalType.FeedAnimal:
+                            if (goal.targetID == targetID) progressMadeOnThisGoal = true;
+                            break;
+
+                        case GoalType.GatherAny:
+                        case GoalType.BuyAny:
+                            if (goal.targetIDs.Contains(targetID)) progressMadeOnThisGoal = true;
+                            break;
+
+                        case GoalType.Earn:
+                        case GoalType.SellFor: // Теперь этот case абсолютно правильный
+                            progressMadeOnThisGoal = true;
+                            break;
                     }
                 }
-                // <<< СТАРАЯ ЛОГИКА для else if (goalType == GoalType.Earn) теперь не нужна и удалена
+
+                if (progressMadeOnThisGoal)
+                {
+                    goal.UpdateProgress(amount);
+                    questProgressed = true;
+                    Debug.Log($"<color=purple>[QuestManager]</color> Прогресс для цели '{goal.goalType}' квеста '{quest.title}' (+{amount})");
+                }
             }
 
             if (questProgressed)
             {
-                Debug.Log($"<color=lightblue>[QuestManager]</color> Прогресс для квеста '{quest.title}' обновлен по цели '{goalType}'.");
                 OnQuestLogUpdated?.Invoke();
                 CheckQuestCompletion(quest);
             }
@@ -212,23 +225,56 @@ public class QuestManager : MonoBehaviour
 
     private void HandleItemAdded(ItemData item, int quantity)
     {
-        // Отправляем прогресс для целей типа Gather
+        // === НАЧАЛО ИЗМЕНЕНИЙ ===
+
+        // 1. Отправляем прогресс для квестов "Собрать конкретный предмет" (Gather)
         AddQuestProgress(GoalType.Gather, item.name, quantity);
+
+        // 2. ОТПРАВЛЯЕМ ПРОГРЕСС ДЛЯ КВЕСТОВ "СОБРАТЬ ЛЮБОЙ ИЗ СПИСКА" (GatherAny)
+        AddQuestProgress(GoalType.GatherAny, item.name, quantity);
+
+        // 3. Обрабатываем логику для квестов типа SellFor (этот блок остается без изменений)
+        int currentLevel = ExperienceManager.Instance.CurrentLevel;
+        StationData stationData = StationDatabase.Instance.GetStationDataById(currentLevel);
+        if (stationData == null) return;
+
+        int sellPrice = 0;
+        foreach (var stallInventory in stationData.stallInventories)
+        {
+            var shopItem = stallInventory.shopItems.FirstOrDefault(si => si.itemData == item);
+            if (shopItem != null && shopItem.willBuy)
+            {
+                sellPrice = shopItem.sellPrice;
+                break;
+            }
+        }
+
+        if (sellPrice > 0)
+        {
+            int totalPotentialValue = sellPrice * quantity;
+            AddQuestProgress(GoalType.SellFor, item.name, totalPotentialValue);
+        }
+        // === КОНЕЦ ИЗМЕНЕНИЙ ===
     }
+
 
     private void HandleItemPurchased(ItemData item, int quantity)
     {
         Debug.Log($"<color=lightblue>[QuestManager]</color> Получено событие покупки: {item.name}");
-        // Отправляем прогресс для целей типа Buy
-        AddQuestProgress(GoalType.Buy, item.name, quantity);
-    }
 
+        // 1. Отправляем прогресс для целей типа "Купить конкретный предмет" (Buy)
+        AddQuestProgress(GoalType.Buy, item.name, quantity);
+
+        // 2. И ТАКЖЕ отправляем прогресс для целей типа "Купить любой из списка" (BuyAny)
+        AddQuestProgress(GoalType.BuyAny, item.name, quantity);
+    }
 
     private void HandleMoneyAdded(int amountAdded)
     {
-        // Теперь мы отправляем прогресс для типа Earn, но передаем только СУММУ ПРИРОСТА
+        // Отправляем прогресс для типа Earn
         AddQuestProgress(GoalType.Earn, "", amountAdded);
     }
+
     public void TriggerQuestLogUpdate()
     {
         OnQuestLogUpdated?.Invoke();

@@ -4,6 +4,8 @@ using UnityEngine;
 public class AnimalData : ScriptableObject
 {
     public string speciesName = "New Animal";
+    public AudioClip[] animalSounds; // массив звуков
+
     public GameObject animalPrefab; // ѕрефаб животного с его моделью/спрайтом и базовым скриптом
 
     [Tooltip("—сылка на ItemData, представл€ющий это животное в магазинах и инвентаре")]

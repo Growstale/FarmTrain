@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Upgrade_ChickenPen_Plus
   m_EditorClassIdentifier: 
   itemName: Upgrade_ChickenPen_Plus
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 4556369091680907436, guid: d289b9f3b9ca6b24ab1c60174337d3ca, type: 3}
   itemType: 8
   isStackable: 0
   maxStackSize: 16
-  description: Upgrade_ChickenPen_Plus
+  description: ChickenPen Plus
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

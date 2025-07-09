@@ -240,7 +240,7 @@ public class ItemSpawner : MonoBehaviour
 
 
    
-    public GameObject SpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform, Vector2Int[] IdSelectedSlot, bool isFertilize)
+    public GameObject SpawnPlant(ItemData dataToSpawn, Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform, Vector2Int[] IdSelectedSlot)
     {
         if (dataToSpawn.itemType == ItemType.Seed)
         {
@@ -262,10 +262,7 @@ public class ItemSpawner : MonoBehaviour
 
             if (plantController != null)
             {
-                if (isFertilize)
-                {
-                    plantController.FertilizePlant();
-                }
+               
                 plantController.FillVectorInts(IdSelectedSlot);
             }
             else

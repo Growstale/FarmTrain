@@ -21,10 +21,11 @@ MonoBehaviour:
   nextQuest: {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
   goals:
   - goalType: 0
-    targetID: Wheat_Seed
+    targetID: Wheat
     requiredAmount: 1
-    currentAmount: 0
+    targetIDs: []
+    currentAmount: 1
   rewardXP: 10
-  status: 1
+  status: 2
   isPinned: 0
   hasBeenViewed: 0

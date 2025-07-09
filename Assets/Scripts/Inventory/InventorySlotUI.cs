@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
-                                  IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+                                  IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI quantityText;
@@ -186,5 +186,28 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
             Debug.Log("Item dropped onto its own slot.");
             UpdateSlot(currentItem);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log($"Сработал ENTER на {gameObject.name}");
+        if (currentItem == null || currentItem.itemData == null) return;
+
+        if (TooltipUI.Instance == null)
+        {
+            Debug.LogError("Tooltip не инициализирован!");
+            return;
+        }
+
+        if (TooltipUI.Instance != null)
+        {
+            TooltipUI.Instance.Show(currentItem.itemData.itemName, eventData.position);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log($"Сработал EXIT на {gameObject.name}");
+        TooltipUI.Instance?.Hide();
     }
 }

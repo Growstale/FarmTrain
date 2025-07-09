@@ -123,8 +123,8 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
                 SlotScripts upperSlotScript = upperSlot.GetComponent<SlotScripts>();
 
-                if (currentSlotScripts != null && !currentSlotScripts.isPlanted &&
-                    upperSlotScript != null && !upperSlotScript.isPlanted)
+                if (currentSlotScripts != null && !currentSlotScripts.isPlanted && currentSlotScripts.isRaked &&
+                    upperSlotScript != null && !upperSlotScript.isPlanted && upperSlotScript.isRaked)
                 {
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {upperSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
@@ -152,8 +152,8 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts currentSlotScripts = currentSlot.GetComponent<SlotScripts>();
                 SlotScripts lowerSlotScript = lowerSlot.GetComponent<SlotScripts>();
 
-                if (currentSlotScripts != null && !currentSlotScripts.isPlanted &&
-                    lowerSlotScript != null && !lowerSlotScript.isPlanted)
+                if (currentSlotScripts != null && !currentSlotScripts.isPlanted && currentSlotScripts.isRaked &&
+                    lowerSlotScript != null && !lowerSlotScript.isPlanted && lowerSlotScript.isRaked)
                 {
                     Debug.Log($"Текущий слот {currentSlot.name} и соседний {lowerSlot.name} свободны.");
                     currentSlotScripts.isPlanted = true;
@@ -350,6 +350,8 @@ public class GridGenerator : MonoBehaviour
                 {
                     // Устанавливаем isPlanted в false
                     slotScript.isPlanted = false;
+                    slotScript.isRaked = false;
+                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.DrySoil,1);
                     Debug.Log($"Слот {slotObj.name} освобожден (isPlanted = false).");
                 }
                 else
@@ -367,7 +369,7 @@ public class GridGenerator : MonoBehaviour
 
         return allFreed;
     }
-    public bool FertilizerSlot(Vector2Int[] idSlots)
+    public void FertilizerSlot(Vector2Int[] idSlots)
     {
         bool allFertilizer = true;
 
@@ -380,7 +382,7 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
                 if (slotScript != null)
                 {
-                   if(!slotScript.isFertilize) return false;
+                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.WithFertilizers,3);
                 }
                 else
                 {
@@ -395,6 +397,6 @@ public class GridGenerator : MonoBehaviour
             }
         }
 
-        return allFertilizer;
+       
     }
 }

@@ -360,8 +360,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpLevels:
   - trainPhaseXP: 50
-    stationPhaseXP: 100
-  - trainPhaseXP: 100
+    stationPhaseXP: 25
+  - trainPhaseXP: 80
     stationPhaseXP: 0
   - trainPhaseXP: 100
     stationPhaseXP: 0
@@ -392,9 +392,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allStations:
-  - {fileID: 11400000, guid: 369b9c9ed69e9c746b1bfe2fe8f9938d, type: 2}
   - {fileID: 11400000, guid: 9d18d28a8cb1bf842b09e445d2465e1f, type: 2}
   - {fileID: 11400000, guid: d29737b7ec21ec545b5c417153959b1d, type: 2}
+  - {fileID: 11400000, guid: 6453920a72dbcfe45a47e52d5873bd51, type: 2}
 --- !u!114 &1426141037
 MonoBehaviour:
   m_ObjectHideFlags: 0

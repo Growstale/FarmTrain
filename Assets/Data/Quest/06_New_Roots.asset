@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
+  m_Name: 06_New_Roots
+  m_EditorClassIdentifier: 
+  id: 06_New_Roots
+  title: New Roots
+  description: Buy [Amount] [Crop Name] seeds from the shop.
+  shortDescription: Buy New Seeds
+  gameLevel: 1
+  phase: 1
+  nextQuest: {fileID: 0}
+  goals:
+  - goalType: 3
+    targetID: 
+    requiredAmount: 5
+    targetIDs:
+    - Carrot_Seed
+    - Potato_seed
+    currentAmount: 0
+  rewardXP: 5
+  status: 0
+  isPinned: 0
+  hasBeenViewed: 0
