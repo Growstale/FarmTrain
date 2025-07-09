@@ -22,11 +22,11 @@ MonoBehaviour:
   defaultSprite: {fileID: 8678448789981272047, guid: f29862a61cdf738419e40fe9a7fad4d2, type: 3}
   productReadySprite: {fileID: 0}
   requiredFood: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
-  feedInterval: 3
+  feedInterval: 11
   productProduced: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
-  productionInterval: 4
+  productionInterval: 15
   productAmount: 1
   requiredToolForHarvest: {fileID: 0}
   fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
-  fertilizerInterval: 15
+  fertilizerInterval: 4.5
   fertilizerAmount: 0
