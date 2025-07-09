@@ -17,4 +17,5 @@ MonoBehaviour:
   Description: Purchase all available farm upgrades.
   Icon: {fileID: 0}
   typeOfAchivment: 5
-  goal: 4
+  goal: 10
+  isReceived: 0

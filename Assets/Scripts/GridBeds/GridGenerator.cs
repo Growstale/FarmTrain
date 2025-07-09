@@ -351,7 +351,7 @@ public class GridGenerator : MonoBehaviour
                     // Устанавливаем isPlanted в false
                     slotScript.isPlanted = false;
                     slotScript.isRaked = false;
-                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.DrySoil,1);
+                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.DrySoil,0);
                     Debug.Log($"Слот {slotObj.name} освобожден (isPlanted = false).");
                 }
                 else
