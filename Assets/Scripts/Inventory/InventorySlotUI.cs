@@ -33,7 +33,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
         rootCanvas = GetComponentInParent<Canvas>();
         if (rootCanvas == null)
         {
-            Debug.LogError("InventorySlotUI не может найти родительский Canvas!");
+            Debug.LogError("InventorySlotUI РЅРµ РјРѕР¶РµС‚ РЅР°Р№С‚Рё СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ Canvas!");
         }
         ClearSlot();
     }
@@ -190,24 +190,24 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"Сработал ENTER на {gameObject.name}");
+        Debug.Log($"РЎСЂР°Р±РѕС‚Р°Р» ENTER РЅР° {gameObject.name}");
         if (currentItem == null || currentItem.itemData == null) return;
 
         if (TooltipUI.Instance == null)
         {
-            Debug.LogError("Tooltip не инициализирован!");
+            Debug.LogError("Tooltip РЅРµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ!");
             return;
         }
 
         if (TooltipUI.Instance != null)
         {
-            TooltipUI.Instance.Show(currentItem.itemData.itemName, eventData.position);
+            TooltipUI.Instance.Show(currentItem.itemData.description, eventData.position);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log($"Сработал EXIT на {gameObject.name}");
+        Debug.Log($"РЎСЂР°Р±РѕС‚Р°Р» EXIT РЅР° {gameObject.name}");
         TooltipUI.Instance?.Hide();
     }
 }

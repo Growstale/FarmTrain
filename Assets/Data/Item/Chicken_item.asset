@@ -17,6 +17,10 @@ MonoBehaviour:
   itemType: 7
   isStackable: 0
   maxStackSize: 16
+<<<<<<< Updated upstream
   description: 
+=======
+  description: Chicken burger
+>>>>>>> Stashed changes
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 11400000, guid: 12c567d19caa4a945b452ae23cb53dda, type: 2}

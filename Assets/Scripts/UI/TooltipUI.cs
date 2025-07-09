@@ -10,6 +10,7 @@ public class TooltipUI : MonoBehaviour
     public TextMeshProUGUI itemNameText;
     public float hideDelay = 0.05f;
     private Coroutine hideCoroutine;
+    private bool isInitialized;
 
     private void Awake()
     {
@@ -20,11 +21,17 @@ public class TooltipUI : MonoBehaviour
         }
         Instance = this;
 
-        tooltipPanel.SetActive(false);
+        if (tooltipPanel != null)
+        {
+            tooltipPanel.gameObject.SetActive(false);
+            isInitialized = true;
+        }
     }
 
     public void Show(string message, Vector2 screenPos)
     {
+        if (!isInitialized || itemNameText == null) return;
+
         if (hideCoroutine != null)
         {
             StopCoroutine(hideCoroutine);
@@ -33,19 +40,25 @@ public class TooltipUI : MonoBehaviour
 
         itemNameText.text = message;
         tooltipPanel.transform.position = screenPos + new Vector2(20, 50);
-        tooltipPanel.SetActive(true);
+        tooltipPanel.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        if (hideCoroutine != null) StopCoroutine(hideCoroutine);
+        if (!isInitialized || !tooltipPanel.gameObject.activeSelf) return;
+
+        if (hideCoroutine != null)
+        {
+            StopCoroutine(hideCoroutine);
+        }
+
         hideCoroutine = StartCoroutine(HideAfterDelay());
     }
 
     private IEnumerator HideAfterDelay()
     {
         yield return new WaitForSeconds(hideDelay);
-        tooltipPanel.SetActive(false);
+        tooltipPanel.gameObject.SetActive(false);
         hideCoroutine = null;
     }
 }

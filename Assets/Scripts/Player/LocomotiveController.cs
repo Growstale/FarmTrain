@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class LocomotiveController : MonoBehaviour
 {
@@ -103,14 +104,20 @@ public class LocomotiveController : MonoBehaviour
     {
         if (currentState == TrainState.DockedAtStation)
         {
+            var currentClip = RadioManager.Instance.audioSource.clip;
+            var currentTime = RadioManager.Instance.audioSource.time;
+            var wasPlaying = RadioManager.IsPlaying;
+
+            RadioManager.Instance.radioPanel?.SetActive(false);
+
             UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
 
             // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
             // Мы сообщаем менеджеру, что переходим в фазу Станции.
             // Это обнулит XP и активирует квесты для станции.
             ExperienceManager.Instance.EnterStation();
-
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Station_1");
+            SceneManager.LoadScene("Station_1");
+            StartCoroutine(LoadStationAndRestoreRadio(currentClip, currentTime, wasPlaying));
         }
     }
 
@@ -194,6 +201,19 @@ public class LocomotiveController : MonoBehaviour
         bool shouldHighlight = (currentState == TrainState.Moving && travelToStationUnlocked) ||
                                (currentState == TrainState.DockedAtStation && departureUnlocked);
         hornAnimator.SetBool("IsHighlighted", shouldHighlight);
+    }
+
+    private IEnumerator LoadStationAndRestoreRadio(AudioClip clip, float time, bool play)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        RadioManager.Instance.audioSource.clip = clip;
+        RadioManager.Instance.audioSource.time = time;
+        if (play)
+        {
+            RadioManager.Instance.audioSource.Play();
+            RadioManager.IsPlaying = true;
+        }
     }
     #endregion
 }

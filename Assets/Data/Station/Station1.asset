@@ -18,3 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0d3f5b8392dd2b44bd0bf8464c4a8ef, type: 2}
   - {fileID: 11400000, guid: b9b9e05e503d11444bfa2c86b474e3e6, type: 2}
   - {fileID: 11400000, guid: 6001f4ac1f6cc0d4e823496cf0e234f7, type: 2}
+  radioTracks:
+  - {fileID: 8300000, guid: f5dcee13ba8c93f409dd196475e40d26, type: 3}
+  - {fileID: 8300000, guid: 819958e22320c1b46b8bf4c5e204fbd5, type: 3}
+  - {fileID: 8300000, guid: 2dcd0512da74fbb42ab1382b6f138383, type: 3}

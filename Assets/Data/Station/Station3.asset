@@ -17,4 +17,12 @@ MonoBehaviour:
   stallInventories:
   - {fileID: 11400000, guid: 4f8046d7aac1c4b48bfb8beed0483c0e, type: 2}
   - {fileID: 11400000, guid: b8237a1ac6a177648aa90d9b04cdcef4, type: 2}
+<<<<<<< Updated upstream
   - {fileID: 11400000, guid: 70f4ad963fd71724ba7d8212fda05cd0, type: 2}
+=======
+  - {fileID: 11400000, guid: cc0248e563e9c904bb3db9f9d3ee7902, type: 2}
+  radioTracks:
+  - {fileID: 8300000, guid: 437e8c98f33173d4d98b68fab135de6b, type: 3}
+  - {fileID: 8300000, guid: 785ebf14ce6ed6944b162f5df3220c35, type: 3}
+  - {fileID: 8300000, guid: d6f15c4c86292ff49a393556bdd25ca2, type: 3}
+>>>>>>> Stashed changes
