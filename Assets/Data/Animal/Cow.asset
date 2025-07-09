@@ -25,7 +25,7 @@ MonoBehaviour:
   productProduced: {fileID: 11400000, guid: 36e850dd4e298be4b9f46c69f51c7872, type: 2}
   productionInterval: 10
   productAmount: 1
-  requiredToolForHarvest: {fileID: 0}
+  requiredToolForHarvest: {fileID: 11400000, guid: 170dd0debc0065e49b87cc5904eb61b5, type: 2}
   fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
   fertilizerInterval: 15
   fertilizerAmount: 2

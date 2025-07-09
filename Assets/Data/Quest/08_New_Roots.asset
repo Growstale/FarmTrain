@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 06_New_Roots
+  m_Name: 08_New_Roots
   m_EditorClassIdentifier: 
-  id: 06_New_Roots
+  id: 08_New_Roots
   title: New Roots
   description: Buy [Amount] [Crop Name] seeds from the shop.
   shortDescription: Buy New Seeds
@@ -26,8 +26,8 @@ MonoBehaviour:
     targetIDs:
     - Carrot_Seed
     - Potato_seed
-    currentAmount: 0
+    currentAmount: 5
   rewardXP: 5
-  status: 0
+  status: 2
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1

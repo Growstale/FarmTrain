@@ -16,9 +16,9 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Inventory Data")]
     [SerializeField] private int hotbarSize = 7;
-    [SerializeField] private int maxMainInventoryRows = 3;
+    [SerializeField] private int maxMainInventoryRows = 3; // <<< Это остается 3 (максимально возможный размер)
     [SerializeField] private int columns = 7;
-    private int currentMainInventoryRows = 3;
+    private int currentMainInventoryRows = 1; // <<< ИЗМЕНЕНИЕ: Начинаем с 1 строки по умолчанию
     private List<InventoryItem> inventoryItems;
 
     [Header("UI References")]
@@ -32,15 +32,10 @@ public class InventoryManager : MonoBehaviour
     [Header("Storage Upgrade")]
     [Tooltip("Ссылка на ItemData, который представляет собой улучшение для большого склада.")]
     [SerializeField] private ItemData storageUpgradeData;
-
-    // --- ДОБАВЬТЕ ЭТУ СТРОКУ ---
     public ItemData StorageUpgradeData => storageUpgradeData;
 
     [Header("Selection")]
     [SerializeField] private int selectedSlotIndex = 0;
-
-    [Header("BedManager")]
-    [SerializeField] GameObject BedManager;
     public int SelectedSlotIndex => selectedSlotIndex;
 
     private List<InventorySlotUI> hotbarSlotsUI = new List<InventorySlotUI>();
@@ -50,7 +45,8 @@ public class InventoryManager : MonoBehaviour
     public event Action<int> OnSelectedSlotChanged;
     public event Action<ItemData, int> OnItemAdded;
 
-    private bool isStorageUnlocked = false; // Флаг, который отслеживает, куплен ли склад
+    // --- УДАЛЕНА ПЕРЕМЕННАЯ isStorageUnlocked ---
+    // Она больше не нужна, так как у нас теперь более гибкая система.
 
     [Header("Starting Inventory")]
     [Tooltip("Список предметов, которые будут в инвентаре при старте игры")]
@@ -73,45 +69,32 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         CreateSlotsUI();
-        // --- ИЗМЕНЕНИЕ: мы больше не настраиваем кнопку напрямую здесь ---
-        // SetupToggleButton(); 
         UpdateAllSlotsUI();
         SelectSlot(selectedSlotIndex);
         AddStartingItems();
 
-        // --- НАЧАЛО ИЗМЕНЕНИЙ ---
-        // Проверяем статус улучшения при старте
-        CheckStorageUpgradeStatus();
-        // Настраиваем слушателя для кнопки
         if (inventoryToggleButton != null)
         {
             inventoryToggleButton.onClick.AddListener(ToggleMainInventory);
         }
-        if (CloseButton != null) // Добавляем обработчик для кнопки закрытия
+        if (CloseButton != null)
         {
             CloseButton.onClick.AddListener(CloseInventory);
         }
 
-        // Подписываемся на событие покупки улучшений
-        // Это более гибкий подход, чем прямая ссылка на ShopUIManager
-        // Предположим, что TrainUpgradeManager может сообщить об изменениях
-        // Если нет, мы можем это добавить. А пока сделаем проверку в Update.
-        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+        // <<< ИЗМЕНЕНИЕ: При старте проверяем улучшения и устанавливаем правильный размер
+        UpdateInventorySizeBasedOnUpgrades();
     }
 
     private void AddStartingItems()
     {
-        if (startingItems == null || startingItems.Count == 0)
-        {
-            return; // Если список пуст, ничего не делаем
-        }
+        if (startingItems == null || startingItems.Count == 0) return;
 
         Debug.Log("Adding starting items to inventory...");
         foreach (var itemInfo in startingItems)
         {
             if (itemInfo.itemData != null && itemInfo.quantity > 0)
             {
-                // Используем уже существующий метод для добавления
                 AddItem(itemInfo.itemData, itemInfo.quantity);
             }
         }
@@ -139,11 +122,6 @@ public class InventoryManager : MonoBehaviour
                 slotUI.Setup(i, true, OnSlotClicked);
                 hotbarSlotsUI.Add(slotUI);
             }
-            else
-            {
-                Debug.LogError($"Slot Prefab '{slotPrefab.name}' is missing InventorySlotUI script!");
-                return;
-            }
         }
 
         int mainInventoryStartIndex = hotbarSize;
@@ -157,20 +135,36 @@ public class InventoryManager : MonoBehaviour
                 slotUI.Setup(mainInventoryStartIndex + i, false, OnSlotClicked);
                 mainInventorySlotsUI.Add(slotUI);
             }
-            else
-            {
-                Debug.LogError($"Slot Prefab '{slotPrefab.name}' is missing InventorySlotUI script!");
-                return;
-            }
         }
     }
-
-    
 
     private void Update()
     {
         HandleHotbarInput();
-        CheckStorageUpgradeStatus();
+        // <<< ИЗМЕНЕНИЕ: Постоянно проверяем улучшения на случай, если игрок только что купил апгрейд
+        UpdateInventorySizeBasedOnUpgrades();
+    }
+
+    // --- НОВЫЙ МЕТОД: "Мозг" нашей новой логики ---
+    private void UpdateInventorySizeBasedOnUpgrades()
+    {
+        int targetRows = 1; // По умолчанию у нас одна строка
+
+        // Проверяем, существует ли менеджер улучшений и есть ли у нас данные об улучшении
+        if (TrainUpgradeManager.Instance != null && storageUpgradeData != null)
+        {
+            // Если улучшение куплено, наша цель - 3 строки
+            if (TrainUpgradeManager.Instance.HasUpgrade(storageUpgradeData))
+            {
+                targetRows = 3;
+            }
+        }
+
+        // Устанавливаем новый размер, только если он отличается от текущего
+        if (targetRows != currentMainInventoryRows)
+        {
+            SetMainInventorySize(targetRows);
+        }
     }
 
     private void HandleHotbarInput()
@@ -185,35 +179,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void CheckStorageUpgradeStatus()
-    {
-        if (storageUpgradeData == null)
-        {
-            // Если данные об улучшении не указаны, считаем склад всегда доступным.
-            isStorageUnlocked = true;
-        }
-        else
-        {
-            // Проверяем через менеджер улучшений, куплен ли предмет
-            isStorageUnlocked = TrainUpgradeManager.Instance.HasUpgrade(storageUpgradeData);
-        }
-
-        // Обновляем состояние кнопки
-        if (inventoryToggleButton != null)
-        {
-            inventoryToggleButton.interactable = isStorageUnlocked;
-        }
-
-        // Если склад заблокирован, он должен быть закрыт
-        if (!isStorageUnlocked && mainInventoryPanel.activeSelf)
-        {
-            CloseInventory();
-        }
-    }
+    // --- УДАЛЕН СТАРЫЙ МЕТОД CheckStorageUpgradeStatus() ---
 
     private void OnSlotClicked(int index)
     {
-        Debug.Log($"Clicked on slot index: {index}");
         if (index < hotbarSize)
         {
             SelectSlot(index);
@@ -222,26 +191,18 @@ public class InventoryManager : MonoBehaviour
                 SFXManager.Instance.PlaySFX(slotClickSound);
             }
         }
-
-        else
-        {
-            Debug.Log($"Clicked on main inventory slot. Item: {GetItemInSlot(index)?.itemData?.itemName ?? "Empty"}");
-        }
     }
 
     public bool AddItem(ItemData itemToAdd, int quantity = 1)
     {
         if (itemToAdd == null || quantity <= 0) return false;
 
-        // Получаем текущий доступный размер инвентаря
         int currentSize = GetCurrentInventorySize();
 
         if (itemToAdd.isStackable)
         {
-            // --- ИЗМЕНЕНИЕ: Цикл идет только до currentSize ---
             for (int i = 0; i < currentSize; i++)
             {
-                // IsSlotActive(i) нам больше не нужна, т.к. currentSize уже учитывает все
                 InventoryItem currentItem = inventoryItems[i];
                 if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData == itemToAdd)
                 {
@@ -264,7 +225,7 @@ public class InventoryManager : MonoBehaviour
                 if (quantity <= 0)
                 {
                     OnInventoryChanged?.Invoke();
-                    OnItemAdded?.Invoke(itemToAdd, quantity); // quantity здесь будет остатком
+                    OnItemAdded?.Invoke(itemToAdd, quantity);
                     return true;
                 }
             }
@@ -281,13 +242,11 @@ public class InventoryManager : MonoBehaviour
         }
 
         Debug.Log("Inventory is full!");
-        // Здесь можно добавить всплывающее уведомление для игрока
         return false;
     }
 
     private int FindFirstEmptySlot()
     {
-        // --- ИЗМЕНЕНИЕ: Цикл идет только до currentSize ---
         int currentSize = GetCurrentInventorySize();
         for (int i = 0; i < currentSize; i++)
         {
@@ -296,9 +255,8 @@ public class InventoryManager : MonoBehaviour
                 return i;
             }
         }
-        return -1; // Свободных слотов в доступной части инвентаря нет
+        return -1;
     }
-
 
     public void RemoveItem(int index, int quantity = 1)
     {
@@ -335,7 +293,7 @@ public class InventoryManager : MonoBehaviour
         {
             UpdateSlotUI(i);
         }
-        for (int i = 0; i < currentMainInventoryRows * columns; i++)
+        for (int i = 0; i < mainInventorySlotsUI.Count; i++)
         {
             int actualIndex = hotbarSize + i;
             UpdateSlotUI(actualIndex);
@@ -381,37 +339,24 @@ public class InventoryManager : MonoBehaviour
             currentSlotUI.SetHighlight(true);
         }
 
-        Debug.Log($"Selected hotbar slot: {selectedSlotIndex}");
         OnSelectedSlotChanged?.Invoke(selectedSlotIndex);
     }
 
     public int GetCurrentInventorySize()
     {
-        // Если склад разблокирован, доступны все слоты.
-        // Если нет - только хотбар.
-        if (isStorageUnlocked)
-        {
-            return hotbarSize + (currentMainInventoryRows * columns);
-        }
-        else
-        {
-            return hotbarSize;
-        }
+        // Размер инвентаря теперь всегда равен хотбару + текущему количеству строк
+        return hotbarSize + (currentMainInventoryRows * columns);
     }
 
     public void OpenInventory()
     {
-        if (!isStorageUnlocked) return;
-
         if (!mainInventoryPanel.activeSelf)
         {
             mainInventoryPanel.SetActive(true);
-
             if (inventoryBackgroundPanel != null)
             {
                 inventoryBackgroundPanel.SetActive(true);
             }
-
             UpdateMainInventoryUIVisibility();
         }
     }
@@ -421,7 +366,6 @@ public class InventoryManager : MonoBehaviour
         if (mainInventoryPanel.activeSelf)
         {
             mainInventoryPanel.SetActive(false);
-
             if (inventoryBackgroundPanel != null)
             {
                 inventoryBackgroundPanel.SetActive(false);
@@ -436,12 +380,6 @@ public class InventoryManager : MonoBehaviour
 
     public void ToggleMainInventory()
     {
-        if (!isStorageUnlocked)
-        {
-            Debug.Log("Нельзя открыть склад, он не куплен.");
-            return;
-        }
-
         if (mainInventoryPanel.activeSelf)
         {
             CloseInventory();
@@ -452,10 +390,11 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Этот метод теперь вызывается из UpdateInventorySizeBasedOnUpgrades
     public void SetMainInventorySize(int numberOfRows)
     {
         currentMainInventoryRows = Mathf.Clamp(numberOfRows, 1, maxMainInventoryRows);
-        Debug.Log($"Main inventory size set to {currentMainInventoryRows} rows.");
+        Debug.Log($"Размер основного инвентаря установлен на {currentMainInventoryRows} строк.");
         UpdateMainInventoryUIVisibility();
         ClearInactiveSlots();
         OnInventoryChanged?.Invoke();
@@ -463,7 +402,7 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateMainInventoryUIVisibility()
     {
-        if (!mainInventoryPanel.activeSelf)
+        if (!mainInventoryPanel.activeSelf && mainInventorySlotsUI.Count > 0)
         {
             return;
         }
@@ -502,12 +441,14 @@ public class InventoryManager : MonoBehaviour
         {
             if (!IsSlotActive(i) && inventoryItems[i] != null && !inventoryItems[i].IsEmpty)
             {
-                Debug.LogWarning($"Clearing item '{inventoryItems[i].itemData.itemName}' from inactive slot {i}");
+                Debug.LogWarning($"Очистка предмета '{inventoryItems[i].itemData.itemName}' из неактивного слота {i}");
                 inventoryItems[i] = null;
             }
         }
     }
 
+    // Остальные методы (MoveItem, RemoveItemByType, GetTotalItemQuantity, CheckForSpace) остаются без изменений.
+    // ...
     public void MoveItem(int fromIndex, int toIndex)
     {
         int currentSize = GetCurrentInventorySize();
@@ -531,8 +472,6 @@ public class InventoryManager : MonoBehaviour
         InventoryItem itemFrom = inventoryItems[fromIndex];
         InventoryItem itemTo = inventoryItems[toIndex];
 
-        Debug.Log($"Attempting to move item from {fromIndex} ({itemFrom?.itemData?.itemName ?? "Empty"}) to {toIndex} ({itemTo?.itemData?.itemName ?? "Empty"})");
-
         if (itemFrom != null && !itemFrom.IsEmpty && itemTo != null && !itemTo.IsEmpty &&
             itemFrom.itemData == itemTo.itemData && itemFrom.itemData.isStackable)
         {
@@ -547,11 +486,9 @@ public class InventoryManager : MonoBehaviour
                 {
                     inventoryItems[fromIndex] = null;
                 }
-                Debug.Log($"Merged stacks: Moved {amountToMove} of {itemFrom.itemData.itemName}. From Qty: {itemFrom.quantity}, To Qty: {itemTo.quantity}");
             }
             else
             {
-                Debug.Log("Merge failed: Target stack is full. Swapping instead.");
                 inventoryItems[toIndex] = itemFrom;
                 inventoryItems[fromIndex] = itemTo;
             }
@@ -560,7 +497,6 @@ public class InventoryManager : MonoBehaviour
         {
             inventoryItems[toIndex] = itemFrom;
             inventoryItems[fromIndex] = itemTo;
-            Debug.Log("Swapped items between slots.");
         }
 
         UpdateSlotUI(fromIndex);
