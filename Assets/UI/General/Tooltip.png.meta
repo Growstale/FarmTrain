@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d77b30c1799f2e74cab56fc161232055
+guid: 9572231486bbfc24b9ea14233b7470ff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3001666899468157808
-    second: InventoryDisabled_0
+      213: -516091054131125173
+    second: Tooltip_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: InventoryDisabled_0
+      name: Tooltip_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 84
-        height: 84
+        width: 250
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07309dc342018a920800000000000000
-      internalID: 3001666899468157808
+      spriteID: b44e1ceabe976d8f0800000000000000
+      internalID: -516091054131125173
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      InventoryDisabled_0: 3001666899468157808
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
