@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      station_savann_v2_0: 1903539465912875495
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

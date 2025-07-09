@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 12_Growing_Wealth
+  m_Name: 12_Growth_Spurt
   m_EditorClassIdentifier: 
-  id: 12_Growing_Wealth
+  id: 12_Growth_Spurt
   title: Growing Wealth
-  description: Sell goods to earn a total of [Amount] coins.
-  shortDescription: Earn More Coins
+  description: Use fertilizer on a crop to make it grow faster.
+  shortDescription: Use Fertilizer
   gameLevel: 2
   phase: 0
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 7
-    targetID: 
-    requiredAmount: 20
+  - goalType: 5
+    targetID: Fertilizer
+    requiredAmount: 1
     targetIDs: []
     currentAmount: 0
-  rewardXP: 30
+  rewardXP: 15
   status: 0
   isPinned: 0
   hasBeenViewed: 0

@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantName: Tomato
   growthStagesSprites: []
-  timePerGrowthStage: 10
-  waterNeededInterval: 5
-  fertilizerGrowthMultiplier: 1.5
+  timePerGrowthStage: 17.5
+  waterNeededInterval: 23
+  fertilizerGrowthMultiplier: 1.2
   Weight: 1
-  harvestedCrop: {fileID: 0}
-  seedItem: {fileID: 0}
+  plantingSound: {fileID: 0}
+  harvestedCrop: {fileID: 11400000, guid: 53e88128c33d69242b0bb49eb17adb43, type: 2}
+  seedItem: {fileID: 11400000, guid: ecb3f18c3c2d31e46a697743764ef0bf, type: 2}
   PlantPrefab: {fileID: 0}
-  seedDropChance: 0.8
+  seedDropChance: 0.35
