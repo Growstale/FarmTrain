@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 5
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Corn
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

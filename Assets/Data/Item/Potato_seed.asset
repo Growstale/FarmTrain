@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 2
   isStackable: 1
   maxStackSize: 16
-  description: ttest
+  description: Potato seeds
   associatedPlantData: {fileID: 11400000, guid: 247b5a6db66f2414ea17449cb0845598, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

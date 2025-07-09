@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 2
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Pumpkin seeds
   associatedPlantData: {fileID: 11400000, guid: 3ff7e1a616c656e4f9254707d4dfa1a8, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

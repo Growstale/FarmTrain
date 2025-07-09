@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 0
   isStackable: 0
   maxStackSize: 16
-  description: 
+  description: Bucket
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

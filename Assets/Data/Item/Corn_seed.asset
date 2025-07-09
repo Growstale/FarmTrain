@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 2
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Corn seeds
   associatedPlantData: {fileID: 11400000, guid: e941d544150a994448da3acf24374769, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}
