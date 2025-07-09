@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 4
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Wool
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

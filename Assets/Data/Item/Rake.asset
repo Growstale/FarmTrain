@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 1
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Rake
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}
