@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Wool
   m_EditorClassIdentifier: 
   itemName: Wool
-  itemIcon: {fileID: -4213263217045903187, guid: 0bfe67e3cf42996408e1ba0656068c79, type: 3}
+  itemIcon: {fileID: 1245582644275803429, guid: 4b30e05a6879be84e844d620ed61b46e, type: 3}
   itemType: 4
   isStackable: 1
   maxStackSize: 16
   description: 
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
+  associatedBedData: {fileID: 0}

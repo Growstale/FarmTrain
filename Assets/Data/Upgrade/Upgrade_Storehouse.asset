@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade_Storehouse
   m_EditorClassIdentifier: 
   itemName: Upgrade_Storehouse
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: -7109449984208053174, guid: 39d5d7b018c104b49b93dcf39444f57c, type: 3}
   itemType: 8
   isStackable: 0
   maxStackSize: 16
