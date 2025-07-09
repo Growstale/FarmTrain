@@ -6893,7 +6893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2020051689}
   gridSize: {x: 12, y: 2}
-  startPosition: {x: 6, y: -1.9}
+  startPosition: {x: 6, y: -2}
 --- !u!1 &628985077
 GameObject:
   m_ObjectHideFlags: 0
@@ -11820,7 +11820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2020051689}
   gridSize: {x: 12, y: 2}
-  startPosition: {x: 6, y: -3.2}
+  startPosition: {x: 6, y: -3.1}
 --- !u!1 &998958726
 GameObject:
   m_ObjectHideFlags: 0
