@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      zabor_small_kormushka_0: 6981296335943458851
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

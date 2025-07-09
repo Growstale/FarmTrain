@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      zabor_small_updated_0: -3736749150921302761
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -18291,12 +18291,12 @@ MonoBehaviour:
       providesAutoFeeding: 0
       upgradeApplySound: {fileID: 0}
     - penSprite: {fileID: -3736749150921302761, guid: 774870f85152fa2459a2f541ef75cb4d, type: 3}
-      capacity: 3
+      capacity: 6
       requiredUpgradeItem: {fileID: 11400000, guid: 12523f2bc659cda40a083d168cc184bc, type: 2}
       providesAutoFeeding: 0
       upgradeApplySound: {fileID: 0}
     - penSprite: {fileID: 6981296335943458851, guid: c491bca33be4fb145ae76aba207dca94, type: 3}
-      capacity: 3
+      capacity: 7
       requiredUpgradeItem: {fileID: 11400000, guid: 367f94408cbfc8744a90a86411175319, type: 2}
       providesAutoFeeding: 1
       upgradeApplySound: {fileID: 0}
@@ -18336,12 +18336,12 @@ MonoBehaviour:
       providesAutoFeeding: 0
       upgradeApplySound: {fileID: 0}
     - penSprite: {fileID: 5519604605700917691, guid: 16d2f3f5035419747ac620768f3a061d, type: 3}
-      capacity: 2
+      capacity: 4
       requiredUpgradeItem: {fileID: 11400000, guid: 7a74c5e0bb5f0b04cb867c9f3012a49f, type: 2}
       providesAutoFeeding: 0
       upgradeApplySound: {fileID: 0}
     - penSprite: {fileID: -3736749150921302761, guid: 774870f85152fa2459a2f541ef75cb4d, type: 3}
-      capacity: 3
+      capacity: 5
       requiredUpgradeItem: {fileID: 11400000, guid: 565248012331ce54ba69c359ae5d5ae5, type: 2}
       providesAutoFeeding: 0
       upgradeApplySound: {fileID: 0}
@@ -24448,6 +24448,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 55ec060ce1eaade4fbb67b1c26a97293, type: 2}
   - {fileID: 11400000, guid: b8a8071a32e7d8c4c9a62e56a168b9a8, type: 2}
   - {fileID: 11400000, guid: 6ccd28c44bb2ee54981ead23e2392f72, type: 2}
+  - {fileID: 11400000, guid: 125feca80d1a9834593f59a6f55d96ab, type: 2}
 --- !u!114 &2024606369
 MonoBehaviour:
   m_ObjectHideFlags: 0

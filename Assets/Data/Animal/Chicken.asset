@@ -29,4 +29,4 @@ MonoBehaviour:
   requiredToolForHarvest: {fileID: 0}
   fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
   fertilizerInterval: 23
-  fertilizerAmount: 1
+  fertilizerAmount: 0

@@ -18,12 +18,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fba6b8ed3a407f048bff93c5aa04ea39, type: 3}
   - {fileID: 7145453349921352395, guid: 4acac9f0c8e317d40986a408c09294eb, type: 3}
   - {fileID: 5756307032801077822, guid: d446a27b3ee7ce14ea65b9d602e09f3e, type: 3}
-  timePerGrowthStage: 14
-  waterNeededInterval: 20
-  fertilizerGrowthMultiplier: 1.5
+  timePerGrowthStage: 22.5
+  waterNeededInterval: 22.5
+  fertilizerGrowthMultiplier: 1.2
   Weight: 4
   plantingSound: {fileID: 8300000, guid: 4d27375a2093b99419ef23a22bd565bc, type: 3}
   harvestedCrop: {fileID: 11400000, guid: 02209db07b109f84d8b84068d0ac74de, type: 2}
   seedItem: {fileID: 11400000, guid: 658319deb698b5f4f9f5f006f8679f28, type: 2}
   PlantPrefab: {fileID: 3244092318414408600, guid: 325c914ce74109646ad65cc7dabfb389, type: 3}
-  seedDropChance: 0.8
+  seedDropChance: 0.35

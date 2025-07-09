@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      lavka_savann_0: 2320320156498017979
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
