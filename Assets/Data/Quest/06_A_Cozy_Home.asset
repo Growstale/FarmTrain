@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 05_A_Cozy_Home
+  m_Name: 06_A_Cozy_Home
   m_EditorClassIdentifier: 
-  id: 05_A_Cozy_Home
+  id: 06_A_Cozy_Home
   title: A Cozy Home
   description: Buy the upgrade to repair the sheep pen.
   shortDescription: Repair Sheep Pen
   gameLevel: 1
   phase: 1
-  nextQuest: {fileID: 0}
+  nextQuest: {fileID: 11400000, guid: 239c99bc62a925e48885dc74833c9230, type: 2}
   goals:
   - goalType: 2
     targetID: Upgrade_SheepPen_Repair
@@ -28,4 +28,4 @@ MonoBehaviour:
   rewardXP: 10
   status: 2
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1

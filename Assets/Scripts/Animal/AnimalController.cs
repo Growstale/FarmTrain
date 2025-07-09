@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
+// Этот enum остается без изменений
+public enum AnimalProductionState
+{
+    WaitingForFeed,
+    ReadyForProduct,
+    ReadyForFertilizer
+}
+
 public class AnimalController : MonoBehaviour
 {
     [Header("Data & Links")]
@@ -23,9 +31,8 @@ public class AnimalController : MonoBehaviour
     private Bounds movementBounds;
     private bool boundsInitialized = false;
 
-    private float feedTimer;
-    private float productionTimer;
-    private float fertilizerTimer;
+    private float cycleTimer;
+    private AnimalProductionState productionState;
     private float stateChangeTimer;
 
     private bool needsFeeding = false;
@@ -80,6 +87,13 @@ public class AnimalController : MonoBehaviour
         SetNewStateTimer(AnimalState.Idle);
         UpdateAppearance();
         CheckForAchievement(animalData.speciesName);
+
+        if (currentStateData == null)
+        {
+            this.productionState = AnimalProductionState.WaitingForFeed;
+            this.cycleTimer = animalData.feedInterval;
+        }
+
         if (soundCoroutine == null)
         {
             soundCoroutine = StartCoroutine(RandomSoundCoroutine());
@@ -90,19 +104,16 @@ public class AnimalController : MonoBehaviour
     public void InitializeWithState(AnimalStateData stateData, Bounds bounds)
     {
         currentStateData = stateData;
-        animalData = stateData.animalData; // Берем AnimalData из состояния
+        animalData = stateData.animalData;
 
-        // Загружаем таймеры из сохраненных данных
-        feedTimer = stateData.feedTimer;
-        productionTimer = stateData.productionTimer;
-        fertilizerTimer = stateData.fertilizerTimer;
+        this.productionState = stateData.productionState;
+        this.cycleTimer = stateData.cycleTimer;
 
-        // Остальная часть вашей инициализации
+        CheckNeeds();
+
         InitializeMovementBounds(bounds, false);
-        // ... и так далее. Проверьте ваш Start() - возможно, что-то оттуда надо перенести сюда.
-        // Важно, чтобы InitializeMovementBounds вызывался после того, как animalData уже установлено.
     }
-   
+
     public void InitializeMovementBounds(Bounds bounds, bool setInitialPosition)
     {
         if (myTransform == null)
@@ -138,9 +149,8 @@ public class AnimalController : MonoBehaviour
         Debug.Log("SaveState!!!");
         if (currentStateData != null)
         {
-            currentStateData.feedTimer = this.feedTimer;
-            currentStateData.productionTimer = this.productionTimer;
-            currentStateData.fertilizerTimer = this.fertilizerTimer;
+            currentStateData.productionState = this.productionState;
+            currentStateData.cycleTimer = this.cycleTimer;
 
             currentStateData.lastPosition = transform.position;
             currentStateData.hasBeenPlaced = true;
@@ -148,7 +158,6 @@ public class AnimalController : MonoBehaviour
             Debug.Log($"<color=orange>[AnimalController]</color> Сохраняю состояние для {animalData.speciesName}. " +
           $"Позиция: {currentStateData.lastPosition}. " +
           $"Флаг hasBeenPlaced теперь: <color=yellow>{currentStateData.hasBeenPlaced}</color>");
-
         }
         else
         {
@@ -156,32 +165,31 @@ public class AnimalController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (!boundsInitialized || animalData == null) return;
 
-        void Update()
+        if (currentState != AnimalState.NeedsAttention)
         {
-            if (!boundsInitialized || animalData == null) return;
+            UpdateTimers(Time.deltaTime);
+            CheckNeeds();
+        }
 
-            if (currentState != AnimalState.NeedsAttention)
+        if (activeThoughtBubble != null && activeThoughtBubble.gameObject.activeSelf)
+        {
+            activeThoughtBubble.transform.position = myTransform.position + thoughtBubbleOffset;
+        }
+
+        if (isMoving && spriteRenderer != null)
+        {
+            float horizontalDifference = currentTargetPosition.x - myTransform.position.x;
+
+            if (Mathf.Abs(horizontalDifference) > 0.01f)
             {
-                UpdateTimers(Time.deltaTime);
-                CheckNeeds();
-            }
-
-            if (activeThoughtBubble != null && activeThoughtBubble.gameObject.activeSelf)
-            {
-                activeThoughtBubble.transform.position = myTransform.position + thoughtBubbleOffset;
-            }
-
-            if (isMoving && spriteRenderer != null)
-            {
-                float horizontalDifference = currentTargetPosition.x - myTransform.position.x;
-
-                if (Mathf.Abs(horizontalDifference) > 0.01f)
-                {
-                    spriteRenderer.flipX = (horizontalDifference > 0);
-                }
+                spriteRenderer.flipX = (horizontalDifference > 0);
             }
         }
+    }
 
     private IEnumerator StateMachineCoroutine()
     {
@@ -234,59 +242,71 @@ public class AnimalController : MonoBehaviour
         }
     }
 
+    // --- ИЗМЕНЕНИЕ: Логика авто-кормушки теперь вызывает новый метод перехода ---
     private void UpdateTimers(float deltaTime)
     {
-        // Проверяем, есть ли у нас автокормушка
-        bool hasAutoFeeder = AnimalPenManager.Instance.HasAutoFeeder(this.animalData);
-
-        // Уменьшаем таймер голода, ТОЛЬКО если автокормушки НЕТ
-        if (!hasAutoFeeder && feedTimer > 0)
+        if (productionState == AnimalProductionState.WaitingForFeed && AnimalPenManager.Instance.HasAutoFeeder(this.animalData))
         {
-            feedTimer -= deltaTime;
+            Debug.Log($"[Auto-Feeder] Животное {animalData.speciesName} накормлено автоматически. Переход к следующему этапу.");
+            TransitionToNextProductionState(); // Используем новый метод для перехода
+            return;
         }
 
-        // Остальные таймеры работают как обычно
-        if (productionTimer > 0) productionTimer -= deltaTime;
-        if (fertilizerTimer > 0) fertilizerTimer -= deltaTime;
+        if (cycleTimer > 0)
+        {
+            cycleTimer -= deltaTime;
+        }
     }
 
     private void CheckNeeds()
     {
+        if (cycleTimer > 0)
+        {
+            if (currentState == AnimalState.NeedsAttention && !needsFeeding && !hasProductReady && !hasFertilizerReady)
+            {
+                Debug.LogWarning($"[CheckNeeds] In NeedsAttention state, but no active need flags. Reverting to Idle.");
+                HideThoughtBubble();
+                currentState = AnimalState.Idle;
+                SetNewStateTimer(currentState);
+            }
+            return;
+        }
+
         bool needsAttentionNow = false;
         ItemData nextNeedIcon = null;
-        bool didProductBecomeReady = false;
 
-        // <<< КЛЮЧЕВОЕ ИЗМЕНЕНИЕ >>>
-        // Проверяем, есть ли у нас автокормушка
-        bool hasAutoFeeder = AnimalPenManager.Instance.HasAutoFeeder(this.animalData);
+        switch (productionState)
+        {
+            case AnimalProductionState.WaitingForFeed:
+                if (!needsFeeding)
+                {
+                    Debug.Log($"[CheckNeeds] State: WaitingForFeed. Timer is up. Animal needs food.");
+                    needsFeeding = true;
+                    nextNeedIcon = animalData.requiredFood;
+                    needsAttentionNow = true;
+                }
+                break;
 
-        // Проверяем потребность в еде, ТОЛЬКО если автокормушки НЕТ
-        if (!hasAutoFeeder && !needsFeeding && feedTimer <= 0)
-        {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Еда ({animalData.requiredFood.itemName})");
-            needsFeeding = true;
-            nextNeedIcon = animalData.requiredFood;
-            needsAttentionNow = true;
-        }
-        else if (!hasProductReady && productionTimer <= 0)
-        {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Продукт ({animalData.productProduced.itemName})");
-            hasProductReady = true;
-            didProductBecomeReady = true;
-            nextNeedIcon = animalData.productProduced;
-            needsAttentionNow = true;
-        }
-        else if (!hasFertilizerReady && fertilizerTimer <= 0)
-        {
-            Debug.Log($"[CheckNeeds] Обнаружена потребность: Удобрение ({animalData.fertilizerProduced.itemName})");
-            hasFertilizerReady = true;
-            nextNeedIcon = animalData.fertilizerProduced;
-            needsAttentionNow = true;
-        }
+            case AnimalProductionState.ReadyForProduct:
+                if (!hasProductReady)
+                {
+                    Debug.Log($"[CheckNeeds] State: ReadyForProduct. Timer is up. Product is ready.");
+                    hasProductReady = true;
+                    UpdateAppearance();
+                    nextNeedIcon = animalData.productProduced;
+                    needsAttentionNow = true;
+                }
+                break;
 
-        if (didProductBecomeReady)
-        {
-            UpdateAppearance();
+            case AnimalProductionState.ReadyForFertilizer:
+                if (!hasFertilizerReady)
+                {
+                    Debug.Log($"[CheckNeeds] State: ReadyForFertilizer. Timer is up. Fertilizer is ready.");
+                    hasFertilizerReady = true;
+                    nextNeedIcon = animalData.fertilizerProduced;
+                    needsAttentionNow = true;
+                }
+                break;
         }
 
         if (needsAttentionNow)
@@ -299,32 +319,6 @@ public class AnimalController : MonoBehaviour
                 ShowThoughtBubble(currentNeedIcon);
             }
         }
-        else if (currentState == AnimalState.NeedsAttention)
-        {
-            Debug.LogWarning($"[CheckNeeds] Потребностей не найдено, но состояние было NeedsAttention. Возвращаем в Idle.");
-            HideThoughtBubble();
-            currentState = AnimalState.Idle;
-            SetNewStateTimer(currentState);
-        }
-    }
-
-    private void ResetFeedTimer()
-    {
-        feedTimer = animalData.feedInterval;
-        needsFeeding = false;
-    }
-
-    private void ResetProductionTimer()
-    {
-        productionTimer = animalData.productionInterval;
-        hasProductReady = false;
-        UpdateAppearance();
-    }
-
-    private void ResetFertilizerTimer()
-    {
-        fertilizerTimer = animalData.fertilizerInterval;
-        hasFertilizerReady = false;
     }
 
     private void SetNewStateTimer(AnimalState forState)
@@ -451,6 +445,65 @@ public class AnimalController : MonoBehaviour
         return currentState.ToString();
     }
 
+    // --- НОВЫЙ МЕТОД: "Умный" переход к следующему состоянию ---
+    private void TransitionToNextProductionState()
+    {
+        // Определяем, какое состояние должно быть следующим в идеале
+        AnimalProductionState nextState;
+        switch (productionState)
+        {
+            case AnimalProductionState.WaitingForFeed:
+                nextState = AnimalProductionState.ReadyForProduct;
+                break;
+            case AnimalProductionState.ReadyForProduct:
+                nextState = AnimalProductionState.ReadyForFertilizer;
+                break;
+            case AnimalProductionState.ReadyForFertilizer:
+            default:
+                nextState = AnimalProductionState.WaitingForFeed; // Начинаем цикл заново
+                break;
+        }
+
+        // Проверяем, не нужно ли пропустить следующий этап
+        // Мы делаем это в цикле, чтобы можно было пропустить несколько этапов подряд
+        int safetyCounter = 0; // На случай если все количества = 0, чтобы избежать бесконечного цикла
+        while (safetyCounter < 4)
+        {
+            if (nextState == AnimalProductionState.ReadyForProduct && animalData.productAmount <= 0)
+            {
+                Debug.Log($"Пропускаем этап продукта для {animalData.speciesName} (количество = 0).");
+                nextState = AnimalProductionState.ReadyForFertilizer; // Пробуем перейти к удобрению
+            }
+            else if (nextState == AnimalProductionState.ReadyForFertilizer && animalData.fertilizerAmount <= 0)
+            {
+                Debug.Log($"Пропускаем этап удобрения для {animalData.speciesName} (количество = 0).");
+                nextState = AnimalProductionState.WaitingForFeed; // Пробуем вернуться к началу цикла
+            }
+            else
+            {
+                break; // Найден подходящий этап, выходим из цикла
+            }
+            safetyCounter++;
+        }
+
+        // Устанавливаем новое состояние и соответствующий таймер
+        productionState = nextState;
+        switch (productionState)
+        {
+            case AnimalProductionState.WaitingForFeed:
+                cycleTimer = animalData.feedInterval;
+                break;
+            case AnimalProductionState.ReadyForProduct:
+                cycleTimer = animalData.productionInterval;
+                break;
+            case AnimalProductionState.ReadyForFertilizer:
+                cycleTimer = animalData.fertilizerInterval;
+                break;
+        }
+        Debug.Log($"Переход в состояние {productionState}. Таймер установлен на {cycleTimer} секунд.");
+    }
+
+    // --- ИЗМЕНЕНИЕ: AttemptInteraction теперь использует новый метод перехода ---
     public void AttemptInteraction()
     {
         if (inventoryManager == null)
@@ -464,81 +517,53 @@ public class AnimalController : MonoBehaviour
 
         if (needsFeeding)
         {
-            Debug.Log($"Попытка взаимодействия: {animalData.speciesName} нуждается в {animalData.requiredFood.itemName}");
             itemInvolved = animalData.requiredFood;
+            InventoryItem selectedItem = inventoryManager.GetSelectedItem();
+            int selectedIndex = inventoryManager.SelectedSlotIndex;
 
-            if (inventoryManager == null)
+            if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData == animalData.requiredFood)
             {
-                Debug.LogError($"Не могу проверить инвентарь для кормления {animalData.speciesName} - ссылка на InventoryManager отсутствует!");
-                interactionSuccessful = false;
+                inventoryManager.RemoveItem(selectedIndex, 1);
+
+                needsFeeding = false;
+                TransitionToNextProductionState(); // Используем новый метод
+
+                interactionSuccessful = true;
+                if (QuestManager.Instance != null)
+                {
+                    QuestManager.Instance.AddQuestProgress(GoalType.FeedAnimal, animalData.speciesName, 1);
+                }
             }
             else
             {
-                InventoryItem selectedItem = inventoryManager.GetSelectedItem();
-                int selectedIndex = inventoryManager.SelectedSlotIndex;
-
-                if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData == animalData.requiredFood)
-                {
-                    Debug.Log($"Игрок держит {selectedItem.itemData.itemName} в слоте {selectedIndex}. Пытаемся удалить 1 шт.");
-                    inventoryManager.RemoveItem(selectedIndex, 1);
-                    ResetFeedTimer();
-                    needsFeeding = false;
-                    interactionSuccessful = true;
-                    Debug.Log($"Успешно покормлен {animalData.speciesName}");
-                    if (QuestManager.Instance != null)
-                    {
-                        // Мы передаем тип цели, ID (имя вида животного) и количество (1)
-                        QuestManager.Instance.AddQuestProgress(GoalType.FeedAnimal, animalData.speciesName, 1);
-                    }
-                }
-                else
-                {
-                    string reason = "Неизвестная причина";
-                    if (selectedItem == null || selectedItem.IsEmpty)
-                    {
-                        reason = "В выбранном слоте (хотбар) нет предмета";
-                    }
-                    else if (selectedItem.itemData != animalData.requiredFood)
-                    {
-                        reason = $"Выбран неверный предмет ({selectedItem.itemData.itemName}), нужен {animalData.requiredFood.itemName}";
-                    }
-                    Debug.Log($"Не удалось покормить {animalData.speciesName}: {reason}.");
-                    interactionSuccessful = false;
-                }
+                string reason = (selectedItem == null || selectedItem.IsEmpty) ? "В выбранном слоте (хотбар) нет предмета" : $"Выбран неверный предмет ({selectedItem.itemData.itemName}), нужен {animalData.requiredFood.itemName}";
+                Debug.Log($"Не удалось покормить {animalData.speciesName}: {reason}.");
+                interactionSuccessful = false;
             }
         }
         else if (hasProductReady)
         {
             itemInvolved = animalData.productProduced;
-            Debug.Log($"Попытка собрать {itemInvolved.itemName} c {animalData.speciesName}");
-
             bool toolCheckPassed = true;
             if (animalData.requiredToolForHarvest != null)
             {
-                Debug.Log($"Для сбора {itemInvolved.itemName} требуется {animalData.requiredToolForHarvest.itemName}");
                 InventoryItem selectedItem = inventoryManager.GetSelectedItem();
-
                 if (selectedItem == null || selectedItem.IsEmpty || selectedItem.itemData != animalData.requiredToolForHarvest)
                 {
-                    Debug.Log($"Не удалось собрать: Игрок не держит {animalData.requiredToolForHarvest.itemName}. Выбрано: {selectedItem?.itemData?.itemName ?? "Ничего"}");
                     toolCheckPassed = false;
-                }
-                else
-                {
-                    Debug.Log($"Игрок держит нужный инструмент: {selectedItem.itemData.itemName}");
                 }
             }
 
             if (toolCheckPassed)
             {
-                bool added = inventoryManager.AddItem(animalData.productProduced, animalData.productAmount);
-
-                if (added)
+                if (inventoryManager.AddItem(animalData.productProduced, animalData.productAmount))
                 {
-                    Debug.Log($"Успешно собрано {animalData.productAmount} {animalData.productProduced.itemName}");
                     CheckForAchievement();
+
                     hasProductReady = false;
-                    ResetProductionTimer();
+                    UpdateAppearance();
+                    TransitionToNextProductionState(); // Используем новый метод
+
                     interactionSuccessful = true;
                 }
                 else
@@ -549,15 +574,12 @@ public class AnimalController : MonoBehaviour
         }
         else if (hasFertilizerReady)
         {
-            Debug.Log($"Попытка собрать {animalData.fertilizerProduced.itemName} c {animalData.speciesName}");
-            bool added = inventoryManager.AddItem(animalData.fertilizerProduced, animalData.fertilizerAmount);
-
-            if (added)
+            itemInvolved = animalData.fertilizerProduced;
+            if (inventoryManager.AddItem(animalData.fertilizerProduced, animalData.fertilizerAmount))
             {
-                Debug.Log($"Успешно собрано {animalData.fertilizerAmount} {animalData.fertilizerProduced.itemName}");
-                
-                ResetFertilizerTimer();
                 hasFertilizerReady = false;
+                TransitionToNextProductionState(); // Используем новый метод
+
                 interactionSuccessful = true;
             }
             else
@@ -570,14 +592,11 @@ public class AnimalController : MonoBehaviour
         {
             Debug.Log($"Взаимодействие с {animalData.speciesName} (предмет: {itemInvolved?.itemName}) было УСПЕШНЫМ.");
             HideThoughtBubble();
-
-            Debug.Log("Проверяем нужды СРАЗУ ПОСЛЕ успешного взаимодействия...");
             CheckNeeds();
-
-            Debug.Log($"Состояние ПОСЛЕ CheckNeeds: {currentState}. Перезапускаем StateMachineCoroutine.");
 
             StopAllCoroutines();
             StartCoroutine(StateMachineCoroutine());
+            StartCoroutine(RandomSoundCoroutine());
 
             Debug.Log($"{animalData.speciesName} обработал успешное взаимодействие и перезапустил StateMachine.");
         }
@@ -595,15 +614,12 @@ public class AnimalController : MonoBehaviour
         {
             StopCoroutine(soundCoroutine);
         }
-
     }
 
     void CheckForAchievement(string name)
     {
-
         if (AchievementManager.allTpyesAnimal.Contains(name))
         {
-           
             if (AchievementManager.allTpyesPlant.Remove(name))
                 GameEvents.TriggerAddedNewAnimal(1);
             else
@@ -611,20 +627,17 @@ public class AnimalController : MonoBehaviour
                 Debug.LogWarning("This type of animal is undefind");
             }
         }
-
     }
     void CheckForAchievement()
     {
-        
-            GameEvents.TriggerCollectAnimalProduct(1);
+        GameEvents.TriggerCollectAnimalProduct(1);
     }
     private IEnumerator RandomSoundCoroutine()
     {
         while (true)
         {
-            float delay = Random.Range(5f, 100f); // интервал между звуками
+            float delay = Random.Range(5f, 100f);
             yield return new WaitForSeconds(delay);
-
             PlayRandomSound();
         }
     }
@@ -637,6 +650,4 @@ public class AnimalController : MonoBehaviour
             Debug.Log($"Звук животного ({animalData.speciesName}): {clip.name}");
         }
     }
-
-
 }

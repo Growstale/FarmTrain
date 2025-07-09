@@ -1722,13 +1722,10 @@ MonoBehaviour:
   inventoryBackgroundPanel: {fileID: 2113983622}
   storageUpgradeData: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
   selectedSlotIndex: 0
-  BedManager: {fileID: 0}
   startingItems:
   - itemData: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
     quantity: 16
   - itemData: {fileID: 11400000, guid: f5e6ca85a7857724b958582cabbdb35f, type: 2}
-    quantity: 1
-  - itemData: {fileID: 11400000, guid: 6a135fc80061b214ba243551e925de14, type: 2}
     quantity: 1
   - itemData: {fileID: 11400000, guid: 9cfaa8b293a04744d9cc8017c4231301, type: 2}
     quantity: 1
@@ -24440,10 +24437,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3e7a76cc419c5884994d427184bc9700, type: 2}
   - {fileID: 11400000, guid: 69078eff1cdfcfc4ca30df2a75fde343, type: 2}
   - {fileID: 11400000, guid: eea12ffab89cb18449a3567bb576cf39, type: 2}
-  - {fileID: 11400000, guid: bc8dfae08b390714aa26c404e78bf172, type: 2}
-  - {fileID: 11400000, guid: 283dc51df38caa049ad9020192018885, type: 2}
-  - {fileID: 11400000, guid: 239c99bc62a925e48885dc74833c9230, type: 2}
   - {fileID: 11400000, guid: 640b297ae07bf84479911e1776b0cda4, type: 2}
+  - {fileID: 11400000, guid: bc8dfae08b390714aa26c404e78bf172, type: 2}
+  - {fileID: 11400000, guid: 239c99bc62a925e48885dc74833c9230, type: 2}
+  - {fileID: 11400000, guid: 283dc51df38caa049ad9020192018885, type: 2}
   - {fileID: 11400000, guid: 3b6e7b983968519479a90c95d73fc089, type: 2}
   - {fileID: 11400000, guid: 55ec060ce1eaade4fbb67b1c26a97293, type: 2}
   - {fileID: 11400000, guid: b8a8071a32e7d8c4c9a62e56a168b9a8, type: 2}
