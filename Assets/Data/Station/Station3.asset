@@ -17,4 +17,4 @@ MonoBehaviour:
   stallInventories:
   - {fileID: 11400000, guid: 4f8046d7aac1c4b48bfb8beed0483c0e, type: 2}
   - {fileID: 11400000, guid: b8237a1ac6a177648aa90d9b04cdcef4, type: 2}
-  - {fileID: 11400000, guid: 70f4ad963fd71724ba7d8212fda05cd0, type: 2}
+  - {fileID: 11400000, guid: cc0248e563e9c904bb3db9f9d3ee7902, type: 2}

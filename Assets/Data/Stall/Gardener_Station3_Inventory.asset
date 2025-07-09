@@ -14,10 +14,101 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopName: Gardener
   shopItems:
-  - itemData: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
+  - itemData: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
+    buyPrice: 25
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 40
+  - itemData: {fileID: 11400000, guid: d93099adf63d4e44dbcf37ebf77e458d, type: 2}
+    buyPrice: 0
+    sellPrice: 19
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: fb90f9481a51ab247830899746aeb1ca, type: 2}
+    buyPrice: 0
+    sellPrice: 125
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
+    buyPrice: 0
+    sellPrice: 12
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
+    buyPrice: 0
+    sellPrice: 10
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 43b94d1f20583344aa509001d129836a, type: 2}
     buyPrice: 5
-    sellPrice: 4
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 10
+  - itemData: {fileID: 11400000, guid: 658319deb698b5f4f9f5f006f8679f28, type: 2}
+    buyPrice: 124
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 15
+  - itemData: {fileID: 11400000, guid: 2e858b5dc9ab0b543a6e41ed2e6e73e4, type: 2}
+    buyPrice: 39
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: b3d81db6279c52f4fab8628f523498dd, type: 2}
+    buyPrice: 4
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 10
+  - itemData: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+    buyPrice: 3
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 10
+  - itemData: {fileID: 11400000, guid: ecb3f18c3c2d31e46a697743764ef0bf, type: 2}
+    buyPrice: 24
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 953de61a69c63584cad127a69960cbfc, type: 2}
+    buyPrice: 66
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 4f3ca974c7570a843b235ef0555056d2, type: 2}
+    buyPrice: 0
+    sellPrice: 212
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
+    buyPrice: 30
+    sellPrice: 10
     forSale: 1
     willBuy: 1
     isInfiniteStock: 0
-    initialStock: 4
+    initialStock: 20

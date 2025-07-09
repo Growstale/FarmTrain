@@ -15,23 +15,44 @@ MonoBehaviour:
   shopName: Animal
   shopItems:
   - itemData: {fileID: 11400000, guid: 951dcf08067b23443a44d474ead9bdb8, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 266
+    sellPrice: 106
     forSale: 1
     willBuy: 1
     isInfiniteStock: 0
-    initialStock: 5
+    initialStock: 2
   - itemData: {fileID: 11400000, guid: 97895cbbaa33cfc4a88f36338e0360ce, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 48
+    sellPrice: 19
+    forSale: 1
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 6
+  - itemData: {fileID: 11400000, guid: fb9d3002e1d61a5488214b450fa6b151, type: 2}
+    buyPrice: 26
+    sellPrice: 10
     forSale: 1
     willBuy: 1
     isInfiniteStock: 0
     initialStock: 5
   - itemData: {fileID: 11400000, guid: fb9d3002e1d61a5488214b450fa6b151, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 26
+    sellPrice: 10
     forSale: 1
     willBuy: 1
     isInfiniteStock: 0
-    initialStock: 5
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 174c96092200cc84cac92854c721a789, type: 2}
+    buyPrice: 0
+    sellPrice: 18
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 30
+  - itemData: {fileID: 11400000, guid: a86972b4b00f5be41a09905289b20b54, type: 2}
+    buyPrice: 0
+    sellPrice: 12
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 30
