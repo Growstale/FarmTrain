@@ -39,8 +39,25 @@ public class BedController : MonoBehaviour
 
     public void ChangeStage(BedData.StageGrowthPlant stage, int idx)
     {
-        
-        Stagebed = stage;
-        _spriteRenderer.sprite = bedData.bedSprites[idx];
+        // --- НАЧАЛО ИСПРАВЛЕНИЯ ---
+        // Если _spriteRenderer еще не был получен (например, потому что Awake еще не вызвался),
+        // то получаем его прямо сейчас.
+        if (_spriteRenderer == null)
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        // --- КОНЕЦ ИСПРАВЛЕНИЯ ---
+
+        // Теперь можно быть уверенным, что _spriteRenderer не null (если компонент вообще есть на объекте)
+        if (bedData != null && bedData.bedSprites.Count > idx)
+        {
+            // Это ваша строка 44
+            _spriteRenderer.sprite = bedData.bedSprites[idx];
+            Debug.Log($"Спрайт грядки изменен на стадию {stage}");
+        }
+        else
+        {
+            Debug.LogError("Не удалось изменить спрайт грядки: bedData не назначен или индекс спрайта выходит за пределы массива.");
+        }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
   m_Name: Bed_item
   m_EditorClassIdentifier: 
-  itemName: Bed
+  itemName: Bed_item
   itemIcon: {fileID: -1829052360224850312, guid: 277ca43ffcc93104abf0ecb15d31c5b9, type: 3}
   itemType: 3
   isStackable: 1

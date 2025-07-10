@@ -288,4 +288,18 @@ public class AchievementManager : MonoBehaviour
         File.WriteAllText(fullPath, json);
         Debug.Log("Progress Saved!");
     }
+
+    public void TestSave()
+    {
+        Debug.Log("--- НАЖАТА КНОПКА ТЕСТОВОГО СОХРАНЕНИЯ ---");
+
+        if (PlantManager.instance != null)
+        {
+            PlantManager.instance.SaveStateToMemory();
+        }
+        else
+        {
+            Debug.LogError("Не удалось выполнить тестовое сохранение: PlantManager.instance не найден!");
+        }
+    }
 }

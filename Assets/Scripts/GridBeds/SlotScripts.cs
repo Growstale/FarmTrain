@@ -214,25 +214,28 @@ public class SlotScripts : MonoBehaviour
         return null;
     }
 
-    public bool ChangeStateBed(BedData.StageGrowthPlant stage, int idx)
+    public bool ChangeStateBed(GameObject bedObject, BedData.StageGrowthPlant stage, int idx)
     {
-        GameObject childBed = FindChildWithTag("Bed");
-        if (childBed != null)
+        if (bedObject == null)
         {
-            BedController bedController = childBed.GetComponent<BedController>();
-            if (bedController != null)
-            {
-                bedController.ChangeStage(stage, idx);
-                return true;
-            }
-            else
-            {
-                Debug.LogError("bedController не найден");
-                return false;
-            }
+            Debug.LogError($"[ОШИБКА] В ChangeStateBed передан пустой объект грядки (null) для слота {gameObject.name}");
+            return false;
         }
-        return false;
+
+        Debug.Log($"[НОВЫЙ ChangeStateBed] Слот: {gameObject.name}. Работаю с переданным объектом {bedObject.name}.");
+        BedController bedController = bedObject.GetComponent<BedController>();
+        if (bedController != null)
+        {
+            bedController.ChangeStage(stage, idx);
+            return true;
+        }
+        else
+        {
+            Debug.LogError($"[ОШИБКА] bedController не найден на переданном объекте {bedObject.name}!");
+            return false;
+        }
     }
+
 
     public void ChangeColor()
     {

@@ -282,5 +282,35 @@ public class ItemSpawner : MonoBehaviour
         Debug.Log($"Попытка спавна не растения, ошибка");
         return null;
     }
+    public void SpawnAndInitializePlant(ItemData seedData, Vector3 position, Vector3 scale, Transform parent, PlantSaveData saveData)
+    {
+        // 1. Используем ваш существующий метод для создания объекта растения
+        // Он уже умеет создавать объект и передавать ему ID слотов
+        GameObject plantObject = SpawnPlant(seedData, position, scale, parent, saveData.occupiedSlots);
+
+        // 2. Проверяем, что растение успешно создалось
+        if (plantObject != null)
+        {
+            // 3. Получаем его контроллер
+            PlantController plantController = plantObject.GetComponent<PlantController>();
+            if (plantController != null)
+            {
+                // 4. Вызываем метод инициализации из сохранения.
+                // Этот метод применит нужную стадию роста, таймеры и т.д.
+                plantController.InitializeFromSave(saveData);
+
+                Debug.Log($"Растение {saveData.plantDataName} успешно восстановлено из сохранения.");
+            }
+            else
+            {
+                // Эта ошибка не должна произойти, если ваш SpawnPlant работает правильно, но проверка не помешает
+                Debug.LogError($"На заспавненном префабе растения '{plantObject.name}' отсутствует компонент PlantController!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Метод SpawnPlant не смог создать объект для {seedData.itemName}. Восстановление прервано.");
+        }
+    }
 
 }
