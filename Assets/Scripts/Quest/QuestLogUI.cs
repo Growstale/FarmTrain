@@ -148,12 +148,16 @@ public class QuestLogUI : MonoBehaviour
 
         foreach (var goal in quest.goals)
         {
+            goalsString += $"{goal.currentAmount} / {goal.requiredAmount}\n";
+
             totalProgress += (float)goal.currentAmount / goal.requiredAmount;
+            Debug.Log($"Загруженный текст цели: '{goal.requiredAmount}'");
+
             activeGoalsCount++;
             allGoalsCompleted = false;
         }
         detailsGoalsText.text = goalsString.TrimEnd('\n'); // Убираем лишний перенос строки
-
+        Debug.Log($"detailsGoalsText.text: '{detailsGoalsText.text}'");
         if (quest.goals.Count > 0)
         {
             if (allGoalsCompleted)
