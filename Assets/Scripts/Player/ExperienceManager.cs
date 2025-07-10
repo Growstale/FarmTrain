@@ -81,6 +81,11 @@ public class ExperienceManager : MonoBehaviour
         UpdateXpThreshold();
         OnXPChanged?.Invoke(CurrentXP, XpForNextPhase);
         QuestManager.Instance.ActivateQuestsForCurrentPhase();
+        if (RadioManager.Instance != null)
+        {
+            RadioManager.Instance.UpdateRadioByLevel(CurrentLevel);
+        }
+
         if (audioSource != null && trainDepartSound != null)
         {
             audioSource.PlayOneShot(trainDepartSound);

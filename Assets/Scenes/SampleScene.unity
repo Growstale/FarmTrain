@@ -4339,13 +4339,12 @@ RectTransform:
   - {fileID: 1568889568}
   - {fileID: 846287615}
   - {fileID: 1810488592}
-  - {fileID: 1496578409}
   m_Father: {fileID: 50078311}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240, y: -28.839}
-  m_SizeDelta: {x: 277.2229, y: 313.6784}
+  m_AnchoredPosition: {x: -240, y: 6.7751}
+  m_SizeDelta: {x: 277.2229, y: 242.464}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &465371328
 MonoBehaviour:
@@ -4364,8 +4363,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
+  m_ChildAlignment: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -8291,7 +8290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 138.61145, y: -117.6294}
+  m_AnchoredPosition: {x: 140, y: -120.65467}
   m_SizeDelta: {x: 280, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &846287616
@@ -8333,7 +8332,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 846287617}
   m_OnClick:
     m_PersistentCalls:
@@ -8694,12 +8693,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f5dcee13ba8c93f409dd196475e40d26, type: 3}
     - {fileID: 8300000, guid: 819958e22320c1b46b8bf4c5e204fbd5, type: 3}
     - {fileID: 8300000, guid: 2dcd0512da74fbb42ab1382b6f138383, type: 3}
+    - {fileID: 8300000, guid: db57f11ddb4bff9429965014efd0a863, type: 3}
     isUnlocked: 1
   - name: FM 92.8
     tracks:
     - {fileID: 8300000, guid: 0d86a67f53400634ab559c42ebe8b1d9, type: 3}
     - {fileID: 8300000, guid: 6902e0f2b6781d84587d3aeebfee2c14, type: 3}
     - {fileID: 8300000, guid: 37d28109c16a6c14aa37c0a5e94ecc2f, type: 3}
+    - {fileID: 8300000, guid: 9b2ae7029b8e6034d941c07d32aef304, type: 3}
     isUnlocked: 1
   - name: FM 99.5
     tracks:
@@ -8707,11 +8708,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 785ebf14ce6ed6944b162f5df3220c35, type: 3}
     - {fileID: 8300000, guid: d6f15c4c86292ff49a393556bdd25ca2, type: 3}
     isUnlocked: 1
-  - name: FM 103.0
-    tracks:
-    - {fileID: 8300000, guid: db57f11ddb4bff9429965014efd0a863, type: 3}
-    - {fileID: 8300000, guid: 9b2ae7029b8e6034d941c07d32aef304, type: 3}
-    isUnlocked: 1
+  stationButtons:
+  - {fileID: 1568889569}
+  - {fileID: 846287616}
+  - {fileID: 1810488593}
   audioSource: {fileID: 887109062}
   stationText: {fileID: 1638634631}
   songText: {fileID: 182409518}
@@ -13677,7 +13677,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 859990682}
   m_HandleRect: {fileID: 859990681}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13991,150 +13991,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.208352, y: 0.81120414}
   m_EdgeRadius: 0
---- !u!1 &1496578408
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496578409}
-  - component: {fileID: 1496578412}
-  - component: {fileID: 1496578411}
-  - component: {fileID: 1496578410}
-  m_Layer: 5
-  m_Name: StationButton4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1496578409
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496578408}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 465371327}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 138.61145, y: -274.4686}
-  m_SizeDelta: {x: 280, y: 73}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1496578410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496578408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: -6134843539987303311, guid: 2412e0cf07b345f43a2541ad0a9800a6, type: 3}
-    m_PressedSprite: {fileID: -8927762369402414205, guid: 33faf459de6b3bb409855fef83977d75, type: 3}
-    m_SelectedSprite: {fileID: -8927762369402414205, guid: 33faf459de6b3bb409855fef83977d75, type: 3}
-    m_DisabledSprite: {fileID: 7321957315217067841, guid: 0df0b93f8ddfe7047a94b20045f04448, type: 3}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 0
-  m_TargetGraphic: {fileID: 1496578411}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 887109063}
-        m_TargetAssemblyTypeName: RadioManager, Assembly-CSharp
-        m_MethodName: SwitchStation
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 519420035}
-        m_TargetAssemblyTypeName: Menu_Sound, Assembly-CSharp
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1496578411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496578408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -8679429543048889170, guid: ec11190ccf76cf6458665954832d13ef, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1496578412
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496578408}
-  m_CullTransparentMesh: 1
 --- !u!1 &1499735696
 GameObject:
   m_ObjectHideFlags: 0
@@ -15180,7 +15036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 138.61145, y: -39.2098}
+  m_AnchoredPosition: {x: 140, y: -36.5}
   m_SizeDelta: {x: 280, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1568889569
@@ -18062,7 +17918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 138.61145, y: -196.04901}
+  m_AnchoredPosition: {x: 140, y: -204.80934}
   m_SizeDelta: {x: 280, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1810488593
@@ -18104,7 +17960,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1810488594}
   m_OnClick:
     m_PersistentCalls:
