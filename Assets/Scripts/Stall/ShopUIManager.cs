@@ -5,12 +5,15 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System;
+using System.Linq;
 
 public class ShopUIManager : MonoBehaviour
 {
     public static ShopUIManager Instance { get; private set; }
 
-    // ... (все поля [SerializeField] остаются без изменений) ...
+    private TooltipTrigger plusButtonTooltip;
+    private TooltipTrigger minusButtonTooltip;
+
     [Header("Main Panel")]
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private TextMeshProUGUI shopNameText;
@@ -57,8 +60,6 @@ public class ShopUIManager : MonoBehaviour
     }
 
 
-    // ... (Start, OpenShop, CloseShop, SetMode, PopulateShopList, OnItemActionClicked, OpenConfirmationPanel - без изменений) ...
-    // Все эти методы остаются прежними
 
     private void Start()
     {
@@ -74,6 +75,10 @@ public class ShopUIManager : MonoBehaviour
         yesButton.onClick.AddListener(ConfirmTransaction);
         cancelButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
         noButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
+
+        plusButtonTooltip = plusButton.GetComponent<TooltipTrigger>();
+        minusButtonTooltip = minusButton.GetComponent<TooltipTrigger>();
+
     }
 
     public void OpenShop(ShopInventoryData shopData)
@@ -96,6 +101,8 @@ public class ShopUIManager : MonoBehaviour
 
         Debug.Log("Закрытие панели магазина.");
         shopPanel.SetActive(false);
+        confirmationPanel.SetActive(false);
+
         currentShopData = null;
 
         if (StallCameraController.Instance != null)
@@ -122,11 +129,24 @@ public class ShopUIManager : MonoBehaviour
         }
         spawnedRows.Clear();
 
-        foreach (var shopItem in currentShopData.shopItems)
-        {
-            if (isBuyMode && !shopItem.forSale) continue;
-            if (!isBuyMode && !shopItem.willBuy) continue;
+        List<ShopItem> itemsToDisplay = new List<ShopItem>();
 
+        if (isBuyMode)
+        {
+            // Фильтруем и СОРТИРУЕМ товары для покупки
+            itemsToDisplay = currentShopData.shopItems
+                .Where(item => item.forSale)
+                .OrderByDescending(item => IsItemPurchaseable(item, out _)) // Сортируем: сначала доступные (true), потом недоступные (false)
+                .ToList();
+        }
+        else
+        {
+            // Для продажи просто фильтруем
+            itemsToDisplay = currentShopData.shopItems.Where(item => item.willBuy).ToList();
+        }
+
+        foreach (var shopItem in itemsToDisplay)
+        {
             GameObject rowGO = Instantiate(shopItemRowPrefab, itemsContentArea);
             ShopItemRow rowScript = rowGO.GetComponent<ShopItemRow>();
 
@@ -142,10 +162,88 @@ public class ShopUIManager : MonoBehaviour
                 playerItemCount = InventoryManager.Instance.GetTotalItemQuantity(shopItem.itemData);
             }
 
+            // Передаем управление в ShopItemRow. Он сам разберется с кнопкой и подсказкой.
             rowScript.Setup(shopItem, shopStock, playerItemCount, isBuyMode, OnItemActionClicked);
             spawnedRows.Add(rowGO);
         }
+    }
 
+    public bool IsItemPurchaseable(ShopItem shopItem, out string reason)
+    {
+        reason = "";
+        var itemData = shopItem.itemData;
+
+        if (!PlayerWallet.Instance.HasEnoughMoney(shopItem.buyPrice))
+        {
+            reason = "Недостаточно денег";
+            return false;
+        }
+
+        int shopStock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+        if (!shopItem.isInfiniteStock && shopStock <= 0)
+        {
+            reason = "Нет в наличии";
+            return false;
+        }
+
+        switch (itemData.itemType)
+        {
+            case ItemType.Upgrade:
+                if (InventoryManager.Instance.StorageUpgradeData == itemData)
+                {
+                    if (TrainUpgradeManager.Instance.HasUpgrade(itemData))
+                    {
+                        reason = "Улучшение уже куплено";
+                        return false;
+                    }
+                }
+                else if (itemData == PlantManager.instance._UpgradeData)
+                {
+                    if (PlantManager.instance.UpgradeWatering)
+                    {
+                        reason = "Улучшение уже куплено";
+                        return false;
+                    }
+                }
+                else
+                {
+                    var allConfigs = AnimalPenManager.Instance.GetAllPenConfigs();
+                    var animalForThisUpgrade = allConfigs.FirstOrDefault(c => c.upgradeLevels.Any(l => l.requiredUpgradeItem == itemData))?.animalData;
+                    if (animalForThisUpgrade != null)
+                    {
+                        if (AnimalPenManager.Instance.GetNextAvailableUpgrade(animalForThisUpgrade) != itemData)
+                        {
+                            reason = "Требуется предыдущее улучшение";
+                            return false;
+                        }
+                    }
+                }
+                break;
+
+            case ItemType.Animal:
+                var animalData = itemData.associatedAnimalData;
+                if (animalData != null)
+                {
+                    int currentCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
+                    int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
+                    if (currentCount >= maxCapacity)
+                    {
+                        reason = "Нет места в загоне";
+                        return false;
+                    }
+                }
+                break;
+
+            default:
+                if (!InventoryManager.Instance.CheckForSpace(itemData, 1))
+                {
+                    reason = "Нет места в инвентаре";
+                    return false;
+                }
+                break;
+        }
+
+        return true;
     }
 
     private void OnItemActionClicked(ShopItem shopItem)
@@ -170,49 +268,62 @@ public class ShopUIManager : MonoBehaviour
         var itemData = currentItemForTransaction.itemData;
         int price = isBuyMode ? currentItemForTransaction.buyPrice : currentItemForTransaction.sellPrice;
         int maxQuantity = int.MaxValue;
+        string plusDisabledReason = ""; // Причина блокировки для кнопки "+"
 
-        if (itemData.itemType == ItemType.Animal)
+        if (isBuyMode)
         {
-            if (isBuyMode)
+            int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+            if (!currentItemForTransaction.isInfiniteStock && stock < maxQuantity)
             {
-                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
-                // int price = currentItemForTransaction.buyPrice; // <<< УДАЛЯЕМ ЭТУ СТРОКУ
-                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
-                maxQuantity = Mathf.Min(stock, affordable);
+                maxQuantity = stock;
+                plusDisabledReason = "Нет в наличии";
+            }
 
+            int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
+            if (affordable < maxQuantity)
+            {
+                maxQuantity = affordable;
+                plusDisabledReason = "Недостаточно денег";
+            }
+
+            if (itemData.itemType == ItemType.Animal)
+            {
                 var animalData = itemData.associatedAnimalData;
                 if (animalData != null)
                 {
-                    int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
-                    int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
-
-                    int availableSpace = maxCapacity - currentAnimalCount;
-                    maxQuantity = Mathf.Min(maxQuantity, availableSpace);
-                }
-                else
-                {
-                    Debug.LogError($"У предмета {itemData.name} поле associatedAnimalData ПУСТОЕ!");
-                    maxQuantity = 0;
+                    int availableSpace = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData) - AnimalPenManager.Instance.GetAnimalCount(animalData);
+                    if (availableSpace < maxQuantity)
+                    {
+                        maxQuantity = availableSpace;
+                        plusDisabledReason = "Нет места в загоне";
+                    }
                 }
             }
-            else // Режим продажи
+            else if (itemData.itemType != ItemType.Upgrade)
             {
-                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                // Для обычных предметов проверяем место в инвентаре
+                // Эта логика сложнее, т.к. место зависит от стаков, поэтому оставим общую причину
+                if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity + 1))
+                {
+                    if (transactionQuantity < maxQuantity)
+                    {
+                        maxQuantity = transactionQuantity;
+                        plusDisabledReason = "Нет места в инвентаре";
+                    }
+                }
             }
         }
-        else
+        else // Режим продажи
         {
-            // Логика для обычных предметов (не меняется)
-            if (isBuyMode)
+            if (itemData.itemType == ItemType.Animal)
             {
-                int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
-                int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
-                maxQuantity = Mathf.Min(stock, affordable);
+                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
             }
             else
             {
                 maxQuantity = InventoryManager.Instance.GetTotalItemQuantity(itemData);
             }
+            plusDisabledReason = "У вас больше нет";
         }
 
         transactionQuantity = Mathf.Clamp(transactionQuantity, 1, maxQuantity);
@@ -221,6 +332,19 @@ public class ShopUIManager : MonoBehaviour
         quantityText.text = transactionQuantity.ToString();
         totalPriceText.text = $"{transactionQuantity * price}";
         yesButton.interactable = transactionQuantity > 0;
+
+        // Обновляем состояние кнопок +/- и их подсказок
+        plusButton.interactable = (maxQuantity > 0 && transactionQuantity < maxQuantity);
+        minusButton.interactable = transactionQuantity > 1;
+
+        if (plusButtonTooltip != null)
+        {
+            plusButtonTooltip.SetTooltip(plusButton.interactable ? "" : plusDisabledReason);
+        }
+        if (minusButtonTooltip != null)
+        {
+            minusButtonTooltip.SetTooltip(minusButton.interactable ? "" : "Нельзя выбрать меньше 1");
+        }
     }
 
 
