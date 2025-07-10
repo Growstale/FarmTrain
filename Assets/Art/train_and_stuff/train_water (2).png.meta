@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b7e885e89cf395f41bf09e1c8b066a7f
+guid: 1fa70d16f8f13044b90f00fd4b6bf82f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1393542105723367964
-    second: stall-removebg-preview_0
+      213: -1405904692931832845
+    second: train_water (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stall-removebg-preview_0
+      name: train_water (2)_0
       rect:
         serializedVersion: 2
-        x: 144
-        y: 68
-        width: 318
-        height: 210
+        x: 18
+        y: 19
+        width: 352
+        height: 166
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ed0fc096d429ace0800000000000000
-      internalID: -1393542105723367964
+      spriteID: 3f35ebd61293d7ce0800000000000000
+      internalID: -1405904692931832845
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      stall-removebg-preview_0: -1393542105723367964
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

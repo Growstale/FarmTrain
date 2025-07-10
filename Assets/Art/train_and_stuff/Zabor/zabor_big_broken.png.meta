@@ -5,12 +5,6 @@ TextureImporter:
   - first:
       213: -3589080760121374869
     second: zabor_big_broken_0
-  - first:
-      213: -8119149028518171339
-    second: zabor_big_broken_1
-  - first:
-      213: -3245587358156755546
-    second: zabor_big_broken_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -114,8 +108,8 @@ TextureImporter:
         width: 321
         height: 38
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 21, w: 0}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -131,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 57142922739b5d44398dccfac550f839
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -140,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      zabor_big_broken_1: -801752195
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

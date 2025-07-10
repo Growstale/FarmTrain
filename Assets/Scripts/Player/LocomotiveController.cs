@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class LocomotiveController : MonoBehaviour
 {
+    public static LocomotiveController Instance { get; private set; }
+
     [SerializeField] private AudioSource trainAudioSource;
     [SerializeField] private AudioClip trainMovingClip;
     [SerializeField] private float fadeDuration = 3.0f; // длительность затухания в секундах
@@ -14,7 +16,7 @@ public class LocomotiveController : MonoBehaviour
     // Состояния теперь проще: мы либо движемся, либо стоим у станции.
     public enum TrainState { Moving, DockedAtStation }
 
-    private TrainState currentState;
+    public TrainState currentState;
 
     // Ссылки на объекты сцены
     public GameObject hornObject { get; private set; }
@@ -29,6 +31,13 @@ public class LocomotiveController : MonoBehaviour
     #region Unity Lifecycle
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         if (trainAudioSource == null)
             trainAudioSource = GetComponent<AudioSource>();
         FindSceneObjects();

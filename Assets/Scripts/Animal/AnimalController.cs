@@ -622,7 +622,7 @@ public class AnimalController : MonoBehaviour
         {
             if (AchievementManager.allTpyesAnimal.Remove(name))
             {
-                GameEvents.TriggerAddedNewAnimal(1); 
+                GameEvents.TriggerAddedNewAnimal(1);
             }
             else
             {
@@ -630,7 +630,7 @@ public class AnimalController : MonoBehaviour
 
             }
         }
-        
+
     }
     void CheckForAchievement()
     {

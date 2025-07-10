@@ -5,12 +5,12 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System;
+using System.Linq;
 
 public class ShopUIManager : MonoBehaviour
 {
     public static ShopUIManager Instance { get; private set; }
 
-    // ... (все поля [SerializeField] остаются без изменений) ...
     [Header("Main Panel")]
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private TextMeshProUGUI shopNameText;
@@ -31,6 +31,7 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private Button minusButton;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
+    [SerializeField] private Button closeButtonForConf;
 
     private ShopInventoryData currentShopData;
     private ShopItem currentItemForTransaction;
@@ -71,7 +72,8 @@ public class ShopUIManager : MonoBehaviour
         plusButton.onClick.AddListener(IncreaseQuantity);
         minusButton.onClick.AddListener(DecreaseQuantity);
         confirmButton.onClick.AddListener(ConfirmTransaction);
-        cancelButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
+        closeButtonForConf.onClick.AddListener(() => confirmationPanel.SetActive(false));
+        closeButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
     }
 
     public void OpenShop(ShopInventoryData shopData)
@@ -94,6 +96,7 @@ public class ShopUIManager : MonoBehaviour
 
         Debug.Log("Закрытие панели магазина.");
         shopPanel.SetActive(false);
+        confirmationPanel.SetActive(false);
         currentShopData = null;
 
         if (StallCameraController.Instance != null)
@@ -120,11 +123,18 @@ public class ShopUIManager : MonoBehaviour
         }
         spawnedRows.Clear();
 
-        foreach (var shopItem in currentShopData.shopItems)
-        {
-            if (isBuyMode && !shopItem.forSale) continue;
-            if (!isBuyMode && !shopItem.willBuy) continue;
 
+        // Сначала фильтруем, потом сортируем: доступные (true) идут первыми, недоступные (false) - последними
+        var sortedShopItems = currentShopData.shopItems
+            .Where(shopItem => (isBuyMode && shopItem.forSale) || (!isBuyMode && shopItem.willBuy))
+            .OrderByDescending(shopItem => IsShopItemAvailable(shopItem))
+            .ToList();
+
+
+
+        // Теперь итерируемся по отсортированному списку
+        foreach (var shopItem in sortedShopItems)
+        {
             GameObject rowGO = Instantiate(shopItemRowPrefab, itemsContentArea);
             ShopItemRow rowScript = rowGO.GetComponent<ShopItemRow>();
 
@@ -140,10 +150,10 @@ public class ShopUIManager : MonoBehaviour
                 playerItemCount = InventoryManager.Instance.GetTotalItemQuantity(shopItem.itemData);
             }
 
+            // Метод Setup в ShopItemRow остается без изменений, он все так же будет делать кнопку серой
             rowScript.Setup(shopItem, shopStock, playerItemCount, isBuyMode, OnItemActionClicked);
             spawnedRows.Add(rowGO);
         }
-
     }
 
     private void OnItemActionClicked(ShopItem shopItem)
@@ -195,7 +205,9 @@ public class ShopUIManager : MonoBehaviour
             }
             else // Режим продажи
             {
-                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                int currentCount = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                // Мы можем продать всех, кроме последнего. Если животное одно, продать нельзя (1 - 1 = 0).
+                maxQuantity = Mathf.Max(0, currentCount - 1);
             }
         }
         else
@@ -364,5 +376,79 @@ public class ShopUIManager : MonoBehaviour
         Debug.Log("Транзакция успешна!");
         confirmationPanel.SetActive(false);
         PopulateShopList();
+    }
+
+    private bool IsShopItemAvailable(ShopItem shopItem)
+    {
+        var itemData = shopItem.itemData;
+
+        if (isBuyMode)
+        {
+            // Логика для покупки
+            int shopStock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
+            bool canAfford = PlayerWallet.Instance.HasEnoughMoney(shopItem.buyPrice);
+            bool hasStock = shopItem.isInfiniteStock || shopStock > 0;
+            bool isPurchaseable = canAfford && hasStock;
+
+            if (isPurchaseable)
+            {
+                switch (itemData.itemType)
+                {
+                    case ItemType.Upgrade:
+                        if (InventoryManager.Instance.StorageUpgradeData == itemData)
+                        {
+                            isPurchaseable = !TrainUpgradeManager.Instance.HasUpgrade(itemData);
+                        }
+                        else if (itemData == PlantManager.instance._UpgradeData)
+                        {
+                            isPurchaseable = !PlantManager.instance.UpgradeWatering;
+                        }
+                        else
+                        {
+                            var allConfigs = AnimalPenManager.Instance.GetAllPenConfigs();
+                            var animalForThisUpgrade = allConfigs.FirstOrDefault(c => c.upgradeLevels.Any(l => l.requiredUpgradeItem == itemData))?.animalData;
+                            if (animalForThisUpgrade != null)
+                            {
+                                isPurchaseable = (AnimalPenManager.Instance.GetNextAvailableUpgrade(animalForThisUpgrade) == itemData);
+                            }
+                            else { isPurchaseable = false; }
+                        }
+                        break;
+                    case ItemType.Animal:
+                        var animalData = itemData.associatedAnimalData;
+                        isPurchaseable = animalData != null && (AnimalPenManager.Instance.GetAnimalCount(animalData) < AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData));
+                        break;
+                    default:
+                        isPurchaseable = InventoryManager.Instance.CheckForSpace(itemData, 1);
+                        break;
+                }
+            }
+            return isPurchaseable;
+        }
+        else
+        {
+            // Логика для продажи
+            int playerItemCount;
+            if (itemData.itemType == ItemType.Animal)
+            {
+                playerItemCount = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+            }
+            else
+            {
+                playerItemCount = InventoryManager.Instance.GetTotalItemQuantity(itemData);
+            }
+
+            bool canSell;
+            if (itemData.itemType == ItemType.Animal)
+            {
+                canSell = playerItemCount > 1; // Продавать можно, если их > 1
+            }
+            else
+            {
+                canSell = playerItemCount > 0; // Обычные предметы можно, если есть хотя бы 1
+            }
+
+            return canSell && shopItem.willBuy;
+        }
     }
 }
