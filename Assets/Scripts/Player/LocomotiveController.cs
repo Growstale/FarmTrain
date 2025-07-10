@@ -8,20 +8,20 @@ public class LocomotiveController : MonoBehaviour
 {
     [SerializeField] private AudioSource trainAudioSource;
     [SerializeField] private AudioClip trainMovingClip;
-    [SerializeField] private float fadeDuration = 3.0f; // длительность затухания в секундах
+    [SerializeField] private float fadeDuration = 3.0f; // РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ Р·Р°С‚СѓС…Р°РЅРёСЏ РІ СЃРµРєСѓРЅРґР°С…
     private Coroutine fadeOutCoroutine;
     [SerializeField] private AudioClip hornSound;
-    // Состояния теперь проще: мы либо движемся, либо стоим у станции.
+    // РЎРѕСЃС‚РѕСЏРЅРёСЏ С‚РµРїРµСЂСЊ РїСЂРѕС‰Рµ: РјС‹ Р»РёР±Рѕ РґРІРёР¶РµРјСЃСЏ, Р»РёР±Рѕ СЃС‚РѕРёРј Сѓ СЃС‚Р°РЅС†РёРё.
     public enum TrainState { Moving, DockedAtStation }
 
     private TrainState currentState;
 
-    // Ссылки на объекты сцены
+    // РЎСЃС‹Р»РєРё РЅР° РѕР±СЉРµРєС‚С‹ СЃС†РµРЅС‹
     public GameObject hornObject { get; private set; }
     private Animator hornAnimator;
     private AutoScrollParallax[] parallaxLayers;
 
-    // Флаги состояния
+    // Р¤Р»Р°РіРё СЃРѕСЃС‚РѕСЏРЅРёСЏ
     private bool travelToStationUnlocked = false;
     private bool departureUnlocked = false;
 
@@ -55,9 +55,9 @@ public class LocomotiveController : MonoBehaviour
     void LateUpdate()
     {
         UpdateHornHighlight();
-        // Постоянно обновляем UI в зависимости от состояния
+        // РџРѕСЃС‚РѕСЏРЅРЅРѕ РѕР±РЅРѕРІР»СЏРµРј UI РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕСЃС‚РѕСЏРЅРёСЏ
         UIManager.Instance.ShowGoToStationButton(currentState == TrainState.DockedAtStation);
-        UpdateTrainSound();  // обновляем звук движения
+        UpdateTrainSound();  // РѕР±РЅРѕРІР»СЏРµРј Р·РІСѓРє РґРІРёР¶РµРЅРёСЏ
 
     }
     private void UpdateTrainSound()
@@ -74,13 +74,13 @@ public class LocomotiveController : MonoBehaviour
             {
                 trainAudioSource.clip = trainMovingClip;
                 trainAudioSource.loop = true;
-                trainAudioSource.volume = 0.1f; // на всякий случай вернуть громкость
+                trainAudioSource.volume = 0.1f; // РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№ РІРµСЂРЅСѓС‚СЊ РіСЂРѕРјРєРѕСЃС‚СЊ
                 trainAudioSource.Play();
             }
         }
         else
         {
-            // Если поезд не движется и звук играет — запускаем плавное затухание
+            // Р•СЃР»Рё РїРѕРµР·Рґ РЅРµ РґРІРёР¶РµС‚СЃСЏ Рё Р·РІСѓРє РёРіСЂР°РµС‚ вЂ” Р·Р°РїСѓСЃРєР°РµРј РїР»Р°РІРЅРѕРµ Р·Р°С‚СѓС…Р°РЅРёРµ
             if (trainAudioSource.isPlaying && fadeOutCoroutine == null)
             {
                 fadeOutCoroutine = StartCoroutine(FadeOutSound());
@@ -100,7 +100,7 @@ public class LocomotiveController : MonoBehaviour
         }
 
         trainAudioSource.Stop();
-        trainAudioSource.volume = 0.3f; // сбрасываем громкость для следующего запуска
+        trainAudioSource.volume = 0.3f; // СЃР±СЂР°СЃС‹РІР°РµРј РіСЂРѕРјРєРѕСЃС‚СЊ РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ Р·Р°РїСѓСЃРєР°
         fadeOutCoroutine = null;
     }
     void OnDestroy()
@@ -120,7 +120,7 @@ public class LocomotiveController : MonoBehaviour
         {
             hornAnimator = hornObject.GetComponent<Animator>();
         }
-        else Debug.LogError("[LocomotiveController] Не найден объект с тегом 'Horn'!");
+        else Debug.LogError("[LocomotiveController] РќРµ РЅР°Р№РґРµРЅ РѕР±СЉРµРєС‚ СЃ С‚РµРіРѕРј 'Horn'!");
 
         parallaxLayers = GameObject.FindGameObjectsWithTag("ParallaxLayer")
             .Select(go => go.GetComponent<AutoScrollParallax>()).Where(c => c != null).ToArray();
@@ -149,7 +149,7 @@ public class LocomotiveController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Гудок нажат, но отправление со станции еще не разблокировано.");
+                    Debug.Log("Р“СѓРґРѕРє РЅР°Р¶Р°С‚, РЅРѕ РѕС‚РїСЂР°РІР»РµРЅРёРµ СЃРѕ СЃС‚Р°РЅС†РёРё РµС‰Рµ РЅРµ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅРѕ.");
                 }
                 break;
         }
@@ -165,11 +165,11 @@ public class LocomotiveController : MonoBehaviour
 
             RadioManager.Instance.radioPanel?.SetActive(false);
 
-            UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
+            UIManager.Instance.ShowGoToStationButton(false); // РЎРєСЂС‹РІР°РµРј РєРЅРѕРїРєСѓ РїРµСЂРµРґ РїРµСЂРµС…РѕРґРѕРј
 
-            // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
-            // Мы сообщаем менеджеру, что переходим в фазу Станции.
-            // Это обнулит XP и активирует квесты для станции.
+            // <<< Р’РћРў РљР›Р®Р§Р•Р’РћР• РРЎРџР РђР’Р›Р•РќРР• >>>
+            // РњС‹ СЃРѕРѕР±С‰Р°РµРј РјРµРЅРµРґР¶РµСЂСѓ, С‡С‚Рѕ РїРµСЂРµС…РѕРґРёРј РІ С„Р°Р·Сѓ РЎС‚Р°РЅС†РёРё.
+            // Р­С‚Рѕ РѕР±РЅСѓР»РёС‚ XP Рё Р°РєС‚РёРІРёСЂСѓРµС‚ РєРІРµСЃС‚С‹ РґР»СЏ СЃС‚Р°РЅС†РёРё.
             ExperienceManager.Instance.EnterStation();
             SceneManager.LoadScene("Station_1");
             StartCoroutine(LoadStationAndRestoreRadio(currentClip, currentTime, wasPlaying));
@@ -185,7 +185,7 @@ public class LocomotiveController : MonoBehaviour
         else if (phase == GamePhase.Station)
         {
             departureUnlocked = true;
-            // Обновляем флаг в TransitionManager, чтобы он сохранился между сценами
+            // РћР±РЅРѕРІР»СЏРµРј С„Р»Р°Рі РІ TransitionManager, С‡С‚РѕР±С‹ РѕРЅ СЃРѕС…СЂР°РЅРёР»СЃСЏ РјРµР¶РґСѓ СЃС†РµРЅР°РјРё
             TransitionManager.isDepartureUnlocked = true;
         }
     }
@@ -193,21 +193,27 @@ public class LocomotiveController : MonoBehaviour
     private void ArriveAtStation()
     {
         currentState = TrainState.DockedAtStation;
-        // Мы НЕ сбрасываем travelToStationUnlocked, чтобы состояние сохранилось
+        // РњС‹ РќР• СЃР±СЂР°СЃС‹РІР°РµРј travelToStationUnlocked, С‡С‚РѕР±С‹ СЃРѕСЃС‚РѕСЏРЅРёРµ СЃРѕС…СЂР°РЅРёР»РѕСЃСЊ
+
+        UIManager.Instance.ShowGoToStationButton(true);
+        UIManager.Instance.ShowNotification(true);
 
         foreach (var layer in parallaxLayers) layer.enabled = false;
 
-        // ВАЖНО: Мы не вызываем AdvanceToNextPhase здесь.
-        // Смена фазы произойдет только при окончательном отправлении.
+        // Р’РђР–РќРћ: РњС‹ РЅРµ РІС‹Р·С‹РІР°РµРј AdvanceToNextPhase Р·РґРµСЃСЊ.
+        // РЎРјРµРЅР° С„Р°Р·С‹ РїСЂРѕРёР·РѕР№РґРµС‚ С‚РѕР»СЊРєРѕ РїСЂРё РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕРј РѕС‚РїСЂР°РІР»РµРЅРёРё.
     }
 
     private void OnReturnFromStation()
     {
-        // Когда мы возвращаемся, мы все еще в состоянии "пристыкован к станции"
+        // РљРѕРіРґР° РјС‹ РІРѕР·РІСЂР°С‰Р°РµРјСЃСЏ, РјС‹ РІСЃРµ РµС‰Рµ РІ СЃРѕСЃС‚РѕСЏРЅРёРё "РїСЂРёСЃС‚С‹РєРѕРІР°РЅ Рє СЃС‚Р°РЅС†РёРё"
         currentState = TrainState.DockedAtStation;
         departureUnlocked = TransitionManager.isDepartureUnlocked;
 
-        // Останавливаем фон, так как он мог запуститься при загрузке сцены
+        UIManager.Instance.ShowGoToStationButton(false);
+        UIManager.Instance.ShowNotification(false);
+
+        // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РѕРЅ, С‚Р°Рє РєР°Рє РѕРЅ РјРѕРі Р·Р°РїСѓСЃС‚РёС‚СЊСЃСЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ СЃС†РµРЅС‹
         foreach (var layer in parallaxLayers) layer.enabled = false;
     }
 
@@ -223,20 +229,20 @@ public class LocomotiveController : MonoBehaviour
 
         yield return StartCoroutine(ScreenFaderManager.Instance.FadeOutAndInCoroutine(() =>
         {
-            // --- ДЕЙСТВИЯ В СЕРЕДИНЕ ЗАТЕМНЕНИЯ ---
+            // --- Р”Р•Р™РЎРўР’РРЇ Р’ РЎР•Р Р•Р”РРќР• Р—РђРўР•РњРќР•РќРРЇ ---
 
-            // 1. Сообщаем ExperienceManager, что мы перешли на следующий уровень
+            // 1. РЎРѕРѕР±С‰Р°РµРј ExperienceManager, С‡С‚Рѕ РјС‹ РїРµСЂРµС€Р»Рё РЅР° СЃР»РµРґСѓСЋС‰РёР№ СѓСЂРѕРІРµРЅСЊ
             ExperienceManager.Instance.DepartToNextTrainLevel();
-            int newLevel = ExperienceManager.Instance.CurrentLevel; // Получаем новый уровень
+            int newLevel = ExperienceManager.Instance.CurrentLevel; // РџРѕР»СѓС‡Р°РµРј РЅРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ
 
-            // 2. Включаем движение параллакса и сообщаем им о новом уровне
+            // 2. Р’РєР»СЋС‡Р°РµРј РґРІРёР¶РµРЅРёРµ РїР°СЂР°Р»Р»Р°РєСЃР° Рё СЃРѕРѕР±С‰Р°РµРј РёРј Рѕ РЅРѕРІРѕРј СѓСЂРѕРІРЅРµ
             foreach (var layer in parallaxLayers)
             {
                 layer.enabled = true;
-                layer.SetSpriteForLevel(newLevel); // <<< ВОТ КЛЮЧЕВОЕ ИЗМЕНЕНИЕ
+                layer.SetSpriteForLevel(newLevel); // <<< Р’РћРў РљР›Р®Р§Р•Р’РћР• РР—РњР•РќР•РќРР•
             }
 
-            // --- КОНЕЦ ДЕЙСТВИЙ ---
+            // --- РљРћРќР•Р¦ Р”Р•Р™РЎРўР’РР™ ---
         }));
     }
 

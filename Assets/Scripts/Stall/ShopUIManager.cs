@@ -10,7 +10,7 @@ public class ShopUIManager : MonoBehaviour
 {
     public static ShopUIManager Instance { get; private set; }
 
-    // ... (все поля [SerializeField] остаются без изменений) ...
+    // ... (РІСЃРµ РїРѕР»СЏ [SerializeField] РѕСЃС‚Р°СЋС‚СЃСЏ Р±РµР· РёР·РјРµРЅРµРЅРёР№) ...
     [Header("Main Panel")]
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private TextMeshProUGUI shopNameText;
@@ -29,7 +29,8 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalPriceText;
     [SerializeField] private Button plusButton;
     [SerializeField] private Button minusButton;
-    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
     [SerializeField] private Button cancelButton;
 
     private ShopInventoryData currentShopData;
@@ -49,15 +50,15 @@ public class ShopUIManager : MonoBehaviour
             return;
         }
         Instance = this;
-        // НЕ делаем DontDestroyOnLoad, так как он должен жить только на сцене станции.
+        // РќР• РґРµР»Р°РµРј DontDestroyOnLoad, С‚Р°Рє РєР°Рє РѕРЅ РґРѕР»Р¶РµРЅ Р¶РёС‚СЊ С‚РѕР»СЊРєРѕ РЅР° СЃС†РµРЅРµ СЃС‚Р°РЅС†РёРё.
 
-        // <<< СООБЩАЕМ ВСЕМ, ЧТО МЫ ГОТОВЫ
+        // <<< РЎРћРћР‘Р©РђР•Рњ Р’РЎР•Рњ, Р§РўРћ РњР« Р“РћРўРћР’Р«
         OnInstanceReady?.Invoke(this);
     }
 
 
-    // ... (Start, OpenShop, CloseShop, SetMode, PopulateShopList, OnItemActionClicked, OpenConfirmationPanel - без изменений) ...
-    // Все эти методы остаются прежними
+    // ... (Start, OpenShop, CloseShop, SetMode, PopulateShopList, OnItemActionClicked, OpenConfirmationPanel - Р±РµР· РёР·РјРµРЅРµРЅРёР№) ...
+    // Р’СЃРµ СЌС‚Рё РјРµС‚РѕРґС‹ РѕСЃС‚Р°СЋС‚СЃСЏ РїСЂРµР¶РЅРёРјРё
 
     private void Start()
     {
@@ -70,15 +71,16 @@ public class ShopUIManager : MonoBehaviour
 
         plusButton.onClick.AddListener(IncreaseQuantity);
         minusButton.onClick.AddListener(DecreaseQuantity);
-        confirmButton.onClick.AddListener(ConfirmTransaction);
+        yesButton.onClick.AddListener(ConfirmTransaction);
         cancelButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
+        noButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
     }
 
     public void OpenShop(ShopInventoryData shopData)
     {
         if (StallCameraController.Instance == null)
         {
-            Debug.LogWarning("StallCameraController не найден. Магазин откроется без управления камерой.");
+            Debug.LogWarning("StallCameraController РЅРµ РЅР°Р№РґРµРЅ. РњР°РіР°Р·РёРЅ РѕС‚РєСЂРѕРµС‚СЃСЏ Р±РµР· СѓРїСЂР°РІР»РµРЅРёСЏ РєР°РјРµСЂРѕР№.");
         }
 
         currentShopData = shopData;
@@ -92,7 +94,7 @@ public class ShopUIManager : MonoBehaviour
     {
         if (!shopPanel.activeSelf) return;
 
-        Debug.Log("Закрытие панели магазина.");
+        Debug.Log("Р—Р°РєСЂС‹С‚РёРµ РїР°РЅРµР»Рё РјР°РіР°Р·РёРЅР°.");
         shopPanel.SetActive(false);
         currentShopData = null;
 
@@ -148,7 +150,7 @@ public class ShopUIManager : MonoBehaviour
 
     private void OnItemActionClicked(ShopItem shopItem)
     {
-        Debug.Log($"Нажата кнопка для {shopItem.itemData.itemName}");
+        Debug.Log($"РќР°Р¶Р°С‚Р° РєРЅРѕРїРєР° РґР»СЏ {shopItem.itemData.itemName}");
         currentItemForTransaction = shopItem;
         transactionQuantity = 1;
         OpenConfirmationPanel();
@@ -174,7 +176,7 @@ public class ShopUIManager : MonoBehaviour
             if (isBuyMode)
             {
                 int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
-                // int price = currentItemForTransaction.buyPrice; // <<< УДАЛЯЕМ ЭТУ СТРОКУ
+                // int price = currentItemForTransaction.buyPrice; // <<< РЈР”РђР›РЇР•Рњ Р­РўРЈ РЎРўР РћРљРЈ
                 int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
                 maxQuantity = Mathf.Min(stock, affordable);
 
@@ -189,18 +191,18 @@ public class ShopUIManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError($"У предмета {itemData.name} поле associatedAnimalData ПУСТОЕ!");
+                    Debug.LogError($"РЈ РїСЂРµРґРјРµС‚Р° {itemData.name} РїРѕР»Рµ associatedAnimalData РџРЈРЎРўРћР•!");
                     maxQuantity = 0;
                 }
             }
-            else // Режим продажи
+            else // Р РµР¶РёРј РїСЂРѕРґР°Р¶Рё
             {
                 maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
             }
         }
         else
         {
-            // Логика для обычных предметов (не меняется)
+            // Р›РѕРіРёРєР° РґР»СЏ РѕР±С‹С‡РЅС‹С… РїСЂРµРґРјРµС‚РѕРІ (РЅРµ РјРµРЅСЏРµС‚СЃСЏ)
             if (isBuyMode)
             {
                 int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
@@ -218,7 +220,7 @@ public class ShopUIManager : MonoBehaviour
 
         quantityText.text = transactionQuantity.ToString();
         totalPriceText.text = $"{transactionQuantity * price}";
-        confirmButton.interactable = transactionQuantity > 0;
+        yesButton.interactable = transactionQuantity > 0;
     }
 
 
@@ -249,19 +251,19 @@ public class ShopUIManager : MonoBehaviour
                 var animalData = itemData.associatedAnimalData;
                 if (animalData == null)
                 {
-                    Debug.LogError($"У предмета {itemData.itemName} не указана ссылка на AnimalData! Транзакция отменена.");
+                    Debug.LogError($"РЈ РїСЂРµРґРјРµС‚Р° {itemData.itemName} РЅРµ СѓРєР°Р·Р°РЅР° СЃСЃС‹Р»РєР° РЅР° AnimalData! РўСЂР°РЅР·Р°РєС†РёСЏ РѕС‚РјРµРЅРµРЅР°.");
                     confirmationPanel.SetActive(false);
                     return;
                 }
 
-                // <<< ИСПРАВЛЕНИЕ ОШИБКИ >>>
-                // Повторяем проверку, используя новый метод
+                // <<< РРЎРџР РђР’Р›Р•РќРР• РћРЁРР‘РљР >>>
+                // РџРѕРІС‚РѕСЂСЏРµРј РїСЂРѕРІРµСЂРєСѓ, РёСЃРїРѕР»СЊР·СѓСЏ РЅРѕРІС‹Р№ РјРµС‚РѕРґ
                 int currentAnimalCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
                 int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
 
                 if (currentAnimalCount + transactionQuantity > maxCapacity)
                 {
-                    Debug.LogError($"Ошибка! Попытка купить {transactionQuantity} животных, но в загоне нет места. Транзакция отменена.");
+                    Debug.LogError($"РћС€РёР±РєР°! РџРѕРїС‹С‚РєР° РєСѓРїРёС‚СЊ {transactionQuantity} Р¶РёРІРѕС‚РЅС‹С…, РЅРѕ РІ Р·Р°РіРѕРЅРµ РЅРµС‚ РјРµСЃС‚Р°. РўСЂР°РЅР·Р°РєС†РёСЏ РѕС‚РјРµРЅРµРЅР°.");
                     confirmationPanel.SetActive(false);
                     return;
                 }
@@ -274,64 +276,64 @@ public class ShopUIManager : MonoBehaviour
                 {
                     AnimalPenManager.Instance.AddAnimal(itemData.associatedAnimalData);
                 }
-                OnItemPurchased?.Invoke(itemData, transactionQuantity); // Событие для квестов вызываем для ВСЕХ покупок
+                OnItemPurchased?.Invoke(itemData, transactionQuantity); // РЎРѕР±С‹С‚РёРµ РґР»СЏ РєРІРµСЃС‚РѕРІ РІС‹Р·С‹РІР°РµРј РґР»СЏ Р’РЎР•РҐ РїРѕРєСѓРїРѕРє
             }
-            else // Режим продажи
+            else // Р РµР¶РёРј РїСЂРѕРґР°Р¶Рё
             {
                 if (AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData) < transactionQuantity) return;
 
-                // <<< ИЗМЕНЕНИЕ: Блок `if (TrainPenController.Instance != null)` НЕ НУЖЕН при продаже.
-                // Продажа - это чисто экономическая/логическая операция. Мы просто удаляем данные из AnimalPenManager.
-                // Despawn животного произойдет автоматически при следующей загрузке сцены с поездом,
-                // так как TrainPenController просто не найдет для него данных и не создаст GameObject.
-                // Это делает систему более надежной. Если игрок продаст животное на станции,
-                // а потом игра вылетит до захода на поезд - данные все равно будут верными.
+                // <<< РР—РњР•РќР•РќРР•: Р‘Р»РѕРє `if (TrainPenController.Instance != null)` РќР• РќРЈР–Р•Рќ РїСЂРё РїСЂРѕРґР°Р¶Рµ.
+                // РџСЂРѕРґР°Р¶Р° - СЌС‚Рѕ С‡РёСЃС‚Рѕ СЌРєРѕРЅРѕРјРёС‡РµСЃРєР°СЏ/Р»РѕРіРёС‡РµСЃРєР°СЏ РѕРїРµСЂР°С†РёСЏ. РњС‹ РїСЂРѕСЃС‚Рѕ СѓРґР°Р»СЏРµРј РґР°РЅРЅС‹Рµ РёР· AnimalPenManager.
+                // Despawn Р¶РёРІРѕС‚РЅРѕРіРѕ РїСЂРѕРёР·РѕР№РґРµС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїСЂРё СЃР»РµРґСѓСЋС‰РµР№ Р·Р°РіСЂСѓР·РєРµ СЃС†РµРЅС‹ СЃ РїРѕРµР·РґРѕРј,
+                // С‚Р°Рє РєР°Рє TrainPenController РїСЂРѕСЃС‚Рѕ РЅРµ РЅР°Р№РґРµС‚ РґР»СЏ РЅРµРіРѕ РґР°РЅРЅС‹С… Рё РЅРµ СЃРѕР·РґР°СЃС‚ GameObject.
+                // Р­С‚Рѕ РґРµР»Р°РµС‚ СЃРёСЃС‚РµРјСѓ Р±РѕР»РµРµ РЅР°РґРµР¶РЅРѕР№. Р•СЃР»Рё РёРіСЂРѕРє РїСЂРѕРґР°СЃС‚ Р¶РёРІРѕС‚РЅРѕРµ РЅР° СЃС‚Р°РЅС†РёРё,
+                // Р° РїРѕС‚РѕРј РёРіСЂР° РІС‹Р»РµС‚РёС‚ РґРѕ Р·Р°С…РѕРґР° РЅР° РїРѕРµР·Рґ - РґР°РЅРЅС‹Рµ РІСЃРµ СЂР°РІРЅРѕ Р±СѓРґСѓС‚ РІРµСЂРЅС‹РјРё.
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);
                 for (int i = 0; i < transactionQuantity; i++)
                 {
-                    // <<< ИЗМЕНЕНИЕ: Мы вызываем `SellAnimal` вместо `DespawnAnimal`
+                    // <<< РР—РњР•РќР•РќРР•: РњС‹ РІС‹Р·С‹РІР°РµРј `SellAnimal` РІРјРµСЃС‚Рѕ `DespawnAnimal`
                     AnimalPenManager.Instance.SellAnimal(itemData.associatedAnimalData);
                 }
             }
         }
         else
         {
-            // Логика для обычных предметов (не меняется)
+            // Р›РѕРіРёРєР° РґР»СЏ РѕР±С‹С‡РЅС‹С… РїСЂРµРґРјРµС‚РѕРІ (РЅРµ РјРµРЅСЏРµС‚СЃСЏ)
             if (isBuyMode)
             {
                 if (!PlayerWallet.Instance.HasEnoughMoney(totalPrice)) return;
 
                 if (itemData.itemType == ItemType.Upgrade)
                 {
-                    // Улучшения не занимают места в инвентаре, так что проверку на место пропускаем
+                    // РЈР»СѓС‡С€РµРЅРёСЏ РЅРµ Р·Р°РЅРёРјР°СЋС‚ РјРµСЃС‚Р° РІ РёРЅРІРµРЅС‚Р°СЂРµ, С‚Р°Рє С‡С‚Рѕ РїСЂРѕРІРµСЂРєСѓ РЅР° РјРµСЃС‚Рѕ РїСЂРѕРїСѓСЃРєР°РµРј
                     PlayerWallet.Instance.SpendMoney(totalPrice);
-                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData); // Регистрируем покупку улучшения
+                    TrainUpgradeManager.Instance.PurchaseUpgrade(itemData); // Р РµРіРёСЃС‚СЂРёСЂСѓРµРј РїРѕРєСѓРїРєСѓ СѓР»СѓС‡С€РµРЅРёСЏ
 
-                    // Теперь определяем, КАКОЕ это улучшение
+                    // РўРµРїРµСЂСЊ РѕРїСЂРµРґРµР»СЏРµРј, РљРђРљРћР• СЌС‚Рѕ СѓР»СѓС‡С€РµРЅРёРµ
                     if (InventoryManager.Instance.StorageUpgradeData == itemData)
                     {
-                        // Это улучшение склада!
-                        // Никаких других действий не требуется, InventoryManager сам подхватит изменение
-                        // через TrainUpgradeManager.Instance.HasUpgrade() в своем Update.
-                        Debug.Log($"<color=cyan>Успешно куплено улучшение для склада:</color> {itemData.itemName}");
+                        // Р­С‚Рѕ СѓР»СѓС‡С€РµРЅРёРµ СЃРєР»Р°РґР°!
+                        // РќРёРєР°РєРёС… РґСЂСѓРіРёС… РґРµР№СЃС‚РІРёР№ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ, InventoryManager СЃР°Рј РїРѕРґС…РІР°С‚РёС‚ РёР·РјРµРЅРµРЅРёРµ
+                        // С‡РµСЂРµР· TrainUpgradeManager.Instance.HasUpgrade() РІ СЃРІРѕРµРј Update.
+                        Debug.Log($"<color=cyan>РЈСЃРїРµС€РЅРѕ РєСѓРїР»РµРЅРѕ СѓР»СѓС‡С€РµРЅРёРµ РґР»СЏ СЃРєР»Р°РґР°:</color> {itemData.itemName}");
 
                     }
                     else if(itemData == PlantManager.instance._UpgradeData)
                     {
-                        Debug.Log($"<color=cyan>Попытка применить улучшение для полива растений:</color> {itemData.itemName}");
+                        Debug.Log($"<color=cyan>РџРѕРїС‹С‚РєР° РїСЂРёРјРµРЅРёС‚СЊ СѓР»СѓС‡С€РµРЅРёРµ РґР»СЏ РїРѕР»РёРІР° СЂР°СЃС‚РµРЅРёР№:</color> {itemData.itemName}");
                         PlantManager.instance.CompleteWateringUpgrade();
                     }
                     else
                     {
-                        // Предполагаем, что это улучшение для загона животных
-                        Debug.Log($"<color=cyan>Попытка применить улучшение для загона:</color> {itemData.itemName}");
+                        // РџСЂРµРґРїРѕР»Р°РіР°РµРј, С‡С‚Рѕ СЌС‚Рѕ СѓР»СѓС‡С€РµРЅРёРµ РґР»СЏ Р·Р°РіРѕРЅР° Р¶РёРІРѕС‚РЅС‹С…
+                        Debug.Log($"<color=cyan>РџРѕРїС‹С‚РєР° РїСЂРёРјРµРЅРёС‚СЊ СѓР»СѓС‡С€РµРЅРёРµ РґР»СЏ Р·Р°РіРѕРЅР°:</color> {itemData.itemName}");
                         AnimalPenManager.Instance.ApplyUpgrade(itemData);
                     }
                     GameEvents.TriggerAddedNewUpdgrade(1);
                 }
-                else // Если это НЕ улучшение (обычный предмет)
+                else // Р•СЃР»Рё СЌС‚Рѕ РќР• СѓР»СѓС‡С€РµРЅРёРµ (РѕР±С‹С‡РЅС‹Р№ РїСЂРµРґРјРµС‚)
                 {
                     if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity)) return;
 
@@ -340,7 +342,7 @@ public class ShopUIManager : MonoBehaviour
                 }
 
                 ShopDataManager.Instance.DecreaseStock(currentShopData, itemData, transactionQuantity);
-                OnItemPurchased?.Invoke(itemData, transactionQuantity); // Событие для квестов вызываем для ВСЕХ покупок
+                OnItemPurchased?.Invoke(itemData, transactionQuantity); // РЎРѕР±С‹С‚РёРµ РґР»СЏ РєРІРµСЃС‚РѕРІ РІС‹Р·С‹РІР°РµРј РґР»СЏ Р’РЎР•РҐ РїРѕРєСѓРїРѕРє
 
             }
             else
@@ -358,10 +360,10 @@ public class ShopUIManager : MonoBehaviour
         {
             var animalData = itemData.associatedAnimalData;
             int countAfterPurchase = AnimalPenManager.Instance.GetAnimalCount(animalData);
-            Debug.Log($"<color=cyan>[SHOP DEBUG]</color> После покупки животного '{animalData.speciesName}' их стало: {countAfterPurchase}");
+            Debug.Log($"<color=cyan>[SHOP DEBUG]</color> РџРѕСЃР»Рµ РїРѕРєСѓРїРєРё Р¶РёРІРѕС‚РЅРѕРіРѕ '{animalData.speciesName}' РёС… СЃС‚Р°Р»Рѕ: {countAfterPurchase}");
         }
 
-        Debug.Log("Транзакция успешна!");
+        Debug.Log("РўСЂР°РЅР·Р°РєС†РёСЏ СѓСЃРїРµС€РЅР°!");
         confirmationPanel.SetActive(false);
         PopulateShopList();
     }
