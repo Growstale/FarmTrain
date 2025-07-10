@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f33961d98ee8b44897c6f7957dc188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 329
+  startingMoney: 50
   maxMoney: 9999
 --- !u!114 &1426141031
 MonoBehaviour:
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpLevels:
   - trainPhaseXP: 50
-    stationPhaseXP: 25
+    stationPhaseXP: 20
   - trainPhaseXP: 80
     stationPhaseXP: 0
   - trainPhaseXP: 100
