@@ -367,7 +367,17 @@ public class GridGenerator : MonoBehaviour
                     // Устанавливаем isPlanted в false
                     slotScript.isPlanted = false;
                     slotScript.isRaked = false;
-                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.DrySoil,0);
+                    Transform bedTransform = slotObj.transform.Find("Bed(Clone)");
+                    if (bedTransform != null)
+                    {
+                        slotScript.ChangeStateBed(bedTransform.gameObject,
+                                                 BedData.StageGrowthPlant.DrySoil,
+                                                 0);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Грядка не найдена в слоте {slotObj.name}");
+                    }
                     Debug.Log($"Слот {slotObj.name} освобожден (isPlanted = false).");
                 }
                 else
@@ -398,7 +408,18 @@ public class GridGenerator : MonoBehaviour
                 SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
                 if (slotScript != null)
                 {
-                    slotScript.ChangeStateBed(BedData.StageGrowthPlant.WithFertilizers,3);
+                    Transform bedTransform = slotObj.transform.Find("Bed(Clone)");
+                    if (bedTransform != null)
+                    {
+                        slotScript.ChangeStateBed(bedTransform.gameObject,
+                                                BedData.StageGrowthPlant.WithFertilizers,
+                                                3);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"В слоте {slotObj.name} не найдена грядка (Bed(Clone)).");
+                        allFertilizer = false;
+                    }
                 }
                 else
                 {

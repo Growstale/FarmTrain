@@ -22,10 +22,10 @@ MonoBehaviour:
   goals:
   - goalType: 7
     targetID: 
-    requiredAmount: 200
+    requiredAmount: 5
     targetIDs: []
-    currentAmount: 5
+    currentAmount: 0
   rewardXP: 30
-  status: 2
+  status: 0
   isPinned: 0
   hasBeenViewed: 0
