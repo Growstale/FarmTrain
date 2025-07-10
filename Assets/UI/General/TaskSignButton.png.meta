@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      TaskSignButton_0: 4772482345069157265
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

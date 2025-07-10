@@ -24,7 +24,7 @@ public static class GameEvents
 
     public static event Action<int> OnCompleteTheQuest;
 
-
+    public static event Action OnBuyUpgradeWatering;
 
     // Методы для вызова событий из других скриптов 
 
@@ -58,5 +58,9 @@ public static class GameEvents
     public static void TriggerCompleteTheQuest(int amount)
     {
         OnCompleteTheQuest?.Invoke(amount);
+    }
+    public static void TriggerbuyUpgradeWatering()
+    {
+        OnBuyUpgradeWatering?.Invoke();
     }
 }

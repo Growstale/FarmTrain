@@ -15,62 +15,69 @@ MonoBehaviour:
   shopName: Mechanic
   shopItems:
   - itemData: {fileID: 11400000, guid: 12523f2bc659cda40a083d168cc184bc, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 50
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 367f94408cbfc8744a90a86411175319, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 50
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 721e29be78a7b8b418520a2970dde9e4, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 120
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 8d7ca9f5ea61e4a479e7935af50392ea, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 150
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 0d31c0bce43adeb42a47297a1bfa263a, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 150
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: a9896d95caa439247a239c081204d15c, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 70
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 565248012331ce54ba69c359ae5d5ae5, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 100
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
-    initialStock: 1
+    initialStock: 0
   - itemData: {fileID: 11400000, guid: 7a74c5e0bb5f0b04cb867c9f3012a49f, type: 2}
-    buyPrice: 5
-    sellPrice: 4
+    buyPrice: 30
+    sellPrice: 0
     forSale: 1
     willBuy: 0
     isInfiniteStock: 0
     initialStock: 1
   - itemData: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
+    buyPrice: 80
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 1
+  - itemData: {fileID: 11400000, guid: 4ab8f4ee00b426145bc94f5609ac441b, type: 2}
     buyPrice: 5
     sellPrice: 4
     forSale: 1

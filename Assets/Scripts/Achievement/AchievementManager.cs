@@ -73,6 +73,7 @@ public class AchievementManager : MonoBehaviour
                         progress[type] = 7;
                         Debug.Log($"Achievemnet {type} recieve");
                         SwitchToComplete(type);
+                        PlayerWallet.Instance.AddMoney(200);
                     }
                     else
                     {
@@ -94,6 +95,7 @@ public class AchievementManager : MonoBehaviour
                         progress[type] = 3;
                         Debug.Log($"Achievemnet {type} recieve!!");
                         SwitchToComplete(type);
+                        PlayerWallet.Instance.AddMoney(300);
                     }
                     else
                     {
@@ -110,6 +112,7 @@ public class AchievementManager : MonoBehaviour
                         progress[type] = 500;
                         Debug.Log($"Achievemnet {type} recieve!!");
                         SwitchToComplete(type);
+                        PlayerWallet.Instance.AddMoney(150);
                     }
                     else
                     {
@@ -127,6 +130,7 @@ public class AchievementManager : MonoBehaviour
                         progress[type] = 20;
                         Debug.Log($"Achievemnet {type} recieve!!");
                         SwitchToComplete(type);
+                        PlayerWallet.Instance.AddMoney(100);
                     }
                     else
                     {
@@ -134,6 +138,23 @@ public class AchievementManager : MonoBehaviour
                         Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
                     }
 
+                }
+                break;
+            case TypeOfAchivment.StateoftheArtFarm:
+                if (CheckForComplete(type))
+                {
+                    if (progress[type] >= 9)
+                    {
+                        progress[type] = 10;
+                        Debug.Log($"Achievemnet {type} recieve!!");
+                        SwitchToComplete(type);
+                        PlayerWallet.Instance.AddMoney(800);
+                    }
+                    else
+                    {
+                        progress[type] += amount;
+                        Debug.Log($"Progress {type} is amount: {progress[type]} ! ");
+                    } 
                 }
                 break;
         }
@@ -148,7 +169,7 @@ public class AchievementManager : MonoBehaviour
             string json = System.IO.File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            // Çàãðóæàåì ïðîãðåññ
+            // Загружаем прогресс
             progress.Clear();
             foreach (var savedProgress in data.playerProgress)
             {
@@ -198,7 +219,7 @@ public class AchievementManager : MonoBehaviour
     }
     private void HandleCollectAllPlants(int amount)
     {
-      
+       
         AddProgress(TypeOfAchivment.MasterGardener, amount);
 
     }
@@ -253,17 +274,17 @@ public class AchievementManager : MonoBehaviour
         string json = JsonUtility.ToJson(data, true);
         string folderPath = Application.persistentDataPath;
 
-        // 2. Óêàçûâàåì èìÿ íàøåãî ôàéëà.
+        // 2. Указываем имя нашего файла.
         string fileName = "achievements.json";
 
-        // 3. Ñîåäèíÿåì ïóòü ê ïàïêå è èìÿ ôàéëà â îäèí ïîëíûé ïóòü.
-        // Ýòî ñàìûé íàäåæíûé ñïîñîá!
+        // 3. Соединяем путь к папке и имя файла в один полный путь.
+        // Это самый надежный способ!
         string fullPath = Path.Combine(folderPath, fileName);
 
-        // 4. (Î÷åíü ïîëåçíî äëÿ îòëàäêè!) Âûâîäèì ôèíàëüíûé ïóòü â êîíñîëü.
-        Debug.Log("Ñîõðàíÿþ äàííûå ïî ïóòè: " + fullPath);
+        // 4. (Очень полезно для отладки!) Выводим финальный путь в консоль.
+        Debug.Log("Сохраняю данные по пути: " + fullPath);
 
-        // 5. Ñîõðàíÿåì ôàéë ïî ïîëíîìó, êîððåêòíîìó ïóòè.
+        // 5. Сохраняем файл по полному, корректному пути.
         File.WriteAllText(fullPath, json);
         Debug.Log("Progress Saved!");
     }

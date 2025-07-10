@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 2
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Wheat seeds
   associatedPlantData: {fileID: 11400000, guid: e4ae4a108edb38b46a8dcbf97724cc12, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

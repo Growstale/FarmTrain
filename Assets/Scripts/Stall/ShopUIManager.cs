@@ -316,6 +316,12 @@ public class ShopUIManager : MonoBehaviour
                         // Никаких других действий не требуется, InventoryManager сам подхватит изменение
                         // через TrainUpgradeManager.Instance.HasUpgrade() в своем Update.
                         Debug.Log($"<color=cyan>Успешно куплено улучшение для склада:</color> {itemData.itemName}");
+
+                    }
+                    else if(itemData == PlantManager.instance._UpgradeData)
+                    {
+                        Debug.Log($"<color=cyan>Попытка применить улучшение для полива растений:</color> {itemData.itemName}");
+                        PlantManager.instance.CompleteWateringUpgrade();
                     }
                     else
                     {
@@ -323,6 +329,7 @@ public class ShopUIManager : MonoBehaviour
                         Debug.Log($"<color=cyan>Попытка применить улучшение для загона:</color> {itemData.itemName}");
                         AnimalPenManager.Instance.ApplyUpgrade(itemData);
                     }
+                    GameEvents.TriggerAddedNewUpdgrade(1);
                 }
                 else // Если это НЕ улучшение (обычный предмет)
                 {

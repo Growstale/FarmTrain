@@ -50,10 +50,20 @@ public class ShopItemRow : MonoBehaviour
                 {
                     // ПРОВЕРКА ДЛЯ УЛУЧШЕНИЙ
                     case ItemType.Upgrade:
+
+                        // улучшение для грядок 
+
+                       
+
                         // Это улучшение для склада?
                         if (InventoryManager.Instance.StorageUpgradeData == itemData)
                         {
                             isPurchaseable = !TrainUpgradeManager.Instance.HasUpgrade(itemData);
+                            
+                        }
+                        else if (itemData == PlantManager.instance._UpgradeData)
+                        {
+                            isPurchaseable = true;
                         }
                         // Иначе, может это улучшение для загона?
                         else

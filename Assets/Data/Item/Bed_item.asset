@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 3
   isStackable: 1
   maxStackSize: 16
-  description: 
+  description: Bed for plants
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 11400000, guid: 25128b5ab7c1f0941bf84557f20f21d3, type: 2}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0ea022804948a42983b1870a06b8c1, type: 3}
+  m_Name: Bucket
+  m_EditorClassIdentifier: 
+  itemName: Bucket
+  itemIcon: {fileID: -4213263217045903187, guid: 0bfe67e3cf42996408e1ba0656068c79, type: 3}
+  itemType: 0
+  isStackable: 0
+  maxStackSize: 16
+  description: Bucket
+  associatedPlantData: {fileID: 0}
+  associatedAnimalData: {fileID: 0}
+  associatedBedData: {fileID: 0}
