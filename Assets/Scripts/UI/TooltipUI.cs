@@ -6,6 +6,8 @@ public class TooltipUI : MonoBehaviour
 {
     public static TooltipUI Instance { get; private set; }
 
+    private TooltipTrigger actionButtonTooltip;
+
     public GameObject tooltipPanel;
     public TextMeshProUGUI itemNameText;
     public float hideDelay = 0.05f;

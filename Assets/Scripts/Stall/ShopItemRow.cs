@@ -1,3 +1,5 @@
+// ShopItemRow.cs
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -16,11 +18,34 @@ public class ShopItemRow : MonoBehaviour
     private Action<ShopItem> onActionButtonClicked;
     private ShopItem currentShopItem;
 
+    // Переменную TooltipTrigger оставляем, но не инициализируем в Awake
+    private TooltipTrigger actionButtonTooltip;
 
-    // ShopItemRow.cs
+    // --- УДАЛЯЕМ МЕТОД AWAKE() ПОЛНОСТЬЮ ---
+    /*
+    private void Awake()
+    {
+       // этого метода больше нет
+    }
+    */
 
     public void Setup(ShopItem shopItem, int shopStock, int playerItemCount, bool isBuyMode, Action<ShopItem> buttonCallback)
     {
+        // --- НАЧАЛО ИЗМЕНЕНИЙ ---
+        // Инициализируем TooltipTrigger ПРЯМО ЗДЕСЬ, в начале Setup.
+        if (actionButtonTooltip == null) // Проверяем, чтобы не делать это каждый раз
+        {
+            actionButtonTooltip = actionButton.GetComponent<TooltipTrigger>();
+            if (actionButtonTooltip == null)
+            {
+                Debug.LogError($"На кнопке '{actionButton.name}' в префабе ShopItemRow отсутствует компонент TooltipTrigger!", gameObject);
+                // Если компонента нет, мы не можем продолжать, иначе будет ошибка.
+                // Лучше просто выйти из метода.
+                return;
+            }
+        }
+        // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
         this.currentShopItem = shopItem;
         this.onActionButtonClicked = buttonCallback;
         var itemData = shopItem.itemData;
@@ -32,109 +57,34 @@ public class ShopItemRow : MonoBehaviour
         {
             buttonText.text = "Buy";
             priceText.text = $"{shopItem.buyPrice} BYN";
-            availableText.text = shopItem.isInfiniteStock ? "In stock" : $"{shopStock}";
+            availableText.text = shopItem.isInfiniteStock ? "В наличии" : $"{shopStock}";
 
-            // --- НАЧАЛО НОВОЙ ЛОГИКИ ПРОВЕРКИ ---
-
-            // 1. Базовые проверки: хватает ли денег и есть ли товар на складе.
-            bool canAfford = PlayerWallet.Instance.HasEnoughMoney(shopItem.buyPrice);
-            bool hasStock = shopItem.isInfiniteStock || shopStock > 0;
-
-            // Начинаем с предположения, что купить можно, если базовые условия выполнены.
-            bool isPurchaseable = canAfford && hasStock;
-
-            // 2. Если базовые условия прошли, проводим более сложные, специфичные для типа предмета, проверки.
-            if (isPurchaseable)
-            {
-                switch (itemData.itemType)
-                {
-                    // ПРОВЕРКА ДЛЯ УЛУЧШЕНИЙ
-                    case ItemType.Upgrade:
-
-                        // улучшение для грядок 
-
-                       
-
-                        // Это улучшение для склада?
-                        if (InventoryManager.Instance.StorageUpgradeData == itemData)
-                        {
-                            isPurchaseable = !TrainUpgradeManager.Instance.HasUpgrade(itemData);
-                            
-                        }
-                        else if (itemData == PlantManager.instance._UpgradeData)
-                        {
-                            isPurchaseable = true;
-                        }
-                        // Иначе, может это улучшение для загона?
-                        else
-                        {
-                            var allConfigs = AnimalPenManager.Instance.GetAllPenConfigs();
-                            var animalForThisUpgrade = allConfigs.FirstOrDefault(c => c.upgradeLevels.Any(l => l.requiredUpgradeItem == itemData))?.animalData;
-
-                            if (animalForThisUpgrade != null)
-                            {
-                                ItemData nextUpgrade = AnimalPenManager.Instance.GetNextAvailableUpgrade(animalForThisUpgrade);
-                                isPurchaseable = (nextUpgrade == itemData);
-                            }
-                            else
-                            {
-                                isPurchaseable = false; // Неизвестное улучшение
-                                Debug.LogWarning($"Не удалось определить назначение улучшения: {itemData.name}");
-                            }
-                        }
-                        break;
-
-                    // ПРОВЕРКА ДЛЯ ЖИВОТНЫХ
-                    case ItemType.Animal:
-                        var animalData = itemData.associatedAnimalData;
-                        if (animalData != null)
-                        {
-                            int currentCount = AnimalPenManager.Instance.GetAnimalCount(animalData);
-                            int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
-                            if (currentCount >= maxCapacity)
-                            {
-                                isPurchaseable = false; // Нет места в загоне
-                            }
-                        }
-                        else
-                        {
-                            isPurchaseable = false; // Ошибка в данных
-                        }
-                        break;
-
-                    // ПРОВЕРКА ДЛЯ ВСЕХ ОСТАЛЬНЫХ ПРЕДМЕТОВ (СЕМЕНА, ИНСТРУМЕНТЫ, ПРОДУКТЫ)
-                    default:
-                        // Проверяем, есть ли место в инвентаре хотя бы для 1 штуки
-                        if (!InventoryManager.Instance.CheckForSpace(itemData, 1))
-                        {
-                            isPurchaseable = false; // Нет места в инвентаре
-                        }
-                        break;
-                }
-            }
+            bool isPurchaseable = ShopUIManager.Instance.IsItemPurchaseable(shopItem, out string reason);
 
             actionButton.interactable = isPurchaseable;
-
-            // --- КОНЕЦ НОВОЙ ЛОГИКИ ПРОВЕРКИ ---
+            actionButtonTooltip.SetTooltip(isPurchaseable ? "" : reason); // Теперь actionButtonTooltip не должен быть null
         }
         else // Режим продажи
         {
             buttonText.text = "Sell";
             priceText.text = $"{shopItem.sellPrice} BYN";
-            availableText.text = $"You have: {playerItemCount}";
+            availableText.text = $"У вас: {playerItemCount}";
+
             bool canSell = false;
+            string reason = "";
+
             if (shopItem.itemData.itemType == ItemType.Animal)
             {
-                // Животных можно продавать, только если их больше одного
                 canSell = playerItemCount > 1;
+                if (!canSell && playerItemCount == 1) reason = "Нельзя продать последнего";
             }
             else
             {
-                // Все остальные предметы можно продавать, если есть хотя бы один
                 canSell = playerItemCount > 0;
             }
 
             actionButton.interactable = canSell && shopItem.willBuy;
+            actionButtonTooltip.SetTooltip(actionButton.interactable ? "" : reason);
         }
 
         actionButton.onClick.RemoveAllListeners();
