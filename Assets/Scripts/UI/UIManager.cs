@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button goToStationButton;
     [SerializeField] private Button returnToTrainButton;
-    // Добавьте сюда другие глобальные панели по необходимости
+    [SerializeField] private GameObject notificationIcon;
+    // Р”РѕР±Р°РІСЊС‚Рµ СЃСЋРґР° РґСЂСѓРіРёРµ РіР»РѕР±Р°Р»СЊРЅС‹Рµ РїР°РЅРµР»Рё РїРѕ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
 
     void Awake()
     {
@@ -20,10 +21,10 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // Привязываем методы к кнопкам.
-        // Кнопки будут вызывать методы в менеджерах, которые существуют всегда.
+        // РџСЂРёРІСЏР·С‹РІР°РµРј РјРµС‚РѕРґС‹ Рє РєРЅРѕРїРєР°Рј.
+        // РљРЅРѕРїРєРё Р±СѓРґСѓС‚ РІС‹Р·С‹РІР°С‚СЊ РјРµС‚РѕРґС‹ РІ РјРµРЅРµРґР¶РµСЂР°С…, РєРѕС‚РѕСЂС‹Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РІСЃРµРіРґР°.
         goToStationButton.onClick.AddListener(() => {
-            // Ищем LocomotiveController на текущей сцене и вызываем его метод
+            // РС‰РµРј LocomotiveController РЅР° С‚РµРєСѓС‰РµР№ СЃС†РµРЅРµ Рё РІС‹Р·С‹РІР°РµРј РµРіРѕ РјРµС‚РѕРґ
             FindObjectOfType<LocomotiveController>()?.OnGoToStationButtonPressed();
         });
 
@@ -31,9 +32,9 @@ public class UIManager : MonoBehaviour
             TransitionManager.Instance.GoToTrainScene();
         });
 
-        // Скрываем все кнопки при самом первом запуске
+        // РЎРєСЂС‹РІР°РµРј РІСЃРµ РєРЅРѕРїРєРё РїСЂРё СЃР°РјРѕРј РїРµСЂРІРѕРј Р·Р°РїСѓСЃРєРµ
         goToStationButton.gameObject.SetActive(false);
-        returnToTrainButton.gameObject.SetActive(false);
+        returnToTrainButton.gameObject.SetActive(false);;
     }
 
     void OnDestroy()
@@ -48,21 +49,26 @@ public class UIManager : MonoBehaviour
 
     private void ConfigureUIForScene(string sceneName)
     {
-        if (sceneName == "SampleScene") // Сцена Поезда
+        if (sceneName == "SampleScene") // РЎС†РµРЅР° РџРѕРµР·РґР°
         {
-            goToStationButton.gameObject.SetActive(false); // Скрыта по умолчанию, пока поезд не прибудет
+            goToStationButton.gameObject.SetActive(false); // РЎРєСЂС‹С‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РїРѕРєР° РїРѕРµР·Рґ РЅРµ РїСЂРёР±СѓРґРµС‚
             returnToTrainButton.gameObject.SetActive(false);
         }
-        else if (sceneName == "Station_1") // Сцена Станции
+        else if (sceneName == "Station_1") // РЎС†РµРЅР° РЎС‚Р°РЅС†РёРё
         {
             goToStationButton.gameObject.SetActive(false);
-            returnToTrainButton.gameObject.SetActive(true); // Всегда видна на станции
+            returnToTrainButton.gameObject.SetActive(true); // Р’СЃРµРіРґР° РІРёРґРЅР° РЅР° СЃС‚Р°РЅС†РёРё
         }
     }
 
-    // Публичные методы, которые могут вызывать другие скрипты
+    // РџСѓР±Р»РёС‡РЅС‹Рµ РјРµС‚РѕРґС‹, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ РІС‹Р·С‹РІР°С‚СЊ РґСЂСѓРіРёРµ СЃРєСЂРёРїС‚С‹
     public void ShowGoToStationButton(bool show)
     {
         goToStationButton.gameObject.SetActive(show);
+    }
+
+    public void ShowNotification(bool show)
+    {
+        notificationIcon.SetActive(show);
     }
 }

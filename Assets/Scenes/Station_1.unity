@@ -1638,8 +1638,9 @@ MonoBehaviour:
   totalPriceText: {fileID: 1186156418}
   plusButton: {fileID: 2033970693}
   minusButton: {fileID: 16069026}
-  confirmButton: {fileID: 308732715}
-  cancelButton: {fileID: 645438462}
+  yesButton: {fileID: 308732715}
+  noButton: {fileID: 645438462}
+  cancelButton: {fileID: 455491454}
 --- !u!4 &567195453
 Transform:
   m_ObjectHideFlags: 0

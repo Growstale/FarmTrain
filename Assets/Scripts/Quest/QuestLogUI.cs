@@ -23,6 +23,7 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI detailsDescriptionText;
     [SerializeField] private TextMeshProUGUI detailsGoalsText;
     [SerializeField] private TextMeshProUGUI detailsRewardText;
+    [SerializeField] private Slider questProgressSlider;
 
     private List<GameObject> spawnedEntries = new List<GameObject>();
     private Quest selectedQuest; // По умолчанию он и так null
@@ -141,10 +142,28 @@ public class QuestLogUI : MonoBehaviour
 
         // Формируем строку с целями
         string goalsString = "";
+        float totalProgress = 0f;
+        int activeGoalsCount = 0;
+        bool allGoalsCompleted = true;
+
         foreach (var goal in quest.goals)
         {
-            goalsString += $"{goal.currentAmount}/{goal.requiredAmount}\n";
+            totalProgress += (float)goal.currentAmount / goal.requiredAmount;
+            activeGoalsCount++;
+            allGoalsCompleted = false;
         }
         detailsGoalsText.text = goalsString.TrimEnd('\n'); // Убираем лишний перенос строки
+
+        if (quest.goals.Count > 0)
+        {
+            if (allGoalsCompleted)
+            {
+                questProgressSlider.value = 1f;
+            }
+            else
+            {
+                questProgressSlider.value = totalProgress / activeGoalsCount;
+            }
+        }
     }
 }
