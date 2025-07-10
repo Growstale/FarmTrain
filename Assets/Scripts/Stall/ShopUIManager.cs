@@ -172,17 +172,15 @@ public class ShopUIManager : MonoBehaviour
     {
         reason = "";
         var itemData = shopItem.itemData;
-
-        if (!PlayerWallet.Instance.HasEnoughMoney(shopItem.buyPrice))
-        {
-            reason = "Недостаточно денег";
-            return false;
-        }
-
         int shopStock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
         if (!shopItem.isInfiniteStock && shopStock <= 0)
         {
-            reason = "Нет в наличии";
+            reason = "Out of stock";
+            return false;
+        }
+        if (!PlayerWallet.Instance.HasEnoughMoney(shopItem.buyPrice))
+        {
+            reason = "Not enough money";
             return false;
         }
 
@@ -193,7 +191,7 @@ public class ShopUIManager : MonoBehaviour
                 {
                     if (TrainUpgradeManager.Instance.HasUpgrade(itemData))
                     {
-                        reason = "Улучшение уже куплено";
+                        reason = "The upgrade has already been purchased";
                         return false;
                     }
                 }
@@ -201,7 +199,7 @@ public class ShopUIManager : MonoBehaviour
                 {
                     if (PlantManager.instance.UpgradeWatering)
                     {
-                        reason = "Улучшение уже куплено";
+                        reason = "The upgrade has already been purchased";
                         return false;
                     }
                 }
@@ -213,7 +211,7 @@ public class ShopUIManager : MonoBehaviour
                     {
                         if (AnimalPenManager.Instance.GetNextAvailableUpgrade(animalForThisUpgrade) != itemData)
                         {
-                            reason = "Требуется предыдущее улучшение";
+                            reason = "Previous improvement is required";
                             return false;
                         }
                     }
@@ -228,7 +226,7 @@ public class ShopUIManager : MonoBehaviour
                     int maxCapacity = AnimalPenManager.Instance.GetMaxCapacityForAnimal(animalData);
                     if (currentCount >= maxCapacity)
                     {
-                        reason = "Нет места в загоне";
+                        reason = "The pen is full";
                         return false;
                     }
                 }
@@ -237,7 +235,7 @@ public class ShopUIManager : MonoBehaviour
             default:
                 if (!InventoryManager.Instance.CheckForSpace(itemData, 1))
                 {
-                    reason = "Нет места в инвентаре";
+                    reason = "Inventory is full";
                     return false;
                 }
                 break;
@@ -268,22 +266,23 @@ public class ShopUIManager : MonoBehaviour
         var itemData = currentItemForTransaction.itemData;
         int price = isBuyMode ? currentItemForTransaction.buyPrice : currentItemForTransaction.sellPrice;
         int maxQuantity = int.MaxValue;
-        string plusDisabledReason = ""; // Причина блокировки для кнопки "+"
+        string plusDisabledReason = "";
 
         if (isBuyMode)
         {
+            // Логика для покупки (остается без изменений)
             int stock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
             if (!currentItemForTransaction.isInfiniteStock && stock < maxQuantity)
             {
                 maxQuantity = stock;
-                plusDisabledReason = "Нет в наличии";
+                plusDisabledReason = "Out of stock";
             }
 
             int affordable = (price > 0) ? PlayerWallet.Instance.GetCurrentMoney() / price : int.MaxValue;
             if (affordable < maxQuantity)
             {
                 maxQuantity = affordable;
-                plusDisabledReason = "Недостаточно денег";
+                plusDisabledReason = "Not enough money";
             }
 
             if (itemData.itemType == ItemType.Animal)
@@ -295,35 +294,45 @@ public class ShopUIManager : MonoBehaviour
                     if (availableSpace < maxQuantity)
                     {
                         maxQuantity = availableSpace;
-                        plusDisabledReason = "Нет места в загоне";
+                        plusDisabledReason = "The pen is full";
                     }
                 }
             }
             else if (itemData.itemType != ItemType.Upgrade)
             {
-                // Для обычных предметов проверяем место в инвентаре
-                // Эта логика сложнее, т.к. место зависит от стаков, поэтому оставим общую причину
                 if (!InventoryManager.Instance.CheckForSpace(itemData, transactionQuantity + 1))
                 {
                     if (transactionQuantity < maxQuantity)
                     {
                         maxQuantity = transactionQuantity;
-                        plusDisabledReason = "Нет места в инвентаре";
+                        plusDisabledReason = "Inventory is full";
                     }
                 }
             }
         }
         else // Режим продажи
         {
+            // --- НАЧАЛО ИСПРАВЛЕНИЯ ---
             if (itemData.itemType == ItemType.Animal)
             {
-                maxQuantity = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                // Получаем общее количество животных этого типа
+                int totalPlayerAnimals = AnimalPenManager.Instance.GetAnimalCount(itemData.associatedAnimalData);
+                // Максимальное количество для продажи - это все, КРОМЕ ОДНОГО.
+                maxQuantity = totalPlayerAnimals - 1;
+                plusDisabledReason = "Can't sell the last";
             }
-            else
+            else // Для обычных предметов
             {
                 maxQuantity = InventoryManager.Instance.GetTotalItemQuantity(itemData);
+                plusDisabledReason = "You don't have any more";
             }
-            plusDisabledReason = "У вас больше нет";
+            // --- КОНЕЦ ИСПРАВЛЕНИЯ ---
+        }
+
+        // Защита от отрицательных значений, если у игрока 0 или 1 животное
+        if (maxQuantity < 0)
+        {
+            maxQuantity = 0;
         }
 
         transactionQuantity = Mathf.Clamp(transactionQuantity, 1, maxQuantity);
@@ -343,7 +352,7 @@ public class ShopUIManager : MonoBehaviour
         }
         if (minusButtonTooltip != null)
         {
-            minusButtonTooltip.SetTooltip(minusButton.interactable ? "" : "Нельзя выбрать меньше 1");
+            minusButtonTooltip.SetTooltip(minusButton.interactable ? "" : "You cannot select less than 1");
         }
     }
 

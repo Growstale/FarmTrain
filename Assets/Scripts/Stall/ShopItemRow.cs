@@ -57,7 +57,7 @@ public class ShopItemRow : MonoBehaviour
         {
             buttonText.text = "Buy";
             priceText.text = $"{shopItem.buyPrice} BYN";
-            availableText.text = shopItem.isInfiniteStock ? "В наличии" : $"{shopStock}";
+            availableText.text = shopItem.isInfiniteStock ? "Available" : $"{shopStock}";
 
             bool isPurchaseable = ShopUIManager.Instance.IsItemPurchaseable(shopItem, out string reason);
 
@@ -68,7 +68,7 @@ public class ShopItemRow : MonoBehaviour
         {
             buttonText.text = "Sell";
             priceText.text = $"{shopItem.sellPrice} BYN";
-            availableText.text = $"У вас: {playerItemCount}";
+            availableText.text = $"You have: {playerItemCount}";
 
             bool canSell = false;
             string reason = "";
@@ -76,7 +76,7 @@ public class ShopItemRow : MonoBehaviour
             if (shopItem.itemData.itemType == ItemType.Animal)
             {
                 canSell = playerItemCount > 1;
-                if (!canSell && playerItemCount == 1) reason = "Нельзя продать последнего";
+                if (!canSell && playerItemCount == 1) reason = "You can't sell the last one";
             }
             else
             {

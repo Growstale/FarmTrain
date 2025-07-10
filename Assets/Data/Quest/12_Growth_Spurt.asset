@@ -24,8 +24,8 @@ MonoBehaviour:
     targetID: Fertilizer
     requiredAmount: 1
     targetIDs: []
-    currentAmount: 0
+    currentAmount: 1
   rewardXP: 15
-  status: 1
+  status: 2
   isPinned: 0
-  hasBeenViewed: 1
+  hasBeenViewed: 0

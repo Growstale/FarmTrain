@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 
 public class TrainCameraController : MonoBehaviour
@@ -92,6 +93,11 @@ public class TrainCameraController : MonoBehaviour
 
     void HandleInput()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
         {
             return;
