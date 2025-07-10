@@ -10,6 +10,7 @@ public class TrainingVideoManager : MonoBehaviour
     public VideoPlayer videoPlayer;
     public Button backButton;
     public Button forwardButton;
+    public GameObject notificationIcon;
 
     [Header("Clips")]
     public VideoClip[] clips;
@@ -65,6 +66,9 @@ public class TrainingVideoManager : MonoBehaviour
     {
         if (trainingPanel != null)
             trainingPanel.SetActive(true);
+
+        if (notificationIcon != null)
+            notificationIcon.SetActive(false);
 
         if (clips == null || clips.Length == 0)
         {

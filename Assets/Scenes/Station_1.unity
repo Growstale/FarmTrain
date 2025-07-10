@@ -2866,7 +2866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationSprites:
-  - {fileID: -1393542105723367964, guid: b7e885e89cf395f41bf09e1c8b066a7f, type: 3}
+  - {fileID: 4997725093122674345, guid: f62a9a93041809243b9b27bb669403e7, type: 3}
   - {fileID: 2320320156498017979, guid: 756ecb0de87e7b64f9e906914f875a90, type: 3}
   - {fileID: -6893238841441596748, guid: bcfab71ef42a2c747b5ff3113f5ff5fc, type: 3}
 --- !u!1 &1178154411
@@ -4455,7 +4455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationSprites:
-  - {fileID: -1393542105723367964, guid: b7e885e89cf395f41bf09e1c8b066a7f, type: 3}
+  - {fileID: 4997725093122674345, guid: f62a9a93041809243b9b27bb669403e7, type: 3}
   - {fileID: 2320320156498017979, guid: 756ecb0de87e7b64f9e906914f875a90, type: 3}
   - {fileID: -6893238841441596748, guid: bcfab71ef42a2c747b5ff3113f5ff5fc, type: 3}
 --- !u!1 &2033970689
@@ -5091,7 +5091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationSprites:
-  - {fileID: -1393542105723367964, guid: b7e885e89cf395f41bf09e1c8b066a7f, type: 3}
+  - {fileID: 4997725093122674345, guid: f62a9a93041809243b9b27bb669403e7, type: 3}
   - {fileID: 2320320156498017979, guid: 756ecb0de87e7b64f9e906914f875a90, type: 3}
   - {fileID: -6893238841441596748, guid: bcfab71ef42a2c747b5ff3113f5ff5fc, type: 3}
 --- !u!1660057539 &9223372036854775807

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      lavka_desert_0: 4997725093122674345
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
