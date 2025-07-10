@@ -4,9 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RadioManager : MonoBehaviour
 {
+    public static RadioManager Instance;
+
     [System.Serializable]
     public class RadioStation
     {
@@ -35,7 +38,9 @@ public class RadioManager : MonoBehaviour
 
     private int currentStationIndex = 0;
     private int currentTrackIndex = 0;
-    private bool isPlaying = false;
+    public static int CurrentStationIndex { get; set; }
+    public static int CurrentTrackIndex { get; set; }
+    public static bool IsPlaying { get; set; }
     private bool isDragging = false;
     private bool isRepeatOn = false;
     private bool isShuffleOn = false;
@@ -43,15 +48,47 @@ public class RadioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            if (radioPanel == null)
+            {
+                radioPanel = transform.Find("RadioPanel")?.gameObject;
+                if (radioPanel == null) Debug.LogError("RadioPanel не найден!");
+            }
+
+            radioPanel.SetActive(false);
+        }   
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         openButton.onClick.AddListener(OpenRadioPanel);
         closeButton.onClick.AddListener(CloseRadioPanel);
         radioPanel.SetActive(false);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (radioPanel != null)
+        {
+            radioPanel.SetActive(false);
+        }
     }
 
     void Start()
     {
         stations[0].isUnlocked = true;
         UpdateText();
+
+        radioPanel?.SetActive(false);
+
         if (stations[0].tracks.Length > 0)
         {
             Debug.Log($"RadioManager: Воспроизведение первого трека на станции {stations[0].name}");
@@ -67,7 +104,7 @@ public class RadioManager : MonoBehaviour
 
     void Update()
     {
-        if (isPlaying && !isDragging)
+        if (IsPlaying && !isDragging)
         {
             currentPlayTime = audioSource.time;
             progressSlider.value = currentPlayTime;
@@ -101,6 +138,12 @@ public class RadioManager : MonoBehaviour
 
     public void PlayTrack()
     {
+        if (audioSource.isPlaying && audioSource.clip == stations[currentStationIndex].tracks[currentTrackIndex]) return;
+
+        CurrentStationIndex = currentStationIndex;
+        CurrentTrackIndex = currentTrackIndex;
+        IsPlaying = true;
+
         if (stations[currentStationIndex].tracks.Length == 0)
         {
             Debug.LogWarning($"RadioManager: На станции нет доступных треков {stations[currentStationIndex].name}");
@@ -111,7 +154,7 @@ public class RadioManager : MonoBehaviour
 
         audioSource.clip = stations[currentStationIndex].tracks[currentTrackIndex];
         audioSource.Play();
-        isPlaying = true;
+        IsPlaying = true;
 
         trackLength = audioSource.clip.length;
         progressSlider.maxValue = trackLength;
@@ -168,17 +211,17 @@ public class RadioManager : MonoBehaviour
 
     public void TogglePlayPause()
     {
-        if (isPlaying)
+        if (IsPlaying)
         {
             Debug.Log("RadioManager: Пауза");
             audioSource.Pause();
-            isPlaying = false;
+            IsPlaying = false;
         }
         else
         {
             Debug.Log("RadioManager: Возобновление");
             audioSource.Play();
-            isPlaying = true;
+            IsPlaying = true;
         }
         UpdateText();
     }
@@ -219,6 +262,18 @@ public class RadioManager : MonoBehaviour
 
     public void SwitchStation(int stationIndex)
     {
+        if (stationIndex < 0 || stationIndex >= stations.Length)
+        {
+            Debug.LogError($"RadioManager: Неверный индекс станции {stationIndex}");
+            return;
+        }
+
+        if (!stations[stationIndex].isUnlocked)
+        {
+            Debug.LogWarning($"RadioManager: Станция {stations[stationIndex].name} еще не разблокирована");
+            return;
+        }
+
         Debug.Log($"RadioManager: Переключение на станцию {stations[stationIndex].name}");
         currentStationIndex = stationIndex;
         currentTrackIndex = 0;

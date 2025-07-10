@@ -464,6 +464,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 887109063}
+        m_TargetAssemblyTypeName: RadioManager, Assembly-CSharp
+        m_MethodName: OpenRadioPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &21080309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1792,6 +1804,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goToStationButton: {fileID: 1247684380}
   returnToTrainButton: {fileID: 606663125}
+  radioButton: {fileID: 21080308}
+  radioOnIcon: {fileID: -2339119760941532685, guid: 9276b2d06676db449b5eddbf0db0197a, type: 3}
+  radioOffIcon: {fileID: -8070686850402279387, guid: 6e67a866ae3f98545819edf8a7c51d51, type: 3}
 --- !u!1 &157492188
 GameObject:
   m_ObjectHideFlags: 0
@@ -10623,6 +10638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f916c329be85ae8418dc779f2a1e7dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationDatas:
+  - {fileID: 11400000, guid: 9d18d28a8cb1bf842b09e445d2465e1f, type: 2}
+  - {fileID: 11400000, guid: d29737b7ec21ec545b5c417153959b1d, type: 2}
+  - {fileID: 11400000, guid: 6453920a72dbcfe45a47e52d5873bd51, type: 2}
   stations:
   - name: FM 87.9
     tracks:
@@ -19956,13 +19975,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1655991513}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 887109063}
+        m_TargetAssemblyTypeName: RadioManager, Assembly-CSharp
+        m_MethodName: CloseRadioPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21910,6 +21929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2dceb42797108438698ae33c8b815e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpgradeWatering: 0
   _UpgradeData: {fileID: 11400000, guid: 4ab8f4ee00b426145bc94f5609ac441b, type: 2}
 --- !u!4 &1771764872
 Transform:
