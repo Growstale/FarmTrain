@@ -127,6 +127,7 @@ public class QuestManager : MonoBehaviour
                         case GoalType.Gather:
                         case GoalType.Buy:
                         case GoalType.FeedAnimal:
+                        case GoalType.Use:
                             if (goal.targetID == targetID) progressMadeOnThisGoal = true;
                             break;
 

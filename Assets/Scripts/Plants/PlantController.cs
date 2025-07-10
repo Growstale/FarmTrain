@@ -334,8 +334,17 @@ public class PlantController : MonoBehaviour
                 {
                     if (!isFertilize)
                     {
+                        ItemData usedFertilizer = selectedItem.itemData;
+
                         FertilizePlant(IdSlots);
                         InventoryManager.Instance.RemoveItem(selectedIndex);
+
+                        if (QuestManager.Instance != null)
+                        {
+                            QuestManager.Instance.AddQuestProgress(GoalType.Use, usedFertilizer.name, 1);
+                            Debug.Log($"[Quest Event] Отправлен прогресс для Use: {usedFertilizer.name}");
+                        }
+
                     }
                     else
                     {
