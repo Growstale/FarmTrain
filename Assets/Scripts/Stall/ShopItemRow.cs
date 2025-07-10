@@ -122,8 +122,19 @@ public class ShopItemRow : MonoBehaviour
             buttonText.text = "Sell";
             priceText.text = $"{shopItem.sellPrice} BYN";
             availableText.text = $"You have: {playerItemCount}";
-            bool playerHasItem = playerItemCount > 0;
-            actionButton.interactable = playerHasItem && shopItem.willBuy;
+            bool canSell = false;
+            if (shopItem.itemData.itemType == ItemType.Animal)
+            {
+                // ∆ивотных можно продавать, только если их больше одного
+                canSell = playerItemCount > 1;
+            }
+            else
+            {
+                // ¬се остальные предметы можно продавать, если есть хот€ бы один
+                canSell = playerItemCount > 0;
+            }
+
+            actionButton.interactable = canSell && shopItem.willBuy;
         }
 
         actionButton.onClick.RemoveAllListeners();
