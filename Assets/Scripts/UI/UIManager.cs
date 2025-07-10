@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button goToStationButton;
     [SerializeField] private Button returnToTrainButton;
+    [SerializeField] private GameObject notificationIcon;
     // Добавьте сюда другие глобальные панели по необходимости
 
     void Awake()
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
         goToStationButton.onClick.AddListener(() => {
             // Ищем LocomotiveController на текущей сцене и вызываем его метод
             FindObjectOfType<LocomotiveController>()?.OnGoToStationButtonPressed();
+            HideNotification();
         });
 
         returnToTrainButton.onClick.AddListener(() => {
@@ -64,5 +66,15 @@ public class UIManager : MonoBehaviour
     public void ShowGoToStationButton(bool show)
     {
         goToStationButton.gameObject.SetActive(show);
+    }
+
+    public void ShowNotification(bool show)
+    {
+        notificationIcon.SetActive(show);
+    }
+
+    public void HideNotification()
+    {
+        notificationIcon.SetActive(false);
     }
 }

@@ -31,18 +31,18 @@ public class TransitionManager : MonoBehaviour
         RadioManager.Instance.radioPanel?.SetActive(false);
 
         isReturningFromStation = true;
-        Debug.Log("<color=magenta>Ïåğåõîä íà ñöåíó ïîåçäà. isReturningFromStation = true</color>");
+        Debug.Log("<color=magenta>ĞŸĞµÑ€ĞµÑ…Ğ¾Ğ´ Ğ½Ğ° ÑÑ†ĞµĞ½Ñƒ Ğ¿Ğ¾ĞµĞ·Ğ´Ğ°. isReturningFromStation = true</color>");
 
-        // <<< ÓÁÅÄÈÒÅÑÜ, ×ÒÎ ÈÌß ÑÖÅÍÛ ÇÄÅÑÜ ÂÅĞÍÎÅ!
+        // <<< Ğ£Ğ‘Ğ•Ğ”Ğ˜Ğ¢Ğ•Ğ¡Ğ¬, Ğ§Ğ¢Ğ Ğ˜ĞœĞ¯ Ğ¡Ğ¦Ğ•ĞĞ« Ğ—Ğ”Ğ•Ğ¡Ğ¬ Ğ’Ğ•Ğ ĞĞĞ•!
         SceneManager.LoadScene("SampleScene");
         StartCoroutine(RestoreRadioState(currentClip, currentTime, wasPlaying));
     }
 
     public void UnlockDeparture()
     {
-        if (isDepartureUnlocked) return; // ×òîáû íå ñïàìèòü â ëîã
+        if (isDepartureUnlocked) return; // Ğ§Ñ‚Ğ¾Ğ±Ñ‹ Ğ½Ğµ ÑĞ¿Ğ°Ğ¼Ğ¸Ñ‚ÑŒ Ğ² Ğ»Ğ¾Ğ³
         isDepartureUnlocked = true;
-        Debug.Log("<color=magenta>[TransitionManager] Îòïğàâëåíèå ñî ñòàíöèè ĞÀÇÁËÎÊÈĞÎÂÀÍÎ.</color>");
+        Debug.Log("<color=magenta>[TransitionManager] ĞÑ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ ÑĞ¾ ÑÑ‚Ğ°Ğ½Ñ†Ğ¸Ğ¸ Ğ ĞĞ—Ğ‘Ğ›ĞĞšĞ˜Ğ ĞĞ’ĞĞĞ.</color>");
     }
 
     private IEnumerator RestoreRadioState(AudioClip clip, float time, bool play)

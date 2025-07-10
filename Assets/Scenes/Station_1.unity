@@ -1411,6 +1411,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Menu_Sound, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &455491455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,8 +1650,9 @@ MonoBehaviour:
   totalPriceText: {fileID: 1186156418}
   plusButton: {fileID: 2033970693}
   minusButton: {fileID: 16069026}
-  confirmButton: {fileID: 308732715}
-  cancelButton: {fileID: 645438462}
+  yesButton: {fileID: 308732715}
+  noButton: {fileID: 645438462}
+  cancelButton: {fileID: 455491454}
 --- !u!4 &567195453
 Transform:
   m_ObjectHideFlags: 0

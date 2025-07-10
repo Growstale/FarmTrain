@@ -29,7 +29,8 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalPriceText;
     [SerializeField] private Button plusButton;
     [SerializeField] private Button minusButton;
-    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
     [SerializeField] private Button cancelButton;
 
     private ShopInventoryData currentShopData;
@@ -70,7 +71,8 @@ public class ShopUIManager : MonoBehaviour
 
         plusButton.onClick.AddListener(IncreaseQuantity);
         minusButton.onClick.AddListener(DecreaseQuantity);
-        confirmButton.onClick.AddListener(ConfirmTransaction);
+        yesButton.onClick.AddListener(ConfirmTransaction);
+        noButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
         cancelButton.onClick.AddListener(() => confirmationPanel.SetActive(false));
     }
 
@@ -218,7 +220,7 @@ public class ShopUIManager : MonoBehaviour
 
         quantityText.text = transactionQuantity.ToString();
         totalPriceText.text = $"{transactionQuantity * price}";
-        confirmButton.interactable = transactionQuantity > 0;
+        yesButton.interactable = transactionQuantity > 0;
     }
 
 

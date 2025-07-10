@@ -24,7 +24,11 @@ MonoBehaviour:
     targetID: 
     requiredAmount: 15
     targetIDs: []
+<<<<<<< Updated upstream
     currentAmount: 15
+=======
+    currentAmount: 5
+>>>>>>> Stashed changes
   rewardXP: 30
   status: 2
   isPinned: 0

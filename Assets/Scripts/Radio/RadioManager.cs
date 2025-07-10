@@ -56,7 +56,7 @@ public class RadioManager : MonoBehaviour
             if (radioPanel == null)
             {
                 radioPanel = transform.Find("RadioPanel")?.gameObject;
-                if (radioPanel == null) Debug.LogError("RadioPanel не найден!");
+                if (radioPanel == null) Debug.LogError("RadioPanel РЅРµ РЅР°Р№РґРµРЅ!");
             }
 
             radioPanel.SetActive(false);
@@ -91,12 +91,12 @@ public class RadioManager : MonoBehaviour
 
         if (stations[0].tracks.Length > 0)
         {
-            Debug.Log($"RadioManager: Воспроизведение первого трека на станции {stations[0].name}");
+            Debug.Log($"RadioManager: Р’РѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёРµ РїРµСЂРІРѕРіРѕ С‚СЂРµРєР° РЅР° СЃС‚Р°РЅС†РёРё {stations[0].name}");
             PlayTrack();
         }
         else
         {
-            Debug.LogWarning("RadioManager: Не найдено треков для первой станции");
+            Debug.LogWarning("RadioManager: РќРµ РЅР°Р№РґРµРЅРѕ С‚СЂРµРєРѕРІ РґР»СЏ РїРµСЂРІРѕР№ СЃС‚Р°РЅС†РёРё");
         }
         UpdateRepeatButtonVisual();
         UpdateShuffleButtonVisual();
@@ -113,13 +113,13 @@ public class RadioManager : MonoBehaviour
             {
                 if (isRepeatOn)
                 {
-                    Debug.Log("RadioManager: Повтор трека");
+                    Debug.Log("RadioManager: РџРѕРІС‚РѕСЂ С‚СЂРµРєР°");
                     audioSource.time = 0;
                     audioSource.Play();
                 }
                 else
                 {
-                    Debug.Log("RadioManager: Трек завершился, играет следующий");
+                    Debug.Log("RadioManager: РўСЂРµРє Р·Р°РІРµСЂС€РёР»СЃСЏ, РёРіСЂР°РµС‚ СЃР»РµРґСѓСЋС‰РёР№");
                     PlayNextTrack();
                 }
             }
@@ -146,11 +146,11 @@ public class RadioManager : MonoBehaviour
 
         if (stations[currentStationIndex].tracks.Length == 0)
         {
-            Debug.LogWarning($"RadioManager: На станции нет доступных треков {stations[currentStationIndex].name}");
+            Debug.LogWarning($"RadioManager: РќР° СЃС‚Р°РЅС†РёРё РЅРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… С‚СЂРµРєРѕРІ {stations[currentStationIndex].name}");
             return;
         }
 
-        Debug.Log($"RadioManager: Воспроизведение трека {currentTrackIndex} на станции{stations[currentStationIndex].name}");
+        Debug.Log($"RadioManager: Р’РѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёРµ С‚СЂРµРєР° {currentTrackIndex} РЅР° СЃС‚Р°РЅС†РёРё{stations[currentStationIndex].name}");
 
         audioSource.clip = stations[currentStationIndex].tracks[currentTrackIndex];
         audioSource.Play();
@@ -165,13 +165,13 @@ public class RadioManager : MonoBehaviour
 
     public void PlayNextTrack()
     {
-        Debug.Log("RadioManager: Переключение на следующий трек");
+        Debug.Log("RadioManager: РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РЅР° СЃР»РµРґСѓСЋС‰РёР№ С‚СЂРµРє");
 
         if (isShuffleOn)
         {
             if (shuffledTracks.Count == 0)
             {
-                Debug.Log("RadioManager: Восстановление списка перемешанных треков");
+                Debug.Log("RadioManager: Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЃРїРёСЃРєР° РїРµСЂРµРјРµС€Р°РЅРЅС‹С… С‚СЂРµРєРѕРІ");
                 ShuffledTracks();
             }
 
@@ -188,13 +188,13 @@ public class RadioManager : MonoBehaviour
 
     public void PlayPreviousTrack()
     {
-        Debug.Log("RadioManager: Переключение на предыдущий трек");
+        Debug.Log("RadioManager: РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ С‚СЂРµРє");
 
         if (isShuffleOn)
         {
             if (shuffledTracks.Count == 0)
             {
-                Debug.Log("RadioManager: Восстановление списка перемешанных треков");
+                Debug.Log("RadioManager: Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЃРїРёСЃРєР° РїРµСЂРµРјРµС€Р°РЅРЅС‹С… С‚СЂРµРєРѕРІ");
                 ShuffledTracks();
             }
 
@@ -213,13 +213,13 @@ public class RadioManager : MonoBehaviour
     {
         if (IsPlaying)
         {
-            Debug.Log("RadioManager: Пауза");
+            Debug.Log("RadioManager: РџР°СѓР·Р°");
             audioSource.Pause();
             IsPlaying = false;
         }
         else
         {
-            Debug.Log("RadioManager: Возобновление");
+            Debug.Log("RadioManager: Р’РѕР·РѕР±РЅРѕРІР»РµРЅРёРµ");
             audioSource.Play();
             IsPlaying = true;
         }
@@ -229,7 +229,7 @@ public class RadioManager : MonoBehaviour
     public void ToggleRepeat()
     {
         isRepeatOn = !isRepeatOn;
-        Debug.Log($"RadioManager: Режим повтора {(isRepeatOn ? "включен" : "выключен")}");
+        Debug.Log($"RadioManager: Р РµР¶РёРј РїРѕРІС‚РѕСЂР° {(isRepeatOn ? "РІРєР»СЋС‡РµРЅ" : "РІС‹РєР»СЋС‡РµРЅ")}");
         UpdateRepeatButtonVisual();
         UpdateText();
     }
@@ -245,7 +245,7 @@ public class RadioManager : MonoBehaviour
     public void ToggleShuffle()
     {
         isShuffleOn = !isShuffleOn;
-        Debug.Log($"RadioManager: Режим перемешиванмя {(isShuffleOn ? "включен" : "выключен")}");
+        Debug.Log($"RadioManager: Р РµР¶РёРј РїРµСЂРµРјРµС€РёРІР°РЅРјСЏ {(isShuffleOn ? "РІРєР»СЋС‡РµРЅ" : "РІС‹РєР»СЋС‡РµРЅ")}");
         if (isShuffleOn)
             ShuffledTracks();
         UpdateShuffleButtonVisual();
@@ -264,17 +264,17 @@ public class RadioManager : MonoBehaviour
     {
         if (stationIndex < 0 || stationIndex >= stations.Length)
         {
-            Debug.LogError($"RadioManager: Неверный индекс станции {stationIndex}");
+            Debug.LogError($"RadioManager: РќРµРІРµСЂРЅС‹Р№ РёРЅРґРµРєСЃ СЃС‚Р°РЅС†РёРё {stationIndex}");
             return;
         }
 
         if (!stations[stationIndex].isUnlocked)
         {
-            Debug.LogWarning($"RadioManager: Станция {stations[stationIndex].name} еще не разблокирована");
+            Debug.LogWarning($"RadioManager: РЎС‚Р°РЅС†РёСЏ {stations[stationIndex].name} РµС‰Рµ РЅРµ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅР°");
             return;
         }
 
-        Debug.Log($"RadioManager: Переключение на станцию {stations[stationIndex].name}");
+        Debug.Log($"RadioManager: РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РЅР° СЃС‚Р°РЅС†РёСЋ {stations[stationIndex].name}");
         currentStationIndex = stationIndex;
         currentTrackIndex = 0;
         PlayTrack();
@@ -283,13 +283,13 @@ public class RadioManager : MonoBehaviour
     public void UnlockStation(int stationIndex)
     {
         stations[stationIndex].isUnlocked = true;
-        Debug.Log($"RadioManager: Станция {stations[stationIndex].name} разблокирована");
+        Debug.Log($"RadioManager: РЎС‚Р°РЅС†РёСЏ {stations[stationIndex].name} СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅР°");
         UpdateText();
     }
 
     private void ShuffledTracks()
     {
-        Debug.Log("RadioManager: Перемешивание треков");
+        Debug.Log("RadioManager: РџРµСЂРµРјРµС€РёРІР°РЅРёРµ С‚СЂРµРєРѕРІ");
         shuffledTracks = Enumerable.Range(0, stations[currentStationIndex].tracks.Length).ToList();
         shuffledTracks = shuffledTracks.OrderBy(x => Random.value).ToList();
     }
@@ -303,14 +303,14 @@ public class RadioManager : MonoBehaviour
     public void OnSliderBeginDrag()
     {
         isDragging = true;
-        Debug.Log("RadioManager: Начали перемотку");
+        Debug.Log("RadioManager: РќР°С‡Р°Р»Рё РїРµСЂРµРјРѕС‚РєСѓ");
     }
 
     public void OnSliderEndDrag()
     {
         isDragging = false;
         audioSource.time = progressSlider.value;
-        Debug.Log($"RadioManager: Перемотка завершена. Новое время: {progressSlider.value}");
+        Debug.Log($"RadioManager: РџРµСЂРµРјРѕС‚РєР° Р·Р°РІРµСЂС€РµРЅР°. РќРѕРІРѕРµ РІСЂРµРјСЏ: {progressSlider.value}");
     }
 
     public void SliderValueChanged()
