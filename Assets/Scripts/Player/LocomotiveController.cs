@@ -174,6 +174,11 @@ public class LocomotiveController : MonoBehaviour
 
             RadioManager.Instance.radioPanel?.SetActive(false);
 
+            if (TrainingVideoManager.Instance != null)
+            {
+                TrainingVideoManager.Instance.Close();
+            }
+
             UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
 
             // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
@@ -224,6 +229,11 @@ public class LocomotiveController : MonoBehaviour
 
         // Останавливаем фон, так как он мог запуститься при загрузке сцены
         foreach (var layer in parallaxLayers) layer.enabled = false;
+
+        if (TransitionManager.wasTrainingPanelOpen && TrainingVideoManager.Instance != null)
+        {
+            TrainingVideoManager.Instance.Open();
+        }
     }
 
     private IEnumerator DepartSequence()

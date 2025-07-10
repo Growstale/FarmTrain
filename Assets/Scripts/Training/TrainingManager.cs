@@ -5,6 +5,8 @@ using UnityEngine.Video;
 [RequireComponent(typeof(VideoPlayer))]
 public class TrainingVideoManager : MonoBehaviour
 {
+    public static TrainingVideoManager Instance { get; private set; }
+
     [Header("References")]
     public GameObject trainingPanel;
     public VideoPlayer videoPlayer;
@@ -19,6 +21,15 @@ public class TrainingVideoManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         if (videoPlayer == null)
             videoPlayer = GetComponent<VideoPlayer>();
 

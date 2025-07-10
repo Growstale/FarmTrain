@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +18,7 @@ public class RadioManager : MonoBehaviour
     }
 
     public RadioStation[] stations;
+    public Button[] stationButtons;
     public AudioSource audioSource;
     public TextMeshProUGUI stationText;
     public TextMeshProUGUI songText;
@@ -84,7 +84,29 @@ public class RadioManager : MonoBehaviour
 
     void Start()
     {
-        stations[0].isUnlocked = true;
+        if (stationButtons.Length != stations.Length)
+        {
+            Debug.LogError($"Количество кнопок ({stationButtons.Length}) не совпадает с количеством станций ({stations.Length})!");
+        }
+
+        for (int i = 0; i < stations.Length; i++)
+        {
+            stations[i].isUnlocked = (i == 0);
+
+            if (i < stationButtons.Length)
+            {
+                int stationIndex = i;
+                stationButtons[i].onClick.AddListener(() => SwitchStation(stationIndex));
+                stationButtons[i].interactable = stations[i].isUnlocked;
+
+                var buttonText = stationButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null)
+                {
+                    buttonText.text = stations[i].name;
+                }
+            }
+        }
+
         UpdateText();
 
         radioPanel?.SetActive(false);
@@ -138,6 +160,14 @@ public class RadioManager : MonoBehaviour
 
     public void PlayTrack()
     {
+        Debug.Log($"Trying to play track: Station={currentStationIndex}, Track={currentTrackIndex}, TotalTracks={stations[currentStationIndex].tracks.Length}");
+
+        if (stations[currentStationIndex].tracks.Length == 0)
+        {
+            Debug.LogError("No tracks available for current station!");
+            return;
+        }
+
         if (audioSource.isPlaying && audioSource.clip == stations[currentStationIndex].tracks[currentTrackIndex]) return;
 
         CurrentStationIndex = currentStationIndex;
@@ -282,7 +312,18 @@ public class RadioManager : MonoBehaviour
 
     public void UnlockStation(int stationIndex)
     {
+        if (stationIndex < 0 || stationIndex >= stations.Length)
+        {
+            Debug.LogError($"Неверный индекс станции: {stationIndex}");
+            return;
+        }
+
         stations[stationIndex].isUnlocked = true;
+
+        if (stationIndex < stationButtons.Length)
+        {
+            stationButtons[stationIndex].interactable = true;
+        }
         Debug.Log($"RadioManager: Станция {stations[stationIndex].name} разблокирована");
         UpdateText();
     }
@@ -318,6 +359,30 @@ public class RadioManager : MonoBehaviour
         if (isDragging)
         {
             targetPlayPosition = progressSlider.value;
+        }
+    }
+
+    public void UpdateRadioByLevel(int level)
+    {
+        Debug.Log($"Обновление радио для уровня {level}");
+
+        for (int i = 0; i < stations.Length; i++)
+        {
+            bool isUnlocked = (i < level);
+            stations[i].isUnlocked = isUnlocked;
+
+            if (i < stationButtons.Length)
+            {
+                stationButtons[i].interactable = isUnlocked;
+            }
+        }
+
+        int targetStationIndex = Mathf.Clamp(level - 1, 0, stations.Length - 1);
+        if (currentStationIndex != targetStationIndex || audioSource.clip != stations[targetStationIndex].tracks[0])
+        {
+            currentStationIndex = targetStationIndex;
+            currentTrackIndex = 0;
+            PlayTrack();
         }
     }
 }

@@ -8,6 +8,7 @@ public class TransitionManager : MonoBehaviour
 
     public static bool isReturningFromStation = false;
     public static bool isDepartureUnlocked = false;
+    public static bool wasTrainingPanelOpen = false;
 
     private void Awake()
     {
@@ -29,6 +30,11 @@ public class TransitionManager : MonoBehaviour
         var wasPlaying = RadioManager.IsPlaying;
 
         RadioManager.Instance.radioPanel?.SetActive(false);
+
+        if (TrainingVideoManager.Instance != null)
+        {
+            wasTrainingPanelOpen = TrainingVideoManager.Instance.trainingPanel.activeSelf;
+        }
 
         isReturningFromStation = true;
         Debug.Log("<color=magenta>Переход на сцену поезда. isReturningFromStation = true</color>");
