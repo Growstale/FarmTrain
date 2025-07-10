@@ -29,7 +29,7 @@ public class AchievementManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             InitializeProgress();
 
-            audioSource = Camera.main?.GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
             LoadProgress();
         }
         else
