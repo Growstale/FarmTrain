@@ -1751,7 +1751,7 @@ MonoBehaviour:
   selectedSlotIndex: 0
   startingItems:
   - itemData: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
-    quantity: 16
+    quantity: 8
   - itemData: {fileID: 11400000, guid: f5e6ca85a7857724b958582cabbdb35f, type: 2}
     quantity: 1
   - itemData: {fileID: 11400000, guid: 9cfaa8b293a04744d9cc8017c4231301, type: 2}
@@ -1760,6 +1760,8 @@ MonoBehaviour:
     quantity: 1
   - itemData: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
     quantity: 16
+  - itemData: {fileID: 11400000, guid: 6a135fc80061b214ba243551e925de14, type: 2}
+    quantity: 1
   slotClickSound: {fileID: 8300000, guid: 3b69af143cf83da44b12c59eea8ff2e4, type: 3}
 --- !u!4 &156422810
 Transform:

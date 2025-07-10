@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 12_Growth_Spurt
   m_EditorClassIdentifier: 
   id: 12_Growth_Spurt
-  title: Growing Wealth
+  title: Growth_Spurt
   description: Use fertilizer on a crop to make it grow faster.
   shortDescription: Use Fertilizer
   gameLevel: 2
@@ -26,6 +26,6 @@ MonoBehaviour:
     targetIDs: []
     currentAmount: 0
   rewardXP: 15
-  status: 0
+  status: 1
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1

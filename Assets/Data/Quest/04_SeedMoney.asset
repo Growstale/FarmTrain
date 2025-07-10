@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 04_SeedMoney
   title: Seed Money
-  description: Sell your produce to earn 330 coins for an upgrade.
+  description: Sell your produce to earn 235 coins for an upgrade.
   shortDescription: Earn Coins
   gameLevel: 1
   phase: 0
   nextQuest: {fileID: 11400000, guid: 640b297ae07bf84479911e1776b0cda4, type: 2}
   goals:
-  - goalType: 4
+  - goalType: 7
     targetID: 
-    requiredAmount: 15
+    requiredAmount: 200
     targetIDs: []
-    currentAmount: 15
+    currentAmount: 235
   rewardXP: 30
   status: 2
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1
