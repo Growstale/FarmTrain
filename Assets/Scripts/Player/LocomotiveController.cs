@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class LocomotiveController : MonoBehaviour
 {
+    [SerializeField] private AudioSource trainAudioSource;
+    [SerializeField] private AudioClip trainMovingClip;
+    [SerializeField] private float fadeDuration = 3.0f; // длительность затухания в секундах
+    private Coroutine fadeOutCoroutine;
+    [SerializeField] private AudioClip hornSound;
     // Состояния теперь проще: мы либо движемся, либо стоим у станции.
     public enum TrainState { Moving, DockedAtStation }
 
@@ -24,6 +29,8 @@ public class LocomotiveController : MonoBehaviour
     #region Unity Lifecycle
     void Awake()
     {
+        if (trainAudioSource == null)
+            trainAudioSource = GetComponent<AudioSource>();
         FindSceneObjects();
         if (ExperienceManager.Instance != null)
         {
@@ -50,8 +57,52 @@ public class LocomotiveController : MonoBehaviour
         UpdateHornHighlight();
         // Постоянно обновляем UI в зависимости от состояния
         UIManager.Instance.ShowGoToStationButton(currentState == TrainState.DockedAtStation);
-    }
+        UpdateTrainSound();  // обновляем звук движения
 
+    }
+    private void UpdateTrainSound()
+    {
+        if (currentState == TrainState.Moving)
+        {
+            if (fadeOutCoroutine != null)
+            {
+                StopCoroutine(fadeOutCoroutine);
+                fadeOutCoroutine = null;
+            }
+
+            if (!trainAudioSource.isPlaying)
+            {
+                trainAudioSource.clip = trainMovingClip;
+                trainAudioSource.loop = true;
+                trainAudioSource.volume = 0.1f; // на всякий случай вернуть громкость
+                trainAudioSource.Play();
+            }
+        }
+        else
+        {
+            // Если поезд не движется и звук играет — запускаем плавное затухание
+            if (trainAudioSource.isPlaying && fadeOutCoroutine == null)
+            {
+                fadeOutCoroutine = StartCoroutine(FadeOutSound());
+            }
+        }
+    }
+    private IEnumerator FadeOutSound()
+    {
+        float startVolume = trainAudioSource.volume;
+        float time = 0f;
+
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            trainAudioSource.volume = Mathf.Lerp(startVolume, 0f, time / fadeDuration);
+            yield return null;
+        }
+
+        trainAudioSource.Stop();
+        trainAudioSource.volume = 0.3f; // сбрасываем громкость для следующего запуска
+        fadeOutCoroutine = null;
+    }
     void OnDestroy()
     {
         if (ExperienceManager.Instance != null)
@@ -79,6 +130,10 @@ public class LocomotiveController : MonoBehaviour
     #region Event Handlers & Core Logic
     public void OnHornClicked()
     {
+        if (trainAudioSource != null && hornSound != null)
+        {
+            trainAudioSource.PlayOneShot(hornSound);
+        }
         switch (currentState)
         {
             case TrainState.Moving:

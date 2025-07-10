@@ -23,9 +23,13 @@ public class ExperienceManager : MonoBehaviour
 
     public event Action<int, int> OnXPChanged;
     public event Action<int, GamePhase> OnPhaseUnlocked;
+    [SerializeField] private AudioClip trainDepartSound;
+    private AudioSource audioSource;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -77,6 +81,10 @@ public class ExperienceManager : MonoBehaviour
         UpdateXpThreshold();
         OnXPChanged?.Invoke(CurrentXP, XpForNextPhase);
         QuestManager.Instance.ActivateQuestsForCurrentPhase();
+        if (audioSource != null && trainDepartSound != null)
+        {
+            audioSource.PlayOneShot(trainDepartSound);
+        }
         Debug.Log($"<color=yellow>Отправление на Поезд {CurrentLevel}. Фаза: {CurrentPhase}.</color>");
     }
 

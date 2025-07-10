@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Audio;
 
 public class QuestLogUI : MonoBehaviour
 {
@@ -26,8 +27,12 @@ public class QuestLogUI : MonoBehaviour
     private List<GameObject> spawnedEntries = new List<GameObject>();
     private Quest selectedQuest; // По умолчанию он и так null
 
+    [SerializeField] private AudioClip selectQuestSound;
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         openLogButton.onClick.AddListener(ToggleLog);
         closeLogButton.onClick.AddListener(CloseLog);
 
@@ -111,6 +116,12 @@ public class QuestLogUI : MonoBehaviour
         ShowQuestDetails(quest);
 
         QuestManager.Instance.TriggerQuestLogUpdate();
+        if (audioSource != null)
+        {
+            // 🔊 Щелчок при выборе квеста
+            audioSource.PlayOneShot(selectQuestSound);
+        }
+
     }
 
     // Этот метод почти не изменился, просто отвечает за заполнение полей

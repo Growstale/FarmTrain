@@ -9,6 +9,10 @@ public class QuestCompletionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rewardText;
     [SerializeField] private float displayDuration = 4.0f; // Сколько секунд показывать окно
 
+    [Header("Audio")]  
+    [SerializeField] private AudioClip completionSound;
+    private AudioSource audioSource;
+
     private Coroutine currentDisplayCoroutine;
 
     private void Start()
@@ -22,6 +26,8 @@ public class QuestCompletionUI : MonoBehaviour
 
         // Подписываемся на событие завершения квеста
         QuestManager.Instance.OnQuestCompleted += ShowCompletionPopup;
+
+        audioSource = GetComponent<AudioSource>();
 
         completionPanel.SetActive(false);
     }
@@ -50,6 +56,12 @@ public class QuestCompletionUI : MonoBehaviour
 
         // Показываем панель и запускаем таймер на скрытие
         completionPanel.SetActive(true);
+
+        if (audioSource != null && completionSound != null)
+        {
+            audioSource.PlayOneShot(completionSound);
+        }
+
         currentDisplayCoroutine = StartCoroutine(HideAfterDelay());
     }
 
