@@ -30,6 +30,7 @@ public class SlotScripts : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         currentColor = spriteRenderer.color;
+        _sizeBed = new Vector3(1.7f,2.5f,2);
     }
 
     public void PlantSeeds()

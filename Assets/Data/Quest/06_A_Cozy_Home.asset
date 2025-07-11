@@ -18,14 +18,14 @@ MonoBehaviour:
   shortDescription: Repair Sheep Pen
   gameLevel: 1
   phase: 1
-  nextQuest: {fileID: 11400000, guid: 239c99bc62a925e48885dc74833c9230, type: 2}
+  nextQuest: {fileID: 0}
   goals:
   - goalType: 2
     targetID: Upgrade_SheepPen_Repair
     requiredAmount: 1
     targetIDs: []
-    currentAmount: 1
+    currentAmount: 0
   rewardXP: 10
-  status: 2
+  status: 0
   isPinned: 0
-  hasBeenViewed: 1
+  hasBeenViewed: 0
