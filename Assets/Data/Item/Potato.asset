@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Potato
   m_EditorClassIdentifier: 
   itemName: Potato
-  itemIcon: {fileID: -4121517270082971212, guid: b615d90258a753241826c8cbac502676, type: 3}
+  itemIcon: {fileID: 21300000, guid: 533196e22395aea45ba32a18f4f907b0, type: 3}
   itemType: 5
   isStackable: 1
   maxStackSize: 16

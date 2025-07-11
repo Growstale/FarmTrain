@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pumpkin
   m_EditorClassIdentifier: 
   itemName: Pumpkin
-  itemIcon: {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  itemIcon: {fileID: 21300000, guid: a189d1843460a9641955253a80c315a5, type: 3}
   itemType: 5
   isStackable: 1
   maxStackSize: 16

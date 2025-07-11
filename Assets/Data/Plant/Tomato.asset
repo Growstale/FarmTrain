@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Tomato
   m_EditorClassIdentifier: 
   plantName: Tomato
-  growthStagesSprites: []
+  growthStagesSprites:
+  - {fileID: 21300000, guid: bdbeb5976da11f64e8c85fa87596fc4d, type: 3}
+  - {fileID: 21300000, guid: 661edfc7f468b704c8033f2945553b35, type: 3}
+  - {fileID: 21300000, guid: 711c40ca4fceb0943bdb7ff74e564ee6, type: 3}
+  - {fileID: 21300000, guid: b9d14f18fb657394985d7085a9568561, type: 3}
   timePerGrowthStage: 17.5
   waterNeededInterval: 23
   fertilizerGrowthMultiplier: 1.2

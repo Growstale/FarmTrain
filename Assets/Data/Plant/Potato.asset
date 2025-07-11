@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantName: Potato
   growthStagesSprites:
-  - {fileID: 7953443401717196921, guid: b615d90258a753241826c8cbac502676, type: 3}
-  - {fileID: 240733362411572873, guid: b615d90258a753241826c8cbac502676, type: 3}
-  - {fileID: 1734387795819554390, guid: b615d90258a753241826c8cbac502676, type: 3}
-  - {fileID: 8578180459406042070, guid: b615d90258a753241826c8cbac502676, type: 3}
+  - {fileID: 21300000, guid: 5e34c8e81cca90b4a8f717cdbe3ff8b7, type: 3}
+  - {fileID: 21300000, guid: a345aa38eeb390c438b65ab08cdad77d, type: 3}
+  - {fileID: 21300000, guid: b141f65891e2948439cd8e983f506f7e, type: 3}
+  - {fileID: 21300000, guid: f7cabf2eae557ad469a1a5c5d820f8c2, type: 3}
   timePerGrowthStage: 5.75
   waterNeededInterval: 12
   fertilizerGrowthMultiplier: 1.2

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantName: Pumpkin
   growthStagesSprites:
-  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
-  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
-  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
-  - {fileID: 6099016117080797020, guid: a3e4f9b960d4d25418c7529c1e6248ff, type: 3}
+  - {fileID: 21300000, guid: 2421bba749b95cc44b98fed22778cd8d, type: 3}
+  - {fileID: 21300000, guid: 3f883d933faa9a04f90ad1a938c1de28, type: 3}
+  - {fileID: 21300000, guid: 64487cf473f824949b12d1a9e4fc6de6, type: 3}
+  - {fileID: 21300000, guid: 3033716afa1d3694c8710502f97d4fcd, type: 3}
   timePerGrowthStage: 13.75
   waterNeededInterval: 18
   fertilizerGrowthMultiplier: 1.2
