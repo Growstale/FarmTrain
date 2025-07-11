@@ -419,10 +419,11 @@ public class AnimalController : MonoBehaviour
             }
         }
 
+
         if (itemToShow != null && itemToShow.itemIcon != null)
         {
             Debug.Log($"[ShowThoughtBubble] Иконка для {itemToShow.itemName} НАЙДЕНА. Вызываем activeThoughtBubble.Show().");
-            activeThoughtBubble.Show(itemToShow.itemIcon);
+            activeThoughtBubble.Show(itemToShow);
         }
         else
         {
