@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tomato_seed
   m_EditorClassIdentifier: 
   itemName: Tomato_seed
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: b5c6d5282c379854d88bd9db6c3fcdf1, type: 3}
   itemType: 2
   isStackable: 1
   maxStackSize: 16
