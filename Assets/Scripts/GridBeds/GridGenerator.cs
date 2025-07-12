@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
@@ -10,26 +11,16 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private GameObject prefab; // Префаб для создания объектов сетки
     [SerializeField] public Vector2Int gridSize = new Vector2Int(12, 2); // Размер сетки (12 столбцов, 2 ряда)
     [SerializeField] private Vector2 startPosition = new Vector2(2f, 3f); // Начальная позиция сетки (x=2, y=3)
-    [SerializeField] private ItemSpawner _itemSpawner;
-    [SerializeField] private ItemDatabase itemDatabase;
+
+    [SerializeField] private Vector3 _sizePLant;
+
+    [SerializeField] ItemSpawner _itemSpawner;
+    public string identifier;
 
     void Awake()
     {
         GenerateGrid();
         // LogGridObjects();
-    }
-    private void Start()
-    {
-
-        // --- ОТЛАДОЧНЫЙ ЛОГ 1 ---
-        Debug.Log($"[{gameObject.name}] Start(). ShouldLoadSessionData = {PlantManager.ShouldLoadSessionData}");
-
-        if (PlantManager.ShouldLoadSessionData)
-        {
-            // --- ОТЛАДОЧНЫЙ ЛОГ 2 ---
-            Debug.Log($"[{gameObject.name}] Вызываю ApplyLoadedState().");
-            ApplyLoadedState();
-        }
     }
 
     void GenerateGrid()
@@ -64,8 +55,19 @@ public class GridGenerator : MonoBehaviour
                 GameObject newObject = Instantiate(prefab, position, Quaternion.identity, transform);
                 newObject.name = $"Slot_{x}_{y}";
 
-                // Добавляем объект в словарь с ключом Vector2Int
                 Vector2Int gridPos = new Vector2Int(x, y);
+                SlotScripts slotScript = newObject.GetComponent<SlotScripts>();
+                if (slotScript != null)
+                {
+                    slotScript.gridPosition = gridPos;
+                }
+                else
+                {
+                    Debug.LogError($"Префаб слота {prefab.name} не содержит компонент SlotScripts!", prefab);
+                }
+
+                // Добавляем объект в словарь с ключом Vector2Int
+             
                 gridObjects[gridPos] = newObject;
             }
         }
@@ -370,7 +372,7 @@ public class GridGenerator : MonoBehaviour
                     Transform bedTransform = slotObj.transform.Find("Bed(Clone)");
                     if (bedTransform != null)
                     {
-                        slotScript.ChangeStateBed(bedTransform.gameObject,
+                        slotScript.ChangeStateBed(
                                                  BedData.StageGrowthPlant.DrySoil,
                                                  0);
                     }
@@ -411,7 +413,7 @@ public class GridGenerator : MonoBehaviour
                     Transform bedTransform = slotObj.transform.Find("Bed(Clone)");
                     if (bedTransform != null)
                     {
-                        slotScript.ChangeStateBed(bedTransform.gameObject,
+                        slotScript.ChangeStateBed(
                                                 BedData.StageGrowthPlant.WithFertilizers,
                                                 3);
                     }
@@ -437,203 +439,70 @@ public class GridGenerator : MonoBehaviour
        
     }
 
-    private void ApplyLoadedState()
+
+
+
+    public GridSaveData GetSaveData()
     {
-        if (PlantManager.SessionData == null)
+        var gridData = new GridSaveData
         {
-            Debug.LogWarning($"[{gameObject.name}] ApplyLoadedState вызван, но PlantManager.SessionData == null. Загрузка прервана.");
+            identifier = this.identifier,
+            slotsData = new List<SlotSaveData>()
+        };
+
+        // Проходим по всем GameObject'ам в словаре
+        foreach (var slotObject in gridObjects.Values)
+        {
+            SlotScripts slot = slotObject.GetComponent<SlotScripts>();
+            if (slot != null)
+            {
+                // Получаем данные из компонента Slot и добавляем в список
+                gridData.slotsData.Add(slot.GetSaveData());
+            }
+        }
+        return gridData;
+    }
+
+    public void ApplySaveData(GridSaveData data)
+    {
+        if (data.identifier != this.identifier)
+        {
+            Debug.LogWarning($"Попытка применить данные от грядки '{data.identifier}' к грядке '{this.identifier}'. Операция пропущена.");
             return;
         }
-        Debug.Log($"[{gameObject.name}] Загрузка состояния... Найдено {PlantManager.SessionData.gridsData.Count} сеток и {PlantManager.SessionData.plantsData.Count} растений в данных сессии.");
-        // Находим данные для ЭТОЙ конкретной сетки по ее имени (идентификатору)
-        GridSaveData myGridData = PlantManager.SessionData.gridsData.FirstOrDefault(g => g.identifier == gameObject.name);
-        if (myGridData != null)
+
+        foreach (var slotData in data.slotsData)
         {
-            
-            foreach (var slotData in myGridData.slotsData)
+            // Используем словарь для мгновенного поиска слота
+            if (gridObjects.TryGetValue(slotData.gridPosition, out GameObject slotObject))
             {
-                if (gridObjects.TryGetValue(slotData.gridPosition, out GameObject slotObj))
+                SlotScripts targetSlot = slotObject.GetComponent<SlotScripts>();
+                if (targetSlot != null)
                 {
-                    SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
-
-                    // 1. Применяем флаги из сохранения
-                    slotScript.isPlanted = slotData.isPlanted;
-                    slotScript.ishavebed = slotData.ishavebed;
-                    slotScript.isRaked = slotData.isRaked;
-
-                    Debug.Log($"Слот {slotObj.name} восстановлен: isPlanted={slotScript.isPlanted}, ishavebed={slotScript.ishavebed}, isRaked={slotScript.isRaked}");
-
-                    // 2. Восстанавливаем ВИЗУАЛ грядки, если она должна быть
-                    if (slotScript.ishavebed)
-                    {
-                        GameObject bedInstance = null; // Переменная для хранения ссылки на грядку
-
-                        if (slotObj.transform.Find("Bed(Clone)") != null)
-                        {
-                            // Если грядка уже есть, находим ее
-                            bedInstance = slotObj.transform.Find("Bed(Clone)").gameObject;
-                        }
-                        else
-                        {
-                            // Если грядки нет, создаем ее и СОХРАНЯЕМ ССЫЛКУ
-                            string bedItemName = "Bed_item";
-                            ItemData bedItemData = itemDatabase.GetItemByName(bedItemName);
-                            if (bedItemData != null && bedItemData.associatedBedData != null && bedItemData.associatedBedData.bedlPrefab != null)
-                            {
-                                GameObject bedPrefab = bedItemData.associatedBedData.bedlPrefab;
-                                // Создаем и сразу присваиваем в переменную
-                                bedInstance = Instantiate(bedPrefab, slotObj.transform.position, Quaternion.identity, slotObj.transform);
-                                bedInstance.name = "Bed(Clone)";
-                                bedInstance.transform.localScale = new Vector3(1.7f, 5.6f, 1f);
-                            }
-                        }
-
-                        // Теперь, когда у нас есть гарантированная ссылка на грядку, применяем состояние
-                        if (bedInstance != null)
-                        {
-                            if (slotScript.isRaked)
-                            {
-                                // Вызываем НОВЫЙ метод, передавая ему объект грядки
-                                slotScript.ChangeStateBed(bedInstance, BedData.StageGrowthPlant.Raked, 1);
-                            }
-                            else
-                            {
-                                slotScript.ChangeStateBed(bedInstance, BedData.StageGrowthPlant.DrySoil, 0);
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogError($"Не удалось ни найти, ни создать объект грядки для слота {slotObj.name}");
-                        }
-                    }
+                    targetSlot.ApplySaveData(slotData);
                 }
-
-                else
-                {
-                    Debug.LogWarning($"[{gameObject.name}] Не удалось найти объект слота для позиции {slotData.gridPosition} в словаре gridObjects.");
-                }
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"[{gameObject.name}] Данные для сетки с идентификатором '{gameObject.name}' НЕ НАЙДЕНЫ в сохранении.");
-        }
-
-            // Восстанавливаем растения для ЭТОЙ сетки
-            var plantsForThisGrid = PlantManager.SessionData.plantsData.Where(p => p.gridIdentifier == gameObject.name);
-
-        Debug.Log($"[{gameObject.name}] Найдено {plantsForThisGrid.Count()} растений для восстановления на этой сетке.");
-        foreach (var plantData in plantsForThisGrid)
-        {
-            Debug.Log($"[{gameObject.name}] Пытаюсь восстановить растение: {plantData.plantDataName}");
-
-            // Шаг 1: Найти ScriptableObject семечка
-            ItemData seedData = FindSeedDataByPlantName(plantData.plantDataName);
-
-            if (seedData != null)
-            {
-                // Шаг 2: Рассчитать позицию для спавна
-                Vector3 spawnPos = CalculateSpawnPosition(plantData.occupiedSlots);
-
-                Debug.Log($"[{gameObject.name}] ScriptableObject для '{plantData.plantDataName}' НАЙДЕН. Спавню на позиции {spawnPos}.");
-
-                // Шаг 3: Проверить, что ItemSpawner назначен
-                if (_itemSpawner == null)
-                {
-                    Debug.LogError($"[{gameObject.name}] _itemSpawner не назначен в инспекторе! Невозможно заспавнить растение.");
-                    continue; // Пропускаем это растение и переходим к следующему
-                }
-
-                // Шаг 4: Вызвать метод спавна и инициализации
-                // Предполагается, что у вас есть метод SpawnAndInitializePlant
-                _itemSpawner.SpawnAndInitializePlant(seedData, spawnPos, new Vector3(1.7f,2,2), transform, plantData); // Замените Vector3.one на ваш _sizePlant, если он тут доступен
             }
             else
             {
-                Debug.LogWarning($"[{gameObject.name}] ScriptableObject для растения '{plantData.plantDataName}' НЕ НАЙДЕН! Проверьте папку Resources и имя. Растение не будет восстановлено.");
+                Debug.LogWarning($"Слот с позицией {slotData.gridPosition} не найден в грядке '{identifier}' при загрузке.");
             }
         }
-
-        // Важно: После загрузки сцены, сбрасываем флаг, чтобы при перезапуске этой же сцены
-        // (без ухода на другую) состояние не загружалось повторно.
-        // Это нужно делать ОДИН РАЗ. Например, в менеджере сцен.
-        // PlantManager.ShouldLoadSessionData = false; 
-        // Лучше это делать в конце кадра.
-        StartCoroutine(ResetLoadFlag());
     }
 
-    private System.Collections.IEnumerator ResetLoadFlag()
+
+
+    public Vector3 GetWorldPositionForSlot(Vector2Int gridPosition)
     {
-        // Ждем конца кадра, чтобы все GridGenerator'ы успели загрузить свое состояние
-        yield return new WaitForEndOfFrame();
-        PlantManager.ShouldLoadSessionData = false;
+        if (gridObjects.TryGetValue(gridPosition, out GameObject slotObject))
+        {
+            return slotObject.transform.position;
+        }
+        Debug.LogWarning($"Запрошена мировая позиция для несуществующего слота {gridPosition} на грядке '{identifier}'.");
+        return transform.position; // Возвращаем позицию грядки как запасной вариант
     }
 
-    //public void StartFillSlots(int level, Vector2Int[] idSlots) {
+    // Вспомогательный метод для расчета центральной позиции для спавна
 
-    //    Vector2Int[] arrayPosition = GetArrayPostition(PlantManager.instance.GetValueFromDictionary(level));
-
-    //    if (arrayPosition != null) {
-    //        for (int i = 0; i < arrayPosition.Length; i++)
-    //        {
-
-    //            if (gridObjects.ContainsKey(arrayPosition[i]))
-    //            {
-    //                GameObject slot = gridObjects[arrayPosition[i]];
-    //                if (slot != null)
-    //                {
-    //                    SlotScripts slotScript = slot.GetComponent<SlotScripts>();
-    //                    if(slotScript != null)
-    //                    {
-
-    //                    }
-    //                }
-
-    //            }
-
-    //        }
-    //    }
-
-    //}
-    private ItemData FindSeedDataByPlantName(string plantName)
-    {
-        if (itemDatabase == null)
-        {
-            Debug.LogError($"ItemDatabase не назначен в инспекторе для {gameObject.name}! Невозможно найти семечко.");
-            return null;
-        }
-
-        // Используем наш новый быстрый метод из справочника
-        return itemDatabase.GetSeedByPlantName(plantName);
-    }
-
-    
-
-
-// Вспомогательный метод для расчета центральной позиции для спавна
-private Vector3 CalculateSpawnPosition(Vector2Int[] slots)
-    {
-        Vector3 totalPos = Vector3.zero;
-        if (slots == null || slots.Length == 0)
-        {
-            Debug.LogWarning("Попытка рассчитать позицию для пустого массива слотов. Возвращаем позицию грида.");
-            return transform.position;
-        }
-
-        foreach (var slotId in slots)
-        {
-            // Используем словарь gridObjects, который уже заполнен
-            if (gridObjects.TryGetValue(slotId, out GameObject slotObj))
-            {
-                totalPos += slotObj.transform.position;
-            }
-            else
-            {
-                Debug.LogWarning($"При расчете позиции не найден слот {slotId}");
-            }
-        }
-        return totalPos / slots.Length;
-    }
     private int GetLevelGrids(string name)
     {
         if(name == "GridGeneratorUp")
@@ -655,5 +524,16 @@ private Vector3 CalculateSpawnPosition(Vector2Int[] slots)
     private Vector2Int[] GetArrayPostition(List<Vector2Int> pos)
     {
         return pos.ToArray();
+    }
+
+    public void SpawnPlantFromSave(PlantSaveData plantData)
+    {
+        var plant = plantData as PlantSaveData;
+        if (identifier == plantData.gridIdentifier) {
+            _itemSpawner.SpawnLoadedPlant(plant,transform,plantData.currentposition,_sizePLant);
+        }
+
+
+        
     }
 }

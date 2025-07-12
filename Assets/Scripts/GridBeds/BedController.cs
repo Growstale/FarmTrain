@@ -6,7 +6,8 @@ public class BedController : MonoBehaviour
     [Header("Growth")]
     // ссылка на data растения 
     [SerializeField] BedData bedData;
-
+   public  bool isRaked = false;
+    public bool isFertilize = false;    
     // 
     SpriteRenderer _spriteRenderer;
     BedData.StageGrowthPlant Stagebed;
@@ -34,7 +35,20 @@ public class BedController : MonoBehaviour
             Debug.LogError("Отсутсвтует ссылка на _spriteRenderer , объект удален");
             Destroy(gameObject);
         }
+       if(isRaked)
+        {
+           
+            ChangeStage(BedData.StageGrowthPlant.Raked, 1);
+           
+        }
+        if (isFertilize)
+        {
+            ChangeStage(BedData.StageGrowthPlant.WithFertilizers, 3);
+        }
+        if (!isRaked && !isFertilize) { 
         
+             ChangeStage(BedData.StageGrowthPlant.DrySoil, 0);
+        }
     }
 
     public void ChangeStage(BedData.StageGrowthPlant stage, int idx)

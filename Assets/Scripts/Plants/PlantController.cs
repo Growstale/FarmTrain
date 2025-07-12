@@ -2,92 +2,167 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEditor.Overlays;
 public class PlantController : MonoBehaviour
 {
 
 
     [Header("Growth")]
     // Ссылка на data растения
-    [SerializeField] PlantData plantData;
+    public  PlantData plantData;
     [SerializeField] GameObject icon_water;
     [SerializeField] GameObject worldItemPrefab;
 
     private InventoryManager inventoryManager;
 
-    private bool upgradeWatering;
-    
+    public bool upgradeWatering;
+
     //
     SpriteRenderer _spriteRenderer;
     PlantData.StageGrowthPlant Stageplant;
 
-    Vector2Int[] IdSlots;
+    public Vector2Int[] IdSlots;
 
+    public int currentStage;
 
     float timePerGrowthStage = 0.0f;
     float timeWaterNeed = 0.0f;
 
-    bool isNeedWater = false;
-    bool isFertilize = false;
+    public bool isNeedWater = false;
+    public bool isFertilize = false;
 
     // таймер для воды 
-    private float growthTimer = 0.0f;
-    private float waterNeedTimer = 0.0f;
+    public float growthTimer = 0.0f;
+    public float waterNeedTimer = 0.0f;
+
+
+    public bool isInitialized = false;
+    private void Awake()
+    {
+        
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
+    }
 
     void Start()
     {
-        PlantManager.instance.SaveStateToMemory();
-        inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
-        upgradeWatering = PlantManager.instance.UpgradeWatering;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        if (plantData != null)
-        {
-            Stageplant = PlantData.StageGrowthPlant.defaultStage;
-            timePerGrowthStage = plantData.timePerGrowthStage;
-            timeWaterNeed = plantData.waterNeededInterval;
-            _spriteRenderer.sprite = plantData.growthStagesSprites[0];
-          
-           //if(!upgradeWatering) InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
-            Debug.Log($"Spawning plant {plantData.plantName}");
 
-            CheckForAchievement(plantData.plantName);
-        }
-        else
-        {
-            Debug.LogError("Отсутствует ссылка на данные растения");
-            Destroy(gameObject);
-        }
+        if (isInitialized) return;
 
-        float countSlot = plantData.Weight;
-       
+
+        //if (!isInitialized)
+        //{
+        //    if (plantData != null)
+        //    {
+        //        Stageplant = PlantData.StageGrowthPlant.defaultStage;
+        //        currentStage = 0;
+        //        timePerGrowthStage = plantData.timePerGrowthStage;
+        //        timeWaterNeed = plantData.waterNeededInterval;
+        //        _spriteRenderer.sprite = plantData.growthStagesSprites[0];
+
+        //        //if(!upgradeWatering) InvokeRepeating("StartWaterNeededInterval", 0f, timeWaterNeed);
+        //        Debug.Log($"Spawning plant {plantData.plantName}");
+
+
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Отсутствует ссылка на данные растения");
+        //        Destroy(gameObject);
+        //    }
+        //}
+        //CheckForAchievement(plantData.plantName);
+        //float countSlot = plantData.Weight;
+        //upgradeWatering = PlantManager.instance.UpgradeWatering;
+        Initialize(null);
     }
 
-    void Update()
+    public void Initialize(PlantSaveData savedata)
     {
-       
-        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
+        if (isInitialized) return;
+
+        if (plantData == null)
         {
-           
+            Debug.LogError("Ошибка инициализации: PlantData не установлен. Растение будет уничтожено.", this);
+            Destroy(gameObject);
             return;
         }
 
-       
+        // --- Загрузка из сохранения или установка по умолчанию ---
+        if (savedata != null) // Если есть данные сохранения
+        {
+            IdSlots = savedata.idSlots;
+            currentStage = savedata.currentStage;
+            isFertilize = savedata.isFertilize;
+            isNeedWater = savedata.isNeedWater;
+            growthTimer = savedata.growthTimer;
+            waterNeedTimer = savedata.waterNeedTimer;
+            Debug.Log($"Растение '{plantData.plantName}' загружено со стадии {currentStage}");
+        }
+        else // Если это новое растение
+        {
+            currentStage = 0;
+            // Все остальные поля (isNeedWater, growthTimer и т.д.) уже 0/false по умолчанию
+            CheckForAchievement(plantData.plantName);
+            Debug.Log($"Spawning new plant {plantData.plantName}");
+        }
+
+        // --- Общая настройка, которая нужна в обоих случаях ---
+        upgradeWatering = PlantManager.instance.UpgradeWatering;
+        timePerGrowthStage = plantData.timePerGrowthStage;
+        timeWaterNeed = plantData.waterNeededInterval;
+
+        // Применяем эффект удобрения, если он был
+        if (isFertilize)
+        {
+            timePerGrowthStage /= plantData.fertilizerGrowthMultiplier;
+        }
+
+        UpdateStageAndVisuals(); // Обновляем спрайт и состояние
+
+        isInitialized = true;
+    }
+    private void UpdateStageAndVisuals()
+    {
+        // Проверка на выход за пределы массива
+        if (currentStage >= plantData.growthStagesSprites.Count)
+        {
+            Debug.LogWarning($"currentStage ({currentStage}) выходит за пределы массива спрайтов для {plantData.name}. Устанавливаем последнюю стадию.");
+            currentStage = plantData.growthStagesSprites.Count - 1;
+        }
+
+        Stageplant = (PlantData.StageGrowthPlant)currentStage;
+        _spriteRenderer.sprite = plantData.growthStagesSprites[currentStage];
+
+        // Логика иконки воды
+        Transform icon = transform.Find("icon_water");
+        if (isNeedWater && Stageplant != PlantData.StageGrowthPlant.FourthStage)
+        {
+            if (icon == null) TriggerNeedWater(false); // false - чтобы не дублировать лог
+        }
+        else
+        {
+            if (icon != null) Destroy(icon.gameObject);
+        }
+    }
+    void Update()
+    {
+        if (!isInitialized || Stageplant == PlantData.StageGrowthPlant.FourthStage) return;
+
         if (!isNeedWater)
         {
-           
             growthTimer += Time.deltaTime;
             if (growthTimer >= timePerGrowthStage)
             {
                 AdvancePlantGrowth();
                 growthTimer = 0f;
             }
-
             if (!upgradeWatering)
             {
                 waterNeedTimer += Time.deltaTime;
                 if (waterNeedTimer >= timeWaterNeed)
                 {
-                    
-                    TriggerNeedWater();
+                    TriggerNeedWater(true);
                 }
             }
         }
@@ -95,71 +170,20 @@ public class PlantController : MonoBehaviour
 
     void AdvancePlantGrowth()
     {
-        // Если растение уже выросло, ничего не делаем
-        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
-        {
-            return;
-        }
+        if (Stageplant == PlantData.StageGrowthPlant.FourthStage) return;
 
-        // 1. Определяем, какая стадия будет следующей
-        PlantData.StageGrowthPlant nextStage = Stageplant;
-        switch (Stageplant)
-        {
-            case PlantData.StageGrowthPlant.defaultStage:
-                nextStage = PlantData.StageGrowthPlant.SecondStage;
-                break;
-            case PlantData.StageGrowthPlant.SecondStage:
-                nextStage = PlantData.StageGrowthPlant.ThirdStage;
-                break;
-            case PlantData.StageGrowthPlant.ThirdStage:
-                nextStage = PlantData.StageGrowthPlant.FourthStage;
-                break;
-        }
-
-        // 2. Обновляем состояние
-        Stageplant = nextStage;
-
-        // 3. Обновляем спрайт в соответствии с НОВЫМ состоянием
-        
-        int spriteIndex = (int)Stageplant;
-        if (spriteIndex < plantData.growthStagesSprites.Count)
-        {
-            _spriteRenderer.sprite = plantData.growthStagesSprites[spriteIndex];
-           
-        }
-
-        // Если мы достигли финальной стадии, можно сразу выключить иконку воды, если она есть
-        if (Stageplant == PlantData.StageGrowthPlant.FourthStage)
-        {
-            if (isNeedWater)
-            {
-                // Находим и удаляем иконку воды, т.к. взрослому растению она не нужна
-                Transform icon = transform.Find("icon_water");
-                if (icon != null)
-                {
-                    Destroy(icon.gameObject);
-                }
-                isNeedWater = false;
-            }
-        }
+        currentStage++;
+        UpdateStageAndVisuals();
     }
 
-    void TriggerNeedWater()
+    void TriggerNeedWater(bool logMessage)
     {
-        isNeedWater = true; // Устанавливаем флаг, что вода нужна
-    
+        isNeedWater = true;
 
         GameObject iconWater = Instantiate(icon_water, new Vector3(transform.position.x + 0.3f, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
-        if (iconWater != null)
-        {
-            iconWater.transform.parent = transform;
-            iconWater.name = "icon_water";
-            Debug.Log($"Plant {name} need Water!");
-        }
-        else
-        {
-            Debug.LogWarning("Ошибка спавна иконки нужды воды");
-        }
+        iconWater.transform.parent = transform;
+        iconWater.name = "icon_water";
+        if (logMessage) Debug.Log($"Plant {name} need Water!");
     }
 
     void CheckForAchievement(string namePlant)
@@ -192,7 +216,7 @@ public class PlantController : MonoBehaviour
                 }
                 break;
             }
-           
+
         }
     }
 
@@ -237,7 +261,7 @@ public class PlantController : MonoBehaviour
 
         if ((selectedItem == null || (selectedItem.itemData.itemType != ItemType.Tool || selectedItem.itemData.itemType != ItemType.Fertilizer)) && Stageplant == PlantData.StageGrowthPlant.FourthStage)
         {
-            
+
             GameObject parent = transform.parent.gameObject;
 
             if (parent != null)
@@ -256,7 +280,7 @@ public class PlantController : MonoBehaviour
                         {
                             GameObject seed = GetHarvest(transform.position, plantData.seedItem);
                         }
-                        
+
                         GameObject harvestedCrop = GetHarvest(transform.position, plantData.harvestedCrop);
                         if (harvestedCrop != null)
                         {
@@ -387,93 +411,9 @@ public class PlantController : MonoBehaviour
             return null;
         }
     }
-    public PlantSaveData GetSaveData()
-    {
-        // Убедитесь, что IdSlots не null. Если он может быть null, добавьте проверку.
-        if (IdSlots == null)
-        {
-            Debug.LogWarning($"У растения {gameObject.name} (c PlantData: {plantData.plantName}) массив IdSlots не инициализирован. Сохранение может быть неполным.");
-            IdSlots = new Vector2Int[0]; // Создаем пустой массив, чтобы избежать NullReferenceException
-        }
 
-        return new PlantSaveData
-        {
-            // Имя ScriptableObject'а растения для его последующей загрузки
-            plantDataName = this.plantData.plantName,
 
-            // Имя родительского объекта (GridGenerator'а)
-            gridIdentifier = transform.parent.name,
 
-            // Какие слоты занимает
-            occupiedSlots = this.IdSlots,
-
-            // Сохраняем состояние
-            currentStage = (int)this.Stageplant,
-            growthTimer = this.growthTimer,
-            waterNeedTimer = this.waterNeedTimer,
-            isNeedWater = this.isNeedWater,
-            isFertilize = this.isFertilize
-        };
-    }
-
-    // Также добавьте метод для ПРИМЕНЕНИЯ загруженных данных. 
-    // Он понадобится вам на этапе загрузки.
-    // В PlantController.cs
-
-    public void InitializeFromSave(PlantSaveData data)
-    {
-        // Важно: plantData уже должен быть назначен спавнером до вызова этого метода
-
-        Debug.Log($"Инициализация {plantData.plantName} из сохранения. Стадия: {(PlantData.StageGrowthPlant)data.currentStage}, Таймер: {data.growthTimer}");
-        if (_spriteRenderer == null)
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-        // 1. Применяем все загруженные данные к переменным
-        IdSlots = data.occupiedSlots;
-        Stageplant = (PlantData.StageGrowthPlant)data.currentStage;
-        growthTimer = data.growthTimer;
-        waterNeedTimer = data.waterNeedTimer;
-        isNeedWater = data.isNeedWater;
-        isFertilize = data.isFertilize;
-
-        // 2. ОБНОВЛЯЕМ ВИЗУАЛ И ЛОГИКУ на основе этих данных
-
-        // Обновляем спрайт до нужной стадии роста
-        if (_spriteRenderer != null && plantData.growthStagesSprites.Count > (int)Stageplant)
-        {
-            _spriteRenderer.sprite = plantData.growthStagesSprites[(int)Stageplant];
-        }
-        else
-        {
-            Debug.LogWarning("Не удалось обновить спрайт растения: _spriteRenderer или список спрайтов не в порядке.");
-        }
-
-        // Если растение нуждалось в воде, создаем иконку
-        if (isNeedWater)
-        {
-            // У вас был метод TriggerNeedWater. Можно вызвать его,
-            // но он может сбросить таймеры, что нам не нужно.
-            // Давайте просто создадим иконку.
-            if (transform.Find("icon_water") == null)
-            {
-                GameObject iconWater = Instantiate(icon_water, new Vector3(transform.position.x + 0.3f, transform.position.y + 0.4f, transform.position.z), Quaternion.identity);
-                if (iconWater != null)
-                {
-                    iconWater.transform.parent = transform;
-                    iconWater.name = "icon_water";
-                }
-            }
-        }
-
-        // Если растение было удобрено, применяем ускорение роста
-        if (isFertilize)
-        {
-            // Важно: делим только если еще не делили.
-            // Можно добавить доп. флаг или просто делать это здесь.
-            timePerGrowthStage /= plantData.fertilizerGrowthMultiplier;
-        }
-    }
     private bool TryGetSeeds(double successRate)
     {
         if (successRate < 0 || successRate > 1)
@@ -483,5 +423,25 @@ public class PlantController : MonoBehaviour
         System.Random random = new System.Random();
         return random.NextDouble() < successRate;
     }
-   
+
+    public PlantSaveData GetSaveData()
+    {
+        GameObject parent = transform.parent.gameObject;
+        if (parent == null) return null;
+
+        return new PlantSaveData()
+        {
+            plantDataName = this.plantData.name, // Сохраняем имя ScriptableObject, а не display name
+            gridIdentifier = parent.name, // Берем идентификатор напрямую из GridGenerator
+            idSlots = this.IdSlots,
+            currentStage = this.currentStage,
+            growthTimer = this.growthTimer,
+            waterNeedTimer = this.waterNeedTimer,
+            isNeedWater = this.isNeedWater,
+            isFertilize = this.isFertilize,
+            currentposition = this.transform.position,
+        };
+    }
+
+
 }

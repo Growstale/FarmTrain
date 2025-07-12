@@ -172,6 +172,8 @@ public class LocomotiveController : MonoBehaviour
             var currentTime = RadioManager.Instance.audioSource.time;
             var wasPlaying = RadioManager.IsPlaying;
 
+
+            SaveLoadManager.Instance.SaveGame();
             RadioManager.Instance.radioPanel?.SetActive(false);
 
             if (TrainingVideoManager.Instance != null)

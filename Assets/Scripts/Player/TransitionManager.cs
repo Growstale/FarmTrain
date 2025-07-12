@@ -41,6 +41,7 @@ public class TransitionManager : MonoBehaviour
 
         // <<< саедхреяэ, врн хлъ яжемш гдеяэ бепмне!
         SceneManager.LoadScene("SampleScene");
+       
         StartCoroutine(RestoreRadioState(currentClip, currentTime, wasPlaying));
     }
 

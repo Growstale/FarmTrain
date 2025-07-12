@@ -19,6 +19,10 @@ public class SlotScripts : MonoBehaviour
     [SerializeField] Vector3 _sizeBed;
     [SerializeField] Vector3 _sizePlant;
 
+    public Vector2Int gridPosition;
+
+
+
     void Start()
     {
         inventoryManager = InventoryManager.Instance; // И поиск синглтона тоже
@@ -215,28 +219,82 @@ public class SlotScripts : MonoBehaviour
         return null;
     }
 
-    public bool ChangeStateBed(GameObject bedObject, BedData.StageGrowthPlant stage, int idx)
+    public bool ChangeStateBed(BedData.StageGrowthPlant stage, int idx)
     {
-        if (bedObject == null)
+        GameObject childBed = FindChildWithTag("Bed");
+        if (childBed != null)
         {
-            Debug.LogError($"[ОШИБКА] В ChangeStateBed передан пустой объект грядки (null) для слота {gameObject.name}");
-            return false;
-        }
+            BedController bedController = childBed.GetComponent<BedController>();
+            if (bedController != null)
+            {
+                bedController.ChangeStage(stage, idx);
+                return true;
+            }
+            else
+            {
+                Debug.LogError("bedController не найден");
+                return false;
+            }
 
-        Debug.Log($"[НОВЫЙ ChangeStateBed] Слот: {gameObject.name}. Работаю с переданным объектом {bedObject.name}.");
-        BedController bedController = bedObject.GetComponent<BedController>();
-        if (bedController != null)
+        }
+        return false;
+    }
+
+
+    public SlotSaveData GetSaveData()
+    {
+        return new SlotSaveData
         {
-            bedController.ChangeStage(stage, idx);
-            return true;
+            gridPosition = this.gridPosition,
+            isPlanted = this.isPlanted,
+            ishavebed = this.ishavebed,
+            isRaked = this.isRaked,
+            isFertilize = this.isFertilize
+        };
+    }
+    public void ApplySaveData(SlotSaveData data)
+    {
+
+        GameObject childBed = FindChildWithTag("Bed");
+        if (childBed != null) {
+            UpdateSlotVisuals();
         }
         else
         {
-            Debug.LogError($"[ОШИБКА] bedController не найден на переданном объекте {bedObject.name}!");
-            return false;
+            Debug.Log("[SlotScript] try to load data........");
+            
+
+            //Debug.Log("")
+
+            // 1. Восстанавливаем логические переменные
+            this.isPlanted = data.isPlanted;
+            this.ishavebed = data.ishavebed;
+            this.isRaked = data.isRaked;
+            this.isFertilize = data.isFertilize;
+            _itemSpawner.SpawnLoadedBed(transform.position, _sizeBed, transform,data.isRaked);
+            // 2. Обновляем визуальное состояние слота в соответствии с данными
+            // Важно! Без этого шага вы не увидите изменений после загрузки.
+            UpdateSlotVisuals();
         }
+            
     }
 
+    /// <summary>
+    /// Вспомогательный метод для обновления визуала грядки после загрузки.
+    /// </summary>
+    private void UpdateSlotVisuals()
+    {
+        // Если по данным сохранения грядки нет, а объект грядки есть, удаляем его
+        GameObject childBed = FindChildWithTag("Bed");
+        if (!ishavebed && childBed != null)
+        {
+            Destroy(childBed);
+            return;
+        }
+
+      
+
+    }
 
     public void ChangeColor()
     {
