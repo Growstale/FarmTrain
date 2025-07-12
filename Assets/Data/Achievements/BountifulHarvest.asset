@@ -16,5 +16,6 @@ MonoBehaviour:
   Name: BountifulHarvest
   Description: Sell a total of 20 harvested crops.
   Icon: {fileID: 7947783803210918686, guid: d48fd0a6540c71844993427c7f4d1d02, type: 3}
+  reward: 40
   typeOfAchivment: 0
   goal: 20

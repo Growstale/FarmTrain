@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: State of the Art Farm
   Description: Purchase all available farm upgrades.
   Icon: {fileID: 0}
+  reward: 800
   typeOfAchivment: 5
   goal: 10
-  isReceived: 0

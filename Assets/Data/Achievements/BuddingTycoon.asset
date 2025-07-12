@@ -16,5 +16,6 @@ MonoBehaviour:
   Name: Budding Tycoon
   Description: Earn a total of 500 coins.
   Icon: {fileID: 0}
+  reward: 150
   typeOfAchivment: 2
   goal: 500

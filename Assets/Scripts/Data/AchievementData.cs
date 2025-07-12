@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.Events;
 
-
+// Enum остается тем же
 public enum TypeOfAchivment
 {
     BountifulHarvest,
@@ -13,19 +12,20 @@ public enum TypeOfAchivment
     FarmingLegend
 }
 
-[CreateAssetMenu(fileName = "Achievement",menuName = "Achievements/Achievement")]
+[CreateAssetMenu(fileName = "New Achievement", menuName = "Achievements/Achievement")]
 public class AchievementData : ScriptableObject
 {
     [Header("Основная информация")]
     public int IDArchievment;
-    public string Name;
+    public string Name; 
     [TextArea] public string Description;
     public Sprite Icon;
+    public int reward;
+
 
     [Header("Условие выполнения")]
     public TypeOfAchivment typeOfAchivment;
-    public int goal; // целевое назгачение в кол-во
-    public bool isReceived = false;
+    public int goal; // Целевое значение
 
-
+    
 }
