@@ -1,5 +1,4 @@
-// ShopUIManager.cs
-
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -7,7 +6,14 @@ using TMPro;
 using System;
 using System.Linq;
 
-public class ShopUIManager : MonoBehaviour
+[System.Serializable]
+public struct TabButtonSprites
+{
+    public Sprite activeSprite;
+    public Sprite inactiveSprite;
+}
+
+public class ShopUIManager : MonoBehaviour, IUIManageable
 {
     public static ShopUIManager Instance { get; private set; }
 
@@ -36,6 +42,10 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private Button noButton;
     [SerializeField] private Button cancelButton;
 
+    [Header("Tab Sprites")] 
+    [SerializeField] private TabButtonSprites buyButtonSprites;
+    [SerializeField] private TabButtonSprites sellButtonSprites;
+
     private ShopInventoryData currentShopData;
     private ShopItem currentItemForTransaction;
     private bool isBuyMode = true;
@@ -63,6 +73,11 @@ public class ShopUIManager : MonoBehaviour
 
     private void Start()
     {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Register(this);
+        }
+
         shopPanel.SetActive(false);
         confirmationPanel.SetActive(false);
 
@@ -83,6 +98,8 @@ public class ShopUIManager : MonoBehaviour
 
     public void OpenShop(ShopInventoryData shopData)
     {
+        ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+
         if (StallCameraController.Instance == null)
         {
             Debug.LogWarning("StallCameraController не найден. Магазин откроется без управления камерой.");
@@ -115,8 +132,39 @@ public class ShopUIManager : MonoBehaviour
     private void SetMode(bool buy)
     {
         isBuyMode = buy;
+
         buyTabButton.interactable = !isBuyMode;
         sellTabButton.interactable = isBuyMode;
+
+
+        // Получаем компоненты Image у наших кнопок
+        Image buyButtonImage = buyTabButton.GetComponent<Image>();
+        Image sellButtonImage = sellTabButton.GetComponent<Image>();
+
+        // Проверяем, что все 4 спрайта назначены, чтобы избежать ошибок
+        if (buyButtonSprites.activeSprite == null || buyButtonSprites.inactiveSprite == null ||
+            sellButtonSprites.activeSprite == null || sellButtonSprites.inactiveSprite == null)
+        {
+            Debug.LogWarning("Не все спрайты для вкладок назначены в ShopUIManager!");
+            // Выходим, чтобы не было ошибки при попытке присвоить пустой спрайт
+            PopulateShopList();
+            return;
+        }
+
+        // Устанавливаем спрайты в зависимости от режима
+        if (isBuyMode)
+        {
+            // Режим покупки: кнопка "Buy" активна, "Sell" - неактивна
+            buyButtonImage.sprite = buyButtonSprites.activeSprite;
+            sellButtonImage.sprite = sellButtonSprites.inactiveSprite;
+        }
+        else // Режим продажи
+        {
+            // Режим продажи: кнопка "Buy" неактивна, "Sell" - активна
+            buyButtonImage.sprite = buyButtonSprites.inactiveSprite;
+            sellButtonImage.sprite = sellButtonSprites.activeSprite;
+        }
+
 
         PopulateShopList();
     }
@@ -499,5 +547,23 @@ public class ShopUIManager : MonoBehaviour
         Debug.Log("Транзакция успешна!");
         confirmationPanel.SetActive(false);
         PopulateShopList();
+    }
+
+    public void CloseUI()
+    {
+        CloseShop();
+    }
+
+    public bool IsOpen()
+    {
+        return shopPanel.activeSelf;
+    }
+
+    private void OnDestroy()
+    {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Deregister(this);
+        }
     }
 }

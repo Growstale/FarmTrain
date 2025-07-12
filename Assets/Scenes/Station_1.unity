@@ -1641,6 +1641,12 @@ MonoBehaviour:
   yesButton: {fileID: 308732715}
   noButton: {fileID: 645438462}
   cancelButton: {fileID: 455491454}
+  buyButtonSprites:
+    activeSprite: {fileID: -8813282593175640381, guid: 11d9819d7cf288e45ab978d719dc1b2e, type: 3}
+    inactiveSprite: {fileID: 6814204677050542804, guid: 868b2bdfcc6a7af49bf751e7de4a3050, type: 3}
+  sellButtonSprites:
+    activeSprite: {fileID: 4541250721124355062, guid: fc147a3cb764f354d953f435165d6570, type: 3}
+    inactiveSprite: {fileID: -7370479696400114685, guid: f46d924b6a1555e4b8955f89629dafa6, type: 3}
 --- !u!4 &567195453
 Transform:
   m_ObjectHideFlags: 0
