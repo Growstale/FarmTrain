@@ -2,14 +2,17 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SaveLoadManager : MonoBehaviour
 {
     public static SaveLoadManager Instance;
-    private string saveFilePath;
+    private string _saveFilePath;
+
+
+    private GameSaveData _gameData;
 
     // Сюда будем загружать данные при старте игры
-    public static GameSaveData LoadedData { get; private set; }
 
     void Awake()
     {
@@ -17,7 +20,8 @@ public class SaveLoadManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            saveFilePath = Path.Combine(Application.persistentDataPath, "gamedata.json");
+            _saveFilePath = Path.Combine(Application.persistentDataPath, "savegame.json");
+            Debug.Log($"Path to save data {_saveFilePath}");
         }
         else
         {
@@ -25,61 +29,102 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>> Try to load Game");
+        LoadGame();
+    }
+
+
+    public void LoadGame()
+    {
+        if (!File.Exists(_saveFilePath))
+        {
+            Debug.Log("Файл сохранения не найден. Загрузка не будет выполнена. Начинается новая игра.");
+            return;
+        }
+
+        Debug.Log("Загрузка игры из файла...");
+
+        // 1. Читаем JSON из файла и десериализуем
+        string json = File.ReadAllText(_saveFilePath);
+        _gameData = JsonUtility.FromJson<GameSaveData>(json);
+
+        if (_gameData == null)
+        {
+            Debug.LogError("Не удалось загрузить данные из файла. Возможно, файл поврежден.");
+            return;
+        }
+
+        // --- Запускаем процесс применения данных ---
+        ApplyLoadedData();
+    }
+
+
     public void SaveGame()
     {
-        Debug.Log("Сохранение игры...");
-        GameSaveData saveData = new GameSaveData();
+        Debug.Log("[SaveLoadManager]  Сохранение игры...");
+        _gameData = new GameSaveData();
 
-        // 1. Сохраняем данные из PlantManager
-        saveData.upgradeWatering = PlantManager.instance.UpgradeWatering;
-
-        // 2. Находим все GridGenerator'ы на сцене
-        GridGenerator[] gridGenerators = FindObjectsOfType<GridGenerator>();
+        // --- Собираем данные с грядок (GridGenerators) ---
+        var gridGenerators = FindObjectsOfType<GridGenerator>(); // Предполагаем, что скрипт грядок так называется
         foreach (var grid in gridGenerators)
         {
-            // Сохраняем данные сетки и ее слотов
-            GridSaveData gridData = new GridSaveData { identifier = grid.gameObject.name };
-            foreach (var slotEntry in grid.gridObjects)
-            {
-                SlotScripts slotScript = slotEntry.Value.GetComponent<SlotScripts>();
-                SlotSaveData slotData = new SlotSaveData
-                {
-                    gridPosition = slotEntry.Key,
-                    isPlanted = slotScript.isPlanted,
-                    ishavebed = slotScript.ishavebed,
-                    isRaked = slotScript.isRaked
-                };
-                gridData.slotsData.Add(slotData);
-            }
-            saveData.gridsData.Add(gridData);
-
-            // 3. Сохраняем данные о растениях, которые являются дочерними для этого грида
-            PlantController[] plants = grid.GetComponentsInChildren<PlantController>();
-            foreach (var plant in plants)
-            {
-                // Для этого метода вам нужно будет доработать PlantController 
-                saveData.plantsData.Add(plant.GetSaveData());
-            }
+            _gameData.gridsData.Add(grid.GetSaveData());
         }
 
-        string json = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(saveFilePath, json);
-        Debug.Log("Игра сохранена в: " + saveFilePath);
-    }
-
-    public bool LoadGame()
-    {
-        if (File.Exists(saveFilePath))
+        // --- Собираем данные с растений (PlantController) ---
+        var plants = FindObjectsOfType<PlantController>(); // Предполагаем, что скрипт на растении так называется
+        foreach (var plant in plants)
         {
-            Debug.Log("Загрузка сохранения...");
-            string json = File.ReadAllText(saveFilePath);
-            LoadedData = JsonUtility.FromJson<GameSaveData>(json);
-            Debug.Log("Сохранение успешно загружено в память.");
-            return true;
+            _gameData.plantsData.Add(plant.GetSaveData());
         }
 
-        Debug.LogWarning("Файл сохранения не найден.");
-        LoadedData = null;
-        return false;
+        // --- Сохраняем другие данные, если нужно ---
+         _gameData.upgradeWatering = PlantManager.instance.UpgradeWatering;
+
+
+
+
+        // --- Сериализуем в JSON и сохраняем в файл ---
+        string json = JsonUtility.ToJson(_gameData, true); // true для красивого форматирования
+        File.WriteAllText(_saveFilePath, json);
+
+        Debug.Log($"[SaveLoadManager]  Игра сохранена в: {_saveFilePath}");
     }
+    public void ApplyLoadedData()
+    {
+        
+        // --- Сначала очищаем сцену от старых растений ---
+        // Это важно, чтобы не было дубликатов при перезагрузке сцены
+        var oldPlants = FindObjectsOfType<PlantController>();
+        foreach (var plant in oldPlants)
+        {
+            Destroy(plant.gameObject);
+        }
+
+        // --- Находим все генераторы грядок в сцене ---
+        var gridGenerators = FindObjectsOfType<GridGenerator>().ToDictionary(g => g.identifier, g => g);
+
+        // --- Применяем состояние грядок ---
+        foreach (var gridData in _gameData.gridsData)
+        {
+            if (gridGenerators.ContainsKey(gridData.identifier))
+            {
+                gridGenerators[gridData.identifier].ApplySaveData(gridData);
+            }
+        }
+
+        // --- Воссоздаем растения ---
+        foreach (var plantData in _gameData.plantsData)
+        {
+            if (gridGenerators.ContainsKey(plantData.gridIdentifier))
+            {
+                gridGenerators[plantData.gridIdentifier].SpawnPlantFromSave(plantData);
+            }
+        }
+
+        Debug.Log("[SaveLoadManager]  Загрузка завершена.");
+    }
+
 }

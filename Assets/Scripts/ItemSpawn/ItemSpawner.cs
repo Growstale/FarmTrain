@@ -262,7 +262,7 @@ public class ItemSpawner : MonoBehaviour
 
             if (plantController != null)
             {
-               
+                plantController.plantData = plantData;
                 plantController.FillVectorInts(IdSelectedSlot);
             }
             else
@@ -282,35 +282,62 @@ public class ItemSpawner : MonoBehaviour
         Debug.Log($"Попытка спавна не растения, ошибка");
         return null;
     }
-    public void SpawnAndInitializePlant(ItemData seedData, Vector3 position, Vector3 scale, Transform parent, PlantSaveData saveData)
+
+    public GameObject SpawnLoadedBed(Vector3 spawnPosition, Vector3 spawnScale, Transform parentTransform, bool isRaked)
     {
-        // 1. Используем ваш существующий метод для создания объекта растения
-        // Он уже умеет создавать объект и передавать ему ID слотов
-        GameObject plantObject = SpawnPlant(seedData, position, scale, parent, saveData.occupiedSlots);
+        string path = "Data/Bed";
 
-        // 2. Проверяем, что растение успешно создалось
-        if (plantObject != null)
+        BedData myDataBed = Resources.Load<BedData>(path);
+       
+
+        if (myDataBed != null)
         {
-            // 3. Получаем его контроллер
-            PlantController plantController = plantObject.GetComponent<PlantController>();
-            if (plantController != null)
-            {
-                // 4. Вызываем метод инициализации из сохранения.
-                // Этот метод применит нужную стадию роста, таймеры и т.д.
-                plantController.InitializeFromSave(saveData);
+            Debug.Log("[ItemSpawner] Загружено из Resources: " + myDataBed.name);
+        
 
-                Debug.Log($"Растение {saveData.plantDataName} успешно восстановлено из сохранения.");
+
+            GameObject bed = Instantiate(myDataBed.bedlPrefab, spawnPosition, Quaternion.identity);
+            bed.transform.localScale = spawnScale;
+            bed.transform.parent = parentTransform;  
+            BedController bedController = bed.GetComponent<BedController>();
+            if (bedController != null) {
+                bedController.isRaked = isRaked;    
+                return bed;
             }
+
             else
             {
-                // Эта ошибка не должна произойти, если ваш SpawnPlant работает правильно, но проверка не помешает
-                Debug.LogError($"На заспавненном префабе растения '{plantObject.name}' отсутствует компонент PlantController!");
+                return null;
             }
         }
         else
         {
-            Debug.LogWarning($"Метод SpawnPlant не смог создать объект для {seedData.itemName}. Восстановление прервано.");
+            Debug.LogError("Не удалось загрузить BedData из папки Resources по пути: " + path);
+            return null;
         }
     }
+    public GameObject SpawnLoadedPlant(PlantSaveData savedata, Transform parent, Vector3 position, Vector3 spawnScale)
+    {
+        string path = $"Data/{savedata.plantDataName}";
 
+        PlantData myDataPlant = Resources.Load<PlantData>(path);
+        if (myDataPlant != null)
+        {
+            GameObject plant = Instantiate(myDataPlant.PlantPrefab, position ,Quaternion.identity);
+            plant.transform.parent = parent;
+            plant.transform.position = position;
+            plant.transform.localScale=spawnScale;
+            PlantController plantController= plant.GetComponent<PlantController>();
+            if (plantController != null) {
+                plantController.plantData = myDataPlant;
+                
+                plantController.Initialize(savedata);
+            }
+        }
+        else
+        {
+            Debug.Log($"{savedata.plantDataName} not found in {path}");
+        }
+        return null;
+    }
 }

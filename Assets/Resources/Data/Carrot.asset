@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31603f64966064043a4638eea9f9827d, type: 3}
+  m_Name: Carrot
+  m_EditorClassIdentifier: 
+  plantName: Carrot
+  growthStagesSprites:
+  - {fileID: -7756956127017962999, guid: 2a798b25d08644e4294d83bd80e1bc00, type: 3}
+  - {fileID: 2622793519933395493, guid: 9bfa0b91b097f5e42a11c01a7cdfa6d7, type: 3}
+  - {fileID: 1820796405891678531, guid: 8267fb3e8cb70344f98da3180b484b36, type: 3}
+  - {fileID: 4118520437923042088, guid: 6a38242316e079e48bf0d886d29a8b6e, type: 3}
+  timePerGrowthStage: 3.5
+  waterNeededInterval: 7
+  fertilizerGrowthMultiplier: 1.2
+  Weight: 1
+  plantingSound: {fileID: 8300000, guid: 98fa4cc9ab0826547a4860debfe4cd20, type: 3}
+  harvestedCrop: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
+  seedItem: {fileID: 11400000, guid: b3d81db6279c52f4fab8628f523498dd, type: 2}
+  PlantPrefab: {fileID: 7501720143481927976, guid: 13f7b07be962e89489bcb3044e2a48a9, type: 3}
+  seedDropChance: 0.6
