@@ -16,5 +16,6 @@ MonoBehaviour:
   Name: Farming Legend
   Description: Complete all quests in the game.
   Icon: {fileID: 0}
+  reward: 1000
   typeOfAchivment: 6
   goal: 1

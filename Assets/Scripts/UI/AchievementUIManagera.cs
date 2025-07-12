@@ -1,78 +1,87 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
-
-[System.Serializable]
-public class PlayerProgress
-{
-    public Achievement[] playerProgress;
-    public string[] unlockedAchievements;
-}
-
-[System.Serializable]
-public class Achievement
-{
-    public int type;
-    public int value;
-}
 public class AchievementUIManagera : MonoBehaviour
 {
-    private string filePath;
-    private Dictionary<TypeOfAchivment, int> progress = new Dictionary<TypeOfAchivment, int>();
-    [SerializeField] Slider[] allSliders;
-    [SerializeField] TextMeshProUGUI[] allText;
-    public List<AchievementData> AllDataAchievement;
+    // --- ПОЛЯ ДЛЯ НАСТРОЙКИ В ИНСПЕКТОРЕ ---
 
-    void Start()
+    // Вместо отдельных массивов для слайдеров и текстов,
+    // создадим класс, который объединяет все UI элементы для одного достижения.
+    // Это гораздо надежнее, чем полагаться на индексы массивов.
+    [System.Serializable]
+    public class AchievementUIElements
     {
-        filePath = Application.persistentDataPath + "/achievements.json";
-        LoadData(1);
+        // Укажите, какому типу достижения соответствует этот UI элемент
+        public TypeOfAchivment achievementType;
+        public Slider progressBar;
+        public TextMeshProUGUI progressText;
+        public GameObject completedOverlay; // Необязательно: галочка или затемнение при выполнении
     }
+
+    // В инспекторе вы создадите список и для каждого элемента укажете тип,
+    // слайдер и текст. Порядок больше не важен!
+    public List<AchievementUIElements> uiElementsList;
+
+
+    // --- ЛОГИКА ---
+
+    // Вызывается один раз, когда объект становится активным (например, при открытии окна)
     private void OnEnable()
     {
-        GameEvents.OnHarvestTheCrop += LoadData;
-        GameEvents.OnCollectAnimalProduct += LoadData;
-        GameEvents.OnCollectCoin += LoadData;
-        GameEvents.OnAddedNewAnimal += LoadData;
-        GameEvents.OnCollectAllPlants += LoadData;
-
-        GameEvents.OnAddedNewUpdgrade += LoadData;
-        GameEvents.OnCompleteTheQuest += LoadData;
+        // Не нужно подписываться на десятки событий.
+        // Просто обновляем UI один раз, когда окно открывается.
+        RefreshUI();
     }
-    public void LoadData(int amount)
+
+    /// <summary>
+    /// Основной метод, который обновляет все элементы UI на основе данных из AchievementManager.
+    /// </summary>
+    public void RefreshUI()
     {
-        if (File.Exists(filePath))
+        // Проверяем, что AchievementManager уже существует
+        if (AchievementManager.instance == null)
         {
-            string jsonData = File.ReadAllText(filePath);
-            PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(jsonData);
-            Debug.Log("Player Progress Loaded!");
-
-            // Заполнение словаря progress
-            foreach (var achievement in playerProgress.playerProgress)
-            {
-                TypeOfAchivment type = (TypeOfAchivment)achievement.type;
-                progress[type] = achievement.value;
-
-            }
-
-            for (int i = 0; i < progress.Count; i++)
-            {
-                allSliders[i].value = playerProgress.playerProgress[i].value;
-            }
-            for(int i = 0;i < allText.Length; i++)
-            {
-                allText[i].text = $" {playerProgress.playerProgress[i].value}/{AllDataAchievement[i].goal}";
-            }
-
-        }
-        else
-        {
-            Debug.LogError("File not found: " + filePath);
+            Debug.LogError("AchievementManager не найден! UI не может быть обновлен.");
+            return;
         }
 
-        
+        // Проходимся по нашему списку UI элементов
+        foreach (var uiElement in uiElementsList)
+        {
+            // Находим данные (конфигурацию) для этого типа достижения
+            AchievementData data = AchievementManager.instance.AllDataAchievement.Find(a => a.typeOfAchivment == uiElement.achievementType);
+            if (data == null)
+            {
+                Debug.LogWarning($"Не найдены данные для достижения типа {uiElement.achievementType}");
+                continue; // Пропускаем этот UI элемент
+            }
+
+            // --- Получаем АКТУАЛЬНЫЕ данные от AchievementManager ---
+            int currentProgress = AchievementManager.instance.GetProgress(uiElement.achievementType);
+            bool isCompleted = AchievementManager.instance.IsCompleted(uiElement.achievementType);
+
+            // --- Обновляем соответствующие UI компоненты ---
+
+            // Обновляем слайдер
+            if (uiElement.progressBar != null)
+            {
+                uiElement.progressBar.maxValue = data.goal;
+                uiElement.progressBar.value = currentProgress;
+            }
+
+            // Обновляем текст
+            if (uiElement.progressText != null)
+            {
+                uiElement.progressText.text = $"{currentProgress} / {data.goal}";
+            }
+
+            // Показываем или скрываем "галочку" о выполнении
+            if (uiElement.completedOverlay != null)
+            {
+                uiElement.completedOverlay.SetActive(isCompleted);
+            }
+        }
     }
 }

@@ -16,5 +16,6 @@ MonoBehaviour:
   Name: The Whole Gang's Here
   Description: Have at least one of every type of animal on the farm.
   Icon: {fileID: 0}
+  reward: 300
   typeOfAchivment: 3
   goal: 3
