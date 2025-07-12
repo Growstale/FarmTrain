@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 
 [RequireComponent(typeof(VideoPlayer))]
-public class TrainingVideoManager : MonoBehaviour
+public class TrainingVideoManager : MonoBehaviour, IUIManageable
 {
     public static TrainingVideoManager Instance { get; private set; }
 
@@ -29,6 +29,11 @@ public class TrainingVideoManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Register(this);
+        }
 
         if (videoPlayer == null)
             videoPlayer = GetComponent<VideoPlayer>();
@@ -75,6 +80,8 @@ public class TrainingVideoManager : MonoBehaviour
 
     public void Open()
     {
+        ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+
         if (trainingPanel != null)
             trainingPanel.SetActive(true);
 
@@ -97,4 +104,25 @@ public class TrainingVideoManager : MonoBehaviour
         if (trainingPanel != null)
             trainingPanel.SetActive(false);
     }
+
+    private void OnDestroy()
+    {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Deregister(this);
+        }
+    }
+
+    public void CloseUI()
+    {
+        // Наша система будет вызывать этот метод, чтобы закрыть панель
+        Close();
+    }
+
+    public bool IsOpen()
+    {
+        // Наша система должна знать, открыта ли панель
+        return trainingPanel != null && trainingPanel.activeSelf;
+    }
+
 }

@@ -10,7 +10,7 @@ public class StartingItemInfo
     [Min(1)] public int quantity = 1;
 }
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour, IUIManageable
 {
     public static InventoryManager Instance { get; private set; }
 
@@ -62,6 +62,11 @@ public class InventoryManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Register(this);
+        }
 
         InitializeInventory();
     }
@@ -352,6 +357,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (!mainInventoryPanel.activeSelf)
         {
+            ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+
             mainInventoryPanel.SetActive(true);
             if (inventoryBackgroundPanel != null)
             {
@@ -360,6 +367,7 @@ public class InventoryManager : MonoBehaviour
             UpdateMainInventoryUIVisibility();
         }
     }
+
 
     public void CloseInventory()
     {
@@ -386,9 +394,21 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            OpenInventory();
+            OpenInventory(); // OpenInventory уже содержит вызов NotifyPanelOpening
         }
     }
+
+    public void CloseUI()
+    {
+        CloseInventory();
+    }
+
+    public bool IsOpen()
+    {
+        // Система должна знать, открыты ли мы сейчас
+        return IsMainInventoryPanelActive();
+    }
+
 
     // Этот метод теперь вызывается из UpdateInventorySizeBasedOnUpgrades
     public void SetMainInventorySize(int numberOfRows)
@@ -603,5 +623,13 @@ public class InventoryManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Deregister(this);
+        }
     }
 }

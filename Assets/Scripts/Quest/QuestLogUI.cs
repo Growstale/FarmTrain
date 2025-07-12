@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Audio;
 
-public class QuestLogUI : MonoBehaviour
+public class QuestLogUI : MonoBehaviour, IUIManageable
 {
     // --- ПРИВЯЗКИ К UI В ИНСПЕКТОРЕ ---
     [Header("Main Components")]
@@ -33,6 +33,11 @@ public class QuestLogUI : MonoBehaviour
 
     private void Start()
     {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Register(this);
+        }
+
         audioSource = GetComponent<AudioSource>();
         openLogButton.onClick.AddListener(ToggleLog);
         closeLogButton.onClick.AddListener(CloseLog);
@@ -46,30 +51,23 @@ public class QuestLogUI : MonoBehaviour
         detailsPanelObject.SetActive(false); // Убеждаемся, что детали скрыты при старте
     }
 
-    private void OnDestroy()
-    {
-        if (QuestManager.Instance != null)
-        {
-            QuestManager.Instance.OnQuestLogUpdated -= UpdateUI;
-        }
-    }
-
     public void ToggleLog()
     {
         bool isActive = questLogPanelObject.activeSelf;
-        questLogPanelObject.SetActive(!isActive);
 
-        if (!isActive) // Если только что открыли журнал
+        if (!isActive) 
         {
+            ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+
+            questLogPanelObject.SetActive(true); // Открываем панель ПОСЛЕ уведомления
             GameStateManager.Instance.RequestPause(this);
             selectedQuest = null;
             detailsPanelObject.SetActive(false);
-            UpdateUI(); // Обновляем только список
+            UpdateUI();
         }
         else // Если только что закрыли
         {
-            // <<< ИЗМЕНЕНИЕ: Снимаем игру с паузы
-            GameStateManager.Instance.RequestResume(this);
+            CloseLog(); // Используем наш метод закрытия
         }
     }
 
@@ -168,6 +166,28 @@ public class QuestLogUI : MonoBehaviour
             {
                 questProgressSlider.value = totalProgress / activeGoalsCount;
             }
+        }
+    }
+
+    public void CloseUI()
+    {
+        CloseLog();
+    }
+
+    public bool IsOpen()
+    {
+        return questLogPanelObject.activeSelf;
+    }
+
+    private void OnDestroy()
+    {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Deregister(this);
+        }
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.OnQuestLogUpdated -= UpdateUI;
         }
     }
 }

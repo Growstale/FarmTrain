@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class RadioManager : MonoBehaviour
+public class RadioManager : MonoBehaviour, IUIManageable
 {
     public static RadioManager Instance;
 
@@ -52,6 +52,11 @@ public class RadioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            if (ExclusiveUIManager.Instance != null)
+            {
+                ExclusiveUIManager.Instance.Register(this);
+            }
 
             if (radioPanel == null)
             {
@@ -150,6 +155,8 @@ public class RadioManager : MonoBehaviour
 
     public void OpenRadioPanel()
     {
+        ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+
         radioPanel.SetActive(true);
     }
 
@@ -385,4 +392,25 @@ public class RadioManager : MonoBehaviour
             PlayTrack();
         }
     }
+
+    public void CloseUI()
+    {
+        CloseRadioPanel();
+    }
+
+    public bool IsOpen()
+    {
+        return radioPanel != null && radioPanel.activeSelf;
+    }
+
+
+    private void OnDestroy()
+    {
+        if (ExclusiveUIManager.Instance != null)
+        {
+            ExclusiveUIManager.Instance.Deregister(this);
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 }

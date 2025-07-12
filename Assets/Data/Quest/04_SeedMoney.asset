@@ -18,14 +18,14 @@ MonoBehaviour:
   shortDescription: Earn Coins
   gameLevel: 1
   phase: 0
-  nextQuest: {fileID: 11400000, guid: 640b297ae07bf84479911e1776b0cda4, type: 2}
+  nextQuest: {fileID: 0}
   goals:
   - goalType: 7
     targetID: 
-    requiredAmount: 200
+    requiredAmount: 1
     targetIDs: []
-    currentAmount: 0
+    currentAmount: 1
   rewardXP: 30
-  status: 0
+  status: 2
   isPinned: 0
   hasBeenViewed: 0
