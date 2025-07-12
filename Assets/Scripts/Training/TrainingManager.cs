@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using TMPro;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class TrainingVideoManager : MonoBehaviour, IUIManageable
@@ -13,6 +14,7 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
     public Button backButton;
     public Button forwardButton;
     public GameObject notificationIcon;
+    public TextMeshProUGUI titleText;
 
     [Header("Clips")]
     public VideoClip[] clips;
@@ -65,6 +67,12 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
         videoPlayer.Stop();
         videoPlayer.clip = clips[currentIndex];
         videoPlayer.Play();
+       
+        if (titleText != null)
+        {
+            titleText.text = videoPlayer.clip.name;
+        }
+
 
         UpdateButtons();
     }
@@ -100,6 +108,10 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
     public void Close()
     {
         videoPlayer.Stop();
+        if (titleText != null)
+        {
+            titleText.text = "";
+        }
 
         if (trainingPanel != null)
             trainingPanel.SetActive(false);
