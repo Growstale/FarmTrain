@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 661edfc7f468b704c8033f2945553b35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -104,6 +104,14 @@ MonoBehaviour:
   plantData: {fileID: 11400000, guid: 7fcdbf3c628971d42abc193477fadd42, type: 2}
   icon_water: {fileID: 2697768212951697730, guid: a0dd0af51373532469f74f9d80ffd5f1, type: 3}
   worldItemPrefab: {fileID: 8032518324842481959, guid: 308e3e6a9e621d94ea7d4ec0df0fc124, type: 3}
+  upgradeWatering: 0
+  IdSlots: []
+  currentStage: 0
+  isNeedWater: 0
+  isFertilize: 0
+  growthTimer: 0
+  waterNeedTimer: 0
+  isInitialized: 0
 --- !u!61 &6031524366798398592
 BoxCollider2D:
   m_ObjectHideFlags: 0

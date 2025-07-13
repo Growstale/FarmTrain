@@ -109,6 +109,11 @@ public class QuestManager : MonoBehaviour
         OnQuestCompleted?.Invoke(quest);
         OnQuestLogUpdated?.Invoke();
         Debug.Log($"Êâåñò '{quest.title}' âûïîëíåí! Íàãğàäà: {quest.rewardXP} XP.");
+        if (allQuests.Count > 0 && CompletedQuests.Count == allQuests.Count)
+        {
+            Debug.Log("<color=cyan>ÏÎÇÄĞÀÂËßÅÌ! ÂÑÅ ÊÂÅÑÒÛ Â ÈÃĞÅ ÂÛÏÎËÍÅÍÛ!</color>");
+            GameEvents.TriggerCompleteTheQuest(1);
+        }
     }
 
     public void AddQuestProgress(GoalType eventType, string targetID, int amount)

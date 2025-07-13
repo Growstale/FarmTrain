@@ -2988,6 +2988,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: Farming Legend
@@ -3006,7 +3010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -6502,6 +6506,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 150
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: 'Budding Tycoon
@@ -6522,7 +6530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -6719,6 +6727,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 800
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: State of the Art Farm
@@ -6737,7 +6749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -10714,6 +10726,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 100
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: 'Rancher '
@@ -10732,7 +10748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -13228,7 +13244,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1436083515}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.29695284
+  m_Size: 0.29695287
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13439,8 +13455,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 272967257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.70304716}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13827,6 +13843,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 300
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: The Whole Gang's Here
@@ -13845,7 +13865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -15853,6 +15873,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 40
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: Bountiful Harvest
@@ -15871,7 +15895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
@@ -17745,7 +17769,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00002964946, y: 0}
-  m_SizeDelta: {x: 0.000061035, y: 1273}
+  m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1752402423
 MonoBehaviour:
@@ -17824,7 +17848,7 @@ MonoBehaviour:
     progressBar: {fileID: 93911407}
     progressText: {fileID: 1503838140}
     completedOverlay: {fileID: 0}
-  - achievementType: 0
+  - achievementType: 6
     progressBar: {fileID: 2028325875}
     progressText: {fileID: 287515221}
     completedOverlay: {fileID: 0}
@@ -17966,7 +17990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1791610536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19818,6 +19842,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1752402422}
     m_Modifications:
+    - target: {fileID: 267544071371715990, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
+      propertyPath: m_text
+      value: x 200
+      objectReference: {fileID: 0}
     - target: {fileID: 851789071495634549, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text
       value: Master Gardener
@@ -19836,7 +19864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438800025962003522, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7567842344268024441, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
       propertyPath: m_text

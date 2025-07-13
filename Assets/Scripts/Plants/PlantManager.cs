@@ -34,7 +34,7 @@ public class PlantManager : MonoBehaviour
         positionBed.Add(1, new List<Vector2Int>());
         // CkeckValue(); // Этот метод можно убрать или оставить для отладки
         SaveLoadManager.Instance.SaveGame();
-        Debug.Log(">>>>>>>>>>>>>>>>>>>Save Game");
+        
     }
 
     private void Start()

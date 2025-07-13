@@ -38,7 +38,7 @@ public class AchievementManager : MonoBehaviour
     #endregion
 
 
-   
+
 
     #region Unity Lifecycle Methods
 
@@ -90,11 +90,8 @@ public class AchievementManager : MonoBehaviour
 
     #region Public Methods
 
-    /// <summary>
-    /// Основной метод для добавления прогресса к достижению.
-    /// </summary>
-    /// <param name="type">Тип достижения для обновления.</param>
-    /// <param name="amount">Количество, которое нужно добавить к прогрессу.</param>
+ 
+
     public void AddProgress(TypeOfAchivment type, int amount)
     {
         // 1. Если достижение уже получено, выходим
@@ -117,7 +114,7 @@ public class AchievementManager : MonoBehaviour
             progress[type] = 0;
         }
         progress[type] += amount;
-        Debug.Log($"Прогресс для {data.Name}: {progress[type]} / {data.goal}");
+
 
         // 4. Проверяем, выполнено ли условие
         if (progress[type] >= data.goal)
@@ -126,13 +123,13 @@ public class AchievementManager : MonoBehaviour
             progress[type] = data.goal;
 
             Debug.Log($"Достижение '{data.Name}' ПОЛУЧЕНО!");
-
-
+            MarkAsComplete(type, playSound: true);
+            Debug.Log($"Прогресс для {data.Name}: {progress[type]} / {data.goal}");
             if (windowsNotification != null)
             {
                 AchievementWindow win = windowsNotification.GetComponent<AchievementWindow>();
                 if (win != null)
-                { 
+                {
                     win.GetVisibleWindow(data.name, data.reward);
                 }
             }
@@ -141,11 +138,16 @@ public class AchievementManager : MonoBehaviour
                 Debug.LogError("windowsNotification is Null");
             }
 
-                // Выдаем награду (предполагая, что поле reward есть в AchievementData)
-                PlayerWallet.Instance.AddMoney(data.reward);
+            if(data.Name == "Budding Tycoon")
+            {
+                
+                PlayerWallet.Instance.AchievemnetisReward = true;
+            }
+            // Выдаем награду (предполагая, что поле reward есть в AchievementData)
+            PlayerWallet.Instance.AddMoney(data.reward);
 
             // Отмечаем достижение как выполненное
-            MarkAsComplete(type, playSound: true);
+
         }
 
         // 5. Сохраняем все изменения

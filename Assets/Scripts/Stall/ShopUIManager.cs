@@ -531,6 +531,7 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
                 if (InventoryManager.Instance.GetTotalItemQuantity(itemData) < transactionQuantity) return;
 
                 PlayerWallet.Instance.AddMoney(totalPrice);
+                GameEvents.TriggerHarvestCrop(transactionQuantity);
                 InventoryManager.Instance.RemoveItemByType(itemData, transactionQuantity);
                 OnItemPurchased?.Invoke(itemData, transactionQuantity);
                 ShopDataManager.Instance.IncreaseStock(currentShopData, itemData, transactionQuantity);

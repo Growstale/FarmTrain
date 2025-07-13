@@ -31,7 +31,7 @@ public class SaveLoadManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>> Try to load Game");
+       
         LoadGame();
     }
 
