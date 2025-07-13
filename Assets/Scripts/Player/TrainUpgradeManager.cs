@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class TrainUpgradeManager : MonoBehaviour
 {
@@ -28,6 +29,25 @@ public class TrainUpgradeManager : MonoBehaviour
         {
             purchasedUpgrades.Add(upgradeData);
             Debug.Log($"Куплено улучшение: {upgradeData.itemName}");
+        }
+    }
+    public List<string> GetSaveData()
+    {
+        return purchasedUpgrades.Select(ud => ud.name).ToList();
+    }
+
+    public void ApplySaveData(TrainUpgradesSaveData data)
+    {
+        purchasedUpgrades.Clear();
+        if (data == null || data.purchasedUpgradeItemNames == null) return;
+
+        foreach (var itemName in data.purchasedUpgradeItemNames)
+        {
+            ItemData upgradeAsset = Resources.Load<ItemData>($"Data/{itemName}");
+            if (upgradeAsset != null)
+            {
+                purchasedUpgrades.Add(upgradeAsset);
+            }
         }
     }
 }

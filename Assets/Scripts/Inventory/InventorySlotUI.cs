@@ -24,6 +24,17 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
     private InventoryManager _inventoryManager;
     private InventoryManager InventoryManagerInstance => _inventoryManager ?? (_inventoryManager = InventoryManager.Instance);
 
+    private InventoryUI inventoryUI;
+
+    private void Awake()
+    {
+        // Находим компонент InventoryUI на родительских объектах
+        inventoryUI = GetComponentInParent<InventoryUI>();
+        if (inventoryUI == null)
+        {
+            Debug.LogError("InventorySlotUI не смог найти InventoryUI в родителях!", gameObject);
+        }
+    }
 
     public void Setup(int index, bool isHotbar, System.Action<int> clickCallback)
     {
@@ -100,7 +111,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
             return;
         }
 
-        if (isHotbarSlot && !InventoryManagerInstance.IsMainInventoryPanelActive())
+        if (isHotbarSlot && !inventoryUI.IsOpen())
         {
             Debug.Log($"Drag blocked on Hotbar Slot {SlotIndex}: Inventory panel is closed.");
             eventData.pointerDrag = null;
@@ -177,7 +188,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler,
         {
             Debug.Log($"Item '{draggedSlot.currentItem.itemData.itemName}' from slot {draggedSlot.SlotIndex} dropped onto slot {this.SlotIndex}");
 
-            InventoryManagerInstance.MoveItem(draggedSlot.SlotIndex, this.SlotIndex);
+            InventoryManager.Instance.MoveItem(draggedSlot.SlotIndex, this.SlotIndex);
 
             currentlyDraggedSlot = null;
         }

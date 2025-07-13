@@ -33,7 +33,6 @@ public class PlantManager : MonoBehaviour
         positionBed.Add(0, new List<Vector2Int>());
         positionBed.Add(1, new List<Vector2Int>());
         // CkeckValue(); // Этот метод можно убрать или оставить для отладки
-        SaveLoadManager.Instance.SaveGame();
         
     }
 
@@ -69,6 +68,17 @@ public class PlantManager : MonoBehaviour
     }
 
 
+    public void ApplySaveData(TrainUpgradesSaveData data)
+    {
+        if (data == null)
+        {
+            UpgradeWatering = false; // Для новой игры
+        }
+        else
+        {
+            UpgradeWatering = data.upgradeWatering;
+        }
+    }
 
 
 }

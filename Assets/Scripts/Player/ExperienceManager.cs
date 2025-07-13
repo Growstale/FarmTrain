@@ -114,4 +114,20 @@ public class ExperienceManager : MonoBehaviour
             XpForNextPhase = xpLevels[levelIndex].stationPhaseXP;
         }
     }
+    public void ApplySaveData(PlayerSaveData data)
+    {
+        if (data == null) // Новая игра
+        {
+            Initialize(); // Просто сбрасываем до начальных значений
+        }
+        else
+        {
+            CurrentLevel = data.currentLevel;
+            CurrentPhase = data.currentPhase;
+            CurrentXP = data.currentXP;
+            UpdateXpThreshold();
+        }
+        OnXPChanged?.Invoke(CurrentXP, XpForNextPhase);
+    }
+
 }

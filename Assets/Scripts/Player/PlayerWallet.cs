@@ -70,5 +70,17 @@ public class PlayerWallet : MonoBehaviour
         OnMoneyChanged?.Invoke(currentMoney);
         Debug.Log($"Потрачено {amount} денег. Всего: {currentMoney}");
     }
+    public void ApplySaveData(PlayerSaveData data)
+    {
+        if (data == null) // Новая игра
+        {
+            currentMoney = startingMoney;
+        }
+        else
+        {
+            currentMoney = data.currentMoney;
+        }
+        OnMoneyChanged?.Invoke(currentMoney);
+    }
 
 }

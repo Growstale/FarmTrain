@@ -217,4 +217,35 @@ public class AnimalPenManager : MonoBehaviour
         return null;
     }
 
+    public List<AnimalStateData> GetSaveData()
+    {
+        // Нам нужно убедиться, что "живые" животные на сцене сохранили свое последнее состояние
+        foreach (var animalController in FindObjectsOfType<AnimalController>())
+        {
+            animalController.SaveState();
+        }
+        return allAnimals;
+    }
+
+    public void ApplySaveData(List<AnimalStateData> data)
+    {
+        EnsureInitialized(); // Убедимся, что менеджер готов
+
+        if (data == null || data.Count == 0) // Новая игра
+        {
+            // Логика для стартовых животных уже в EnsureInitialized,
+            // просто очистим список на всякий случай и вызовем ее.
+            allAnimals.Clear();
+            hasInitialized = false; // Сбросим флаг, чтобы EnsureInitialized сработал заново
+            EnsureInitialized();
+        }
+        else
+        {
+            allAnimals = new List<AnimalStateData>(data);
+        }
+
+        // Пересоздание животных на сцене произойдет в TrainPenController
+        // когда он получит эти обновленные данные.
+    }
+
 }

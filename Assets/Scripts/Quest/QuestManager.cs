@@ -286,4 +286,75 @@ public class QuestManager : MonoBehaviour
         OnQuestLogUpdated?.Invoke();
     }
 
+    public List<QuestSaveData> GetSaveData()
+    {
+        var allQuestsForSave = ActiveQuests.Concat(CompletedQuests).ToList();
+        var saveData = new List<QuestSaveData>();
+
+        foreach (var quest in allQuestsForSave)
+        {
+            var questData = new QuestSaveData
+            {
+                questId = quest.id,
+                status = quest.status,
+                isPinned = quest.isPinned,
+                hasBeenViewed = quest.hasBeenViewed,
+                goals = new List<QuestGoalSaveData>()
+            };
+            foreach (var goal in quest.goals)
+            {
+                questData.goals.Add(new QuestGoalSaveData { currentAmount = goal.currentAmount });
+            }
+            saveData.Add(questData);
+        }
+        return saveData;
+    }
+
+    public void ApplySaveData(List<QuestSaveData> data)
+    {
+        // Сброс всех квестов
+        ActiveQuests.Clear();
+        CompletedQuests.Clear();
+        foreach (var q in allQuests)
+        {
+            q.status = QuestStatus.NotAccepted;
+            q.isPinned = false;
+            q.hasBeenViewed = false;
+            foreach (var goal in q.goals) goal.currentAmount = 0;
+        }
+
+        if (data == null || data.Count == 0) // Новая игра или нет данных
+        {
+            ActivateQuestsForCurrentPhase();
+        }
+        else
+        {
+            foreach (var savedQuest in data)
+            {
+                Quest quest = allQuests.FirstOrDefault(q => q.id == savedQuest.questId);
+                if (quest != null)
+                {
+                    quest.status = savedQuest.status;
+                    quest.isPinned = savedQuest.isPinned;
+                    quest.hasBeenViewed = savedQuest.hasBeenViewed;
+
+                    for (int i = 0; i < quest.goals.Count && i < savedQuest.goals.Count; i++)
+                    {
+                        quest.goals[i].currentAmount = savedQuest.goals[i].currentAmount;
+                    }
+
+                    if (quest.status == QuestStatus.Accepted)
+                    {
+                        ActiveQuests.Add(quest);
+                    }
+                    else if (quest.status == QuestStatus.Completed)
+                    {
+                        CompletedQuests.Add(quest);
+                    }
+                }
+            }
+        }
+        OnQuestLogUpdated?.Invoke();
+    }
+
 }
