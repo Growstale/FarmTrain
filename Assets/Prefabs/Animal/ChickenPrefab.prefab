@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9116119823224567968}
   - component: {fileID: 4588481031260278143}
   - component: {fileID: 5580364789624002657}
+  - component: {fileID: 8141070404087322935}
   m_Layer: 7
   m_Name: ChickenPrefab
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 492075863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8678448789981272047, guid: f29862a61cdf738419e40fe9a7fad4d2, type: 3}
+  m_Sprite: {fileID: 5645587779355242952, guid: 543f0766b18943341a9bc87f9e040f18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,7 +128,7 @@ BoxCollider2D:
   m_Offset: {x: -0.012103558, y: 0.118441164}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5383905, y: 0.0356788}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.28, y: 0.26}
     newSize: {x: 0.28, y: 0.26}
     adaptiveTilingThreshold: 0.5
@@ -168,3 +169,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96071bc0a96f9d4db8ff4ccd737a9bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &8141070404087322935
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6930296401797857906}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9051b0fadbc6b3548864213324aa113b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

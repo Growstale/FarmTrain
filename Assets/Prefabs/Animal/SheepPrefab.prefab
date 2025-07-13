@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1499699045322527100}
   - component: {fileID: 5359416210339087979}
   - component: {fileID: -4378109359565308462}
+  - component: {fileID: 4769395211609482731}
   m_Layer: 7
   m_Name: SheepPrefab
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 492075863
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7169504175864966832, guid: b85795733eaa79e498687e754079cebd, type: 3}
+  m_Sprite: {fileID: -2082248033030191685, guid: 74a16c1e02133554080644cbec6ca6fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,8 +128,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.1556837}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5112117, y: 0.014211714}
-    oldSize: {x: 0.59, y: 0.32}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.57, y: 0.35}
     newSize: {x: 0.59, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -168,3 +169,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96071bc0a96f9d4db8ff4ccd737a9bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4769395211609482731
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831710792727493270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5cae38ddb1de4ff4a984842131a18e04, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
