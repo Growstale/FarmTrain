@@ -1752,20 +1752,14 @@ MonoBehaviour:
   storageUpgradeData: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
   selectedSlotIndex: 0
   startingItems:
-  - itemData: {fileID: 11400000, guid: 02209db07b109f84d8b84068d0ac74de, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: fb90f9481a51ab247830899746aeb1ca, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: d93099adf63d4e44dbcf37ebf77e458d, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: 4f3ca974c7570a843b235ef0555056d2, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: 53e88128c33d69242b0bb49eb17adb43, type: 2}
-    quantity: 4
-  - itemData: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
-    quantity: 4
+  - itemData: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
+    quantity: 8
+  - itemData: {fileID: 11400000, guid: ea350653636a7514cbf575c84741e2fe, type: 2}
+    quantity: 16
+  - itemData: {fileID: 11400000, guid: 103857f852142694b84a97ac087853ce, type: 2}
+    quantity: 1
+  - itemData: {fileID: 11400000, guid: 9cfaa8b293a04744d9cc8017c4231301, type: 2}
+    quantity: 1
   slotClickSound: {fileID: 8300000, guid: 3b69af143cf83da44b12c59eea8ff2e4, type: 3}
 --- !u!4 &156422810
 Transform:
