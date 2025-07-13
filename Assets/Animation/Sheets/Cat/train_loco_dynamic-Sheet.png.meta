@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: 3e80a8f1766fc8f4eb21dbf0b7c6ed34
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5718457657015606593
+    second: train_loco_dynamic-Sheet_0
+  - first:
+      213: -265013201117831700
+    second: train_loco_dynamic-Sheet_1
+  - first:
+      213: -1148470222612898398
+    second: train_loco_dynamic-Sheet_2
+  - first:
+      213: -7853328955333162052
+    second: train_loco_dynamic-Sheet_3
+  - first:
+      213: -3693737245878005385
+    second: train_loco_dynamic-Sheet_4
+  - first:
+      213: 4033802878867546760
+    second: train_loco_dynamic-Sheet_5
+  - first:
+      213: -1819227500321099158
+    second: train_loco_dynamic-Sheet_6
+  - first:
+      213: -8389445081319703175
+    second: train_loco_dynamic-Sheet_7
+  - first:
+      213: -4973023159076305409
+    second: train_loco_dynamic-Sheet_8
+  - first:
+      213: 957646729374958185
+    second: train_loco_dynamic-Sheet_9
+  - first:
+      213: 3422871893912747236
+    second: train_loco_dynamic-Sheet_10
+  - first:
+      213: 5268436213383602133
+    second: train_loco_dynamic-Sheet_11
+  - first:
+      213: 8554825866095491887
+    second: train_loco_dynamic-Sheet_12
+  - first:
+      213: -340168578029759678
+    second: train_loco_dynamic-Sheet_13
+  - first:
+      213: -2240828636197886853
+    second: train_loco_dynamic-Sheet_14
+  - first:
+      213: -6505604181588881509
+    second: train_loco_dynamic-Sheet_15
+  - first:
+      213: -8641413336886405495
+    second: train_loco_dynamic-Sheet_16
+  - first:
+      213: -7766765536141081285
+    second: train_loco_dynamic-Sheet_17
+  - first:
+      213: 8091603142673940204
+    second: train_loco_dynamic-Sheet_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14d178df0fa0c5f40800000000000000
+      internalID: 5718457657015606593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ced159ec5eb725cf0800000000000000
+      internalID: -265013201117831700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ad5b0ada60df00f0800000000000000
+      internalID: -1148470222612898398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbbc3118cee530390800000000000000
+      internalID: -7853328955333162052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 771dfcd8b853dbcc0800000000000000
+      internalID: -3693737245878005385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1937
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88229d8a852faf730800000000000000
+      internalID: 4033802878867546760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2321
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a623db52a3ec0c6e0800000000000000
+      internalID: -1819227500321099158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 2705
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97d7a41d524b29b80800000000000000
+      internalID: -8389445081319703175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 3089
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff54777f8c54cfab0800000000000000
+      internalID: -4973023159076305409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 3473
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96285b460ae3a4d00800000000000000
+      internalID: 957646729374958185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 3857
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec76543adb708f20800000000000000
+      internalID: 3422871893912747236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 4241
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df988c92de3d1940800000000000000
+      internalID: 5268436213383602133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 4625
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2bf1ffbcc8d8b670800000000000000
+      internalID: 8554825866095491887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 5009
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24359c60b7a774bf0800000000000000
+      internalID: -340168578029759678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 5393
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b74e6e05a3af6e0e0800000000000000
+      internalID: -2240828636197886853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 5777
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9f491b077377b5a0800000000000000
+      internalID: -6505604181588881509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 6161
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9861091ba58831880800000000000000
+      internalID: -8641413336886405495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 6545
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b35809c15e7e63490800000000000000
+      internalID: -7766765536141081285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 6929
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceeb386ef262b4070800000000000000
+      internalID: 8091603142673940204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: c7ad6a249bd93d6478e07af48ea297e0
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      train_loco_dynamic-Sheet_0: 5718457657015606593
+      train_loco_dynamic-Sheet_1: -265013201117831700
+      train_loco_dynamic-Sheet_10: 3422871893912747236
+      train_loco_dynamic-Sheet_11: 5268436213383602133
+      train_loco_dynamic-Sheet_12: 8554825866095491887
+      train_loco_dynamic-Sheet_13: -340168578029759678
+      train_loco_dynamic-Sheet_14: -2240828636197886853
+      train_loco_dynamic-Sheet_15: -6505604181588881509
+      train_loco_dynamic-Sheet_16: -8641413336886405495
+      train_loco_dynamic-Sheet_17: -7766765536141081285
+      train_loco_dynamic-Sheet_18: 8091603142673940204
+      train_loco_dynamic-Sheet_2: -1148470222612898398
+      train_loco_dynamic-Sheet_3: -7853328955333162052
+      train_loco_dynamic-Sheet_4: -3693737245878005385
+      train_loco_dynamic-Sheet_5: 4033802878867546760
+      train_loco_dynamic-Sheet_6: -1819227500321099158
+      train_loco_dynamic-Sheet_7: -8389445081319703175
+      train_loco_dynamic-Sheet_8: -4973023159076305409
+      train_loco_dynamic-Sheet_9: 957646729374958185
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
