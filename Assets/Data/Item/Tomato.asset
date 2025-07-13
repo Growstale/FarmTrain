@@ -18,6 +18,6 @@ MonoBehaviour:
   isStackable: 1
   maxStackSize: 16
   description: Tomato
-  associatedPlantData: {fileID: 0}
+  associatedPlantData: {fileID: 11400000, guid: 7fcdbf3c628971d42abc193477fadd42, type: 2}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

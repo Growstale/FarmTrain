@@ -9,6 +9,8 @@ public class PlayerWallet : MonoBehaviour
     [SerializeField] private int startingMoney = 500;
     [SerializeField] private int maxMoney = 999999999;
 
+    public bool AchievemnetisReward = false;
+
     private int currentMoney;
 
     public event Action<int> OnMoneyChanged;
@@ -52,7 +54,11 @@ public class PlayerWallet : MonoBehaviour
 
         // Старое событие для UI и других систем оставляем как есть
         OnMoneyChanged?.Invoke(currentMoney);
-        GameEvents.TriggerCollectCoin(amount);
+      
+        if (!AchievemnetisReward)
+        {
+            GameEvents.TriggerCollectCoin(amount);
+        }
         Debug.Log($"Добавлено {amount} денег. Всего: {currentMoney}");
     }
 
