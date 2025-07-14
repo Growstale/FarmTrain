@@ -21,11 +21,11 @@ MonoBehaviour:
   nextQuest: {fileID: 0}
   goals:
   - goalType: 6
-    targetID: Sheep_item
+    targetID: Sheep
     requiredAmount: 10
     targetIDs: []
     currentAmount: 0
   rewardXP: 35
-  status: 0
+  status: 1
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1
