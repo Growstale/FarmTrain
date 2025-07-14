@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf23cee99af65f44ae68c708f1de71e, type: 3}
+  m_Name: Station4
+  m_EditorClassIdentifier: 
+  stationId: 4
+  stationName: Station4
+  stallInventories:
+  - {fileID: 11400000, guid: 043fdb241cd79b44181a6b6482d49956, type: 2}
+  - {fileID: 11400000, guid: e71f7041c75f98540a73e38861e9d713, type: 2}
+  - {fileID: 11400000, guid: 1b51a0d0d530f49488be9634145ac156, type: 2}

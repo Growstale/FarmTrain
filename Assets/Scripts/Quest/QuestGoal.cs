@@ -3,8 +3,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-// QuestGoal.cs
-
 public enum GoalType
 {
     Gather,       // Собрать один конкретный ресурс
@@ -14,7 +12,9 @@ public enum GoalType
     Earn,         // Заработать денег
     Use,          // Использовать предмет/починить что-то
     FeedAnimal,
-    SellFor
+    SellFor,
+    SellForAnimals, 
+    SellForPlants
 }
 
 [System.Serializable]

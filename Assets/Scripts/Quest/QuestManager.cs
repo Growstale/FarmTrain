@@ -143,6 +143,8 @@ public class QuestManager : MonoBehaviour
 
                         case GoalType.Earn:
                         case GoalType.SellFor: // Теперь этот case абсолютно правильный
+                        case GoalType.SellForAnimals:
+                        case GoalType.SellForPlants:
                             progressMadeOnThisGoal = true;
                             break;
                     }
@@ -231,36 +233,83 @@ public class QuestManager : MonoBehaviour
 
     private void HandleItemAdded(ItemData item, int quantity)
     {
-        // === НАЧАЛО ИЗМЕНЕНИЙ ===
-
-        // 1. Отправляем прогресс для квестов "Собрать конкретный предмет" (Gather)
+        // 1. Отправляем прогресс для квестов "Собрать"
         AddQuestProgress(GoalType.Gather, item.name, quantity);
-
-        // 2. ОТПРАВЛЯЕМ ПРОГРЕСС ДЛЯ КВЕСТОВ "СОБРАТЬ ЛЮБОЙ ИЗ СПИСКА" (GatherAny)
         AddQuestProgress(GoalType.GatherAny, item.name, quantity);
 
-        // 3. Обрабатываем логику для квестов типа SellFor (этот блок остается без изменений)
+        // 2. Получаем данные для текущей станции. Если мы на поезде, данных не будет, и код дальше не пойдет.
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
-        StationData stationData = StationDatabase.Instance.GetStationDataById(currentLevel);
-        if (stationData == null) return;
+        StationData currentStationData = StationDatabase.Instance.GetStationDataById(currentLevel);
 
-        int sellPrice = 0;
-        foreach (var stallInventory in stationData.stallInventories)
+        if (currentStationData == null)
         {
-            var shopItem = stallInventory.shopItems.FirstOrDefault(si => si.itemData == item);
-            if (shopItem != null && shopItem.willBuy)
+            // Это нормально, значит мы сейчас на сцене поезда, а не станции.
+            return;
+        }
+
+        // --- Логика для SellForAnimals ---
+        // Конструируем имя инвентаря для ларька с животными
+        string animalInventoryName = $"AnimalHerder_Station{currentLevel}_Inventory";
+        // Ищем этот инвентарь в списке инвентарей текущей станции
+        ShopInventoryData animalInventory = currentStationData.stallInventories.FirstOrDefault(inv => inv.name == animalInventoryName);
+
+        if (animalInventory != null)
+        {
+            // Если инвентарь найден, ищем в нем цену нашего предмета
+            var shopItem = animalInventory.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
+            if (shopItem != null)
             {
-                sellPrice = shopItem.sellPrice;
-                break;
+                int totalValue = shopItem.sellPrice * quantity;
+                AddQuestProgress(GoalType.SellForAnimals, item.name, totalValue);
             }
         }
 
-        if (sellPrice > 0)
+        // --- Логика для SellForPlants ---
+        // Повторяем то же самое для растений
+        string plantInventoryName = $"Gardener_Station{currentLevel}_Inventory";
+        ShopInventoryData plantInventory = currentStationData.stallInventories.FirstOrDefault(inv => inv.name == plantInventoryName);
+
+        if (plantInventory != null)
         {
-            int totalPotentialValue = sellPrice * quantity;
-            AddQuestProgress(GoalType.SellFor, item.name, totalPotentialValue);
+            var shopItem = plantInventory.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
+            if (shopItem != null)
+            {
+                int totalValue = shopItem.sellPrice * quantity;
+                AddQuestProgress(GoalType.SellForPlants, item.name, totalValue);
+            }
         }
-        // === КОНЕЦ ИЗМЕНЕНИЙ ===
+    }
+
+    private void UpdateSellForProgress(GoalType goalType, string targetStallName, ItemData item, int quantity)
+    {
+        if (StallCameraController.Instance == null)
+        {
+            return;
+        }
+
+        Transform stallTransform = StallCameraController.Instance.stalls.FirstOrDefault(s => s.name == targetStallName);
+
+        if (stallTransform == null)
+        {
+            return;
+        }
+
+        StallInteraction stallInteraction = stallTransform.GetComponent<StallInteraction>();
+        if (stallInteraction == null || stallInteraction.shopInventoryData == null)
+        {
+            Debug.LogWarning($"[QuestManager] На ларьке '{targetStallName}' отсутствует скрипт StallInteraction или его данные.");
+            return;
+        }
+
+        var shopItem = stallInteraction.shopInventoryData.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
+
+        if (shopItem != null)
+        {
+            int sellPrice = shopItem.sellPrice;
+            int totalPotentialValue = sellPrice * quantity;
+            AddQuestProgress(goalType, item.name, totalPotentialValue);
+            Debug.Log($"[QuestManager] Для квеста {goalType} найдена цена {sellPrice} за '{item.name}' в ларьке '{targetStallName}'. Прогресс: +{totalPotentialValue}");
+        }
     }
 
 

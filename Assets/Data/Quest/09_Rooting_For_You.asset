@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 09_Rooting_For_You
   title: Rooting For You!
-  description: Harvest [Amount] potatoes or carrots.
+  description: Harvest 30] potatoes or carrots.
   shortDescription: Harvest Veggies
   gameLevel: 2
   phase: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   goals:
   - goalType: 1
     targetID: 
-    requiredAmount: 2
+    requiredAmount: 30
     targetIDs:
     - Carrot
     - Potato

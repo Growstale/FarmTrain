@@ -20,6 +20,12 @@ public class TrainCameraController : MonoBehaviour
     public float minPanX = 10f;
     public float maxPanX = 70f;
 
+    [Header("Keyboard Controls")]
+    public KeyCode previousWagonKey = KeyCode.A;
+    public KeyCode nextWagonKey = KeyCode.D;
+    public float keyRepeatDelay = 0.3f;
+    private float lastKeyPressTime;
+
     private Camera mainCamera;
     private Vector3 targetPosition;
     private float targetOrthographicSize;
@@ -113,7 +119,45 @@ public class TrainCameraController : MonoBehaviour
             HandleLeftClick();
         }
 
+        if (!isOverview && Time.time - lastKeyPressTime > keyRepeatDelay)
+        {
+            if (Input.GetKeyDown(previousWagonKey))
+            {
+                MoveToPreviousWagon();
+                lastKeyPressTime = Time.time;
+            }
+            else if (Input.GetKeyDown(nextWagonKey))
+            {
+                MoveToNextWagon();
+                lastKeyPressTime = Time.time;
+            }
+        }
+
         HandlePanning();
+    }
+
+    private void MoveToPreviousWagon()
+    {
+        if (currentWagonIndex > 1)
+        {
+            MoveToWagon(currentWagonIndex - 1);
+        }
+        else
+        {
+            Debug.Log("Already at the first wagon");
+        }
+    }
+
+    private void MoveToNextWagon()
+    {
+        if (currentWagonIndex < wagons.Count - 1)
+        {
+            MoveToWagon(currentWagonIndex + 1);
+        }
+        else
+        {
+            Debug.Log("Already at the last wagon");
+        }
     }
 
     // ===================================================================
