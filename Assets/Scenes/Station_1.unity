@@ -2992,8 +2992,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationSprites:
-  - {fileID: -1954483682204712241, guid: 5e866a290fc50f34384af1102bbd73b4, type: 3}
-  - {fileID: -947380301451667038, guid: 5c4c99fea6ff4ec4e8f3417b316a68c6, type: 3}
+  - {fileID: 4794939134159464983, guid: 8c16fed04a22d164a90312b53960cc81, type: 3}
+  - {fileID: -2748305989969554097, guid: e28f9ea5c05768e4e9ad373201c6025c, type: 3}
   - {fileID: -2748305989969554097, guid: e28f9ea5c05768e4e9ad373201c6025c, type: 3}
 --- !u!1 &1178154411
 GameObject:
@@ -4329,10 +4329,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: STATION 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
-  m_sharedMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3c3abd2a84a43ee4ea5a2d9ded4d9852, type: 2}
+  m_sharedMaterial: {fileID: -7467805859363177228, guid: 3c3abd2a84a43ee4ea5a2d9ded4d9852, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4356,8 +4356,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4418,15 +4418,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1638412190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000019073, y: 515}
-  m_SizeDelta: {x: 878, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1399, y: 140}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1834625549
 GameObject:
   m_ObjectHideFlags: 0
@@ -4581,9 +4581,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stationSprites:
-  - {fileID: -5556989542832927389, guid: 5b9c206abac2b564e98f06f3e8d4a641, type: 3}
+  - {fileID: 8963780792091160540, guid: e324fa968de04ae4b94ca39a42931a69, type: 3}
+  - {fileID: -947380301451667038, guid: 5c4c99fea6ff4ec4e8f3417b316a68c6, type: 3}
   - {fileID: 2671116397348817847, guid: 82043f5e64765c8418d7ccee1dda5e11, type: 3}
-  - {fileID: -5322745185608368530, guid: 0889eb795d440ca468c7be52b80bb5af, type: 3}
 --- !u!1 &2033970689
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,8 +5292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationSprites:
   - {fileID: 9177968276021435513, guid: a8c4e6b0cc765f444a6c253c618805ca, type: 3}
-  - {fileID: 8963780792091160540, guid: e324fa968de04ae4b94ca39a42931a69, type: 3}
-  - {fileID: 4794939134159464983, guid: 8c16fed04a22d164a90312b53960cc81, type: 3}
+  - {fileID: -1954483682204712241, guid: 5e866a290fc50f34384af1102bbd73b4, type: 3}
+  - {fileID: -5556989542832927389, guid: 5b9c206abac2b564e98f06f3e8d4a641, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

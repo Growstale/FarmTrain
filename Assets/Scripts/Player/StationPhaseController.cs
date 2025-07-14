@@ -14,7 +14,7 @@ public class StationPhaseController : MonoBehaviour
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
         if (stationTitle != null)
         {
-            stationTitle.text = $"Станция {currentLevel}";
+            stationTitle.text = $"STATION {currentLevel}";
         }
 
         // Если для этой фазы станции не нужно копить опыт (XP = 0)
