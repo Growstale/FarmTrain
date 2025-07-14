@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f62a9a93041809243b9b27bb669403e7
+guid: e324fa968de04ae4b94ca39a42931a69
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4997725093122674345
-    second: lavka_desert_0
+      213: 8963780792091160540
+    second: lavka_desert_plants_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lavka_desert_0
+      name: lavka_desert_plants_0
       rect:
         serializedVersion: 2
-        x: 264
-        y: 132
-        width: 623
-        height: 419
+        x: 280
+        y: 133
+        width: 604
+        height: 398
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9ae02ac3e7c7b5540800000000000000
-      internalID: 4997725093122674345
+      spriteID: cdf2015632fb56c70800000000000000
+      internalID: 8963780792091160540
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lavka_desert_0: 4997725093122674345
+      lavka_desert_plants_0: 8963780792091160540
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
