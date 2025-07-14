@@ -25,6 +25,10 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
     [SerializeField] private TextMeshProUGUI detailsRewardText;
     [SerializeField] private Slider questProgressSlider;
 
+    [Header("Text Materials")]
+    [SerializeField] private Material normalTextMaterial;
+    [SerializeField] private Material pressedTextMaterial;
+
     private List<GameObject> spawnedEntries = new List<GameObject>();
     private Quest selectedQuest; // По умолчанию он и так null
 
