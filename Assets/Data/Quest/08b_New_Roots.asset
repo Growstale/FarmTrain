@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 13_Growing_Wealth 1
+  m_Name: 08b_New_Roots
   m_EditorClassIdentifier: 
-  id: 13_Growing_Wealth
-  title: Growing Wealth
-  description: Sell goods to earn a total of [Amount] coins.
-  shortDescription: Earn More Coins
-  gameLevel: 2
-  phase: 0
+  id: 08b_New_Roots
+  title: New Roots
+  description: Buy [15]  carrot seeds from the shop.
+  shortDescription: Buy New Seeds
+  gameLevel: 1
+  phase: 1
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 7
-    targetID: 
-    requiredAmount: 20
+  - goalType: 2
+    targetID: Carrot_seed
+    requiredAmount: 15
     targetIDs: []
     currentAmount: 0
-  rewardXP: 30
-  status: 0
+  rewardXP: 5
+  status: 2
   isPinned: 0
-  hasBeenViewed: 0
+  hasBeenViewed: 1
