@@ -24003,7 +24003,7 @@ MonoBehaviour:
   _itemSpawner: {fileID: 1064586490}
   _sizeBed: {x: 1, y: 2, z: 1}
   _sizePlant: {x: 1.7, y: 2, z: 2}
-  _dataBed: {fileID: 0}
+  _dataBed: {fileID: 11400000, guid: c4b4e81a8dd3e2942a177cbb42aa8b93, type: 2}
   gridPosition: {x: 0, y: 0}
 --- !u!61 &2020051693
 BoxCollider2D:
