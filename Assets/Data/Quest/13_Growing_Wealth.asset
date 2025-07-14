@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 16_Master_of_the_Land
+  m_Name: 13_Growing_Wealth
   m_EditorClassIdentifier: 
-  id: 16_Master_of_the_Land
-  title: Master of the Land
-  description: Collect plants to earn a total of [800] coins.
-  shortDescription: Grow Rare Crops
-  gameLevel: 4
+  id: 13_Growing_Wealth
+  title: Growing Wealth
+  description: Sell goods to earn a total of [1000] coins.
+  shortDescription: Earn More Coins
+  gameLevel: 2
   phase: 0
   nextQuest: {fileID: 0}
   goals:
-  - goalType: 9
+  - goalType: 7
     targetID: 
-    requiredAmount: 800
+    requiredAmount: 1000
     targetIDs: []
     currentAmount: 0
-  rewardXP: 35
+  rewardXP: 30
   status: 0
   isPinned: 0
   hasBeenViewed: 0

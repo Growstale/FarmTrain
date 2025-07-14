@@ -35,6 +35,6 @@ public class MoneyUIUpdater : MonoBehaviour
 
     private void UpdateMoneyText(int newAmount)
     {
-        moneyText.text = newAmount.ToString();
+        moneyText.text = $"{newAmount} BYN";
     }
 }

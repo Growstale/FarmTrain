@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 15_Bountiful_Fields
   title: Bountiful Fields
-  description: Sell goods to earn a total of [Amount] coins.
+  description: Sell goods to earn a total of [1300] coins.
   shortDescription: Earn More Coins
-  gameLevel: 0
+  gameLevel: 3
   phase: 0
   nextQuest: {fileID: 0}
   goals:
   - goalType: 7
     targetID: 
-    requiredAmount: 0
+    requiredAmount: 1300
     targetIDs: []
     currentAmount: 0
-  rewardXP: 0
+  rewardXP: 40
   status: 0
   isPinned: 0
   hasBeenViewed: 0

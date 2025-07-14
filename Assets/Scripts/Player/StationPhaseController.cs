@@ -10,15 +10,20 @@ public class StationPhaseController : MonoBehaviour
 
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
 
-        // Если для этой фазы станции не нужно копить опыт (XP = 0)
+        if (stationTitle != null)
+        {
+            stationTitle.text = $"STATION {currentLevel}";
+        }
+
+        // Г…Г±Г«ГЁ Г¤Г«Гї ГЅГІГ®Г© ГґГ Г§Г» Г±ГІГ Г­Г¶ГЁГЁ Г­ГҐ Г­ГіГ¦Г­Г® ГЄГ®ГЇГЁГІГј Г®ГЇГ»ГІ (XP = 0)
         if (ExperienceManager.Instance.XpForNextPhase == 0)
         {
-            // Сразу сообщаем главному менеджеру, что можно уезжать
+            // Г‘Г°Г Г§Гі Г±Г®Г®ГЎГ№Г ГҐГ¬ ГЈГ«Г ГўГ­Г®Г¬Гі Г¬ГҐГ­ГҐГ¤Г¦ГҐГ°Гі, Г·ГІГ® Г¬Г®Г¦Г­Г® ГіГҐГ§Г¦Г ГІГј
             TransitionManager.Instance.UnlockDeparture();
         }
     }
 
-    void OnDestroy() // <<< ИЗМЕНЕНО с OnDisable на OnDestroy
+    void OnDestroy() // <<< Г€Г‡ГЊГ…ГЌГ…ГЌГЋ Г± OnDisable Г­Г  OnDestroy
     {
         if (ExperienceManager.Instance != null)
         {
@@ -30,7 +35,7 @@ public class StationPhaseController : MonoBehaviour
     {
         if (phase == GamePhase.Station)
         {
-            // Сообщаем главному менеджеру, что теперь можно отправляться
+            // Г‘Г®Г®ГЎГ№Г ГҐГ¬ ГЈГ«Г ГўГ­Г®Г¬Гі Г¬ГҐГ­ГҐГ¤Г¦ГҐГ°Гі, Г·ГІГ® ГІГҐГЇГҐГ°Гј Г¬Г®Г¦Г­Г® Г®ГІГЇГ°Г ГўГ«ГїГІГјГ±Гї
             TransitionManager.Instance.UnlockDeparture();
         }
     }

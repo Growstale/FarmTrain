@@ -54,7 +54,7 @@ public class TransitionManager : MonoBehaviour
 
     private IEnumerator RestoreRadioState(AudioClip clip, float time, bool play)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
 
         RadioManager.Instance.audioSource.clip = clip;
         RadioManager.Instance.audioSource.time = time;

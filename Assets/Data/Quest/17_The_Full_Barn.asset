@@ -14,13 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 17_The_Full_Barn
   title: The Full Barn
-  description: Collect milk, eggs and wool to earn a total of [Amount] coins.
+  description: Collect milk, eggs and wool to earn a total of [1000] coins.
   shortDescription: Collect Everything
-  gameLevel: 0
+  gameLevel: 4
   phase: 0
   nextQuest: {fileID: 0}
-  goals: []
-  rewardXP: 0
+  goals:
+  - goalType: 8
+    targetID: 
+    requiredAmount: 1000
+    targetIDs: []
+    currentAmount: 0
+  rewardXP: 35
   status: 0
   isPinned: 0
   hasBeenViewed: 0
