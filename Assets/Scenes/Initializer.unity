@@ -724,7 +724,7 @@ MonoBehaviour:
     stationPhaseXP: 0
   - trainPhaseXP: 70
     stationPhaseXP: 0
-  - trainPhaseXP: 100
+  - trainPhaseXP: 70
     stationPhaseXP: 0
   trainDepartSound: {fileID: 8300000, guid: 1d9bca106a91a2946964375f34995bd0, type: 3}
 --- !u!114 &1426141035

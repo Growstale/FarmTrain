@@ -21,11 +21,11 @@ MonoBehaviour:
   nextQuest: {fileID: 0}
   goals:
   - goalType: 2
-    targetID: Carrot_seed
+    targetID: Carrot_Seed
     requiredAmount: 15
     targetIDs: []
     currentAmount: 0
   rewardXP: 5
-  status: 2
+  status: 1
   isPinned: 0
   hasBeenViewed: 1
