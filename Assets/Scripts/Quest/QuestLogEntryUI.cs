@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class QuestLogEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -18,13 +19,17 @@ public class QuestLogEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [SerializeField] private Sprite unpinnedSprite; // Спрайт обычной булавки
     [SerializeField] private Sprite pinHighlightedSprite;
 
+    [Header("Button Sprites")]
+    [SerializeField] private Sprite buttonSprite; 
+    [SerializeField] private Sprite buttonSelectedSprite;
+
     [Header("Text Materials")]
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material highlightedMaterial;
     [SerializeField] private Material selectedMaterial;
     [SerializeField] private Material disabledMaterial;
 
-    private Quest assignedQuest;
+    [HideInInspector] public Quest assignedQuest;
     private Action<Quest> onSelectCallback;
     private bool isPointerInside;
     private bool isPointerDown;
@@ -136,6 +141,22 @@ public class QuestLogEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             titleText.fontMaterial = normalMaterial;
             UpdatePinIcon(assignedQuest.isPinned);
+        }
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        if (mainButton.interactable)
+        {
+            var buttonImage = mainButton.GetComponent<Image>();
+            if (buttonImage != null)
+            {
+                buttonImage.sprite = isSelected ? buttonSelectedSprite : buttonSprite;
+            }
+
+            titleText.fontMaterial = isSelected ? selectedMaterial : normalMaterial;
+            pinIcon.sprite = isSelected ? pinnedSprite : (assignedQuest.isPinned ? pinnedSprite : unpinnedSprite);
+            isPointerDown = isSelected;
         }
     }
 }

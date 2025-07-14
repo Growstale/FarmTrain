@@ -19,6 +19,7 @@ public class SlotScripts : MonoBehaviour
     [SerializeField] Vector3 _sizeBed;
     [SerializeField] Vector3 _sizePlant;
 
+    [SerializeField] ItemData _dataBed;
     public Vector2Int gridPosition;
 
 
@@ -197,6 +198,17 @@ public class SlotScripts : MonoBehaviour
                             Debug.LogError("Грядка не является дочерней для слота, ошибка");
                         }
                     }
+                    if (selectedItem.itemData.itemName == "Shovel" && ishavebed && !isPlanted)
+                    {
+                        GameObject childBed = FindChildWithTag("Bed");
+                        if (childBed != null) {
+                            Destroy(childBed);
+                            ishavebed = false;
+                            _itemSpawner.SpawnItem(_dataBed, new Vector3(transform.position.x - 0.5f,transform.position.y,1),new Vector3(1,2,1));
+                        }
+
+
+                    }
                 }
                 else
                 {
@@ -215,7 +227,7 @@ public class SlotScripts : MonoBehaviour
                 return child.gameObject;
             }
         }
-        Debug.LogWarning($"No child with tag {tag} found.");
+        //Debug.LogWarning($"No child with tag {tag} found.");
         return null;
     }
 
@@ -296,6 +308,22 @@ public class SlotScripts : MonoBehaviour
 
     }
 
+
+    public void DestoythisObject()
+    {
+        _itemSpawner.SpawnItem(_dataBed, transform.position, new Vector3(1, 2, 1));
+        foreach (Transform child in transform) {
+
+            if (child.CompareTag("Bed"))
+            {
+               Destroy(child.gameObject);
+                isPlanted = false;
+                ishavebed = false;
+                isRaked = false;
+                isFertilize = false;
+            }
+        }
+    }
     public void ChangeColor()
     {
         slot.GetComponent<SpriteRenderer>().color = new Color(0, 255f, 0, 0.1f);
