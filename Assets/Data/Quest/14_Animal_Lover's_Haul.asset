@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 14_Animal_Lover's_Haul
   title: Animal Lover's Haul
-  description: Feed your  sheeps  [Amount] times.
+  description: Feed your  sheeps  [10] times.
   shortDescription: Feed Sheeps
-  gameLevel: 0
+  gameLevel: 3
   phase: 0
   nextQuest: {fileID: 0}
   goals:
   - goalType: 6
-    targetID: 
-    requiredAmount: 1
+    targetID: Sheep_item
+    requiredAmount: 10
     targetIDs: []
     currentAmount: 0
-  rewardXP: 0
+  rewardXP: 35
   status: 0
   isPinned: 0
   hasBeenViewed: 0
