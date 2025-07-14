@@ -632,4 +632,20 @@ public class InventoryManager : MonoBehaviour, IUIManageable
             ExclusiveUIManager.Instance.Deregister(this);
         }
     }
+
+    public int GetTotalItemQuantityByType(ItemType itemType)
+    {
+        int totalQuantity = 0;
+        int currentSize = GetCurrentInventorySize(); 
+
+        for (int i = 0; i < currentSize; i++)
+        {
+            InventoryItem currentItem = inventoryItems[i];
+            if (currentItem != null && !currentItem.IsEmpty && currentItem.itemData.itemType == itemType)
+            {
+                totalQuantity += currentItem.quantity;
+            }
+        }
+        return totalQuantity;
+    }
 }

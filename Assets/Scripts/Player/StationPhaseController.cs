@@ -3,7 +3,7 @@ using TMPro;
 
 public class StationPhaseController : MonoBehaviour
 {
-
+    [SerializeField] private TextMeshProUGUI stationTitle; 
     void Start()
     {
         ExperienceManager.Instance.OnPhaseUnlocked += OnPhaseUnlocked;

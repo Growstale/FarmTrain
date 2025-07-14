@@ -2338,6 +2338,7 @@ GameObject:
   - component: {fileID: 156422813}
   - component: {fileID: 156422814}
   - component: {fileID: 156422815}
+  - component: {fileID: 156422816}
   m_Layer: 0
   m_Name: UISystem
   m_TagString: Untagged
@@ -2549,6 +2550,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpText: {fileID: 746072535}
   experiencePanel: {fileID: 1087257471}
+--- !u!114 &156422816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156422808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b06a0c9bd43e84fb816cfe2e27be21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &158030012
 GameObject:
   m_ObjectHideFlags: 0
@@ -6006,6 +6019,9 @@ MonoBehaviour:
   panSpeed: 50
   minPanX: 10
   maxPanX: 70
+  previousWagonKey: 97
+  nextWagonKey: 100
+  keyRepeatDelay: 0.3
   locomotiveController: {fileID: 2128013259}
   audioSource: {fileID: 519420034}
   zoomInSound: {fileID: 8300000, guid: 232686cd513c0184ab207db77293765c, type: 3}
@@ -23509,6 +23525,8 @@ MonoBehaviour:
   detailsGoalsText: {fileID: 779624750}
   detailsRewardText: {fileID: 2045094693}
   questProgressSlider: {fileID: 77355265}
+  normalTextMaterial: {fileID: 0}
+  pressedTextMaterial: {fileID: 0}
   selectQuestSound: {fileID: 8300000, guid: dc5b92029c44bb24e98e5f3c8bb1294b, type: 3}
 --- !u!4 &2024606367
 Transform:
