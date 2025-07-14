@@ -22,7 +22,7 @@ MonoBehaviour:
   goals:
   - goalType: 6
     targetID: Sheep
-    requiredAmount: 10
+    requiredAmount: 5
     targetIDs: []
     currentAmount: 0
   rewardXP: 35

@@ -24,7 +24,7 @@ MonoBehaviour:
   requiredFood: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
   feedInterval: 27
   productProduced: {fileID: 11400000, guid: 174c96092200cc84cac92854c721a789, type: 2}
-  productionInterval: 30
+  productionInterval: 24
   productAmount: 1
   requiredToolForHarvest: {fileID: 11400000, guid: f5e6ca85a7857724b958582cabbdb35f, type: 2}
   fertilizerProduced: {fileID: 11400000, guid: 7952c3ca2eea574439af21925c644595, type: 2}
