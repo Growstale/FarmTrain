@@ -353,7 +353,7 @@ public class GridGenerator : MonoBehaviour
     }
 
 
-    public bool FreeSlot(Vector2Int[] idSlots)
+    public bool FreeSlot(Vector2Int[] idSlots, bool ishaveShovel = false)
     {
         bool allFreed = true;
 
@@ -375,6 +375,12 @@ public class GridGenerator : MonoBehaviour
                         slotScript.ChangeStateBed(
                                                  BedData.StageGrowthPlant.DrySoil,
                                                  0);
+                        if (ishaveShovel)
+                        {
+
+                            slotScript.DestoythisObject();
+
+                        }
                     }
                     else
                     {

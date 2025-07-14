@@ -25,5 +25,5 @@ MonoBehaviour:
   plantingSound: {fileID: 8300000, guid: 7480327bcc71f8b449b81947156e9d39, type: 3}
   harvestedCrop: {fileID: 11400000, guid: d93099adf63d4e44dbcf37ebf77e458d, type: 2}
   seedItem: {fileID: 11400000, guid: 43b94d1f20583344aa509001d129836a, type: 2}
-  PlantPrefab: {fileID: 2297074185536406284, guid: 439abc3358e27274794b0f91c658a237, type: 3}
+  PlantPrefab: {fileID: 2014049339857501452, guid: b63dcad451f239646a559a3202f28c55, type: 3}
   seedDropChance: 0.6
