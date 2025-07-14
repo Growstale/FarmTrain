@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AchievementUIManagera : MonoBehaviour
 {
@@ -18,8 +19,10 @@ public class AchievementUIManagera : MonoBehaviour
         public Slider progressBar;
         public TextMeshProUGUI progressText;
         public GameObject completedOverlay; // Необязательно: галочка или затемнение при выполнении
+        public GameObject entryContainer;
     }
 
+   
     // В инспекторе вы создадите список и для каждого элемента укажете тип,
     // слайдер и текст. Порядок больше не важен!
     public List<AchievementUIElements> uiElementsList;
@@ -63,6 +66,9 @@ public class AchievementUIManagera : MonoBehaviour
 
             // --- Обновляем соответствующие UI компоненты ---
 
+
+         
+
             // Обновляем слайдер
             if (uiElement.progressBar != null)
             {
@@ -79,8 +85,37 @@ public class AchievementUIManagera : MonoBehaviour
             // Показываем или скрываем "галочку" о выполнении
             if (uiElement.completedOverlay != null)
             {
+                uiElement.progressText.gameObject.SetActive(!isCompleted);
                 uiElement.completedOverlay.SetActive(isCompleted);
             }
+            
+        }
+        SortUIEntries();
+    }
+
+    private void SortUIEntries()
+    {
+        if (AchievementManager.instance == null) return;
+
+        // Используем LINQ для сортировки нашего списка uiElementsList.
+        // OrderBy сортирует коллекцию по указанному ключу.
+        // В нашем случае ключ - это булево значение (true/false) от IsCompleted().
+        // По умолчанию false (не выполнено) идет раньше, чем true (выполнено),
+        // что нам и нужно: невыполненные окажутся в начале списка.
+        var sortedList = uiElementsList
+            .OrderBy(ui => AchievementManager.instance.IsCompleted(ui.achievementType))
+            .ToList();
+
+        // Теперь, когда у нас есть отсортированный C# список,
+        // мы должны применить этот порядок к объектам в иерархии Unity.
+        foreach (var uiElement in sortedList)
+        {
+            // Метод SetAsLastSibling() перемещает Transform этого объекта в конец списка
+            // дочерних объектов его родителя.
+            // Проходя по нашему отсортированному списку и вызывая этот метод для каждого,
+            // мы эффективно выстраиваем их в нужном порядке в иерархии.
+            uiElement.entryContainer.transform.SetAsLastSibling();
         }
     }
+
 }

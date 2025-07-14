@@ -325,8 +325,12 @@ public class PlantController : MonoBehaviour
                             GridGenerator gridGenerator = parent.GetComponent<GridGenerator>();
                             if (gridGenerator != null)
                             {
-                                if (gridGenerator.FreeSlot(IdSlots))
+                                if (gridGenerator.FreeSlot(IdSlots, true))
+                                {
                                     Destroy(gameObject);
+                                    GameObject seed = GetHarvest(transform.position, plantData.seedItem);
+                                }
+                                    
                                 else
                                 {
                                     Debug.Log("Ошибка удаления растения");
@@ -412,7 +416,7 @@ public class PlantController : MonoBehaviour
         }
     }
 
-
+   
 
     private bool TryGetSeeds(double successRate)
     {
