@@ -1218,7 +1218,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1943612299}
   m_HandleRect: {fileID: 0}
@@ -4441,7 +4441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300
+  m_text: 300 BYN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
   m_sharedMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
@@ -8510,7 +8510,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1273736783}
   m_HandleRect: {fileID: 0}
@@ -9182,6 +9182,7 @@ RectTransform:
   - {fileID: 376609421}
   - {fileID: 77355264}
   - {fileID: 2045094692}
+  - {fileID: 858482077}
   m_Father: {fileID: 1368571194}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
@@ -10420,16 +10421,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858482076}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2045094692}
+  m_Father: {fileID: 739799929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 76, y: 0}
+  m_AnchoredPosition: {x: 59, y: -99}
   m_SizeDelta: {x: 25.72, y: 31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858482078
@@ -13964,7 +13965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1141620432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13979,7 +13980,6 @@ RectTransform:
   m_Children:
   - {fileID: 1219228356}
   - {fileID: 276308521}
-  - {fileID: 1543580907}
   m_Father: {fileID: 736077478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -17205,11 +17205,11 @@ Transform:
   m_GameObject: {fileID: 1543580906}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 599.80164, y: -1131.3221, z: 4.406866}
-  m_LocalScale: {x: 2.9208372, y: 2.9208372, z: 2.9208372}
+  m_LocalPosition: {x: 1510.9529, y: 4.0719604, z: 4.047965}
+  m_LocalScale: {x: 2.6829603, y: 2.6829603, z: 2.6829603}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1141620432}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1543580908
 MonoBehaviour:
@@ -24136,8 +24136,8 @@ MonoBehaviour:
   detailsGoalsText: {fileID: 779624750}
   detailsRewardText: {fileID: 2045094693}
   questProgressSlider: {fileID: 77355265}
-  normalTextMaterial: {fileID: 0}
-  pressedTextMaterial: {fileID: 0}
+  normalTextMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
+  pressedTextMaterial: {fileID: 2100000, guid: a81100d9513013942b2bdfaf2cd1f8ab, type: 2}
   selectQuestSound: {fileID: 8300000, guid: dc5b92029c44bb24e98e5f3c8bb1294b, type: 3}
 --- !u!4 &2024606367
 Transform:
@@ -24666,14 +24666,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 858482077}
+  m_Children: []
   m_Father: {fileID: 739799929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.00012207031, y: 68.5}
-  m_SizeDelta: {x: 330, y: 60}
+  m_AnchoredPosition: {x: -62.606598, y: 68.5}
+  m_SizeDelta: {x: 204.7867, y: 60}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2045094693
 MonoBehaviour:
@@ -24695,7 +24694,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Reward: 75'
+  m_text: 'Reward: 5'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
   m_sharedMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
@@ -24729,7 +24728,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -25719,6 +25718,14 @@ PrefabInstance:
       propertyPath: trainController
       value: 
       objectReference: {fileID: 519420033}
+    - target: {fileID: 6681407143361227749, guid: 458c024253f28f94f916c2a18f0091fc, type: 3}
+      propertyPath: itemsToSpawnAtStart.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681407143361227749, guid: 458c024253f28f94f916c2a18f0091fc, type: 3}
+      propertyPath: itemsToSpawnAtStart.Array.data[0].itemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 97895cbbaa33cfc4a88f36338e0360ce, type: 2}
     - target: {fileID: 8146919628732594956, guid: 458c024253f28f94f916c2a18f0091fc, type: 3}
       propertyPath: m_Name
       value: ItemSpawnManager
@@ -25740,6 +25747,7 @@ SceneRoots:
   - {fileID: 1879954842}
   - {fileID: 246473315107230214}
   - {fileID: 5484403728212729448}
+  - {fileID: 1543580907}
   - {fileID: 1528405285}
   - {fileID: 156422810}
   - {fileID: 887109064}

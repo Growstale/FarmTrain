@@ -59,19 +59,38 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
     {
         bool isActive = questLogPanelObject.activeSelf;
 
-        if (!isActive) 
+        if (!isActive)
         {
             ExclusiveUIManager.Instance.NotifyPanelOpening(this);
-
-            questLogPanelObject.SetActive(true); // Открываем панель ПОСЛЕ уведомления
+            questLogPanelObject.SetActive(true);
             GameStateManager.Instance.RequestPause(this);
-            selectedQuest = null;
-            detailsPanelObject.SetActive(false);
+
             UpdateUI();
+
+            if (selectedQuest != null)
+            {
+                // Проверяем, существует ли еще этот квест
+                var allQuests = QuestManager.Instance.ActiveQuests.Concat(QuestManager.Instance.CompletedQuests);
+                if (allQuests.Contains(selectedQuest))
+                {
+                    ShowQuestDetails(selectedQuest);
+                    var selectedEntry = spawnedEntries.FirstOrDefault(e =>
+                        e.GetComponent<QuestLogEntryUI>()?.assignedQuest == selectedQuest);
+                    if (selectedEntry != null)
+                    {
+                        selectedEntry.GetComponent<QuestLogEntryUI>().SetSelected(true);
+                    }
+                }
+                else
+                {
+                    selectedQuest = null;
+                    detailsPanelObject.SetActive(false);
+                }
+            }
         }
-        else // Если только что закрыли
+        else
         {
-            CloseLog(); // Используем наш метод закрытия
+            CloseLog();
         }
     }
 
@@ -88,6 +107,13 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
     private void UpdateUI()
     {
         if (!questLogPanelObject.activeSelf) return;
+
+        if (selectedQuest != null && selectedQuest.status == QuestStatus.Completed)
+        {
+            selectedQuest = null;
+            detailsPanelObject.SetActive(false);
+        }
+
         PopulateQuestList();
     }
 
@@ -104,7 +130,14 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
         foreach (var quest in allVisibleQuests)
         {
             GameObject entryGO = Instantiate(questEntryPrefab, questListContentContainer);
-            entryGO.GetComponent<QuestLogEntryUI>().Setup(quest, OnQuestSelected);
+            var entryUI = entryGO.GetComponent<QuestLogEntryUI>();
+            entryUI.Setup(quest, OnQuestSelected);
+
+            if (quest == selectedQuest)
+            {
+                entryUI.SetSelected(true);
+            }
+
             spawnedEntries.Add(entryGO);
         }
     }
@@ -112,19 +145,50 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
     // Этот метод вызывается из QuestLogEntryUI, когда мы кликаем на квест
     private void OnQuestSelected(Quest quest)
     {
+        // Если кликаем на уже выбранный квест - переключаем состояние
+        if (selectedQuest == quest)
+        {
+            // Находим запись и сбрасываем выделение
+            var currentEntry = spawnedEntries.FirstOrDefault(e => e.GetComponent<QuestLogEntryUI>()?.assignedQuest == quest);
+            if (currentEntry != null)
+            {
+                currentEntry.GetComponent<QuestLogEntryUI>().SetSelected(false);
+            }
+
+            selectedQuest = null;
+            detailsPanelObject.SetActive(false);
+            QuestManager.Instance.TriggerQuestLogUpdate();
+            return;
+        }
+
+        // Снимаем выделение со всех записей
+        foreach (var entry in spawnedEntries)
+        {
+            var entryUI = entry.GetComponent<QuestLogEntryUI>();
+            if (entryUI != null)
+            {
+                entryUI.SetSelected(false);
+            }
+        }
+
+        // Устанавливаем новый выбранный квест
         selectedQuest = quest;
         quest.hasBeenViewed = true;
 
-        // <<< ИЗМЕНЕНИЕ 2: Теперь ТОЛЬКО этот метод решает, показывать детали или нет
-        ShowQuestDetails(quest);
-
-        QuestManager.Instance.TriggerQuestLogUpdate();
-        if (audioSource != null)
+        // Находим и выделяем новую запись
+        var selectedEntry = spawnedEntries.FirstOrDefault(e => e.GetComponent<QuestLogEntryUI>()?.assignedQuest == quest);
+        if (selectedEntry != null)
         {
-            // 🔊 Щелчок при выборе квеста
-            audioSource.PlayOneShot(selectQuestSound);
+            selectedEntry.GetComponent<QuestLogEntryUI>().SetSelected(true);
         }
 
+        ShowQuestDetails(quest);
+        QuestManager.Instance.TriggerQuestLogUpdate();
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(selectQuestSound);
+        }
     }
 
     // Этот метод почти не изменился, просто отвечает за заполнение полей
