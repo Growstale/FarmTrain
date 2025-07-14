@@ -70,6 +70,13 @@ MonoBehaviour:
     willBuy: 0
     isInfiniteStock: 0
     initialStock: 0
+  - itemData: {fileID: 11400000, guid: 4ab8f4ee00b426145bc94f5609ac441b, type: 2}
+    buyPrice: 200
+    sellPrice: 0
+    forSale: 1
+    willBuy: 0
+    isInfiniteStock: 0
+    initialStock: 1
   - itemData: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
     buyPrice: 80
     sellPrice: 0
