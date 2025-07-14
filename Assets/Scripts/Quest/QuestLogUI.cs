@@ -104,7 +104,14 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
         foreach (var quest in allVisibleQuests)
         {
             GameObject entryGO = Instantiate(questEntryPrefab, questListContentContainer);
-            entryGO.GetComponent<QuestLogEntryUI>().Setup(quest, OnQuestSelected);
+            var entryUI = entryGO.GetComponent<QuestLogEntryUI>();
+            entryUI.Setup(quest, OnQuestSelected);
+
+            if (quest == selectedQuest)
+            {
+                entryUI.SetSelected(true);
+            }
+
             spawnedEntries.Add(entryGO);
         }
     }
@@ -112,19 +119,33 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
     // Этот метод вызывается из QuestLogEntryUI, когда мы кликаем на квест
     private void OnQuestSelected(Quest quest)
     {
+        foreach (var entry in spawnedEntries)
+        {
+            var entryUI = entry.GetComponent<QuestLogEntryUI>();
+            if (entryUI != null)
+            {
+                entryUI.SetSelected(false);
+            }
+        }
+
         selectedQuest = quest;
         quest.hasBeenViewed = true;
 
+        var selectedEntry = spawnedEntries.FirstOrDefault(e => e.GetComponent<QuestLogEntryUI>()?.assignedQuest == quest);
+        if (selectedEntry != null)
+        {
+            selectedEntry.GetComponent<QuestLogEntryUI>().SetSelected(true);
+        }
+
         // <<< ИЗМЕНЕНИЕ 2: Теперь ТОЛЬКО этот метод решает, показывать детали или нет
         ShowQuestDetails(quest);
-
         QuestManager.Instance.TriggerQuestLogUpdate();
+
         if (audioSource != null)
         {
             // 🔊 Щелчок при выборе квеста
             audioSource.PlayOneShot(selectQuestSound);
         }
-
     }
 
     // Этот метод почти не изменился, просто отвечает за заполнение полей
