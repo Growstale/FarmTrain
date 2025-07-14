@@ -2080,6 +2080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb045052d10b89d4b9f49e47eab2c7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stationTitle: {fileID: 1819682883}
 --- !u!1 &590301733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2340140844930027264, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
@@ -4652,6 +4653,7 @@ RectTransform:
   - {fileID: 238697537}
   - {fileID: 1317935540}
   - {fileID: 1527429162}
+  - {fileID: 1819682885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
