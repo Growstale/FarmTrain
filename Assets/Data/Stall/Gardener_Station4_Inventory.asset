@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0491b71c6c6b597478907586e6e604c2, type: 3}
+  m_Name: Gardener_Station4_Inventory
+  m_EditorClassIdentifier: 
+  shopName: Gardener
+  shopItems:
+  - itemData: {fileID: 11400000, guid: d93099adf63d4e44dbcf37ebf77e458d, type: 2}
+    buyPrice: 0
+    sellPrice: 19
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: fb90f9481a51ab247830899746aeb1ca, type: 2}
+    buyPrice: 0
+    sellPrice: 125
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 5c8f0027327d2314dbb50ce1b3727ea4, type: 2}
+    buyPrice: 0
+    sellPrice: 12
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 8c59de800bf4ae6499a4c55137e482ba, type: 2}
+    buyPrice: 0
+    sellPrice: 10
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 25
+  - itemData: {fileID: 11400000, guid: 4f3ca974c7570a843b235ef0555056d2, type: 2}
+    buyPrice: 0
+    sellPrice: 212
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 53e88128c33d69242b0bb49eb17adb43, type: 2}
+    buyPrice: 0
+    sellPrice: 78
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 20
+  - itemData: {fileID: 11400000, guid: 02209db07b109f84d8b84068d0ac74de, type: 2}
+    buyPrice: 0
+    sellPrice: 400
+    forSale: 0
+    willBuy: 1
+    isInfiniteStock: 0
+    initialStock: 20

@@ -10,22 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef576fc4ef5d99c41aa1f83a8a16c83e, type: 3}
-  m_Name: 04_SeedMoney
+  m_Name: 17_The_Full_Barn
   m_EditorClassIdentifier: 
-  id: 04_SeedMoney
-  title: Seed Money
-  description: Sell your produce to earn 200 coins for an upgrade.
-  shortDescription: Earn Coins
-  gameLevel: 1
+  id: 17_The_Full_Barn
+  title: The Full Barn
+  description: Collect milk, eggs and wool to earn a total of [Amount] coins.
+  shortDescription: Collect Everything
+  gameLevel: 0
   phase: 0
   nextQuest: {fileID: 0}
-  goals:
-  - goalType: 7
-    targetID: 
-    requiredAmount: 200
-    targetIDs: []
-    currentAmount: 1
-  rewardXP: 30
-  status: 2
+  goals: []
+  rewardXP: 0
+  status: 0
   isPinned: 0
   hasBeenViewed: 0
