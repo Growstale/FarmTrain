@@ -2048,11 +2048,11 @@ MonoBehaviour:
   noButton: {fileID: 645438462}
   cancelButton: {fileID: 455491454}
   buyButtonSprites:
-    activeSprite: {fileID: -8813282593175640381, guid: 11d9819d7cf288e45ab978d719dc1b2e, type: 3}
-    inactiveSprite: {fileID: 6814204677050542804, guid: 868b2bdfcc6a7af49bf751e7de4a3050, type: 3}
+    activeSprite: {fileID: 6814204677050542804, guid: 868b2bdfcc6a7af49bf751e7de4a3050, type: 3}
+    inactiveSprite: {fileID: -8813282593175640381, guid: 11d9819d7cf288e45ab978d719dc1b2e, type: 3}
   sellButtonSprites:
-    activeSprite: {fileID: 4541250721124355062, guid: fc147a3cb764f354d953f435165d6570, type: 3}
-    inactiveSprite: {fileID: -7370479696400114685, guid: f46d924b6a1555e4b8955f89629dafa6, type: 3}
+    activeSprite: {fileID: -7370479696400114685, guid: f46d924b6a1555e4b8955f89629dafa6, type: 3}
+    inactiveSprite: {fileID: 4541250721124355062, guid: fc147a3cb764f354d953f435165d6570, type: 3}
 --- !u!4 &567195453
 Transform:
   m_ObjectHideFlags: 0
@@ -2080,7 +2080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb045052d10b89d4b9f49e47eab2c7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationTitle: {fileID: 1819682883}
 --- !u!1 &590301733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2340140844930027264, guid: e034bf5e4a36f794f8ba983baeb37ebf, type: 3}
@@ -3497,7 +3496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationSprites:
   - {fileID: 4794939134159464983, guid: 8c16fed04a22d164a90312b53960cc81, type: 3}
-  - {fileID: -2748305989969554097, guid: e28f9ea5c05768e4e9ad373201c6025c, type: 3}
+  - {fileID: -5322745185608368530, guid: 0889eb795d440ca468c7be52b80bb5af, type: 3}
   - {fileID: -2748305989969554097, guid: e28f9ea5c05768e4e9ad373201c6025c, type: 3}
 --- !u!1 &1178154411
 GameObject:
@@ -4652,7 +4651,6 @@ RectTransform:
   m_Children:
   - {fileID: 238697537}
   - {fileID: 1317935540}
-  - {fileID: 1819682885}
   - {fileID: 1527429162}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5310,8 +5308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationSprites:
   - {fileID: 8963780792091160540, guid: e324fa968de04ae4b94ca39a42931a69, type: 3}
-  - {fileID: -947380301451667038, guid: 5c4c99fea6ff4ec4e8f3417b316a68c6, type: 3}
   - {fileID: 2671116397348817847, guid: 82043f5e64765c8418d7ccee1dda5e11, type: 3}
+  - {fileID: -947380301451667038, guid: 5c4c99fea6ff4ec4e8f3417b316a68c6, type: 3}
 --- !u!1 &2033970689
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,8 +6116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stationSprites:
   - {fileID: 9177968276021435513, guid: a8c4e6b0cc765f444a6c253c618805ca, type: 3}
-  - {fileID: -1954483682204712241, guid: 5e866a290fc50f34384af1102bbd73b4, type: 3}
   - {fileID: -5556989542832927389, guid: 5b9c206abac2b564e98f06f3e8d4a641, type: 3}
+  - {fileID: -1954483682204712241, guid: 5e866a290fc50f34384af1102bbd73b4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
