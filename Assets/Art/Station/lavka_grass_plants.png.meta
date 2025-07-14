@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 756ecb0de87e7b64f9e906914f875a90
+guid: 5c4c99fea6ff4ec4e8f3417b316a68c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2320320156498017979
-    second: lavka_savann_0
+      213: -947380301451667038
+    second: lavka_grass_plants_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lavka_savann_0
+      name: lavka_grass_plants_0
       rect:
         serializedVersion: 2
         x: 279
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bbe3e3583ee633020800000000000000
-      internalID: 2320320156498017979
+      spriteID: 2a955c0a2aa3ad2f0800000000000000
+      internalID: -947380301451667038
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lavka_savann_0: 2320320156498017979
+      lavka_grass_plants_0: -947380301451667038
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
