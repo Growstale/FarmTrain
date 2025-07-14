@@ -3,19 +3,12 @@ using TMPro;
 
 public class StationPhaseController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI stationTitle;
-
-    // Этот скрипт больше не хранит состояние, он только реагирует
 
     void Start()
     {
         ExperienceManager.Instance.OnPhaseUnlocked += OnPhaseUnlocked;
 
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
-        if (stationTitle != null)
-        {
-            stationTitle.text = $"Станция {currentLevel}";
-        }
 
         // Если для этой фазы станции не нужно копить опыт (XP = 0)
         if (ExperienceManager.Instance.XpForNextPhase == 0)

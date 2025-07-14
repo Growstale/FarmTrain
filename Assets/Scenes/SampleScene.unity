@@ -1721,6 +1721,7 @@ GameObject:
   - component: {fileID: 156422812}
   - component: {fileID: 156422813}
   - component: {fileID: 156422814}
+  - component: {fileID: 156422815}
   m_Layer: 0
   m_Name: UISystem
   m_TagString: Untagged
@@ -1924,6 +1925,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &156422815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156422808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03fe477e2a4862149bb70211ef5d8087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xpText: {fileID: 746072535}
+  experiencePanel: {fileID: 1087257471}
 --- !u!1 &158030012
 GameObject:
   m_ObjectHideFlags: 0
@@ -10599,7 +10614,6 @@ GameObject:
   - component: {fileID: 1087257475}
   - component: {fileID: 1087257474}
   - component: {fileID: 1087257473}
-  - component: {fileID: 1087257476}
   m_Layer: 5
   m_Name: LevelProgess
   m_TagString: Untagged
@@ -10709,19 +10723,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087257471}
   m_CullTransparentMesh: 1
---- !u!114 &1087257476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087257471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fe477e2a4862149bb70211ef5d8087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xpText: {fileID: 746072535}
 --- !u!114 &1101765831 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8362334225673768040, guid: a89779af0e465f44e9db4101c0df173a, type: 3}

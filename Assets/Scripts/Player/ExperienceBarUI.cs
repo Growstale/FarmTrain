@@ -5,6 +5,7 @@ using TMPro;
 public class ExperienceBarUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI xpText;
+    [SerializeField] private GameObject experiencePanel;
 
     private void Start()
     {
@@ -35,10 +36,13 @@ public class ExperienceBarUI : MonoBehaviour
     private void UpdateXPBar(int currentXP, int xpForNextPhase)
     {
         if (xpForNextPhase > 0)
-            xpText.text = $"{currentXP} / {xpForNextPhase}";
-        else // Если опыта для перехода не нужно (например, на станции 2)
         {
-            xpText.text = "Выполнено!";
+            experiencePanel.SetActive(true);
+            xpText.text = $"{currentXP} / {xpForNextPhase}";
+        }
+        else
+        {
+            experiencePanel.SetActive(false);
 
         }
 

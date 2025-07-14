@@ -142,7 +142,7 @@ public class QuestManager : MonoBehaviour
                             break;
 
                         case GoalType.Earn:
-                        case GoalType.SellFor: // Теперь этот case абсолютно правильный
+                        case GoalType.SellFor:
                         case GoalType.SellForAnimals:
                         case GoalType.SellForPlants:
                             progressMadeOnThisGoal = true;
@@ -192,11 +192,8 @@ public class QuestManager : MonoBehaviour
         InventoryManager.Instance.OnItemAdded += HandleItemAdded;
         PlayerWallet.Instance.OnMoneyAdded += HandleMoneyAdded;
 
-        // <<< НОВАЯ ЛОГИКА ПОДПИСКИ >>>
-        // Подписываемся на СОЗДАНИЕ ShopUIManager
         ShopUIManager.OnInstanceReady += HandleShopUIManagerReady;
 
-        // Также проверим, может ShopUIManager УЖЕ существует (если мы загрузились сразу на станцию)
         if (ShopUIManager.Instance != null)
         {
             HandleShopUIManagerReady(ShopUIManager.Instance);
@@ -210,24 +207,18 @@ public class QuestManager : MonoBehaviour
         if (PlayerWallet.Instance != null)
             PlayerWallet.Instance.OnMoneyAdded -= HandleMoneyAdded;
 
-        // <<< НОВАЯ ЛОГИКА ОТПИСКИ >>>
-        // Отписываемся от СОЗДАНИЯ
         ShopUIManager.OnInstanceReady -= HandleShopUIManagerReady;
 
-        // И на всякий случай отписываемся от самого события, если мы были на него подписаны
         if (ShopUIManager.Instance != null)
         {
             ShopUIManager.Instance.OnItemPurchased -= HandleItemPurchased;
         }
     }
 
-    // <<< НОВЫЙ МЕТОД-ОБРАБОТЧИК >>>
     private void HandleShopUIManagerReady(ShopUIManager shopUI)
     {
         Debug.Log("<color=lightblue>[QuestManager]</color> ShopUIManager появился. Подписываюсь на OnItemPurchased.");
-        // Отписываемся на всякий случай, чтобы избежать двойной подписки
         shopUI.OnItemPurchased -= HandleItemPurchased;
-        // Подписываемся на событие покупки
         shopUI.OnItemPurchased += HandleItemPurchased;
     }
 
@@ -237,25 +228,39 @@ public class QuestManager : MonoBehaviour
         AddQuestProgress(GoalType.Gather, item.name, quantity);
         AddQuestProgress(GoalType.GatherAny, item.name, quantity);
 
-        // 2. Получаем данные для текущей станции. Если мы на поезде, данных не будет, и код дальше не пойдет.
+        // 2. Получаем данные для текущей станции. Если мы на поезде, этот код не будет работать дальше, что правильно.
         int currentLevel = ExperienceManager.Instance.CurrentLevel;
         StationData currentStationData = StationDatabase.Instance.GetStationDataById(currentLevel);
 
         if (currentStationData == null)
         {
-            // Это нормально, значит мы сейчас на сцене поезда, а не станции.
             return;
         }
 
-        // --- Логика для SellForAnimals ---
-        // Конструируем имя инвентаря для ларька с животными
-        string animalInventoryName = $"AnimalHerder_Station{currentLevel}_Inventory";
-        // Ищем этот инвентарь в списке инвентарей текущей станции
-        ShopInventoryData animalInventory = currentStationData.stallInventories.FirstOrDefault(inv => inv.name == animalInventoryName);
+        // --- Логика для КЛАССИЧЕСКОГО SellFor (ВОЗВРАЩЕНА) ---
+        // Ищет цену в ЛЮБОМ ларьке
+        int genericSellPrice = 0;
+        foreach (var stallInventory in currentStationData.stallInventories)
+        {
+            var shopItem = stallInventory.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
+            if (shopItem != null)
+            {
+                genericSellPrice = shopItem.sellPrice;
+                break; // Нашли первую попавшуюся цену - выходим
+            }
+        }
+        if (genericSellPrice > 0)
+        {
+            int totalPotentialValue = genericSellPrice * quantity;
+            AddQuestProgress(GoalType.SellFor, item.name, totalPotentialValue);
+        }
 
+        // --- Логика для SellForAnimals ---
+        // Ищет цену ТОЛЬКО в ларьке животных
+        string animalInventoryName = $"AnimalHerder_Station{currentLevel}_Inventory";
+        ShopInventoryData animalInventory = currentStationData.stallInventories.FirstOrDefault(inv => inv.name == animalInventoryName);
         if (animalInventory != null)
         {
-            // Если инвентарь найден, ищем в нем цену нашего предмета
             var shopItem = animalInventory.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
             if (shopItem != null)
             {
@@ -265,10 +270,9 @@ public class QuestManager : MonoBehaviour
         }
 
         // --- Логика для SellForPlants ---
-        // Повторяем то же самое для растений
+        // Ищет цену ТОЛЬКО в ларьке растений
         string plantInventoryName = $"Gardener_Station{currentLevel}_Inventory";
         ShopInventoryData plantInventory = currentStationData.stallInventories.FirstOrDefault(inv => inv.name == plantInventoryName);
-
         if (plantInventory != null)
         {
             var shopItem = plantInventory.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
@@ -280,53 +284,16 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private void UpdateSellForProgress(GoalType goalType, string targetStallName, ItemData item, int quantity)
-    {
-        if (StallCameraController.Instance == null)
-        {
-            return;
-        }
-
-        Transform stallTransform = StallCameraController.Instance.stalls.FirstOrDefault(s => s.name == targetStallName);
-
-        if (stallTransform == null)
-        {
-            return;
-        }
-
-        StallInteraction stallInteraction = stallTransform.GetComponent<StallInteraction>();
-        if (stallInteraction == null || stallInteraction.shopInventoryData == null)
-        {
-            Debug.LogWarning($"[QuestManager] На ларьке '{targetStallName}' отсутствует скрипт StallInteraction или его данные.");
-            return;
-        }
-
-        var shopItem = stallInteraction.shopInventoryData.shopItems.FirstOrDefault(si => si.itemData == item && si.willBuy);
-
-        if (shopItem != null)
-        {
-            int sellPrice = shopItem.sellPrice;
-            int totalPotentialValue = sellPrice * quantity;
-            AddQuestProgress(goalType, item.name, totalPotentialValue);
-            Debug.Log($"[QuestManager] Для квеста {goalType} найдена цена {sellPrice} за '{item.name}' в ларьке '{targetStallName}'. Прогресс: +{totalPotentialValue}");
-        }
-    }
-
-
     private void HandleItemPurchased(ItemData item, int quantity)
     {
         Debug.Log($"<color=lightblue>[QuestManager]</color> Получено событие покупки: {item.name}");
 
-        // 1. Отправляем прогресс для целей типа "Купить конкретный предмет" (Buy)
         AddQuestProgress(GoalType.Buy, item.name, quantity);
-
-        // 2. И ТАКЖЕ отправляем прогресс для целей типа "Купить любой из списка" (BuyAny)
         AddQuestProgress(GoalType.BuyAny, item.name, quantity);
     }
 
     private void HandleMoneyAdded(int amountAdded)
     {
-        // Отправляем прогресс для типа Earn
         AddQuestProgress(GoalType.Earn, "", amountAdded);
     }
 
@@ -334,5 +301,4 @@ public class QuestManager : MonoBehaviour
     {
         OnQuestLogUpdated?.Invoke();
     }
-
 }
