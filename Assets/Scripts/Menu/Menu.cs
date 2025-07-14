@@ -3,32 +3,43 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private string secondSceneToLoad = "Initializer";
+
+    void Awake()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadGame()
     {
-        
+        Debug.Log("Loading scene: SampleScene");
+        SceneManager.LoadScene(secondSceneToLoad);
+    }
+    
+    public void ShowSettings()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(true);
+        }
     }
 
-    public void SceneLoad (int index)
+    public void HideSettings()
     {
-        SceneManager.LoadScene(index);
+        Debug.Log("Loading scene: HideSettings");
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+        }
     }
 
     public void ExitGame()
     {
-        if (Application.isEditor)
-        {
+        #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-        }
-        else
-        {
-            Application.Quit();
-        }
+        #else
+             Application.Quit();
+        #endif
     }
 }
