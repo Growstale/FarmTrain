@@ -7,6 +7,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private string secondSceneToLoad = "Initializer";
     [SerializeField] private AudioSource menuAudioSource;
     [SerializeField] private AudioClip menuMovingClip;
+    [SerializeField] private AudioClip closeClip;
 
     void Awake()
     {
@@ -37,6 +38,10 @@ public class Menu : MonoBehaviour
 
     public void OnSettingsCloseButtonClick()
     {
+        if (menuAudioSource != null && closeClip != null)
+        {
+            menuAudioSource.PlayOneShot(closeClip);
+        }
         updated_sound sound = FindObjectOfType<updated_sound>();
         if (sound != null)
         {

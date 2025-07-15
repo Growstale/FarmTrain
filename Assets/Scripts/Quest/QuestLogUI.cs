@@ -34,6 +34,7 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
 
     [SerializeField] private AudioClip selectQuestSound;
     private AudioSource audioSource;
+    public AudioClip closeSound;           // Звук закрытия
     public static QuestLogUI Instance { get; private set; }
 
     private void Start()
@@ -104,6 +105,10 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
 
     private void CloseLog()
     {
+        if (audioSource != null && closeSound != null)
+        {
+            audioSource.PlayOneShot(closeSound);
+        }
         if (questLogPanelObject.activeSelf)
         {
             questLogPanelObject.SetActive(false);
