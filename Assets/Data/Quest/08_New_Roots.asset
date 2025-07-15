@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 08_New_Roots
   title: New Roots
-  description: Buy 10  potato seeds from the shop.
+  description: Buy 10 potato seeds from the shop.
   shortDescription: Buy New Seeds
   gameLevel: 1
   phase: 1
@@ -24,8 +24,8 @@ MonoBehaviour:
     targetID: Potato_seed
     requiredAmount: 10
     targetIDs: []
-    currentAmount: 5
+    currentAmount: 10
   rewardXP: 5
   status: 2
   isPinned: 0
-  hasBeenViewed: 1
+  hasBeenViewed: 0

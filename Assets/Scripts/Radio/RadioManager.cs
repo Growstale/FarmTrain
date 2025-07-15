@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class RadioManager : MonoBehaviour, IUIManageable
 {
@@ -17,6 +18,14 @@ public class RadioManager : MonoBehaviour, IUIManageable
         public bool isUnlocked;
     }
 
+    [System.Serializable]
+    public class StationSprites
+    {
+        public Sprite normalSprite;
+        public Sprite selectedSprite;
+    }
+
+    public StationSprites[] stationSprites;
     public RadioStation[] stations;
     public Button[] stationButtons;
     public AudioSource audioSource;
@@ -32,6 +41,7 @@ public class RadioManager : MonoBehaviour, IUIManageable
     public Button shuffleButton;
     public Sprite shuffleOffSprite;
     public Sprite shuffleOnSprite;
+    private Image[] stationButtonImages;
     private float trackLength;
     private float currentPlayTime;
     private float targetPlayPosition;
@@ -77,6 +87,40 @@ public class RadioManager : MonoBehaviour, IUIManageable
         openButton.onClick.AddListener(OpenRadioPanel);
         closeButton.onClick.AddListener(CloseRadioPanel);
         radioPanel.SetActive(false);
+
+        stationButtonImages = new Image[stationButtons.Length];
+        for (int i = 0; i < stationButtons.Length; i++)
+        {
+            stationButtonImages[i] = stationButtons[i].GetComponent<Image>();
+        }
+
+        HighlightCurrentStation();
+    }
+
+    private void HighlightCurrentStation()
+    {
+        for (int i = 0; i < stationButtons.Length; i++)
+        {
+            if (i >= stationSprites.Length || stationSprites[i] == null)
+            {
+                Debug.LogWarning($"Не хватает спрайтов для станции {i}");
+                continue;
+            }
+
+            var button = stationButtons[i].GetComponent<Button>();
+            var image = stationButtonImages[i];
+
+            if (i == currentStationIndex)
+            {
+                image.sprite = stationSprites[i].selectedSprite;
+            }
+            else
+            {
+                image.sprite = stationSprites[i].normalSprite;
+            }
+
+            button.interactable = stations[i].isUnlocked;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -89,9 +133,9 @@ public class RadioManager : MonoBehaviour, IUIManageable
 
     void Start()
     {
-        if (stationButtons.Length != stations.Length)
+        if (stationButtons.Length != stations.Length || stationButtons.Length != stationSprites.Length)
         {
-            Debug.LogError($"Количество кнопок ({stationButtons.Length}) не совпадает с количеством станций ({stations.Length})!");
+            Debug.LogError($"Несоответствие размеров: кнопок={stationButtons.Length}, станций={stations.Length}, спрайтов={stationSprites.Length}");
         }
 
         for (int i = 0; i < stations.Length; i++)
@@ -102,15 +146,13 @@ public class RadioManager : MonoBehaviour, IUIManageable
             {
                 int stationIndex = i;
                 stationButtons[i].onClick.AddListener(() => SwitchStation(stationIndex));
-                stationButtons[i].interactable = stations[i].isUnlocked;
 
                 var buttonText = stationButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null)
-                {
-                    buttonText.text = stations[i].name;
-                }
+                if (buttonText != null) buttonText.text = stations[i].name;
             }
         }
+
+        HighlightCurrentStation();
 
         UpdateText();
 
@@ -158,12 +200,27 @@ public class RadioManager : MonoBehaviour, IUIManageable
         ExclusiveUIManager.Instance.NotifyPanelOpening(this);
         GameStateManager.Instance.RequestPause(this);
         radioPanel.SetActive(true);
+        HighlightCurrentStation();
     }
 
     public void CloseRadioPanel()
     {
-        GameStateManager.Instance.RequestResume(this);
-        radioPanel.SetActive(false);
+        updated_sound sound = closeButton.GetComponentInChildren<updated_sound>();
+        if (sound != null)
+        {
+            sound.PlaySound();
+        }
+        HideRadioPanel();
+    }
+
+    public void HideRadioPanel()
+    {
+        if (radioPanel != null && radioPanel.activeSelf)
+        {
+            GameStateManager.Instance.RequestResume(this);
+            radioPanel.SetActive(false);
+            HighlightCurrentStation();
+        }
     }
 
     public void PlayTrack()
@@ -315,6 +372,7 @@ public class RadioManager : MonoBehaviour, IUIManageable
         Debug.Log($"RadioManager: Переключение на станцию {stations[stationIndex].name}");
         currentStationIndex = stationIndex;
         currentTrackIndex = 0;
+        HighlightCurrentStation();
         PlayTrack();
     }
 
@@ -390,6 +448,7 @@ public class RadioManager : MonoBehaviour, IUIManageable
         {
             currentStationIndex = targetStationIndex;
             currentTrackIndex = 0;
+            HighlightCurrentStation();
             PlayTrack();
         }
     }

@@ -25,6 +25,21 @@ public class Menu : MonoBehaviour
         }
     }
 
+    public void OnSettingsCloseButtonClick()
+    {
+        updated_sound sound = FindObjectOfType<updated_sound>();
+        if (sound != null)
+        {
+            sound.PlaySound();
+        }
+
+        Menu menu = FindObjectOfType<Menu>();
+        if (menu != null)
+        {
+            menu.HideSettings();
+        }
+    }
+
     public void HideSettings()
     {
         Debug.Log("Loading scene: HideSettings");
