@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
 using System.Collections.Generic;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class CutsceneManager : MonoBehaviour
     {
         public Sprite image;
         public string text;
-        [HideInInspector] public float typingSpeed = 0.05f;
+        public AudioClip audioClip;
+        [HideInInspector] public float typingSpeed = 20f;
         [HideInInspector] public string[] sentences;
         [HideInInspector] public float fadeDuration = 2f;
         public bool hideUI = false;
+        public bool skipAudio = false;
+        public bool syncAudioWithText = true;
     }
 
     [Header("Fade Settings")]
@@ -32,6 +36,10 @@ public class CutsceneManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private Sprite originalSprite;
     public AudioSource radioMusic;
+    public AudioSource radioMusicOff;
+    public AudioSource audioSource;
+    public AudioSource closeSource;
+    private AudioClip closeClip;
     private Color originalColor;
 
     private float delayBeforeLoad = 2f;
@@ -53,6 +61,11 @@ public class CutsceneManager : MonoBehaviour
 
         displayImage.sprite = frames[0].image;
         displayImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, maxFadeAlpha);
+
+        if (radioMusicOff != null)
+        {
+            radioMusicOff.Stop();
+        }
 
         foreach (var frame in frames)
         {
@@ -121,6 +134,7 @@ public class CutsceneManager : MonoBehaviour
     void StartCutsceneImmediately()
     {
         isCutsceneActive = true;
+        PlayFrameAudio(currentFrameIndex);
         ShowFirstSentence();
 
         if (radioMusic != null)
@@ -129,9 +143,45 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
+    void PlayFrameAudio(int frameIndex)
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
+        if (frameIndex < 0 || frameIndex >= frames.Length) return;
+
+        var frame = frames[frameIndex];
+        if (frame.skipAudio) return;
+
+        if (frame.audioClip != null && audioSource != null)
+        {
+            audioSource.clip = frame.audioClip;
+            audioSource.Play();
+
+            if (frame.syncAudioWithText)
+            {
+                StartCoroutine(AutoAdvanceAfterAudio(frame.audioClip.length));
+            }
+        }
+    }
+
+    IEnumerator AutoAdvanceAfterAudio(float clipLength)
+    {
+        yield return new WaitForSeconds(clipLength);
+
+        if (isCutsceneActive && !isTyping)
+        {
+            ShowNextFrame();
+        }
+    }
+
     void Update()
     {
-        if (isCutsceneActive && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
+        if (!isCutsceneActive) return;
+
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {
@@ -208,15 +258,28 @@ public class CutsceneManager : MonoBehaviour
         int nextFrameIndex = currentFrameIndex + 1;
         float fadeDuration = frames[currentFrameIndex].fadeDuration;
 
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+
         yield return StartCoroutine(FadeImage(1f, minFadeAlpha, fadeDuration / 2));
 
         displayImage.sprite = frames[nextFrameIndex].image;
+        PlayFrameAudio(nextFrameIndex);
 
         yield return StartCoroutine(FadeImage(minFadeAlpha, maxFadeAlpha, fadeDuration / 2));
 
-        if (nextFrameIndex == 5 && radioMusic != null && radioMusic.isPlaying)
+        if (nextFrameIndex == 5)
         {
-            yield return StartCoroutine(FadeAudio(radioMusic, 1f, 0f, fadeDuration));
+            if (radioMusic != null && radioMusic.isPlaying)
+            {
+                radioMusic.Stop();
+            }
+            if (radioMusicOff != null)
+            {
+                radioMusicOff.Play();
+            }
         }
 
         currentFrameIndex = nextFrameIndex;
@@ -271,10 +334,30 @@ public class CutsceneManager : MonoBehaviour
         isTyping = true;
         displayText.text = "";
 
-        foreach (char letter in text.ToCharArray())
+        var frame = frames[currentFrameIndex];
+        bool isRadioVoice = text.StartsWith("*") && text.EndsWith("*");
+        string displayTextContent = isRadioVoice ? text.Trim('*') : text;
+
+        if (frame.audioClip != null && frame.syncAudioWithText && !frame.skipAudio)
         {
-            displayText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            float sentenceDuration = frame.audioClip.length / frame.sentences.Length;
+
+            displayText.text = displayTextContent;
+
+            yield return new WaitForSeconds(sentenceDuration);
+
+            if (!isRadioVoice)
+            {
+                ShowNextSentenceOrFrame();
+            }
+        }
+        else
+        {
+            foreach (char letter in displayTextContent.ToCharArray())
+            {
+                displayText.text += letter;
+                yield return new WaitForSeconds(typingSpeed);
+            }
         }
 
         isTyping = false;
@@ -309,6 +392,11 @@ public class CutsceneManager : MonoBehaviour
         if (!isCutsceneActive) return;
 
         isCutsceneActive = false;
+
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
 
         if (radioMusic != null)
         {

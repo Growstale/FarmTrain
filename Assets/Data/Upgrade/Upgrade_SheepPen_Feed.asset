@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 8
   isStackable: 0
   maxStackSize: 16
-  description: A chicken feeder. Allows you not to feed them manually.
+  description: A sheep feeder. Allows you not to feed them manually.
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 0}
   associatedBedData: {fileID: 0}

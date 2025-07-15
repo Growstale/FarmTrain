@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 7
   isStackable: 0
   maxStackSize: 16
-  description: Sheep
+  description: Sheap - eating carrot
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 11400000, guid: 9c3ea944612bed54fb0a9dcc494dc961, type: 2}
   associatedBedData: {fileID: 0}
