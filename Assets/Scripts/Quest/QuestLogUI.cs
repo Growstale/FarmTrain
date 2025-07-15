@@ -34,9 +34,17 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
 
     [SerializeField] private AudioClip selectQuestSound;
     private AudioSource audioSource;
+    public static QuestLogUI Instance { get; private set; }
 
     private void Start()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         if (ExclusiveUIManager.Instance != null)
         {
             ExclusiveUIManager.Instance.Register(this);
@@ -52,7 +60,7 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
         }
 
         questLogPanelObject.SetActive(false);
-        detailsPanelObject.SetActive(false); // Убеждаемся, что детали скрыты при старте
+        detailsPanelObject.SetActive(false);
     }
 
     public void ToggleLog()
@@ -249,6 +257,11 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
 
     private void OnDestroy()
     {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+
         if (ExclusiveUIManager.Instance != null)
         {
             ExclusiveUIManager.Instance.Deregister(this);
@@ -258,4 +271,27 @@ public class QuestLogUI : MonoBehaviour, IUIManageable
             QuestManager.Instance.OnQuestLogUpdated -= UpdateUI;
         }
     }
+
+    public void OpenLogAndSelectQuest(Quest questToSelect)
+    {
+        // Если панель уже открыта, просто выбираем нужный квест. Эта часть работает правильно.
+        if (questLogPanelObject.activeSelf)
+        {
+            OnQuestSelected(questToSelect);
+            return;
+        }
+
+        // 1. Сначала открываем панель
+        ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+        questLogPanelObject.SetActive(true);
+        GameStateManager.Instance.RequestPause(this);
+
+        // 2. <<< ГЛАВНОЕ ИЗМЕНЕНИЕ: Принудительно обновляем UI и строим список квестов.
+        // Метод UpdateUI вызовет PopulateQuestList, который создаст все нужные строчки.
+        UpdateUI();
+
+        // 3. ТЕПЕРЬ, когда список гарантированно создан, мы можем безопасно выбрать нужный квест.
+        OnQuestSelected(questToSelect);
+    }
+
 }
