@@ -2,13 +2,18 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class QuestTrackerUI : MonoBehaviour
+
+public class QuestTrackerUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private GameObject trackerPanel;
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI goalsText;
     [SerializeField] private Slider questTrackerSlider;
+
+    private Quest pinnedQuest;
+
     void Start()
     {
         QuestManager.Instance.OnQuestLogUpdated += UpdateTracker;
@@ -26,7 +31,7 @@ public class QuestTrackerUI : MonoBehaviour
 
     private void UpdateTracker()
     {
-        var pinnedQuest = QuestManager.Instance.ActiveQuests.FirstOrDefault(q => q.isPinned);
+        pinnedQuest = QuestManager.Instance.ActiveQuests.FirstOrDefault(q => q.isPinned);
 
         if (pinnedQuest == null)
         {
@@ -60,6 +65,17 @@ public class QuestTrackerUI : MonoBehaviour
         else
         {
             questTrackerSlider.value = 1f;
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // Проверяем, что квест действительно закреплен и есть ссылка на менеджер UI
+        if (pinnedQuest != null && QuestLogUI.Instance != null)
+        {
+            Debug.Log($"Клик по трекеру. Открываем журнал на квесте: {pinnedQuest.title}");
+            // Вызываем новый метод в журнале квестов
+            QuestLogUI.Instance.OpenLogAndSelectQuest(pinnedQuest);
         }
     }
 }
