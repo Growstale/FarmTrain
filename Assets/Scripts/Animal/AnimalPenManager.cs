@@ -143,7 +143,7 @@ public class AnimalPenManager : MonoBehaviour
         allAnimals.Add(newState);
         if (AchievementManager.allTpyesAnimal.Contains(animalData.speciesName))
         {
-            AchievementManager.allTpyesPlant.Remove(animalData.speciesName);
+            AchievementManager.allTpyesAnimal.Remove(animalData.speciesName);
             GameEvents.TriggerAddedNewAnimal(1);
         }
         Debug.Log($"<color=green>[AnimalPenManager]</color> Куплено/добавлено новое животное: {animalData.speciesName}.");

@@ -13,7 +13,7 @@ public class SlotScripts : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Transform slot;
 
-    [SerializeField] Color _freecolor = new Color(0, 200f, 0, 0.1f);
+   
 
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
 
@@ -339,7 +339,7 @@ public class SlotScripts : MonoBehaviour
 
     public void ChangeColor()
     {
-        spriteRenderer.color = _freecolor;
+        spriteRenderer.color = Color.green * 0.8f;
     }
 
     public void UnChangeColor()

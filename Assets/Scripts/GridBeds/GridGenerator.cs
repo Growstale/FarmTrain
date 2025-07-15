@@ -26,8 +26,16 @@ public class GridGenerator : MonoBehaviour
     {
         InventoryManager.Instance.OnSelectedSlotChanged += HandleSelectedSlotChange;
     }
-
-     void HandleSelectedSlotChange(int amount)
+    private void OnDestroy()
+    {
+        // Проверяем, существует ли еще InventoryManager, чтобы избежать ошибок при выходе из игры
+        if (InventoryManager.Instance != null)
+        {
+            // Отписываем наш метод от события
+            InventoryManager.Instance.OnSelectedSlotChanged -= HandleSelectedSlotChange;
+        }
+    }
+    void HandleSelectedSlotChange(int amount)
     {
         InventoryItem item = InventoryManager.Instance.GetItemInSlot(amount);
         if (item != null) {
