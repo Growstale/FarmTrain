@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      zabor_big_broken_0: -3589080760121374869
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

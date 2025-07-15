@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 08b_New_Roots
   title: New Roots
-  description: Buy [15]  carrot seeds from the shop.
+  description: Buy 15 carrot seeds from the shop.
   shortDescription: Buy New Seeds
   gameLevel: 1
   phase: 1

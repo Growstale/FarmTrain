@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 16_Master_of_the_Land
   title: Master of the Land
-  description: Collect plants to earn a total of [800] coins.
+  description: Collect plants to earn a total of 800 coins.
   shortDescription: Grow Rare Crops
   gameLevel: 4
   phase: 0

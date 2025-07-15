@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 13_Growing_Wealth
   title: Growing Wealth
-  description: Sell goods to earn a total of [1000] coins.
+  description: Sell goods to earn a total of 800 coins.
   shortDescription: Earn More Coins
   gameLevel: 2
   phase: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   goals:
   - goalType: 7
     targetID: 
-    requiredAmount: 1000
+    requiredAmount: 800
     targetIDs: []
     currentAmount: 0
   rewardXP: 30
