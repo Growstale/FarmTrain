@@ -8,6 +8,7 @@ public class LocomotiveController : MonoBehaviour
 {
     public static LocomotiveController Instance { get; private set; }
 
+    private Animator trainAnimator;
     [SerializeField] private AudioSource trainAudioSource;
     [SerializeField] private AudioClip trainMovingClip;
     [SerializeField] private float fadeDuration = 3.0f; // длительность затухания в секундах
@@ -59,6 +60,7 @@ public class LocomotiveController : MonoBehaviour
             currentState = TrainState.Moving;
             CheckInitialTravelState();
         }
+        UpdateAnimationState();
     }
 
     void LateUpdate()
@@ -133,6 +135,12 @@ public class LocomotiveController : MonoBehaviour
 
         parallaxLayers = GameObject.FindGameObjectsWithTag("ParallaxLayer")
             .Select(go => go.GetComponent<AutoScrollParallax>()).Where(c => c != null).ToArray();
+
+        trainAnimator = GetComponentInChildren<Animator>();
+        if (trainAnimator == null)
+        {
+            Debug.LogError("[LocomotiveController] Не найден компонент Animator на поезде!", gameObject);
+        }
     }
     #endregion
 
@@ -209,21 +217,19 @@ public class LocomotiveController : MonoBehaviour
     private void ArriveAtStation()
     {
         currentState = TrainState.DockedAtStation;
-        // Мы НЕ сбрасываем travelToStationUnlocked, чтобы состояние сохранилось
+        UpdateAnimationState();
 
         UIManager.Instance.ShowGoToStationButton(true);
         UIManager.Instance.ShowNotification(true);
 
         foreach (var layer in parallaxLayers) layer.enabled = false;
 
-        // ВАЖНО: Мы не вызываем AdvanceToNextPhase здесь.
-        // Смена фазы произойдет только при окончательном отправлении.
     }
 
     private void OnReturnFromStation()
     {
-        // Когда мы возвращаемся, мы все еще в состоянии "пристыкован к станции"
         currentState = TrainState.DockedAtStation;
+        UpdateAnimationState();
         departureUnlocked = TransitionManager.isDepartureUnlocked;
 
         UIManager.Instance.ShowGoToStationButton(false);
@@ -241,6 +247,7 @@ public class LocomotiveController : MonoBehaviour
     private IEnumerator DepartSequence()
     {
         currentState = TrainState.Moving;
+        UpdateAnimationState();
         travelToStationUnlocked = false;
         departureUnlocked = false;
         TransitionManager.isDepartureUnlocked = false;
@@ -298,4 +305,13 @@ public class LocomotiveController : MonoBehaviour
         }
     }
     #endregion
+
+    private void UpdateAnimationState()
+    {
+        if (trainAnimator == null) return;
+
+        bool isTrainMoving = (currentState == TrainState.Moving);
+        trainAnimator.SetBool("isMoving", isTrainMoving);
+    }
+
 }
