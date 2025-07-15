@@ -262,8 +262,6 @@ public class TrainCameraController : MonoBehaviour
 
     private bool TryHandleItemClick(RaycastHit2D hit)
     {
-        if (LocomotiveController.Instance.IsInteractionLocked) return false;
-
         ItemPickup clickedItem = hit.collider.GetComponent<ItemPickup>();
         if (clickedItem == null) return false;
 
