@@ -27,16 +27,21 @@ public class SpawnBackGroundScript : MonoBehaviour
     {
         Object.GetComponent<SpriteRenderer>().sprite = OldFonts;
 
-        InvokeRepeating("CreateObjects", startTimeInterval, timeInterval); // Вызывает функцию каждые timeInterval функцию CreateObject
-
+        InvokeRepeating("CreateObjects", startTimeInterval, timeInterval);
 
     }
 
     void CreateObjects()
     {
-        GameObject newFon = Instantiate(Object, new Vector3(spawnPoint.x, spawnPoint.y, spawnPoint.z), Quaternion.identity); // создание объекта в координатах
+        // 1. Создаем объект из префаба
+        GameObject newFon = Instantiate(Object, new Vector3(spawnPoint.x, spawnPoint.y, spawnPoint.z), Quaternion.identity);
 
-
+        // 2. Получаем компонент у СОЗДАННОЙ КОПИИ и меняем его
+        SpriteRenderer sr = newFon.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.sprite = OldFonts;
+        }
     }
     //void ChangeTextureBackground()
     //{

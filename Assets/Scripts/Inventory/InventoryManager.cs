@@ -145,8 +145,17 @@ public class InventoryManager : MonoBehaviour, IUIManageable
 
     private void Update()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleMainInventory();
+        }
+
         HandleHotbarInput();
-        // <<< ИЗМЕНЕНИЕ: Постоянно проверяем улучшения на случай, если игрок только что купил апгрейд
         UpdateInventorySizeBasedOnUpgrades();
     }
 
@@ -358,7 +367,7 @@ public class InventoryManager : MonoBehaviour, IUIManageable
         if (!mainInventoryPanel.activeSelf)
         {
             ExclusiveUIManager.Instance.NotifyPanelOpening(this);
-
+            GameStateManager.Instance.RequestPause(this);
             mainInventoryPanel.SetActive(true);
             if (inventoryBackgroundPanel != null)
             {
@@ -373,6 +382,7 @@ public class InventoryManager : MonoBehaviour, IUIManageable
     {
         if (mainInventoryPanel.activeSelf)
         {
+            GameStateManager.Instance.RequestResume(this);
             mainInventoryPanel.SetActive(false);
             if (inventoryBackgroundPanel != null)
             {

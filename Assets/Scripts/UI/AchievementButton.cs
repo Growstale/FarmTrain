@@ -34,6 +34,7 @@ public class AchievementButton : MonoBehaviour, IUIManageable
         else
         {
             ExclusiveUIManager.Instance.NotifyPanelOpening(this);
+            GameStateManager.Instance.RequestPause(this);
             windowAchievement.SetActive(true);
             isOpen = true;
         }
@@ -43,6 +44,7 @@ public class AchievementButton : MonoBehaviour, IUIManageable
     {
         if (isOpen)
         {
+            GameStateManager.Instance.RequestResume(this);
             windowAchievement.SetActive(false);
             isOpen = false;
         }
