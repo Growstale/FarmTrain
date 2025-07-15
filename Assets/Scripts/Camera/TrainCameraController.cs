@@ -233,6 +233,8 @@ public class TrainCameraController : MonoBehaviour
 
     private bool TryHandleAnimalClick(RaycastHit2D hit)
     {
+        if (LocomotiveController.Instance.IsInteractionLocked) return false;
+
         AnimalController clickedAnimal = hit.collider.GetComponent<AnimalController>();
         if (clickedAnimal == null) return false;
 
@@ -260,6 +262,8 @@ public class TrainCameraController : MonoBehaviour
 
     private bool TryHandleItemClick(RaycastHit2D hit)
     {
+        if (LocomotiveController.Instance.IsInteractionLocked) return false;
+
         ItemPickup clickedItem = hit.collider.GetComponent<ItemPickup>();
         if (clickedItem == null) return false;
 
@@ -300,7 +304,9 @@ public class TrainCameraController : MonoBehaviour
 
     private bool TryHandleSlotClick(RaycastHit2D hit)
     {
-        
+        if (LocomotiveController.Instance.IsInteractionLocked) return false;
+
+
         if (!hit.collider.CompareTag("Slot")) { Debug.Log($"Object {hit.collider.name} dont have tag slot "); return false; }
         //
         
@@ -384,10 +390,6 @@ public class TrainCameraController : MonoBehaviour
 
         return false;
     }
-
-    // ===================================================================
-    // Œ—“¿À‹Õ¿ﬂ ◊¿—“‹  Œƒ¿ (·ÂÁ ËÁÏÂÌÂÌËÈ)
-    // ===================================================================
 
     private Transform FindParentWagon(Transform child)
     {
