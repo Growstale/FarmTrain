@@ -5,14 +5,24 @@ public class Menu : MonoBehaviour
 {
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private string secondSceneToLoad = "Initializer";
+    [SerializeField] private AudioSource menuAudioSource;
+    [SerializeField] private AudioClip menuMovingClip;
 
     void Awake()
     {
+        if (menuAudioSource != null && menuMovingClip != null)
+        {
+            menuAudioSource.PlayOneShot(menuMovingClip);
+        }
         DontDestroyOnLoad(gameObject);
     }
 
     public void LoadGame()
     {
+        if (menuAudioSource != null)
+        {
+            menuAudioSource.Stop();
+        }
         Debug.Log("Loading scene: SampleScene");
         SceneManager.LoadScene(secondSceneToLoad);
     }

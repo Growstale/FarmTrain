@@ -17,7 +17,7 @@ MonoBehaviour:
   itemType: 7
   isStackable: 0
   maxStackSize: 0
-  description: Cow
+  description: Cow - eating pumpkin
   associatedPlantData: {fileID: 0}
   associatedAnimalData: {fileID: 11400000, guid: 10642858300fb674a93eca7cabadbd22, type: 2}
   associatedBedData: {fileID: 0}

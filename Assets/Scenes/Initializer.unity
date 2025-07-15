@@ -266,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725275452}
   - component: {fileID: 725275451}
-  - component: {fileID: 725275453}
+  - component: {fileID: 725275454}
   m_Layer: 0
   m_Name: CutsceneManager
   m_TagString: Untagged
@@ -288,72 +288,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frames:
   - image: {fileID: -5020514758781672274, guid: e0d39bd9ea519954ea5a976e00ed89ea, type: 3}
-    text: "*Voice from the radio* The record for the highest air temperature in Little
-      Hills was set once again today. Most are certain \u2013 it won\u2019t be the
-      last time this summer. Over the past decades, temperatures have been steadily
-      rising, which is already leading to disaster."
+    text: The record for the highest air temperature in Little Hills was set once
+      again today. Most are certain, it won't be the last time this summer. Over
+      the past decades, temperatures have been steadily rising, which is already
+      leading to disaster.
+    audioClip: {fileID: 8300000, guid: 3f2ac5f49ce89a944ba253e2033832c9, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: -8157403806559461926, guid: ffcf587ac3419524e8696e34697b33b6, type: 3}
     text: Fields were once green and fertile have now turned into barren wastelands.
+    audioClip: {fileID: 8300000, guid: 733b6f6851138ec43988093f524acbd2, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: 7393637447140822919, guid: 0cae4ed2f30ad6b4198934f74729bb71, type: 3}
     text: ...
+    audioClip: {fileID: 8300000, guid: dc1e3106634938842aac309b829f5163, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 1
+    skipAudio: 1
+    syncAudioWithText: 1
   - image: {fileID: -1635119059196159038, guid: c2780d54c54e6124c854b23694e2c82f, type: 3}
     text: Farmers are facing huge losses, and water is becoming increasingly expensive
       and will soon be worth its weight in gold.
+    audioClip: {fileID: 8300000, guid: dc1e3106634938842aac309b829f5163, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: -4805474362232562877, guid: 6c34ab676ea7c4843896e654046b2096, type: 3}
     text: In response to such news, many families are fleeing north by rail. Some
       even believe they will be able to find a place where it rains frequently.
+    audioClip: {fileID: 8300000, guid: 8698356af5372724bb44dbffc825e07e, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: 3081803767075380834, guid: 8d81b66c15d107c4494e71cdb8078700, type: 3}
-    text: '*Radio off sound* Lately, I''ve been feeling pretty hopeless.'
+    text: Lately, I've been feeling pretty hopeless.
+    audioClip: {fileID: 8300000, guid: d697fa8933a36af4aac0849e24f2e5af, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: -1740465371806981922, guid: 0bb68d0c498886c44bb530a3a3520546, type: 3}
     text: This summer was the last time my farm produced any kind of harvest.
+    audioClip: {fileID: 8300000, guid: d2919a77e1999c948b4ca2dc45393c9f, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: 6113408768302795413, guid: 01636994a6b02634aa58f424d56f279f, type: 3}
     text: It's a miracle that I found a huge supply of water in the cistern. I think
       it's time to take a chance.
+    audioClip: {fileID: 8300000, guid: 11435188b3f08ed4bbeb45a53d55f100, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   - image: {fileID: 5889840621171850545, guid: b430193bf6fff894da4665188cf6ef73, type: 3}
     text: I've always dreamed of becoming a train driver, but my destiny was tied
       to the farm. Maybe now I can combine the two?
+    audioClip: {fileID: 8300000, guid: eb0066121fe1c8d41ae8f5fefe2243ed, type: 3}
     typingSpeed: 0.05
     sentences: []
     fadeDuration: 1
     hideUI: 0
+    skipAudio: 0
+    syncAudioWithText: 1
   displayImage: {fileID: 1363075004}
   textPanel: {fileID: 1183442122}
   displayText: {fileID: 468337392}
   cutsceneCanvas: {fileID: 1159362624}
   skipButton: {fileID: 1186949746}
-  radioMusic: {fileID: 725275453}
+  radioMusic: {fileID: 1026290550}
+  radioMusicOff: {fileID: 1780143663}
+  audioSource: {fileID: 725275454}
+  closeSource: {fileID: 0}
 --- !u!4 &725275452
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +399,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &725275453
+--- !u!82 &725275454
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -379,8 +409,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6700752136286025312, guid: 537c28bef2450ac45a57425c0cb3b8be, type: 2}
-  m_audioClip: {fileID: 8300000, guid: e05eaef0da5b1974dbb6941bc854f99a, type: 3}
-  m_Resource: {fileID: 8300000, guid: e05eaef0da5b1974dbb6941bc854f99a, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -602,6 +632,135 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975973956}
   m_CullTransparentMesh: 1
+--- !u!1 &1026290549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026290551}
+  - component: {fileID: 1026290550}
+  m_Layer: 0
+  m_Name: BackgroundMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1026290550
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026290549}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 6700752136286025312, guid: 537c28bef2450ac45a57425c0cb3b8be, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 162f66bf560876d4681e3ba4cbfa5eea, type: 3}
+  m_Resource: {fileID: 8300000, guid: 162f66bf560876d4681e3ba4cbfa5eea, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1026290551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026290549}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1550.5557, y: 493.93414, z: -2.790141}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1061989607
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,6 +1075,8 @@ GameObject:
   - component: {fileID: 1186949748}
   - component: {fileID: 1186949747}
   - component: {fileID: 1186949746}
+  - component: {fileID: 1186949750}
+  - component: {fileID: 1186949749}
   m_Layer: 5
   m_Name: SkipButton
   m_TagString: Untagged
@@ -986,7 +1147,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1186949747}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1186949749}
+        m_TargetAssemblyTypeName: updated_sound, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1186949747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1025,6 +1198,116 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186949744}
   m_CullTransparentMesh: 1
+--- !u!114 &1186949749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186949744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a9130b5e8730d4c952eed9bf76ce0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 24724181f677f5d4385e6af11f465e0f, type: 3}
+--- !u!82 &1186949750
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186949744}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -4889621115702273350, guid: 537c28bef2450ac45a57425c0cb3b8be, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1363075002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,10 +1340,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1159362628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.01001, y: -0.0025024}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1363075004
 MonoBehaviour:
@@ -1367,10 +1650,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1159362628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.010009766, y: -0.0025634766}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1707872251
 MonoBehaviour:
@@ -1410,6 +1693,135 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707872249}
   m_CullTransparentMesh: 1
+--- !u!1 &1780143661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780143662}
+  - component: {fileID: 1780143663}
+  m_Layer: 0
+  m_Name: OffRadioMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780143662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780143661}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1175.6298, y: 567.1725, z: 6.7168894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1780143663
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780143661}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -4889621115702273350, guid: 537c28bef2450ac45a57425c0cb3b8be, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 6ec17a47b1c434140b136e34587d0543, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6ec17a47b1c434140b136e34587d0543, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1895948571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,4 +2097,6 @@ SceneRoots:
   - {fileID: 1159362628}
   - {fileID: 1061989610}
   - {fileID: 1895948582}
+  - {fileID: 1780143662}
+  - {fileID: 1026290551}
   - {fileID: 725275452}
