@@ -66,4 +66,19 @@ public class ScreenFaderManager : MonoBehaviour
         // Гарантируем, что в конце альфа будет точно равна целевому значению
         faderCanvasGroup.alpha = targetAlpha;
     }
+
+    public IEnumerator FadeToAlpha(float targetAlpha)
+    {
+        float time = 0;
+        float startAlpha = faderCanvasGroup.alpha;
+
+        while (time < fadeDuration)
+        {
+            faderCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        faderCanvasGroup.alpha = targetAlpha;
+    }
+
 }

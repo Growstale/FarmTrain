@@ -186,27 +186,36 @@ public class LocomotiveController : MonoBehaviour
     {
         if (currentState == TrainState.DockedAtStation)
         {
-            var currentClip = RadioManager.Instance.audioSource.clip;
-            var currentTime = RadioManager.Instance.audioSource.time;
-            var wasPlaying = RadioManager.IsPlaying;
-
-
-            SaveLoadManager.Instance.SaveGame();
-            RadioManager.Instance.radioPanel?.SetActive(false);
-
-            if (TrainingVideoManager.Instance != null)
+            if (ExperienceManager.Instance.CurrentLevel >= 4)
             {
-                TrainingVideoManager.Instance.Close();
+                // Вместо прямой загрузки сцены, запускаем корутину с плавным переходом
+                StartCoroutine(TransitionToCreditsSequence());
             }
+            else
+            {
 
-            UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
+                var currentClip = RadioManager.Instance.audioSource.clip;
+                var currentTime = RadioManager.Instance.audioSource.time;
+                var wasPlaying = RadioManager.IsPlaying;
 
-            // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
-            // Мы сообщаем менеджеру, что переходим в фазу Станции.
-            // Это обнулит XP и активирует квесты для станции.
-            ExperienceManager.Instance.EnterStation();
-            SceneManager.LoadScene("Station_1");
-            StartCoroutine(LoadStationAndRestoreRadio(currentClip, currentTime, wasPlaying));
+
+                SaveLoadManager.Instance.SaveGame();
+                RadioManager.Instance.radioPanel?.SetActive(false);
+
+                if (TrainingVideoManager.Instance != null)
+                {
+                    TrainingVideoManager.Instance.Close();
+                }
+
+                UIManager.Instance.ShowGoToStationButton(false); // Скрываем кнопку перед переходом
+
+                // <<< ВОТ КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ >>>
+                // Мы сообщаем менеджеру, что переходим в фазу Станции.
+                // Это обнулит XP и активирует квесты для станции.
+                ExperienceManager.Instance.EnterStation();
+                SceneManager.LoadScene("Station_1");
+                StartCoroutine(LoadStationAndRestoreRadio(currentClip, currentTime, wasPlaying));
+            }
         }
     }
 
@@ -334,6 +343,16 @@ public class LocomotiveController : MonoBehaviour
 
         bool isTrainMoving = (currentState == TrainState.Moving);
         trainAnimator.SetBool("isMoving", isTrainMoving);
+    }
+
+    private IEnumerator TransitionToCreditsSequence()
+    {
+        Debug.Log("Последняя итерация завершена. Запускаем переход к финальным титрам...");
+
+        yield return StartCoroutine(ScreenFaderManager.Instance.FadeOutAndInCoroutine(() =>
+        {
+            SceneManager.LoadScene("EndCreditsScene");
+        }));
     }
 
 }
