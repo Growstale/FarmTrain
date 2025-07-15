@@ -176,10 +176,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The record for the highest air temperature in Little Hills was set once
-    again today.\r\nMost are certain \u2013 it won\u2019t be the last time this summer.\r\nOver
-    the past decades, temperatures have been steadily rising, which is already leading
-    to disaster.\r\n"
+  m_text: Farmers are facing huge losses, and water is becoming increasingly expensive
+    and will soon be worth its weight in gold.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 67074e9588fe5114cbffb3fccdd14165, type: 2}
@@ -268,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725275452}
   - component: {fileID: 725275451}
+  - component: {fileID: 725275453}
   m_Layer: 0
   m_Name: CutsceneManager
   m_TagString: Untagged
@@ -289,35 +288,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frames:
   - image: {fileID: -5020514758781672274, guid: e0d39bd9ea519954ea5a976e00ed89ea, type: 3}
-    text: "The record for the highest air temperature in Little Hills was set once
-      again today. Most are certain \u2013 it won\u2019t be the last time this summer.
-      Over the past decades, temperatures have been steadily rising, which is already
-      leading to disaster. "
+    text: "*Voice from the radio* The record for the highest air temperature in Little
+      Hills was set once again today. Most are certain \u2013 it won\u2019t be the
+      last time this summer. Over the past decades, temperatures have been steadily
+      rising, which is already leading to disaster."
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: -8157403806559461926, guid: ffcf587ac3419524e8696e34697b33b6, type: 3}
     text: Fields were once green and fertile have now turned into barren wastelands.
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: 7393637447140822919, guid: 0cae4ed2f30ad6b4198934f74729bb71, type: 3}
     text: ...
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 1
   - image: {fileID: -1635119059196159038, guid: c2780d54c54e6124c854b23694e2c82f, type: 3}
     text: Farmers are facing huge losses, and water is becoming increasingly expensive
       and will soon be worth its weight in gold.
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: -4805474362232562877, guid: 6c34ab676ea7c4843896e654046b2096, type: 3}
-    text: 'In response to such news, many families are fleeing north by rail. Some
-      even believe they will be able to find a place where it rains frequently. '
+    text: In response to such news, many families are fleeing north by rail. Some
+      even believe they will be able to find a place where it rains frequently.
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: 3081803767075380834, guid: 8d81b66c15d107c4494e71cdb8078700, type: 3}
-    text: Lately, I've been feeling pretty hopeless.
+    text: '*Radio off sound* Lately, I''ve been feeling pretty hopeless.'
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: -1740465371806981922, guid: 0bb68d0c498886c44bb530a3a3520546, type: 3}
     text: This summer was the last time my farm produced any kind of harvest.
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: 6113408768302795413, guid: 01636994a6b02634aa58f424d56f279f, type: 3}
-    text: 'It''s a miracle that I found a huge supply of water in the cistern. I
-      think it''s time to take a chance. '
+    text: It's a miracle that I found a huge supply of water in the cistern. I think
+      it's time to take a chance.
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   - image: {fileID: 5889840621171850545, guid: b430193bf6fff894da4665188cf6ef73, type: 3}
-    text: 'I''ve always dreamed of becoming a train driver, but my destiny was tied
-      to the farm. Maybe now I can combine the two? '
+    text: I've always dreamed of becoming a train driver, but my destiny was tied
+      to the farm. Maybe now I can combine the two?
+    typingSpeed: 0.05
+    sentences: []
+    fadeDuration: 1
+    hideUI: 0
   displayImage: {fileID: 1363075004}
+  textPanel: {fileID: 1183442122}
   displayText: {fileID: 468337392}
   cutsceneCanvas: {fileID: 1159362624}
   skipButton: {fileID: 1186949746}
-  delayBeforeLoad: 2
+  radioMusic: {fileID: 725275453}
 --- !u!4 &725275452
 Transform:
   m_ObjectHideFlags: 0
@@ -333,6 +369,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &725275453
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725275450}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e05eaef0da5b1974dbb6941bc854f99a, type: 3}
+  m_Resource: {fileID: 8300000, guid: e05eaef0da5b1974dbb6941bc854f99a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &975973956
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +478,7 @@ GameObject:
   - component: {fileID: 975973959}
   - component: {fileID: 975973958}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SkipText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,11 +498,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1186949745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 80, y: -25}
+  m_SizeDelta: {x: 160, y: 50}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &975973958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,14 +526,14 @@ MonoBehaviour:
   m_text: Skip
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
-  m_sharedMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 67074e9588fe5114cbffb3fccdd14165, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -417,8 +550,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -642,6 +775,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1707872250}
   - {fileID: 1363075003}
   - {fileID: 1183442123}
   - {fileID: 1186949745}
@@ -689,8 +823,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 116}
-  m_SizeDelta: {x: 1455.1082, y: 0}
+  m_AnchoredPosition: {x: 4.9224, y: 116}
+  m_SizeDelta: {x: 1195.8582, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1183442124
 MonoBehaviour:
@@ -719,10 +853,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 50
-    m_Right: 50
-    m_Top: 50
-    m_Bottom: 50
+    m_Left: 30
+    m_Right: 30
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -804,11 +938,11 @@ RectTransform:
   - {fileID: 975973957}
   m_Father: {fileID: 1159362628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 834, y: 461}
-  m_SizeDelta: {x: 160, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -50, y: 50}
+  m_SizeDelta: {x: 140, y: 60}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1186949746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,7 +1000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.050980393, g: 0.043137256, b: 0.043137256, a: 0.9607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1201,6 +1335,81 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1707872249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1707872250}
+  - component: {fileID: 1707872252}
+  - component: {fileID: 1707872251}
+  m_Layer: 5
+  m_Name: SimpleImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1707872250
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707872249}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1159362628}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.010009766, y: -0.0025634766}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1707872251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707872249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1707872252
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707872249}
+  m_CullTransparentMesh: 1
 --- !u!1 &1895948571
 GameObject:
   m_ObjectHideFlags: 0
