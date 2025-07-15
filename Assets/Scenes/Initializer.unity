@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f33961d98ee8b44897c6f7957dc188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 50
+  startingMoney: 500
   maxMoney: 9999
   AchievemnetisReward: 0
 --- !u!114 &1895948580
