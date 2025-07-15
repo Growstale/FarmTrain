@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10_Daily_Chores
   title: Daily Chores
-  description: Feed your chickens and collect [10] eggs.
+  description: Feed your chickens and collect 8 eggs.
   shortDescription: Gather More Eggs
   gameLevel: 2
   phase: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   goals:
   - goalType: 0
     targetID: Egg
-    requiredAmount: 10
+    requiredAmount: 8
     targetIDs: []
     currentAmount: 0
   rewardXP: 15

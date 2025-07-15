@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 14_Animal_Lover's_Haul
   title: Animal Lover's Haul
-  description: Feed your  sheeps  [10] times.
+  description: Feed your  sheeps 5 times.
   shortDescription: Feed Sheeps
   gameLevel: 3
   phase: 0
