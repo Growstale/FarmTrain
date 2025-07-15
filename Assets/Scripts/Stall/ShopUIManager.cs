@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System;
 using System.Linq;
+using UnityEngine.Audio;
 
 [System.Serializable]
 public struct TabButtonSprites
@@ -15,6 +16,8 @@ public struct TabButtonSprites
 
 public class ShopUIManager : MonoBehaviour, IUIManageable
 {
+    public AudioSource audioSource;        // Источник звука
+    public AudioClip closeSound;           // Звук закрытия
     public static ShopUIManager Instance { get; private set; }
 
     private TooltipTrigger plusButtonTooltip;
@@ -124,6 +127,10 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
 
     public void CloseShop()
     {
+        if (audioSource != null && closeSound != null)
+        {
+            audioSource.PlayOneShot(closeSound);
+        }
         if (!shopPanel.activeSelf) return;
 
         Debug.Log("Закрытие панели магазина.");
