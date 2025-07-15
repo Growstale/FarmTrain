@@ -22,7 +22,40 @@ public class GridGenerator : MonoBehaviour
         GenerateGrid();
         // LogGridObjects();
     }
+    private void Start()
+    {
+        InventoryManager.Instance.OnSelectedSlotChanged += HandleSelectedSlotChange;
+    }
 
+     void HandleSelectedSlotChange(int amount)
+    {
+        InventoryItem item = InventoryManager.Instance.GetItemInSlot(amount);
+        if (item != null) {
+
+            if (item.itemData.itemType == ItemType.Seed)
+            {
+
+                if (item.itemData.associatedPlantData.Weight == 1)
+                {
+                    CheckFreeSlotForSeed(1);
+
+                }
+                else if (item.itemData.associatedPlantData.Weight == 2) { 
+                    CheckFreeSlotForSeed(2);
+                }
+                else if (item.itemData.associatedPlantData.Weight == 4)
+                {
+                    CheckFreeSlotForSeed(4);
+                }
+
+            }
+            else
+            {
+                UnCheckFreeSlotSeed();
+            }
+        }
+        else {  UnCheckFreeSlotSeed();}
+    }
     void GenerateGrid()
     {
         // Проверяем, что префаб задан
@@ -451,20 +484,102 @@ public class GridGenerator : MonoBehaviour
         switch (num)
         {
             case 1:
-                    foreach(var slot in gridObjects.Values)
+                // Проверка одиночных свободных слотов
+                foreach (var slot in gridObjects.Values)
                 {
                     SlotScripts slotScripts = slot.GetComponent<SlotScripts>();
-                    if(slotScripts != null)
+                    if (slotScripts != null)
                     {
-                        if (slotScripts.ishavebed && !slotScripts.isPlanted)
+                        // Слот должен иметь грядку, не быть засаженным и быть взрыхленным
+                        if (slotScripts.ishavebed && !slotScripts.isPlanted && slotScripts.isRaked)
                         {
                             slotScripts.ChangeColor();
                         }
                     }
                 }
-                    break;
+                break;
 
+            case 2:
+                // Проверка пар вертикальных слотов (для растений 1x2)
+                // Итерируем только по нижнему ряду, чтобы проверить каждую пару один раз
+                for (int x = 0; x < gridSize.x; x++)
+                {
+                    Vector2Int bottomPos = new Vector2Int(x, 0);
+                    Vector2Int topPos = new Vector2Int(x, 1);
 
+                    // Пытаемся получить оба объекта из словаря
+                    if (gridObjects.TryGetValue(bottomPos, out GameObject bottomObj) &&
+                        gridObjects.TryGetValue(topPos, out GameObject topObj))
+                    {
+                        SlotScripts bottomSlot = bottomObj.GetComponent<SlotScripts>();
+                        SlotScripts topSlot = topObj.GetComponent<SlotScripts>();
+
+                        // Проверяем, что оба слота существуют, имеют грядки, взрыхлены и не засажены
+                        if (bottomSlot != null && topSlot != null &&
+                            bottomSlot.ishavebed && !bottomSlot.isPlanted && bottomSlot.isRaked &&
+                            topSlot.ishavebed && !topSlot.isPlanted && topSlot.isRaked)
+                        {
+                            // Если пара свободна, подсвечиваем оба слота
+                            bottomSlot.ChangeColor();
+                            topSlot.ChangeColor();
+                        }
+                    }
+                }
+                break;
+
+            case 4:
+                // Проверка квадратов 2x2
+                // Итерируем по всем возможным левым нижним углам квадрата
+                // x идет до предпоследнего столбца, y - до предпоследней строки
+                for (int x = 0; x < gridSize.x - 1; x++)
+                {
+                    for (int y = 0; y < gridSize.y - 1; y++)
+                    {
+                        // Координаты четырех ячеек квадрата
+                        Vector2Int[] squareCells = new Vector2Int[]
+                        {
+                            new Vector2Int(x, y),       // левая нижняя
+                            new Vector2Int(x + 1, y),     // правая нижняя
+                            new Vector2Int(x, y + 1),       // левая верхняя
+                            new Vector2Int(x + 1, y + 1)  // правая верхняя
+                        };
+
+                        bool allFree = true;
+                        List<SlotScripts> validSlots = new List<SlotScripts>();
+
+                        // Проверяем каждую ячейку в квадрате
+                        foreach (var cellPos in squareCells)
+                        {
+                            if (gridObjects.TryGetValue(cellPos, out GameObject cellObj))
+                            {
+                                SlotScripts slot = cellObj.GetComponent<SlotScripts>();
+                                // Если хотя бы один слот не соответствует условиям, квадрат не подходит
+                                if (slot == null || !slot.ishavebed || slot.isPlanted || !slot.isRaked)
+                                {
+                                    allFree = false;
+                                    break;
+                                }
+                                validSlots.Add(slot);
+                            }
+                            else
+                            {
+                                // Если ячейка не найдена, квадрат неполный
+                                allFree = false;
+                                break;
+                            }
+                        }
+
+                        // Если все 4 ячейки в квадрате свободны, подсвечиваем их
+                        if (allFree)
+                        {
+                            foreach (var slot in validSlots)
+                            {
+                                slot.ChangeColor();
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 
