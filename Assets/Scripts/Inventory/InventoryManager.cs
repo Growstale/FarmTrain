@@ -205,6 +205,7 @@ public class InventoryManager : MonoBehaviour, IUIManageable
                 SFXManager.Instance.PlaySFX(slotClickSound);
             }
         }
+
     }
 
     public bool AddItem(ItemData itemToAdd, int quantity = 1)

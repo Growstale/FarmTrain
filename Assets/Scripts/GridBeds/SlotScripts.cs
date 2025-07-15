@@ -13,6 +13,8 @@ public class SlotScripts : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Transform slot;
 
+    [SerializeField] Color _freecolor = new Color(0, 200f, 0, 0.1f);
+
     private InventoryManager inventoryManager; // Ссылка на менеджер инвентаря
 
     [SerializeField] ItemSpawner _itemSpawner;
@@ -21,7 +23,6 @@ public class SlotScripts : MonoBehaviour
 
     [SerializeField] ItemData _dataBed;
     public Vector2Int gridPosition;
-
 
 
     void Start()
@@ -149,6 +150,16 @@ public class SlotScripts : MonoBehaviour
                                             Debug.Log("Ошибка заполнения, отсутствует скрипт BedSlotController у родительского Slot");
                                         }
                                         break;
+                                }
+                                InventoryItem _selecteditem = inventoryManager.GetSelectedItem();
+                                if(_selecteditem == null)
+                                {
+                                    GameObject parent = transform.parent.gameObject;
+                                    if (parent != null)
+                                    {
+                                        GridGenerator gridGenerator1 = parent.GetComponent<GridGenerator>();
+                                        if (gridGenerator1 != null) gridGenerator.UnCheckFreeSlotSeed();
+                                    }
                                 }
                             }
                             else
@@ -328,12 +339,12 @@ public class SlotScripts : MonoBehaviour
 
     public void ChangeColor()
     {
-        slot.GetComponent<SpriteRenderer>().color = new Color(0, 255f, 0, 0.1f);
+        spriteRenderer.color = _freecolor;
     }
 
     public void UnChangeColor()
     {
-        slot.GetComponent<SpriteRenderer>().color = currentColor;
+        spriteRenderer.color = currentColor;
     }
   
 }
