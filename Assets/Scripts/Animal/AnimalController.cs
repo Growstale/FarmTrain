@@ -23,6 +23,8 @@ public class AnimalController : MonoBehaviour
     [SerializeField] private float maxWalkTime = 6.0f;
     [SerializeField] private Vector3 thoughtBubbleOffset = new Vector3(1.4f, 0.9f, 0);
 
+    private Animator animalAnimator;
+
     private enum AnimalState { Idle, Walking, NeedsAttention }
     private AnimalState currentState = AnimalState.Idle;
     private AudioSource audioSource;
@@ -64,6 +66,12 @@ public class AnimalController : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        animalAnimator = GetComponent<Animator>();
+        if (animalAnimator == null)
+        {
+            Debug.LogWarning($"На животном {gameObject.name} отсутствует компонент Animator.", gameObject);
+        }
+
     }
 
     void Start()
@@ -221,6 +229,7 @@ public class AnimalController : MonoBehaviour
                 PickNewWanderTarget();
                 SetNewStateTimer(AnimalState.Walking);
                 isMoving = true;
+                animalAnimator?.SetBool("isWalking", true);
                 Debug.Log($"{gameObject.name}: Перешел в состояние Walking. Новая цель: {currentTargetPosition}, время: {stateChangeTimer} сек.");
             }
             else
@@ -228,6 +237,7 @@ public class AnimalController : MonoBehaviour
                 currentState = AnimalState.Idle;
                 SetNewStateTimer(AnimalState.Idle);
                 isMoving = false;
+                animalAnimator?.SetBool("isWalking", false);
                 Debug.Log($"{gameObject.name}: Перешел в состояние Idle. Время: {stateChangeTimer} сек.");
             }
         }
@@ -316,6 +326,7 @@ public class AnimalController : MonoBehaviour
                 currentState = AnimalState.NeedsAttention;
                 currentNeedIcon = nextNeedIcon;
                 isMoving = false;
+                animalAnimator?.SetBool("isWalking", false);
                 ShowThoughtBubble(currentNeedIcon);
             }
         }
@@ -385,6 +396,7 @@ public class AnimalController : MonoBehaviour
         if (Vector2.Distance(currentPosition, currentTargetPosition) < 0.1f)
         {
             isMoving = false;
+            animalAnimator?.SetBool("isWalking", false);
         }
     }
 
@@ -527,7 +539,8 @@ public class AnimalController : MonoBehaviour
                 inventoryManager.RemoveItem(selectedIndex, 1);
 
                 needsFeeding = false;
-                TransitionToNextProductionState(); // Используем новый метод
+                animalAnimator?.SetTrigger("doEat");
+                TransitionToNextProductionState(); 
 
                 interactionSuccessful = true;
                 if (QuestManager.Instance != null)
