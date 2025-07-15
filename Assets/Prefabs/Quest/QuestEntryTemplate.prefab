@@ -102,11 +102,11 @@ MonoBehaviour:
   pinHighlightedSprite: {fileID: -3327388958486553432, guid: 508dba3be387ab6468e0d79b9e0ca40d, type: 3}
   buttonSprite: {fileID: -1542645473591127563, guid: 31296e60c1c107644a294e0949040d3e, type: 3}
   buttonSelectedSprite: {fileID: -6746489980966158873, guid: 7a199e39630f6f343856a2c8a727e0b4, type: 3}
+  buttonOnSprite: {fileID: 601305081930124820, guid: f0d5c9dad4779ea41bae96d929d58767, type: 3}
   normalMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
   highlightedMaterial: {fileID: 2100000, guid: 8c9295fa612cb6d48a635090905e38c1, type: 2}
   selectedMaterial: {fileID: 2100000, guid: a81100d9513013942b2bdfaf2cd1f8ab, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 112d19f1a0b4ff143a9e06904d80330a, type: 2}
-  assignedQuest: {fileID: 0}
 --- !u!114 &2458272151183906769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
