@@ -14,8 +14,6 @@ public class PauseMenu : MonoBehaviour, IUIManageable
     [SerializeField] private Button exitButton;         // Кнопка "Выход"
     [SerializeField] private Button closeButton;        // Кнопка "X" для закрытия
 
-    [Header("Кнопки меню настроек")]
-    [SerializeField] private Button backButton;         // Кнопка "Назад" из настроек
 
     private void Start()
     {
@@ -34,7 +32,6 @@ public class PauseMenu : MonoBehaviour, IUIManageable
         closeButton.onClick.AddListener(CloseMenu);
         settingsButton.onClick.AddListener(ShowSettings);
         exitButton.onClick.AddListener(ExitGame);
-        backButton.onClick.AddListener(HideSettings);
     }
 
     private void OnDestroy()
