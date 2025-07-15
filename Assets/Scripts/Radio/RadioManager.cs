@@ -156,12 +156,13 @@ public class RadioManager : MonoBehaviour, IUIManageable
     public void OpenRadioPanel()
     {
         ExclusiveUIManager.Instance.NotifyPanelOpening(this);
-
+        GameStateManager.Instance.RequestPause(this);
         radioPanel.SetActive(true);
     }
 
     public void CloseRadioPanel()
     {
+        GameStateManager.Instance.RequestResume(this);
         radioPanel.SetActive(false);
     }
 

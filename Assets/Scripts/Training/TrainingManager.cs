@@ -89,7 +89,7 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
     public void Open()
     {
         ExclusiveUIManager.Instance.NotifyPanelOpening(this);
-
+        GameStateManager.Instance.RequestPause(this);
         if (trainingPanel != null)
             trainingPanel.SetActive(true);
 
@@ -107,6 +107,7 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
 
     public void Close()
     {
+        GameStateManager.Instance.RequestResume(this);
         videoPlayer.Stop();
         if (titleText != null)
         {

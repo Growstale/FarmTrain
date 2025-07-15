@@ -348,13 +348,10 @@ public class AnimalController : MonoBehaviour
     {
         if (spriteRenderer == null || animalData == null) return;
 
-        if (hasProductReady && animalData.productReadySprite != null)
+        if (animalAnimator != null && animalData.speciesName == "Sheep")
         {
-            spriteRenderer.sprite = animalData.productReadySprite;
-        }
-        else if (animalData.defaultSprite != null)
-        {
-            spriteRenderer.sprite = animalData.defaultSprite;
+            animalAnimator.SetBool("doCut", hasProductReady);
+            Debug.Log($"[Animator] Овца: isReady = {hasProductReady}");
         }
         else
         {
@@ -458,65 +455,70 @@ public class AnimalController : MonoBehaviour
         return currentState.ToString();
     }
 
-    // --- НОВЫЙ МЕТОД: "Умный" переход к следующему состоянию ---
     private void TransitionToNextProductionState()
     {
-        // Определяем, какое состояние должно быть следующим в идеале
-        AnimalProductionState nextState;
-        switch (productionState)
-        {
-            case AnimalProductionState.WaitingForFeed:
-                nextState = AnimalProductionState.ReadyForProduct;
-                break;
-            case AnimalProductionState.ReadyForProduct:
-                nextState = AnimalProductionState.ReadyForFertilizer;
-                break;
-            case AnimalProductionState.ReadyForFertilizer:
-            default:
-                nextState = AnimalProductionState.WaitingForFeed; // Начинаем цикл заново
-                break;
-        }
+        // Сбрасываем все флаги перед тем, как определить новое состояние
+        needsFeeding = false;
+        hasProductReady = false;
+        hasFertilizerReady = false;
 
-        // Проверяем, не нужно ли пропустить следующий этап
-        // Мы делаем это в цикле, чтобы можно было пропустить несколько этапов подряд
-        int safetyCounter = 0; // На случай если все количества = 0, чтобы избежать бесконечного цикла
-        while (safetyCounter < 4)
+        Debug.Log($"[Transition] Начинаем переход из состояния {productionState} для {animalData.speciesName}.");
+
+        // Последовательно проверяем, куда двигаться дальше
+        if (productionState == AnimalProductionState.WaitingForFeed)
         {
-            if (nextState == AnimalProductionState.ReadyForProduct && animalData.productAmount <= 0)
+            // После кормления пытаемся перейти к производству продукта
+            if (animalData.productAmount > 0)
             {
-                Debug.Log($"Пропускаем этап продукта для {animalData.speciesName} (количество = 0).");
-                nextState = AnimalProductionState.ReadyForFertilizer; // Пробуем перейти к удобрению
+                productionState = AnimalProductionState.ReadyForProduct;
+                cycleTimer = animalData.productionInterval;
+                Debug.Log($"[Transition] -> Состояние: ReadyForProduct. Таймер: {cycleTimer} сек.");
             }
-            else if (nextState == AnimalProductionState.ReadyForFertilizer && animalData.fertilizerAmount <= 0)
+            // Если продукт не производится, пытаемся перейти к удобрению
+            else if (animalData.fertilizerAmount > 0)
             {
-                Debug.Log($"Пропускаем этап удобрения для {animalData.speciesName} (количество = 0).");
-                nextState = AnimalProductionState.WaitingForFeed; // Пробуем вернуться к началу цикла
+                productionState = AnimalProductionState.ReadyForFertilizer;
+                cycleTimer = animalData.fertilizerInterval;
+                Debug.Log($"[Transition] (Продукт пропущен) -> Состояние: ReadyForFertilizer. Таймер: {cycleTimer} сек.");
             }
+            // Если ничего не производится, возвращаемся к кормежке
             else
             {
-                break; // Найден подходящий этап, выходим из цикла
+                productionState = AnimalProductionState.WaitingForFeed;
+                cycleTimer = animalData.feedInterval;
+                Debug.LogWarning($"[Transition] (Продукт и удобрение пропущены) -> Состояние: WaitingForFeed. Таймер: {cycleTimer} сек.");
             }
-            safetyCounter++;
+        }
+        else if (productionState == AnimalProductionState.ReadyForProduct)
+        {
+            // После сбора продукта пытаемся перейти к производству удобрения
+            if (animalData.fertilizerAmount > 0)
+            {
+                productionState = AnimalProductionState.ReadyForFertilizer;
+                cycleTimer = animalData.fertilizerInterval;
+                Debug.Log($"[Transition] -> Состояние: ReadyForFertilizer. Таймер: {cycleTimer} сек.");
+            }
+            // Если удобрение не производится, возвращаемся к кормежке
+            else
+            {
+                productionState = AnimalProductionState.WaitingForFeed;
+                cycleTimer = animalData.feedInterval;
+                Debug.Log($"[Transition] (Удобрение пропущено) -> Состояние: WaitingForFeed. Таймер: {cycleTimer} сек.");
+            }
+        }
+        else // ReadyForFertilizer
+        {
+            // После сбора удобрения всегда возвращаемся к кормежке
+            productionState = AnimalProductionState.WaitingForFeed;
+            cycleTimer = animalData.feedInterval;
+            Debug.Log($"[Transition] -> Состояние: WaitingForFeed. Таймер: {cycleTimer} сек.");
         }
 
-        // Устанавливаем новое состояние и соответствующий таймер
-        productionState = nextState;
-        switch (productionState)
-        {
-            case AnimalProductionState.WaitingForFeed:
-                cycleTimer = animalData.feedInterval;
-                break;
-            case AnimalProductionState.ReadyForProduct:
-                cycleTimer = animalData.productionInterval;
-                break;
-            case AnimalProductionState.ReadyForFertilizer:
-                cycleTimer = animalData.fertilizerInterval;
-                break;
-        }
-        Debug.Log($"Переход в состояние {productionState}. Таймер установлен на {cycleTimer} секунд.");
+        // После всех переходов скрываем облачко и проверяем новые потребности (если таймер уже истек)
+        HideThoughtBubble();
+        CheckNeeds();
     }
 
-    // --- ИЗМЕНЕНИЕ: AttemptInteraction теперь использует новый метод перехода ---
     public void AttemptInteraction()
     {
         if (inventoryManager == null)
@@ -526,38 +528,31 @@ public class AnimalController : MonoBehaviour
         }
 
         bool interactionSuccessful = false;
-        ItemData itemInvolved = null;
 
+        // 1. Попытка покормить
         if (needsFeeding)
         {
-            itemInvolved = animalData.requiredFood;
             InventoryItem selectedItem = inventoryManager.GetSelectedItem();
-            int selectedIndex = inventoryManager.SelectedSlotIndex;
-
             if (selectedItem != null && !selectedItem.IsEmpty && selectedItem.itemData == animalData.requiredFood)
             {
-                inventoryManager.RemoveItem(selectedIndex, 1);
-
-                needsFeeding = false;
-                animalAnimator?.SetTrigger("doEat");
-                TransitionToNextProductionState(); 
-
-                interactionSuccessful = true;
+                inventoryManager.RemoveItem(inventoryManager.SelectedSlotIndex, 1);
                 if (QuestManager.Instance != null)
                 {
                     QuestManager.Instance.AddQuestProgress(GoalType.FeedAnimal, animalData.speciesName, 1);
                 }
-            }
-            else
-            {
-                string reason = (selectedItem == null || selectedItem.IsEmpty) ? "В выбранном слоте (хотбар) нет предмета" : $"Выбран неверный предмет ({selectedItem.itemData.itemName}), нужен {animalData.requiredFood.itemName}";
-                Debug.Log($"Не удалось покормить {animalData.speciesName}: {reason}.");
-                interactionSuccessful = false;
+                Debug.Log($"<color=green>УСПЕХ:</color> {animalData.speciesName} покормлен.");
+                interactionSuccessful = true;
+
+                if (animalAnimator != null)
+                {
+                    animalAnimator.SetTrigger("doEat");
+                    Debug.Log($"Запущена анимация кормления для {animalData.speciesName}");
+                }
             }
         }
+        // 2. Попытка собрать продукт (яйца, молоко)
         else if (hasProductReady)
         {
-            itemInvolved = animalData.productProduced;
             bool toolCheckPassed = true;
             if (animalData.requiredToolForHarvest != null)
             {
@@ -565,6 +560,7 @@ public class AnimalController : MonoBehaviour
                 if (selectedItem == null || selectedItem.IsEmpty || selectedItem.itemData != animalData.requiredToolForHarvest)
                 {
                     toolCheckPassed = false;
+                    Debug.Log($"Не удалось собрать продукт: нужен инструмент '{animalData.requiredToolForHarvest.itemName}'");
                 }
             }
 
@@ -572,12 +568,8 @@ public class AnimalController : MonoBehaviour
             {
                 if (inventoryManager.AddItem(animalData.productProduced, animalData.productAmount))
                 {
-                    CheckForAchievement();
-
-                    hasProductReady = false;
-                    UpdateAppearance();
-                    TransitionToNextProductionState(); // Используем новый метод
-
+                    CheckForAchievement(); // Для ачивки
+                    Debug.Log($"<color=green>УСПЕХ:</color> Продукт '{animalData.productProduced.itemName}' собран.");
                     interactionSuccessful = true;
                 }
                 else
@@ -585,15 +577,16 @@ public class AnimalController : MonoBehaviour
                     Debug.Log("Не удалось собрать продукт - инвентарь полон!");
                 }
             }
+
+            animalAnimator.SetBool("doCut", false);
+
         }
+        // 3. Попытка собрать удобрение
         else if (hasFertilizerReady)
         {
-            itemInvolved = animalData.fertilizerProduced;
             if (inventoryManager.AddItem(animalData.fertilizerProduced, animalData.fertilizerAmount))
             {
-                hasFertilizerReady = false;
-                TransitionToNextProductionState(); // Используем новый метод
-
+                Debug.Log($"<color=green>УСПЕХ:</color> Удобрение '{animalData.fertilizerProduced.itemName}' собрано.");
                 interactionSuccessful = true;
             }
             else
@@ -602,21 +595,18 @@ public class AnimalController : MonoBehaviour
             }
         }
 
+        // Если любое из взаимодействий было успешным
         if (interactionSuccessful)
         {
-            Debug.Log($"Взаимодействие с {animalData.speciesName} (предмет: {itemInvolved?.itemName}) было УСПЕШНЫМ.");
-            HideThoughtBubble();
-            CheckNeeds();
+            // Главное исправление: вызываем новый, надежный метод перехода состояния
+            TransitionToNextProductionState();
 
-            StopAllCoroutines();
-            StartCoroutine(StateMachineCoroutine());
-            StartCoroutine(RandomSoundCoroutine());
-
-            Debug.Log($"{animalData.speciesName} обработал успешное взаимодействие и перезапустил StateMachine.");
-        }
-        else
-        {
-            Debug.Log($"Взаимодействие с {animalData.speciesName} (предмет: {itemInvolved?.itemName ?? "NULL"}) было НЕУСПЕШНЫМ. Текущее состояние: {currentState}. Флаги: Feed={needsFeeding}, Prod={hasProductReady}, Fert={hasFertilizerReady}");
+            // Перезапускаем блуждание животного, чтобы оно не стояло на месте
+            currentState = AnimalState.Idle;
+            SetNewStateTimer(currentState); // Устанавливаем таймер для нового состояния (Idle)
+            StopAllCoroutines(); // Останавливаем все предыдущие корутины
+            StartCoroutine(StateMachineCoroutine()); // Запускаем машину состояний движения
+            StartCoroutine(RandomSoundCoroutine()); // Запускаем проигрывание звуков
         }
     }
 
