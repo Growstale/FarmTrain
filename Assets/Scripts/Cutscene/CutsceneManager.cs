@@ -15,7 +15,7 @@ public class CutsceneManager : MonoBehaviour
         public string text;
         [HideInInspector] public float typingSpeed = 0.05f;
         [HideInInspector] public string[] sentences;
-        [HideInInspector] public float fadeDuration = 2f;
+        [HideInInspector]  public float fadeDuration = 2f;
         public bool hideUI = false;
     }
 

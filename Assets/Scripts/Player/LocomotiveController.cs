@@ -14,7 +14,7 @@ public class LocomotiveController : MonoBehaviour
     [SerializeField] private float fadeDuration = 3.0f; // длительность затухания в секундах
     private Coroutine fadeOutCoroutine;
     [SerializeField] private AudioClip hornSound;
-    // Состояния теперь проще: мы либо движемся, либо стоим у станции.
+    public bool IsInteractionLocked => currentState == TrainState.DockedAtStation;
     public enum TrainState { Moving, DockedAtStation }
 
     public TrainState currentState;
