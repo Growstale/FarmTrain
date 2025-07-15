@@ -1,27 +1,28 @@
+// QuestLogEntryUI.cs (ИСПРАВЛЕННАЯ ВЕРСИЯ)
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 public class QuestLogEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("UI Components")]
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private Image checkmarkImage;
-    [SerializeField] private Button pinButton; // Наша кнопка-булавка
-    [SerializeField] private Image pinIcon; // Иконка на этой кнопке
-    [SerializeField] private Button mainButton; // Основная кнопка, по которой кликаем
+    [SerializeField] private Button pinButton;
+    [SerializeField] private Image pinIcon;
+    [SerializeField] private Button mainButton;
 
     [Header("Pin Sprites")]
-    [SerializeField] private Sprite pinnedSprite; // Спрайт закрепленной булавки
-    [SerializeField] private Sprite unpinnedSprite; // Спрайт обычной булавки
+    [SerializeField] private Sprite pinnedSprite;
+    [SerializeField] private Sprite unpinnedSprite;
     [SerializeField] private Sprite pinHighlightedSprite;
 
     [Header("Button Sprites")]
     [SerializeField] private Sprite buttonSprite;
     [SerializeField] private Sprite buttonSelectedSprite;
+    [SerializeField] private Sprite buttonOnSprite;
 
     [Header("Text Materials")]
     [SerializeField] private Material normalMaterial;
@@ -29,144 +30,133 @@ public class QuestLogEntryUI : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [SerializeField] private Material selectedMaterial;
     [SerializeField] private Material disabledMaterial;
 
-    [HideInInspector] public Quest assignedQuest;
+    public Quest assignedQuest { get; private set; }
     private Action<Quest> onSelectCallback;
-    private bool isPointerInside;
-    private bool isPointerDown;
+
+    // <<< ИЗМЕНЕНИЕ 1: Новые переменные для четкого разделения состояний
+    private bool isSelected = false;    // Эта строка выбрана? Управляется извне.
+    private bool isPointerInside = false; // Находится ли курсор над этой строкой?
+    private bool isPointerDown = false;   // Зажата ли ЛКМ на этой строке?
 
     private void Awake()
     {
-        if (titleText == null)
-            titleText = GetComponentInChildren<TextMeshProUGUI>();
-
-        if (titleText != null)
-            titleText.raycastTarget = false;
+        if (titleText == null) titleText = GetComponentInChildren<TextMeshProUGUI>();
+        if (titleText != null) titleText.raycastTarget = false;
     }
 
     public void Setup(Quest quest, Action<Quest> selectCallback)
     {
         assignedQuest = quest;
         onSelectCallback = selectCallback;
+        isSelected = false; // При новой установке сбрасываем состояние
 
-        titleText.text = quest.title;
-        titleText.fontMaterial = normalMaterial;
-
-        // Настраиваем видимость элементов в зависимости от статуса квеста
-        bool isCompleted = quest.status == QuestStatus.Completed;
-        checkmarkImage.gameObject.SetActive(isCompleted);
-        pinButton.gameObject.SetActive(!isCompleted); // Булавку показываем только для активных
-
-        if (isCompleted)
-        {
-            titleText.fontMaterial = disabledMaterial;
-            mainButton.interactable = false;
-        }
-        else
-        {
-            titleText.fontMaterial = normalMaterial;
-            mainButton.interactable = true;
-            pinIcon.sprite = quest.isPinned ? pinnedSprite : unpinnedSprite;
-        }
-
-        // Привязываем слушателей событий
         mainButton.onClick.RemoveAllListeners();
         mainButton.onClick.AddListener(HandleSelection);
-
         pinButton.onClick.RemoveAllListeners();
         pinButton.onClick.AddListener(HandlePinning);
+
+        UpdateVisuals(); // Обновляем внешний вид
     }
 
-    // Клик по основной части строки - выбрать квест для показа деталей
-    private void HandleSelection()
+    // <<< ИЗМЕНЕНИЕ 2: Главный метод, который устанавливает состояние выбора извне
+    public void SetSelected(bool selected)
     {
-        onSelectCallback?.Invoke(assignedQuest);
+        isSelected = selected;
+        UpdateVisuals(); // После изменения состояния, обновляем внешний вид
     }
 
-    // Клик по булавке - закрепить/открепить
-    private void HandlePinning()
-    {
-        bool newPinnedState = !assignedQuest.isPinned;
-        QuestManager.Instance.PinQuest(assignedQuest);
-        UpdatePinIcon(newPinnedState);
-    }
-
+    // <<< ИЗМЕНЕНИЕ 3: Все методы событий теперь просто меняют флаги и вызывают ОДИН метод для обновления вида
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (mainButton.interactable && !isPointerDown)
-        {
-            titleText.fontMaterial = selectedMaterial;
-            pinIcon.sprite = pinnedSprite;
-            isPointerDown = true;
-        }
+        if (!mainButton.interactable) return;
+        isPointerDown = true;
+        UpdateVisuals();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        // Не обрабатываем отпускание, если кнопка уже была выбрана
-        if (!mainButton.interactable || isPointerDown)
-            return;
-
-        titleText.fontMaterial = isPointerInside ? highlightedMaterial : normalMaterial;
-        UpdatePinIcon(assignedQuest.isPinned);
-    }
-
-    private void UpdatePinIcon(bool isPinned)
-    {
-        if (isPointerDown)
-        {
-            pinIcon.sprite = pinnedSprite;
-        }
-        else if (isPointerInside)
-        {
-            pinIcon.sprite = pinHighlightedSprite;
-        }
-        else
-        {
-            pinIcon.sprite = isPinned ? pinnedSprite : unpinnedSprite;
-        }
+        if (!mainButton.interactable) return;
+        isPointerDown = false;
+        UpdateVisuals();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         isPointerInside = true;
-        if (mainButton.interactable)
-        {
-            if (!isPointerDown)
-            {
-                titleText.fontMaterial = highlightedMaterial;
-                UpdatePinIcon(assignedQuest.isPinned);
-            }
-        }
+        UpdateVisuals();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isPointerInside = false;
-        if (mainButton.interactable)
-        {
-            if (!isPointerDown)
-            {
-                titleText.fontMaterial = normalMaterial;
-                UpdatePinIcon(assignedQuest.isPinned);
-            }
-        }
+        isPointerDown = false; // Если курсор ушел, то и нажатие отменяется
+        UpdateVisuals();
     }
 
-    public void SetSelected(bool isSelected)
+    private void HandleSelection()
     {
-        if (mainButton.interactable)
-        {
-            var buttonImage = mainButton.GetComponent<Image>();
-            if (buttonImage != null)
-            {
-                buttonImage.sprite = isSelected ? buttonSelectedSprite : buttonSprite;
-            }
+        onSelectCallback?.Invoke(assignedQuest);
+    }
 
-            titleText.fontMaterial = isSelected ? selectedMaterial : normalMaterial;
-            pinIcon.sprite = isSelected ? pinnedSprite : 
-                        (isPointerInside ? pinHighlightedSprite : 
-                         assignedQuest.isPinned ? pinnedSprite : unpinnedSprite);
-            isPointerDown = isSelected;
+    private void HandlePinning()
+    {
+        QuestManager.Instance.PinQuest(assignedQuest);
+        // QuestLogUI обновит все элементы, включая этот
+    }
+
+    // <<< ИЗМЕНЕНИЕ 4: ЕДИНЫЙ метод, который решает, как должна выглядеть строка
+    private void UpdateVisuals()
+    {
+        if (assignedQuest == null) return;
+
+        titleText.text = assignedQuest.title;
+
+        var buttonImage = mainButton.GetComponent<Image>();
+
+        // Сначала разбираемся со статусом квеста
+        if (assignedQuest.status == QuestStatus.Completed)
+        {
+            titleText.fontMaterial = disabledMaterial;
+            checkmarkImage.gameObject.SetActive(true);
+            pinButton.gameObject.SetActive(false);
+            mainButton.interactable = false;
+            if (buttonImage != null) buttonImage.sprite = buttonSprite;
+            return; // Выходим, дальше проверять не нужно
+        }
+
+        // Если квест не завершен
+        mainButton.interactable = true;
+        checkmarkImage.gameObject.SetActive(false);
+        pinButton.gameObject.SetActive(true);
+
+        // Теперь определяем внешний вид на основе приоритетов:
+        // 1. Выбрана (самый высокий приоритет)
+        // 2. Нажата
+        // 3. Наведена
+        // 4. Обычное состояние (закреплена/не закреплена)
+        if (isSelected)
+        {
+            if (buttonImage != null) buttonImage.sprite = buttonSelectedSprite;
+            titleText.fontMaterial = selectedMaterial;
+            pinIcon.sprite = pinnedSprite; // В выбранном состоянии булавка всегда "активна"
+        }
+        else if (isPointerDown)
+        {
+            if (buttonImage != null) buttonImage.sprite = buttonSelectedSprite; // Можно использовать тот же спрайт, что и для выбора
+            titleText.fontMaterial = selectedMaterial;
+            pinIcon.sprite = pinnedSprite;
+        }
+        else if (isPointerInside)
+        {
+            if (buttonImage != null) buttonImage.sprite = buttonOnSprite;
+            titleText.fontMaterial = highlightedMaterial;
+            pinIcon.sprite = pinHighlightedSprite; // Специальный спрайт для подсвеченной булавки
+        }
+        else // Обычное состояние
+        {
+            if (buttonImage != null) buttonImage.sprite = buttonSprite;
+            titleText.fontMaterial = normalMaterial;
+            pinIcon.sprite = assignedQuest.isPinned ? pinnedSprite : unpinnedSprite;
         }
     }
 }

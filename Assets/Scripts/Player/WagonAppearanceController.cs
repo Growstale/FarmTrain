@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Убедимся, что на объекте есть SpriteRenderer, чтобы избежать ошибок.
-[RequireComponent(typeof(SpriteRenderer))]
 public class WagonAppearanceController : MonoBehaviour
 {
     [Header("Sprites")]
@@ -15,12 +13,11 @@ public class WagonAppearanceController : MonoBehaviour
     [Tooltip("Ссылка на ItemData, который представляет собой улучшение для склада.")]
     [SerializeField] private ItemData storageUpgradeItem;
 
-    private SpriteRenderer spriteRenderer;
+    private Animator wagonAnimator;
 
     private void Awake()
     {
-        // Получаем ссылку на компонент, который будем менять.
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        wagonAnimator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -75,8 +72,6 @@ public class WagonAppearanceController : MonoBehaviour
         if (TrainUpgradeManager.Instance == null)
         {
             Debug.LogError("TrainUpgradeManager не найден! Невозможно проверить улучшения.", this);
-            // На всякий случай ставим спрайт по умолчанию.
-            spriteRenderer.sprite = defaultSprite;
             return;
         }
 
@@ -86,13 +81,7 @@ public class WagonAppearanceController : MonoBehaviour
         // В зависимости от ответа, устанавливаем нужный спрайт.
         if (isUpgraded)
         {
-            spriteRenderer.sprite = upgradedSprite;
-            Debug.Log($"[WagonAppearance] Установлен УЛУЧШЕННЫЙ спрайт для вагона {gameObject.name}.");
-        }
-        else
-        {
-            spriteRenderer.sprite = defaultSprite;
-            Debug.Log($"[WagonAppearance] Установлен ОБЫЧНЫЙ спрайт для вагона {gameObject.name}.");
+            wagonAnimator.SetTrigger("isUpgrade");
         }
     }
 }

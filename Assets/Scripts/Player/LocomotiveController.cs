@@ -3,10 +3,13 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LocomotiveController : MonoBehaviour
 {
     public static LocomotiveController Instance { get; private set; }
+
+    public event Action<bool> OnTrainStateChanged;
 
     private Animator trainAnimator;
     [SerializeField] private AudioSource trainAudioSource;
@@ -17,7 +20,8 @@ public class LocomotiveController : MonoBehaviour
     public bool IsInteractionLocked => currentState == TrainState.DockedAtStation;
     public enum TrainState { Moving, DockedAtStation }
 
-    public TrainState currentState;
+    public TrainState currentState { get; private set; }
+    public static event Action OnLocomotiveReady;
 
     // Ссылки на объекты сцены
     public GameObject hornObject { get; private set; }
@@ -38,6 +42,7 @@ public class LocomotiveController : MonoBehaviour
             return;
         }
         Instance = this;
+        OnLocomotiveReady?.Invoke();
 
         if (trainAudioSource == null)
             trainAudioSource = GetComponent<AudioSource>();
@@ -57,7 +62,7 @@ public class LocomotiveController : MonoBehaviour
         }
         else
         {
-            currentState = TrainState.Moving;
+            SetTrainState(TrainState.Moving);
             CheckInitialTravelState();
         }
         UpdateAnimationState();
@@ -120,6 +125,11 @@ public class LocomotiveController : MonoBehaviour
         {
             ExperienceManager.Instance.OnPhaseUnlocked -= OnPhaseUnlocked;
         }
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+
     }
     #endregion
 
@@ -216,8 +226,7 @@ public class LocomotiveController : MonoBehaviour
 
     private void ArriveAtStation()
     {
-        currentState = TrainState.DockedAtStation;
-        UpdateAnimationState();
+        SetTrainState(TrainState.DockedAtStation);
 
         UIManager.Instance.ShowGoToStationButton(true);
         UIManager.Instance.ShowNotification(true);
@@ -228,8 +237,7 @@ public class LocomotiveController : MonoBehaviour
 
     private void OnReturnFromStation()
     {
-        currentState = TrainState.DockedAtStation;
-        UpdateAnimationState();
+        SetTrainState(TrainState.DockedAtStation);
         departureUnlocked = TransitionManager.isDepartureUnlocked;
 
         UIManager.Instance.ShowGoToStationButton(false);
@@ -246,8 +254,7 @@ public class LocomotiveController : MonoBehaviour
 
     private IEnumerator DepartSequence()
     {
-        currentState = TrainState.Moving;
-        UpdateAnimationState();
+        SetTrainState(TrainState.Moving);
         travelToStationUnlocked = false;
         departureUnlocked = false;
         TransitionManager.isDepartureUnlocked = false;
@@ -274,6 +281,21 @@ public class LocomotiveController : MonoBehaviour
         }));
     }
 
+    private void SetTrainState(TrainState newState)
+    {
+        // Если состояние не изменилось, ничего не делаем
+        if (currentState == newState) return;
+
+        currentState = newState;
+        bool isMoving = (currentState == TrainState.Moving);
+
+        // Обновляем анимацию самого локомотива
+        UpdateAnimationState();
+
+        // Рассылаем событие всем подписчикам (вагонам)
+        OnTrainStateChanged?.Invoke(isMoving);
+        Debug.Log($"<color=cyan>[Locomotive]</color> Состояние изменено на: {newState}. Отправлено событие isMoving: {isMoving}");
+    }
 
     private void CheckInitialTravelState()
     {
@@ -289,7 +311,7 @@ public class LocomotiveController : MonoBehaviour
         if (hornAnimator == null) return;
         bool shouldHighlight = (currentState == TrainState.Moving && travelToStationUnlocked) ||
                                (currentState == TrainState.DockedAtStation && departureUnlocked);
-        hornAnimator.SetBool("IsHighlighted", shouldHighlight);
+        hornAnimator.SetBool("isShining", shouldHighlight);
     }
 
     private IEnumerator LoadStationAndRestoreRadio(AudioClip clip, float time, bool play)

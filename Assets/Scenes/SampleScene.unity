@@ -8050,6 +8050,8 @@ GameObject:
   - component: {fileID: 670843381}
   - component: {fileID: 670843380}
   - component: {fileID: 670843382}
+  - component: {fileID: 670843383}
+  - component: {fileID: 670843384}
   m_Layer: 0
   m_Name: Wagon_2
   m_TagString: Wagon
@@ -8189,6 +8191,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSpawner: {fileID: 1064586490}
+--- !u!95 &670843383
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670843378}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 41c42619eb7bb004da26ac31fff0ec65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &670843384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670843378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f533c5f65bfb4f4bb90c02e6d88e300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &683198673
 GameObject:
   m_ObjectHideFlags: 0
@@ -8200,6 +8236,7 @@ GameObject:
   - component: {fileID: 683198674}
   - component: {fileID: 683198676}
   - component: {fileID: 683198675}
+  - component: {fileID: 683198677}
   m_Layer: 0
   m_Name: Horn
   m_TagString: Horn
@@ -8323,6 +8360,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &683198677
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683198673}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 13f6dbcaae975cb4ca5d69fcd7ec9d44, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &694516576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11117,6 +11176,8 @@ GameObject:
   - component: {fileID: 889611519}
   - component: {fileID: 889611518}
   - component: {fileID: 889611520}
+  - component: {fileID: 889611521}
+  - component: {fileID: 889611522}
   m_Layer: 0
   m_Name: Wagon_3
   m_TagString: Wagon
@@ -11256,6 +11317,40 @@ MonoBehaviour:
   defaultSprite: {fileID: -7248140744723031095, guid: 1be2c66e832a7b84990e962c18fd0b1c, type: 3}
   upgradedSprite: {fileID: 6569965549680901498, guid: d9371689741acbb479a6841f007d5f97, type: 3}
   storageUpgradeItem: {fileID: 11400000, guid: 9a5bbb8225260b34b968ef07c5e71be8, type: 2}
+--- !u!95 &889611521
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889611516}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1bc2c3e2307fc1b4faeedd1907dc5b0c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &889611522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889611516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f533c5f65bfb4f4bb90c02e6d88e300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &900401381 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8449379462902148976, guid: a89779af0e465f44e9db4101c0df173a, type: 3}
@@ -13761,6 +13856,8 @@ GameObject:
   - component: {fileID: 1125509244}
   - component: {fileID: 1125509246}
   - component: {fileID: 1125509245}
+  - component: {fileID: 1125509247}
+  - component: {fileID: 1125509248}
   m_Layer: 0
   m_Name: Wagon_4
   m_TagString: Wagon
@@ -13885,6 +13982,40 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.382789, y: 1.8923252}
   m_EdgeRadius: 0
+--- !u!95 &1125509247
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125509243}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 405961a98a5106d44a59aaaccb6a5d31, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1125509248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125509243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f533c5f65bfb4f4bb90c02e6d88e300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1126080016
 GameObject:
   m_ObjectHideFlags: 0
@@ -17922,6 +18053,8 @@ GameObject:
   - component: {fileID: 1553529749}
   - component: {fileID: 1553529748}
   - component: {fileID: 1553529750}
+  - component: {fileID: 1553529751}
+  - component: {fileID: 1553529752}
   m_Layer: 0
   m_Name: Wagon_1
   m_TagString: Wagon
@@ -18057,6 +18190,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3ece4fe34dac514caaf74b668419550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1553529751
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553529746}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 41c42619eb7bb004da26ac31fff0ec65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1553529752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553529746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f533c5f65bfb4f4bb90c02e6d88e300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1562365580
@@ -25906,7 +26073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -31, y: -0.00010054}
   m_SizeDelta: {x: 1271.05, y: 723.9099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2128013255
@@ -25995,7 +26162,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.62, y: 1.79}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -26040,7 +26207,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 3.62, y: 1.79}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 3.62, y: 1.79}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -26063,7 +26230,6 @@ MonoBehaviour:
   trainMovingClip: {fileID: 8300000, guid: ae4badde6a9ef154d955609b7ddf53bf, type: 3}
   fadeDuration: 3
   hornSound: {fileID: 8300000, guid: fcf8396dba45aa242bb886ddaf4d4058, type: 3}
-  currentState: 0
 --- !u!82 &2128013260
 AudioSource:
   m_ObjectHideFlags: 0
