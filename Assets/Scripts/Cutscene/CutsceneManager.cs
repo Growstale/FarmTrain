@@ -15,12 +15,12 @@ public class CutsceneManager : MonoBehaviour
         public string text;
         [HideInInspector] public float typingSpeed = 0.05f;
         [HideInInspector] public string[] sentences;
-        [HideInInspector]  public float fadeDuration = 1f;
+        [HideInInspector]  public float fadeDuration = 2f;
         public bool hideUI = false;
     }
 
     [Header("Fade Settings")]
-    private float minFadeAlpha = 0.9f;
+    private float minFadeAlpha = 0.1f;
     private float maxFadeAlpha = 1f;
 
     public CutsceneFrame[] frames;

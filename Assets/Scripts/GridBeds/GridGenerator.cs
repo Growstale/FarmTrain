@@ -446,6 +446,39 @@ public class GridGenerator : MonoBehaviour
     }
 
 
+    public void CheckFreeSlotForSeed(int num)
+    {
+        switch (num)
+        {
+            case 1:
+                    foreach(var slot in gridObjects.Values)
+                {
+                    SlotScripts slotScripts = slot.GetComponent<SlotScripts>();
+                    if(slotScripts != null)
+                    {
+                        if (slotScripts.ishavebed && !slotScripts.isPlanted)
+                        {
+                            slotScripts.ChangeColor();
+                        }
+                    }
+                }
+                    break;
+
+
+        }
+    }
+
+    public void UnCheckFreeSlotSeed()
+    {
+        foreach(var slot in gridObjects.Values)
+        {
+            SlotScripts slotScripts = slot.GetComponent<SlotScripts>();
+            if (slotScripts != null)
+            {
+                slotScripts.UnChangeColor();
+            }
+        }
+    }
 
 
     public GridSaveData GetSaveData()

@@ -344,6 +344,8 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
                         maxQuantity = availableSpace;
                         plusDisabledReason = "The pen is full";
                     }
+                   
+                    
                 }
             }
             else if (itemData.itemType != ItemType.Upgrade)
