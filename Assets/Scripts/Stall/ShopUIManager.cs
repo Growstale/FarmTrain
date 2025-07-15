@@ -46,6 +46,16 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
     [SerializeField] private TabButtonSprites buyButtonSprites;
     [SerializeField] private TabButtonSprites sellButtonSprites;
 
+    [Header("Mode Backgrounds")]
+    [Tooltip("Компонент Image у объекта ItemScrollView, фон которого нужно менять")]
+    [SerializeField] private Image itemScrollViewBackground;
+
+    [Tooltip("Спрайт фона для режима покупки")]
+    [SerializeField] private Sprite buyModeBackgroundSprite;
+
+    [Tooltip("Спрайт фона для режима продажи")]
+    [SerializeField] private Sprite sellModeBackgroundSprite;
+
     private ShopInventoryData currentShopData;
     private ShopItem currentItemForTransaction;
     private bool isBuyMode = true;
@@ -163,6 +173,16 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
             // Режим продажи: кнопка "Buy" неактивна, "Sell" - активна
             buyButtonImage.sprite = buyButtonSprites.inactiveSprite;
             sellButtonImage.sprite = sellButtonSprites.activeSprite;
+        }
+
+        if (itemScrollViewBackground != null && buyModeBackgroundSprite != null && sellModeBackgroundSprite != null)
+        {
+            // В зависимости от режима, устанавливаем нужный спрайт фона
+            itemScrollViewBackground.sprite = isBuyMode ? buyModeBackgroundSprite : sellModeBackgroundSprite;
+        }
+        else
+        {
+            Debug.LogWarning("Фон для списка товаров или спрайты для него не назначены в инспекторе ShopUIManager!");
         }
 
 

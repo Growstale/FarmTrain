@@ -2053,6 +2053,9 @@ MonoBehaviour:
   sellButtonSprites:
     activeSprite: {fileID: -7370479696400114685, guid: f46d924b6a1555e4b8955f89629dafa6, type: 3}
     inactiveSprite: {fileID: 4541250721124355062, guid: fc147a3cb764f354d953f435165d6570, type: 3}
+  itemScrollViewBackground: {fileID: 1335355343}
+  buyModeBackgroundSprite: {fileID: -2765467171962141693, guid: 657bd61ecc08b994b8dd0a02ce097438, type: 3}
+  sellModeBackgroundSprite: {fileID: 1154407187796338605, guid: 9590d05839eddcb4283e6488326e90f1, type: 3}
 --- !u!4 &567195453
 Transform:
   m_ObjectHideFlags: 0
