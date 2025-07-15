@@ -44,7 +44,7 @@ public class SlotScripts : MonoBehaviour
         // Получаем ВЫБРАННЫЙ предмет и ИНДЕКС выбранного слота
         InventoryItem selectedItem = inventoryManager.GetSelectedItem();
         int selectedIndex = inventoryManager.SelectedSlotIndex; // Используем новое свойство
-
+        GameObject parent = transform.parent.gameObject;
         if (selectedItem == null)
         {
             Debug.Log("Выбери предмет из инвенторя");
@@ -92,12 +92,14 @@ public class SlotScripts : MonoBehaviour
                                         bool isFreeSlot1 = tourple1.Item1;
                                         Vector3 pos1 = tourple1.Item2;
                                         Vector2Int[] idSlots1 = tourple1.Item3;
+                                        gridGenerator.UnHighlightSlots(idSlots1);
                                         if (isFreeSlot1)
                                         {
                                             _itemSpawner.SpawnPlant(selectedItem.itemData, pos1, _sizePlant, gameObject.transform.parent, idSlots1);
                                             AudioClip plantSound = selectedItem.itemData.associatedPlantData.plantingSound;
                                             SFXManager.Instance.PlaySFX(plantSound);
                                             isPlanted = true;
+
                                             InventoryManager.Instance.RemoveItem(selectedIndex);
                                         }
                                         break;
@@ -109,6 +111,7 @@ public class SlotScripts : MonoBehaviour
                                             bool isFreeSlot = tourple.Item1;
                                             Vector3 pos = tourple.Item2;
                                             Vector2Int[] idSlots = tourple.Item3;
+                                            gridGenerator.UnHighlightSlots(idSlots);
                                             if (isFreeSlot)
                                             {
                                                 _itemSpawner.SpawnPlant(selectedItem.itemData, pos, _sizePlant, gameObject.transform.parent, idSlots);
@@ -133,6 +136,7 @@ public class SlotScripts : MonoBehaviour
                                             bool isFreeSlot = tourple.Item1;
                                             Vector3 Plantposition = tourple.Item2;
                                             Vector2Int[] idSlots = tourple.Item3;
+                                            gridGenerator.UnHighlightSlots(idSlots);
                                             if (isFreeSlot)
                                             {
                                                 _itemSpawner.SpawnPlant(selectedItem.itemData, Plantposition, _sizePlant, gameObject.transform.parent, idSlots);
@@ -154,12 +158,11 @@ public class SlotScripts : MonoBehaviour
                                 InventoryItem _selecteditem = inventoryManager.GetSelectedItem();
                                 if(_selecteditem == null)
                                 {
-                                    GameObject parent = transform.parent.gameObject;
-                                    if (parent != null)
-                                    {
+                                   
+                                    
                                         GridGenerator gridGenerator1 = parent.GetComponent<GridGenerator>();
                                         if (gridGenerator1 != null) gridGenerator.UnCheckFreeSlotSeed();
-                                    }
+                                    
                                 }
                             }
                             else

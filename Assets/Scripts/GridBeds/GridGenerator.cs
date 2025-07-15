@@ -677,7 +677,38 @@ public class GridGenerator : MonoBehaviour
         }
         return -1;
     }
+    public void UnHighlightSlots(Vector2Int[] slotsToUnhighlight)
+    {
+       
+        if (slotsToUnhighlight == null || slotsToUnhighlight.Length == 0)
+        {
+            return;
+        }
 
+       
+        foreach (Vector2Int slotPos in slotsToUnhighlight)
+        {
+            
+            if (gridObjects.TryGetValue(slotPos, out GameObject slotObj) && slotObj != null)
+            {
+               
+                SlotScripts slotScript = slotObj.GetComponent<SlotScripts>();
+                if (slotScript != null)
+                {
+                    
+                    slotScript.UnChangeColor();
+                }
+                else
+                {
+                    Debug.LogWarning($"У объекта слота {slotObj.name} отсутствует компонент SlotScripts.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Слот с позицией {slotPos} не найден в сетке.");
+            }
+        }
+    }
     private int GetLengthDictionaryValue(int key)
     {
         return PlantManager.instance.positionBed.Where(k=> k.Key == key).Count();
