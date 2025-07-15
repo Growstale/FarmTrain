@@ -11,7 +11,15 @@ public class CutsceneManager : MonoBehaviour
     {
         public Sprite image;
         public string text;
+        [HideInInspector] public float typingSpeed = 0.05f;
+        [HideInInspector] public string[] sentences;
+        [HideInInspector] public float fadeDuration = 2f;
+        public bool hideUI = false;
     }
+
+    [Header("Fade Settings")]
+    private float minFadeAlpha = 0.1f;
+    private float maxFadeAlpha = 1f;
 
     public CutsceneFrame[] frames;
     public Image displayImage;
