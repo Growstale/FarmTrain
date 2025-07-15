@@ -145,14 +145,15 @@ public class InventoryManager : MonoBehaviour, IUIManageable
 
     private void Update()
     {
-        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
-        {
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             ToggleMainInventory();
+        }
+
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGamePaused)
+        {
+            return;
         }
 
         HandleHotbarInput();

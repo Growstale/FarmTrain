@@ -571,6 +571,7 @@ public class AnimalController : MonoBehaviour
                     CheckForAchievement(); // Для ачивки
                     Debug.Log($"<color=green>УСПЕХ:</color> Продукт '{animalData.productProduced.itemName}' собран.");
                     interactionSuccessful = true;
+                    animalAnimator.SetBool("doCut", false);
                 }
                 else
                 {
@@ -578,7 +579,6 @@ public class AnimalController : MonoBehaviour
                 }
             }
 
-            animalAnimator.SetBool("doCut", false);
 
         }
         // 3. Попытка собрать удобрение
