@@ -17,7 +17,7 @@ public class RadioManager : MonoBehaviour, IUIManageable
         public AudioClip[] tracks;
         public bool isUnlocked;
     }
-
+    public AudioClip closeSound;           // Звук закрытия
     [System.Serializable]
     public class StationSprites
     {
@@ -205,6 +205,10 @@ public class RadioManager : MonoBehaviour, IUIManageable
 
     public void CloseRadioPanel()
     {
+        if (audioSource != null && closeSound != null)
+        {
+            audioSource.PlayOneShot(closeSound);
+        }
         updated_sound sound = closeButton.GetComponentInChildren<updated_sound>();
         if (sound != null)
         {

@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AchievementButton : MonoBehaviour, IUIManageable
 {
+    public AudioSource audioSource;        // Источник звука
+    public AudioClip closeSound;           // Звук закрытия
     bool isOpen = false;
     [SerializeField] GameObject windowAchievement;
 
@@ -44,6 +47,10 @@ public class AchievementButton : MonoBehaviour, IUIManageable
     {
         if (isOpen)
         {
+            if (audioSource != null && closeSound != null)
+            {
+                audioSource.PlayOneShot(closeSound);
+            }
             GameStateManager.Instance.RequestResume(this);
             windowAchievement.SetActive(false);
             isOpen = false;

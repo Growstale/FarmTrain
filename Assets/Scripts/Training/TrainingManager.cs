@@ -2,10 +2,13 @@
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class TrainingVideoManager : MonoBehaviour, IUIManageable
 {
+    public AudioSource audioSource;        // Источник звука
+    public AudioClip closeSound;           // Звук закрытия
     public static TrainingVideoManager Instance { get; private set; }
 
     [Header("References")]
@@ -107,6 +110,10 @@ public class TrainingVideoManager : MonoBehaviour, IUIManageable
 
     public void Close()
     {
+        if (audioSource != null && closeSound != null)
+        {
+            audioSource.PlayOneShot(closeSound);
+        }
         GameStateManager.Instance.RequestResume(this);
         videoPlayer.Stop();
         if (titleText != null)

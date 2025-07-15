@@ -2613,6 +2613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59bd4700da378f4ba4adb50312bb658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 156422814}
+  closeSound: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
   hotbarSize: 7
   maxMainInventoryRows: 3
   columns: 7
@@ -6870,6 +6872,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42467d92955d964399d11b7043a7735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 603641763}
+  closeSound: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
   windowAchievement: {fileID: 1791610535}
 --- !u!82 &603641763
 AudioSource:
@@ -10217,6 +10221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6b0a293d0f3ab4d94ab12cec5706ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 811862685}
+  closeSound: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
   trainingPanel: {fileID: 602460012}
   videoPlayer: {fileID: 811862680}
   backButton: {fileID: 1738763212}
@@ -11093,6 +11099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f916c329be85ae8418dc779f2a1e7dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeSound: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
   stationSprites:
   - normalSprite: {fileID: 8045288253755536060, guid: 34d858cfd82104346add05f374beddbb, type: 3}
     selectedSprite: {fileID: -2916913273388949875, guid: c33ffc3bfc35041498e0c51dbb22ba8d, type: 3}
@@ -16392,8 +16399,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1436083516}
   m_HandleRect: {fileID: 1436083515}
   m_Direction: 2
-  m_Value: 0.9999999
-  m_Size: 0.29695284
+  m_Value: 1
+  m_Size: 0.29695287
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16865,7 +16872,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 859990682}
   m_HandleRect: {fileID: 859990681}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -24975,6 +24982,7 @@ MonoBehaviour:
   normalTextMaterial: {fileID: 2476362824457945312, guid: cce23a587f4e3c64d8f28185a506dd9f, type: 2}
   pressedTextMaterial: {fileID: 2100000, guid: a81100d9513013942b2bdfaf2cd1f8ab, type: 2}
   selectQuestSound: {fileID: 8300000, guid: dc5b92029c44bb24e98e5f3c8bb1294b, type: 3}
+  closeSound: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
 --- !u!4 &2024606367
 Transform:
   m_ObjectHideFlags: 0

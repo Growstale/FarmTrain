@@ -12,6 +12,8 @@ public class StartingItemInfo
 
 public class InventoryManager : MonoBehaviour, IUIManageable
 {
+    public AudioSource audioSource;        // Источник звука
+    public AudioClip closeSound;           // Звук закрытия
     public static InventoryManager Instance { get; private set; }
 
     [Header("Inventory Data")]
@@ -382,6 +384,10 @@ public class InventoryManager : MonoBehaviour, IUIManageable
 
     public void CloseInventory()
     {
+        if (audioSource != null && closeSound != null)
+        {
+            audioSource.PlayOneShot(closeSound);
+        }
         if (mainInventoryPanel.activeSelf)
         {
             GameStateManager.Instance.RequestResume(this);

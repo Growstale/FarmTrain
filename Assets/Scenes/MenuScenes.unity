@@ -4076,6 +4076,7 @@ MonoBehaviour:
   secondSceneToLoad: Initializer
   menuAudioSource: {fileID: 2143042175}
   menuMovingClip: {fileID: 8300000, guid: b143b67f10e54ed4ab3605dd6a2732a5, type: 3}
+  closeClip: {fileID: 8300000, guid: b1b04f844302325418c28b909e825a22, type: 3}
 --- !u!4 &2143042174
 Transform:
   m_ObjectHideFlags: 0
