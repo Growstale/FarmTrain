@@ -1,0 +1,612 @@
+fileFormatVersion: 2
+guid: 6c8e89f5a72d1fb4fb654a74cb1e2e49
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6836159798808006374
+    second: train_loco_dynamic_0
+  - first:
+      213: -1707350856180550629
+    second: train_loco_dynamic_1
+  - first:
+      213: -6108455715768487746
+    second: train_loco_dynamic_2
+  - first:
+      213: -5784679654907796358
+    second: train_loco_dynamic_3
+  - first:
+      213: 2674169877779216728
+    second: train_loco_dynamic_4
+  - first:
+      213: -7885297917860485115
+    second: train_loco_dynamic_5
+  - first:
+      213: 4387024955769386696
+    second: train_loco_dynamic_6
+  - first:
+      213: -7653002107936938137
+    second: train_loco_dynamic_7
+  - first:
+      213: -108161797665627134
+    second: train_loco_dynamic_8
+  - first:
+      213: 5573154668437786251
+    second: train_loco_dynamic_9
+  - first:
+      213: 4724598960554001388
+    second: train_loco_dynamic_10
+  - first:
+      213: 5056676045651658848
+    second: train_loco_dynamic_11
+  - first:
+      213: -3668711829959449684
+    second: train_loco_dynamic_12
+  - first:
+      213: -5573912379477144752
+    second: train_loco_dynamic_13
+  - first:
+      213: 7540430886090318760
+    second: train_loco_dynamic_14
+  - first:
+      213: -6057200814056723777
+    second: train_loco_dynamic_15
+  - first:
+      213: -9202904094812319670
+    second: train_loco_dynamic_16
+  - first:
+      213: -1999484249754766974
+    second: train_loco_dynamic_17
+  - first:
+      213: 1821214286944180896
+    second: train_loco_dynamic_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: train_loco_dynamic_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a113e3ce1e41121a0800000000000000
+      internalID: -6836159798808006374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_1
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b14366631754e48e0800000000000000
+      internalID: -1707350856180550629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_2
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb03a67f3e76a3ba0800000000000000
+      internalID: -6108455715768487746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_3
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a74aacd9080b8bfa0800000000000000
+      internalID: -5784679654907796358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_4
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8597412e55f8c1520800000000000000
+      internalID: 2674169877779216728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_5
+      rect:
+        serializedVersion: 2
+        x: 1937
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5086cc1625bc19290800000000000000
+      internalID: -7885297917860485115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_6
+      rect:
+        serializedVersion: 2
+        x: 2321
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c6786d24f7d1ec30800000000000000
+      internalID: 4387024955769386696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_7
+      rect:
+        serializedVersion: 2
+        x: 2705
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7676a1351231bc590800000000000000
+      internalID: -7653002107936938137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_8
+      rect:
+        serializedVersion: 2
+        x: 3089
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2046fd70b6bbf7ef0800000000000000
+      internalID: -108161797665627134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_9
+      rect:
+        serializedVersion: 2
+        x: 3473
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8e4b82a4a2d75d40800000000000000
+      internalID: 5573154668437786251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_10
+      rect:
+        serializedVersion: 2
+        x: 3857
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce3400ef8b5219140800000000000000
+      internalID: 4724598960554001388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_11
+      rect:
+        serializedVersion: 2
+        x: 4241
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0684b45721cec2640800000000000000
+      internalID: 5056676045651658848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_12
+      rect:
+        serializedVersion: 2
+        x: 4625
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca36eff370e161dc0800000000000000
+      internalID: -3668711829959449684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_13
+      rect:
+        serializedVersion: 2
+        x: 5009
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05bcc14093c75a2b0800000000000000
+      internalID: -5573912379477144752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_14
+      rect:
+        serializedVersion: 2
+        x: 5393
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a32cc2a0fdf4a860800000000000000
+      internalID: 7540430886090318760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_15
+      rect:
+        serializedVersion: 2
+        x: 5777
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fba21f8b3ff70fba0800000000000000
+      internalID: -6057200814056723777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_16
+      rect:
+        serializedVersion: 2
+        x: 6161
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4059be1c77b84080800000000000000
+      internalID: -9202904094812319670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_17
+      rect:
+        serializedVersion: 2
+        x: 6545
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 281f0672ba76044e0800000000000000
+      internalID: -1999484249754766974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: train_loco_dynamic_18
+      rect:
+        serializedVersion: 2
+        x: 6929
+        y: 14
+        width: 362
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aa9c29aeb0464910800000000000000
+      internalID: 1821214286944180896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 23d6029dc76f6d043a5a12478b18c708
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      train_loco_dynamic_0: -6836159798808006374
+      train_loco_dynamic_1: -1707350856180550629
+      train_loco_dynamic_10: 4724598960554001388
+      train_loco_dynamic_11: 5056676045651658848
+      train_loco_dynamic_12: -3668711829959449684
+      train_loco_dynamic_13: -5573912379477144752
+      train_loco_dynamic_14: 7540430886090318760
+      train_loco_dynamic_15: -6057200814056723777
+      train_loco_dynamic_16: -9202904094812319670
+      train_loco_dynamic_17: -1999484249754766974
+      train_loco_dynamic_18: 1821214286944180896
+      train_loco_dynamic_19: 385515506
+      train_loco_dynamic_2: -6108455715768487746
+      train_loco_dynamic_3: -5784679654907796358
+      train_loco_dynamic_4: 2674169877779216728
+      train_loco_dynamic_5: -7885297917860485115
+      train_loco_dynamic_6: 4387024955769386696
+      train_loco_dynamic_7: -7653002107936938137
+      train_loco_dynamic_8: -108161797665627134
+      train_loco_dynamic_9: 5573154668437786251
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
