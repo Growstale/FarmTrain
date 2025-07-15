@@ -313,6 +313,13 @@ public class PlantController : MonoBehaviour
         }
         else
         {
+            if (LocomotiveController.Instance != null && LocomotiveController.Instance.IsInteractionLocked)
+            {
+                Debug.Log("Взаимодействие с растением заблокировано: поезд движется.");
+                return;
+            }
+
+
             if (!selectedItem.IsEmpty)
             {
                 if (selectedItem.itemData.itemType == ItemType.Tool)

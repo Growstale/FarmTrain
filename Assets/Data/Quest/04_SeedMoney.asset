@@ -24,7 +24,7 @@ MonoBehaviour:
     targetID: 
     requiredAmount: 200
     targetIDs: []
-    currentAmount: 1
+    currentAmount: 200
   rewardXP: 30
   status: 2
   isPinned: 0
