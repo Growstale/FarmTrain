@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDArchievment: 2
   Name: Rancher
-  Description: Collect a total of 20 animal products .
+  Description: Collect a total of 20 animal products.
   Icon: {fileID: -8399952291929501341, guid: 05fc8851e87662a459ad2fe560a781e8, type: 3}
   reward: 100
   typeOfAchivment: 1

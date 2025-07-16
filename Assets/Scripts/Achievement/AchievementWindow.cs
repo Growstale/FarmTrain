@@ -11,7 +11,7 @@ public class AchievementWindow : MonoBehaviour
         gameObject.SetActive(true);
 
         title.text = "Achievement: " + nameachievement + " done!";
-        rewardtext.text = "Reward: " + reward.ToString();
+        rewardtext.text = "Reward: " + reward.ToString() + " BYN";
         StartCoroutine(CloseWindow());
 
     }

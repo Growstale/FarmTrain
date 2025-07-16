@@ -22,7 +22,7 @@ MonoBehaviour:
   goals:
   - goalType: 7
     targetID: 
-    requiredAmount: 5
+    requiredAmount: 200
     targetIDs: []
     currentAmount: 0
   rewardXP: 30
