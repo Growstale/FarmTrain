@@ -38,6 +38,16 @@ public class EndCreditsController : MonoBehaviour
 
     void Start()
     {
+        if (RadioManager.Instance != null)
+        {
+            // Если он существует и его музыка играет, останавливаем ее.
+            if (RadioManager.Instance.audioSource != null && RadioManager.Instance.audioSource.isPlaying)
+            {
+                RadioManager.Instance.audioSource.Stop();
+                Debug.Log("Музыка из RadioManager была остановлена контроллером титров.");
+            }
+        }
+
         // --- 1. ПРОВЕРКА КОМПОНЕНТОВ ---
         if (videoPlayer == null || videoRawImage == null || creditsTextObject == null)
         {
