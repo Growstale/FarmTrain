@@ -247,6 +247,21 @@ public class ShopUIManager : MonoBehaviour, IUIManageable
     {
         reason = "";
         var itemData = shopItem.itemData;
+
+        if (itemData.itemType == ItemType.Pot)
+        {
+            int maxBeds = 48;
+            int bedsInInventory = InventoryManager.Instance.GetTotalItemQuantityByType(ItemType.Pot);
+            int bedsPlaced = PlantManager.instance.GetPlacedBedsCount();
+            int availableBedsToBuy = maxBeds - bedsInInventory - bedsPlaced;
+
+            if (availableBedsToBuy <= 0)
+            {
+                reason = "Maximum number of beds reached";
+                return false;
+            }
+        }
+
         int shopStock = ShopDataManager.Instance.GetCurrentStock(currentShopData, itemData);
         if (!shopItem.isInfiniteStock && shopStock <= 0)
         {
