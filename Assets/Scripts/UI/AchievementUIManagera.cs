@@ -19,6 +19,8 @@ public class AchievementUIManagera : MonoBehaviour
         public TextMeshProUGUI progressText;
         public GameObject completedOverlay; // Ќеоб€зательно: галочка или затемнение при выполнении
         public GameObject entryContainer;
+        public Sprite defaultSprite; 
+        public Sprite completedSprite;
     }
 
     // ¬ инспекторе вы создадите список и дл€ каждого элемента укажете тип,
@@ -82,6 +84,12 @@ public class AchievementUIManagera : MonoBehaviour
             {
                 uiElement.progressText.gameObject.SetActive(!isCompleted);
                 uiElement.completedOverlay.SetActive(isCompleted);
+            }
+
+            Image entryImage = uiElement.entryContainer.GetComponent<Image>();
+            if (entryImage != null)
+            {
+                entryImage.sprite = isCompleted ? uiElement.completedSprite : uiElement.defaultSprite;
             }
         }
         SortUIEntries();

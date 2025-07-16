@@ -52,7 +52,7 @@ public class QuestCompletionUI : MonoBehaviour
 
         // Заполняем тексты
         questTitleText.text = completedQuest.title;
-        rewardText.text = $"Reward: {completedQuest.rewardXP}";
+        rewardText.text = $"Reward: {completedQuest.rewardXP} XP";
 
         // Показываем панель и запускаем таймер на скрытие
         completionPanel.SetActive(true);
