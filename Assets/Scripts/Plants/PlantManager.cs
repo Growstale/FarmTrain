@@ -70,5 +70,25 @@ public class PlantManager : MonoBehaviour
 
 
 
+    public int GetPlacedBedsCount()
+    {
+        int placedBeds = 0;
+        GridGenerator[] allGrids = FindObjectsOfType<GridGenerator>();
 
+        // Проходимся по каждой сетке
+        foreach (GridGenerator grid in allGrids)
+        {
+            // Проходимся по всем слотам внутри сетки
+            foreach (GameObject slotObject in grid.gridObjects.Values)
+            {
+                SlotScripts slot = slotObject.GetComponent<SlotScripts>();
+                // Если у слота есть скрипт и в нем установлена грядка (ishavebed == true)
+                if (slot != null && slot.ishavebed)
+                {
+                    placedBeds++;
+                }
+            }
+        }
+        return placedBeds;
+    }
 }

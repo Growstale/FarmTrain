@@ -7,11 +7,21 @@ using UnityEngine.UI;
 public class EndCreditsController : MonoBehaviour
 {
     [Header("Компоненты")]
+    [Tooltip("Объект с текстом титров (TextMeshPro)")]
+    [SerializeField] private GameObject creditsTextObject;
+
     [Tooltip("Компонент RawImage, на котором будет отображаться видео")]
     [SerializeField] private RawImage videoRawImage;
 
     [Tooltip("Видео плеер для фона")]
     [SerializeField] private VideoPlayer videoPlayer;
+
+    [Header("Настройки")]
+    [Tooltip("Скорость, с которой текст будет двигаться вверх")]
+    [SerializeField] private float scrollSpeed = 60f;
+
+    [Tooltip("Длительность финальной сцены в секундах, после чего игра закроется")]
+    [SerializeField] private float sceneDuration = 30f;
 
     [Header("Аудио")]
     [Tooltip("Музыкальный трек, который будет играть во время титров")]
@@ -20,21 +30,24 @@ public class EndCreditsController : MonoBehaviour
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private float musicFadeOutTime = 1.5f;
 
-    // Флаг, чтобы предотвратить двойной вызов выхода из сцены
+    // --- Приватные переменные ---
+    private RectTransform creditsTextTransform;
+    private RectTransform canvasRectTransform;
     private bool isExiting = false;
+    private bool isInitialized = false;
 
     void Start()
     {
         // --- 1. ПРОВЕРКА КОМПОНЕНТОВ ---
-        if (videoPlayer == null || videoRawImage == null)
+        if (videoPlayer == null || videoRawImage == null || creditsTextObject == null)
         {
-            Debug.LogError("Не все компоненты назначены в EndCreditsController! Проверьте 'Video Raw Image' и 'Video Player'.");
-            enabled = false; // Отключаем скрипт, чтобы избежать ошибок
+            Debug.LogError("Не все компоненты назначены! Проверьте 'Credits Text Object', 'Video Raw Image' и 'Video Player'.");
+            enabled = false;
             return;
         }
 
-        // --- 2. НАСТРОЙКА ВИДЕО И МУЗЫКИ ---
-        videoPlayer.isLooping = false;
+        // --- 2. НАСТРОЙКА И ЗАПУСК ---
+        videoPlayer.isLooping = true;
 
         if (musicAudioSource == null) musicAudioSource = gameObject.AddComponent<AudioSource>();
         if (creditsMusic != null)
@@ -46,25 +59,50 @@ public class EndCreditsController : MonoBehaviour
 
         videoPlayer.Play();
 
-        // --- 3. ПОДПИСЫВАЕМСЯ НА СОБЫТИЕ ОКОНЧАНИЯ ВИДЕО ---
-        videoPlayer.loopPointReached += OnVideoFinished;
+        // Настраиваем начальную позицию текста
+        InitializeText();
+
+        // Запускаем таймер, который по истечении времени закроет игру
+        StartCoroutine(SceneTimerCoroutine());
+
+        isInitialized = true;
     }
+
+    // Вспомогательный метод для настройки текста
+    private void InitializeText()
+    {
+        creditsTextTransform = creditsTextObject.GetComponent<RectTransform>();
+        Canvas parentCanvas = creditsTextObject.GetComponentInParent<Canvas>();
+        canvasRectTransform = parentCanvas.GetComponent<RectTransform>();
+
+        // Ставим текст за нижнюю границу экрана
+        float startY = -canvasRectTransform.rect.height / 2 - creditsTextTransform.rect.height / 2;
+        creditsTextTransform.anchoredPosition = new Vector2(0, startY);
+    }
+
 
     void Update()
     {
-        // Позволяем игроку пропустить сцену в любой момент
+        // Если сцена не инициализирована или уже выходит, ничего не делаем
+        if (!isInitialized || isExiting) return;
+
+        // Позволяем игроку пропустить сцену
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ExitGame();
+            return; // Выходим из Update, чтобы не двигать текст в том же кадре
         }
+
+        // Двигаем текст вверх каждый кадр
+        creditsTextTransform.Translate(Vector3.up * scrollSpeed * Time.deltaTime);
     }
 
-    /// <summary>
-    /// Этот метод вызывается автоматически, когда видео заканчивается.
-    /// </summary>
-    private void OnVideoFinished(VideoPlayer vp)
+    // Корутина, которая работает как таймер для всей сцены
+    private IEnumerator SceneTimerCoroutine()
     {
-        Debug.Log("Видео завершено. Выход из игры.");
+        yield return new WaitForSeconds(sceneDuration);
+
+        Debug.Log("Таймер сцены истек. Выход из игры.");
         ExitGame();
     }
 
@@ -76,8 +114,6 @@ public class EndCreditsController : MonoBehaviour
         if (isExiting) return;
         isExiting = true;
 
-        videoPlayer.loopPointReached -= OnVideoFinished;
-
         StartCoroutine(FadeOutAndQuit());
     }
 
@@ -86,7 +122,6 @@ public class EndCreditsController : MonoBehaviour
     /// </summary>
     private IEnumerator FadeOutAndQuit()
     {
-        // Плавно глушим музыку
         if (musicAudioSource != null && musicAudioSource.isPlaying)
         {
             float startVolume = musicAudioSource.volume;
@@ -100,10 +135,8 @@ public class EndCreditsController : MonoBehaviour
             musicAudioSource.Stop();
         }
 
-        // <<< ГЛАВНОЕ ИЗМЕНЕНИЕ ЗДЕСЬ >>>
         Debug.Log("Выход из приложения...");
 
-        // Эта конструкция корректно работает и в редакторе, и в готовой игре.
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
